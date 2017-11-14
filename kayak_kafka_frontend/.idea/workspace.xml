@@ -27,8 +27,28 @@
       <file leaf-file-name="users.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="135">
+              <caret line="9" column="43" lean-forward="false" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-220">
+              <caret line="8" column="27" lean-forward="false" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="passport.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/passport.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="46" lean-forward="false" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -62,6 +82,8 @@
         <option value="$PROJECT_DIR$/routes/kafka/client.js" />
         <option value="$PROJECT_DIR$/bin/www" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/routes/passport.js" />
         <option value="$PROJECT_DIR$/routes/users.js" />
       </list>
     </option>
@@ -184,12 +206,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510645732989</updated>
-      <workItem from="1510645752646" duration="1718000" />
+      <workItem from="1510645752646" duration="3847000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1718000" />
+    <option name="totallyTimeSpent" value="3847000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
@@ -249,10 +271,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-220">
+          <caret line="8" column="27" lean-forward="false" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/passport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="46" lean-forward="false" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="135">
+          <caret line="9" column="43" lean-forward="false" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
           <folding />
         </state>
       </provider>
