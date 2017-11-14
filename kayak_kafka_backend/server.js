@@ -2,7 +2,8 @@ let connection =  new require('./kafka/Connection');
 let producer = connection.getProducer();
 let login = require('./services/login');
 
-//let loginConsumer = connection.getConsumerObj("login_topic");
+let loginConsumer = connection.getConsumerObj("login_topic");
+let singupConsumer = connection.getConsumerObj("signup_topic");
 
 try {
     /*

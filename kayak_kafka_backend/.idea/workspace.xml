@@ -14,12 +14,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
               <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/services/login.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+              <folding>
+                <element signature="e#183#2450#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -37,17 +49,9 @@
       <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding>
-                <marker date="1510646074000" expanded="false" signature="281:1297" ph="{...}" />
-                <marker date="1510646074000" expanded="false" signature="328:1291" ph="{...}" />
-                <marker date="1510646074000" expanded="false" signature="660:1279" ph="{...}" />
-                <marker date="1510646074000" expanded="false" signature="744:1069" ph="[...]" />
-                <marker date="1510646074000" expanded="false" signature="766:1051" ph="{&quot;topic&quot;: data.replyTo...}" />
-                <marker date="1510646074000" expanded="false" signature="862:990" ph="{&quot;correlationId&quot;: data.correlationId...}" />
-                <marker date="1510646074000" expanded="false" signature="1132:1236" ph="{...}" />
-              </folding>
+            <state relative-caret-position="75">
+              <caret line="5" column="63" lean-forward="false" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -117,6 +121,11 @@
               <item name="kayak_kafka_backend" type="462c0819:PsiDirectoryNode" />
               <item name="kafka" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="kayak_kafka_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kayak_kafka_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -143,6 +152,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/services" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -168,12 +178,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510645670851</updated>
-      <workItem from="1510645672684" duration="865000" />
+      <workItem from="1510645672684" duration="1028000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="865000" />
+    <option name="totallyTimeSpent" value="1028000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
@@ -219,17 +229,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding>
-            <marker date="1510646074000" expanded="false" signature="281:1297" ph="{...}" />
-            <marker date="1510646074000" expanded="false" signature="328:1291" ph="{...}" />
-            <marker date="1510646074000" expanded="false" signature="660:1279" ph="{...}" />
-            <marker date="1510646074000" expanded="false" signature="744:1069" ph="[...]" />
-            <marker date="1510646074000" expanded="false" signature="766:1051" ph="{&quot;topic&quot;: data.replyTo...}" />
-            <marker date="1510646074000" expanded="false" signature="862:990" ph="{&quot;correlationId&quot;: data.correlationId...}" />
-            <marker date="1510646074000" expanded="false" signature="1132:1236" ph="{...}" />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="5" column="63" lean-forward="false" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -238,6 +240,16 @@
         <state relative-caret-position="255">
           <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding>
+            <element signature="e#183#2450#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
