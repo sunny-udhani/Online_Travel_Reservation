@@ -4,8 +4,8 @@ const headers = {
     'Accept': 'application/json'
 };
 
-export const doLogin = (payload) =>
-    fetch(`${api}/users/doLogin`, {
+export const doSignIn = (payload) =>
+    fetch(`${api}/user/signIn`, {
         method: 'POST',
         headers: {
             ...headers,
