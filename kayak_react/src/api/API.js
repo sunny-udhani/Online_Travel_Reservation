@@ -14,8 +14,7 @@ export const doLogin = (payload) =>
         body: JSON.stringify(payload)
     }).then(res => {
         return res.status;
-    })
-        .catch(error => {
-            console.log("This is error");
-            return error;
-        });
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
