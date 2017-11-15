@@ -1,4 +1,3 @@
-let act = require('./activity');
 let bcrypt = require('bcrypt');
 let mysql = require('../mysql/mysql');
 // var UserProfile = require('../models/userprofile');
