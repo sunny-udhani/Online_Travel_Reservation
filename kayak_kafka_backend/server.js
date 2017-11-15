@@ -9,8 +9,6 @@ let signupConsumer = connection.getConsumerObj("signup_topic");
 try {
     loginConsumer.on('message', function (message) {
         console.log('message received');
-        console.log(message);
-        console.log(message.value);
         console.log(JSON.stringify(message.value));
         var data = JSON.parse(message.value);
 

@@ -8,7 +8,6 @@ let bodyParser = require('body-parser');
 let passport = require('passport');
 let cors = require('cors');
 
-
 let index = require('./routes/index');
 let users = require('./routes/users');
 

@@ -3,22 +3,23 @@
 let mysql = require('../mysql/mysql');
 var bcrypt = require("bcrypt");
 
-handle_request = ((data, callback)=> {
+handle_request = ((data, callback) => {
     let response = {
-        status : 400
+        status: 400
     };
     try {
         console.log("In Login");
-        let sqlQuery = "select password from users where username = '"+ data.username +"'";
+        let sqlQuery = "select userPassword from users where userEmail = '" + data.username + "'";
         mysql.fetchData(function (err, result) {
-            if(err){
+            if (err) {
                 console.log(err);
             }
             else {
 
                 console.log(result);
-                if(result.rows===1){
-                    if(bcrypt.compareSync(data.password, result.password)){
+                console.log(result.length);
+                if (result.length === 1) {
+                    if (bcrypt.compareSync(data.password, result[0].userPassword)) {
                         response.status = 200;
                         response.message = "Login Credentials are correct";
                     }
@@ -36,7 +37,7 @@ handle_request = ((data, callback)=> {
             }
         }, sqlQuery);
     }
-    catch (e){
+    catch (e) {
         console.log(e);
         callback(e, response);
     }
