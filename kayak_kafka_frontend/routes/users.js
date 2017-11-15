@@ -1,4 +1,5 @@
 var express = require('express');
+const passport = require("passport");
 var router = express.Router();
 require('./passport')(passport);
 
@@ -17,7 +18,7 @@ router.post('/login', function (req, res) {
         if(response.status===200) {
             req.session.username = response.username;
             console.log(req.session.username);
-            console.log("session initilized");
+            console.log("session initialized");
             return res.status(response.status).send(req.session);
         }
         else if(response.status===400){
@@ -29,7 +30,7 @@ router.post('/login', function (req, res) {
     })(req, res);
 });
 
-app.post('/logout', function(req,res) {
+router.post('/logout', function(req,res) {
     console.log(req.session.username);
     req.session.destroy();
     console.log('Session Destroyed');
