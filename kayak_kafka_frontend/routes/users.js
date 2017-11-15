@@ -1,7 +1,6 @@
 var express = require('express');
 const passport = require("passport");
 var router = express.Router();
-let passport = require('passport');
 require('./passport')(passport);
 
 /* GET users listing. */
