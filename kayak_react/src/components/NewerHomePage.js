@@ -35,25 +35,17 @@ class NewerHomePage extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <Route exact path="/" render={() => (
+                <Route exact path="/login" render={() => (
                     <div>
-                        <Message message="You have landed on my App !!"/>
-                        <button className="btn btn-success" onClick={() => {
-                            this.props.history.push("/login");
-                        }}>
-                            Login
-                        </button>
+                        <Login handleSubmit={this.handleSubmit} invalidateUserSession={this.invalidateUserSession}/>
                     </div>
                 )}/>
 
-                <Route exact path="/login" render={() => (
-                    <div>
-                        <Login handleSubmit={this.handleSubmit}/>
-                        <Message message={this.state.message}/>
-                    </div>
-                )}/>
+                <Route exact path="/" render={() => <SignUp handleSubmitRegister={this.handleRegister}/>}/>
+
                 <Route exact path="/welcome" render={() => (
-                    <Welcome username={this.state.username}/>
+                    <Welcome validateUserSession={this.validateUserSession} handleLogout={this.handleLogout}
+                             username={this.state.username}/>
                 )}/>
             </div>
         );
