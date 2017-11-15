@@ -4,8 +4,8 @@ const headers = {
     'Accept': 'application/json'
 };
 
-export const filterFlights = (payload) =>
-    fetch(`${api}/listings/filterFlights`, {
+export const getCategory = (payload) =>
+    fetch(`${api}/listings/getCategory`, {
         method: 'POST',
         headers: {
             ...headers,
