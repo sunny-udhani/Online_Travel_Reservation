@@ -1,9 +1,10 @@
 import {actionTypes} from "./actionTypes";
 
-export function signIn(userDet) {
+export function login_success(email, message) {
     return {
-        type: actionTypes.SIGN_IN,
-        userDet
+        type: actionTypes.LOGIN_SUCCESS,
+        email,
+        message,
     }
 }
 

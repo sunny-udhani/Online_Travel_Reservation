@@ -5,7 +5,7 @@ const headers = {
 };
 
 export const doSignIn = (payload) =>
-    fetch(`${api}/user/signIn`, {
+    fetch(`${api}/users/login`, {
         method: 'POST',
         headers: {
             ...headers,
@@ -13,7 +13,7 @@ export const doSignIn = (payload) =>
         },
         body: JSON.stringify(payload)
     }).then(res => {
-        return res.status;
+        return res;
     }).catch(error => {
         console.log("This is error");
         return error;

@@ -1,4 +1,4 @@
 export const actionTypes = {
-    SIGN_IN : "SIGN_IN",
+    LOGIN_SUCCESS : "LOGIN_SUCCESS",
     SIGN_UP : "SIGN_UP",
 };

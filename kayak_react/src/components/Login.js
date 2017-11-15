@@ -1,31 +1,39 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux"
-import {signIn} from "../actions"
-import * as API from "../api/API"
+import {login_success} from "../actions"
+import {doSignIn} from "../api/user/API_SignIn"
 
 class Login extends Component {
+
+    userDet = {
+        username: "",
+        password: ""
+    };
 
     componentWillMount() {
 
     }
 
     handleSignIn(userdata) {
-        API.doLogin(userdata)
+        doSignIn(userdata)
             .then((res) => {
+            console.log(res.status);
+            console.log(userdata.username);
                 if (res.status === 200) {
-
+                    this.props.loginSuccess(userdata.username, "successful login");
+                    console.log(this.props.menu);
                 } else {
-
+                    console.log("validation");
                 }
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
             })
     }
 
     render() {
-        let {userDet} = this.props;
+
         return (
             <div className="row justify-content-md-center">
                 <div className="col-md-3">
@@ -37,10 +45,11 @@ class Login extends Component {
                             <input
                                 className="form-control"
                                 type="text"
+                                name= "username"
                                 label="Username"
                                 placeholder="Enter Username"
                                 onChange={(event) => {
-                                    userDet.userId = event.target.value;
+                                    this.userDet.username = event.target.value;
 
                                 }}
                             />
@@ -50,10 +59,11 @@ class Login extends Component {
                             <input
                                 className="form-control"
                                 type="password"
+                                name = "password"
                                 label="password"
                                 placeholder="Enter Password"
                                 onChange={(event) => {
-                                    userDet.pass = event.target.value;
+                                    this.userDet.password = event.target.value;
                                 }}
                             />
                         </div>
@@ -61,7 +71,7 @@ class Login extends Component {
                             <button
                                 className="btn btn-primary"
                                 type="button"
-                                onClick={() => this.handleSignIn(userDet)}>
+                                onClick={() => this.handleSignIn(this.userDet)}>
                                 Submit
                             </button>
                         </div>
@@ -74,14 +84,14 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        userDet: state.user
+        menu: state
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        handleSignIn: (data) => {
-            dispatch(signIn(data))
+        loginSuccess: (email, message) => {
+            dispatch(login_success(email, message))
         }
     };
 }

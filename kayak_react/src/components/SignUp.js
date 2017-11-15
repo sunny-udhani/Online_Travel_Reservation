@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import PropTypes from 'prop-types';
-import * as API from '../api/API';
+// import * as API from '../api/API';
 
 class SignUp extends Component {
 

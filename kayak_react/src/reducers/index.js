@@ -2,19 +2,22 @@ import {handleAddtoCart, handleRemoveFromCart} from "../actions/index";
 import {actionTypes} from "../actions/actionTypes";
 
 const initial_state = {
-    user: {
-        userId: "",
-        pass: ""
-    },
+    email: "",
     isLoggedIn: false,
     message: ""
 };
 
-const signIn = (state = {initial_state}, action) => {
+const signIn = (state , action) => {
     console.log("signIn");
+    return {
+        ...state,
+        email: action.email,
+        message: action.message,
+        isLoggedIn: true
+    }
 };
 
-const signUp = (state = {initial_state}, action) => {
+const signUp = (state , action) => {
     console.log("signUp");
 
 };
@@ -22,7 +25,7 @@ const signUp = (state = {initial_state}, action) => {
 const handleActions = (state = initial_state, action) => {
 
     switch (action.type) {
-        case actionTypes.SIGN_IN :
+        case actionTypes.LOGIN_SUCCESS :
             return signIn(state, action);
         case actionTypes.SIGN_UP :
             return signUp(state, action);
