@@ -4,8 +4,8 @@ const headers = {
     'Accept': 'application/json'
 };
 
-export const doLogin = (payload) =>
-    fetch(`${api}/users/doLogin`, {
+export const getHotels = (payload) =>
+    fetch(`${api}/listings/getHotels`, {
         method: 'POST',
         headers: {
             ...headers,
@@ -13,7 +13,7 @@ export const doLogin = (payload) =>
         },
         body: JSON.stringify(payload)
     }).then(res => {
-        return res.status;
+        return res.json();
     }).catch(error => {
         console.log("This is error");
         return error;

@@ -9,7 +9,8 @@
   "dependencies": {
     "kafka-node": "^2.2.3",
     "mongodb": "^2.2.33",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "bcrypt": "^1.0.3"
   },
   "repository": {
     "type": "git",
