@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+let passport = require('passport');
 require('./passport')(passport);
 
 /* GET users listing. */
@@ -29,7 +30,7 @@ router.post('/login', function (req, res) {
     })(req, res);
 });
 
-app.post('/logout', function(req,res) {
+router.post('/logout', function(req,res) {
     console.log(req.session.username);
     req.session.destroy();
     console.log('Session Destroyed');
