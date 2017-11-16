@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { Route, withRouter, Switch, Link } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import AdminHome from "./admin/AdminHome";
 import UserHome from "./user/UserHome";
 import Login from "./Login";
+import HostHome from "./host/HostHome";
 
 class Kayak extends Component {
 
@@ -37,6 +38,10 @@ class Kayak extends Component {
 
                         <Route path="/admin" render={() => (
                             <AdminHome/>
+                        )}/>
+
+                        <Route path="/host" render={() => (
+                            <HostHome/>
                         )}/>
                     </Switch>
                 </div>

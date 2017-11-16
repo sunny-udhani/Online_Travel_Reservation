@@ -3,9 +3,9 @@ import { Route, withRouter, Switch, Link } from 'react-router-dom';
 import HotelPage from "./HotelPage";
 import FlightPage from "./FlightPage";
 import CarPage from "./CarPage";
-import AdminProfile from "./AdminProfile";
+import HostProfile from "./HostProfile";
 
-class AdminHome extends Component {
+class HostHome extends Component {
 
 
     handleSubmit = (userdata) => {
@@ -14,22 +14,22 @@ class AdminHome extends Component {
     render() {
         return (
             <div className="container-fluid">
-                //Admin<br/><hr/>
+                //Host<br/><hr/>
                 <Link to='/admin/hotel'><span className="glyphicon glyphicon-circle-arrow-right"></span>Hotel</Link>
                 <Link to='/admin/flight'><span className="glyphicon glyphicon-circle-arrow-right"></span>Flight</Link>
                 <Link to='/admin/car'><span className="glyphicon glyphicon-circle-arrow-right"></span>Car</Link>
                 <Link to='/admin/profile'><span className="glyphicon glyphicon-circle-arrow-right"></span>Profile</Link>
                 <Switch>
 
-                    <Route exact path="/admin" render={() => {
-                        return (
+                    <Route exact path="/host" render={() => {
+                        return(
                             <div>
-                                Admin Home
+                                Host Home
                             </div>
                         )
                     }}/>
 
-                    <Route path="/admin/hotel" render={() => (
+                    <Route path="/host/hotel" render={() => (
                         <HotelPage
                             validateUserSession={this.validateUserSession}
                             handleLogout={this.handleLogout}
@@ -37,7 +37,7 @@ class AdminHome extends Component {
                         />
                     )}/>
 
-                    <Route path="/admin/flight" render={() => (
+                    <Route path="/host/flight" render={() => (
                         <FlightPage
                             validateUserSession={this.validateUserSession}
                             handleLogout={this.handleLogout}
@@ -45,7 +45,7 @@ class AdminHome extends Component {
                         />
                     )}/>
 
-                    <Route path="/admin/car" render={() => (
+                    <Route path="/host/car" render={() => (
                         <CarPage
                             validateUserSession={this.validateUserSession}
                             handleLogout={this.handleLogout}
@@ -53,8 +53,8 @@ class AdminHome extends Component {
                         />
                     )}/>
 
-                    <Route path="/admin/profile" render={() =>
-                        <AdminProfile
+                    <Route path="/host/profile" render={() =>
+                        <HostProfile
                             // validateUserSession={this.validateUserSession}
                             // handleLogout={this.handleLogout}
                             // username={this.state.username}
@@ -66,4 +66,4 @@ class AdminHome extends Component {
     }
 }
 
-export default withRouter(AdminHome);
+export default withRouter(HostHome);
