@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux"
-import {login_success} from "../actions";
-import {doSignIn} from "../api/user/API_SignIn";
-
+import {login_success} from "../../actions"
+import {doSignIn} from "../../api/user/API_SignIn"
 
 class Login extends Component {
 
