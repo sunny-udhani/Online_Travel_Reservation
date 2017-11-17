@@ -1,0 +1,15 @@
+.navbar {
+	border: none;
+	margin-top: 0px;
+}
+
+.navbar-default {
+    background-color: transparent;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    border-radius: 0px;
+    padding-left: 0px !important;
+}
+
+.nav.navbar-nav li.tabsFormat a {
+    color: #FFF;
+}

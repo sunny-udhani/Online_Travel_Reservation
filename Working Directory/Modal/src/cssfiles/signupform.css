@@ -1,0 +1,62 @@
+.signupform {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+}
+
+.signupform .form-modal {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #FFF;
+    height: 60vh;
+    width: 30vw;
+}
+
+.signupform .form-modal .form-group {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	padding: 50px;
+	border-top: 1px solid rgb(225, 225, 229);
+}
+
+.signupform .form-modal .form-group .create-acc-label {
+	position: absolute;
+	font-size: 15px;
+	top: -12px;
+	left: 50%;
+	padding: 0px 10px;
+	transform: translateX(-50%);
+	background-color: #FFF;
+	font-weight: normal;
+}
+
+.signupform .form-modal .form-input {
+	margin-bottom: 10px;
+	padding: 10px 20px;
+	border: 1px solid rgb(194, 194, 198);
+	width: 100%;
+}
+
+.signupform .form-modal .form-input:focus {
+	border-color: rgb(255, 105, 15);
+	outline: none;
+}
+
+.signupform .form-modal .create-account-submit {
+	width: 100%;
+	background-color: rgb(84, 84, 86);
+	color: #FFF;
+	padding: 10px 20px;
+	border: none;
+}
+
+
+
+
