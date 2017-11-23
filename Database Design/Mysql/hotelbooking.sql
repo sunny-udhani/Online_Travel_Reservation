@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `hotelbooking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hotelbooking` (
-  `bookingId` mediumint(10) NOT NULL,
+  `bookingId` mediumint(10) NOT NULL AUTO_INCREMENT,
   `hotelId` mediumint(10) NOT NULL,
   `fromDate` date NOT NULL,
   `toDate` date NOT NULL,
