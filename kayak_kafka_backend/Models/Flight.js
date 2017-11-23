@@ -22,66 +22,66 @@ var flightSchema = new Schema({
     },
     tripType: {
         type: String,
-        require: true
+        required: true
     },
     flightStartTime: {
         type: Date,
-        require: true
+        required: true
     },
     flightEndTime: {
         type: Date,
-        require: true
+        required: true
     },
     duration: {
         type: Number,
-        require: true
+        required: true
     },
     origin: {
         type: String,
-        require: true
+        required: true
     },
     destination: {
         type: String,
-        require: true
+        required: true
     },
     flightImage: {
         type: Number,
-        require: true
+        required: true
     },
     classes: {
         classType: {
             type: String,
-            require: true
+            required: true
         },
         price: {
             type: Number,
-            require: true
+            required: true
         },
         noOfSeats: {
             type: Number,
-            require: true
+            required: true
         }
     },
     ratings: {
         userId: {
             type: ObjectId,
-            require: true,
+            required: true,
             ref: 'User'
         },
         rating: {
             type: Number,
-            require: true
+            required: true
         }
     },
     reviews: {
         userId: {
             type: ObjectId,
-            require: true,
+            required: true,
             ref: 'User'
         },
         reviews: {
             type: String,
-            require: true
+            required: true
         }
     }
 
