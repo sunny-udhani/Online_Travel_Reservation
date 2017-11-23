@@ -22,70 +22,70 @@ var hotelSchema = new Schema({
     },
     hotelAddress: {
         type: String,
-        require: true
+        required: true
     },
     city: {
         type: String,
-        require: true
+        required: true
     },
     state: {
         type: String,
-        require: true
+        required: true
     },
     zipCode: {
         type: Number,
-        require: true
+        required: true
     },
     totalRooms: {
         type: Number,
-        require: true
+        required: true
     },
     availableRooms: {
         type: Number,
-        require: true
+        required: true
     },
     stars: {
         type: Number,
-        require: true
+        required: true
     },
     images: {
         type: String,
-        require: false
+        required: false
     },
     rooms: {
         roomType: {
             type: String,
-            require: true
+            required: true
         },
         roomCapacity: {
             type: Number,
-            require: true
+            required: true
         },
         roomPrice: {
             type: Number,
-            require: true
+            required: true
         }
     },
     ratings: {
         userId: {
             type: Schema.Types.ObjectId,
-            require: true,
+            required: true,
             ref: 'User'
         },
         rating: {
             type: Number,
-            require: true
+            required: true
         }
     },
     reviews: {
         userId: {
             type: Schema.Types.ObjectId,
-            require: true,
+            required: true,
             ref: 'User'
         },
         reviews: {
             type: String,
-            require: true
+            required: true
         }
     }
 
