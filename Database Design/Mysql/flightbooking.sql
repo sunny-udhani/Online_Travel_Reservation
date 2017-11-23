@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `flightbooking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `flightbooking` (
-  `bookingId` mediumint(10) NOT NULL,
+  `bookingId` mediumint(10) NOT NULL AUTO_INCREMENT,
   `flightId` mediumint(10) NOT NULL,
   `flightClass` varchar(50) NOT NULL,
   `tripType` varchar(10) NOT NULL,
