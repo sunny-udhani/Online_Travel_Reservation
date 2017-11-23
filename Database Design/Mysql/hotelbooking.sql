@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `hotelbooking`;
 CREATE TABLE `hotelbooking` (
   `bookingId` mediumint(10) NOT NULL,
   `hotelId` mediumint(10) NOT NULL,
-  `fromDate` varchar(45) NOT NULL,
-  `toDate` varchar(45) NOT NULL,
+  `fromDate` date NOT NULL,
+  `toDate` date NOT NULL,
   `noOfPeople` varchar(45) NOT NULL,
   `userEmail` varchar(45) NOT NULL,
   PRIMARY KEY (`bookingId`),
