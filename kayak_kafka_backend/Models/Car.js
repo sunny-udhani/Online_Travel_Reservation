@@ -18,58 +18,58 @@ var carSchema = new Schema({
     }
     carName: {
         type: String,
-        require: true
+        required: true
     },
     carType: {
         type: String,
-        require: true
+        required: true
     },
     carSpecification: {
         capacity: {
             type: Number,
-            require: true
+            required: true
         }
     },
     images: {
         type: String,
-        require: false
+        required: false
     },
     city: {
         type: String,
-        require: true
+        required: true
     },
     state: {
         type: String,
-        require: true
+        required: true
     },
     zipCode: {
         type: Number,
-        require: true
+        required: true
     },
     price: {
         type: Number,
-        require: true
+        required: true
     },
     ratings: {
         userId: {
             type: Schema.Types.ObjectId,
-            require: true,
+            required: true,
             ref: 'User'
         },
         rating: {
             type: Number,
-            require: true
+            required: true
         }
     },
     reviews: {
         userId: {
             type: Schema.Types.ObjectId,
-            require: true,
+            required: true,
             ref: 'User'
         },
         reviews: {
             type: String,
-            require: true
+            required: true
         }
     }
 
