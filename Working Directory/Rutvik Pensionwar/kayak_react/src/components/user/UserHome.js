@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {Route, withRouter, Switch, Link} from 'react-router-dom';
-import UserPaymentDetails from "./UserPaymentDetails";
+import {Route, withRouter} from 'react-router-dom';
+import {connect} from "react-redux"
+
+import {doLogout} from "../../api/user/API_HandleLogout";
 
 import '../../design/css/bootstrap.min.css'
 import '../../design/css/jquery-ui.min.css'
@@ -10,6 +12,20 @@ import '../../design/css/style.css'
 class UserHome extends Component {
 
     handleSubmit = (userdata) => {
+    };
+
+    componentDidMount() {
+        //
+    };
+
+    handleSignOut = () => {
+        doLogout()
+            .then((status) => {
+                if (status === 200) {
+                    console.log("Logout Successful");
+                    this.props.history.push("/");
+                }
+            });
     };
 
     render() {
@@ -22,8 +38,8 @@ class UserHome extends Component {
                             <div className="col-md-3">
                                 <div className="nav">
                                     <a href="index.html" className="logo">
-                                        <img src="../../design/img/logo_dark.png"
-                                             style={{height: "50%", width: "100%"}}/>
+                                        <img src="https://a1.r9cdn.net/rimg/provider-logos/common/socialmedia/kayak-logo.png?width=440&height=220&crop=false"
+                                             style={{height: "30%", width: "70%"}}/>
                                     </a>
 
                                     <div className="nav-menu-icon">
@@ -38,22 +54,6 @@ class UserHome extends Component {
                                             <a href="#">Home<span className="fa fa-angle-down"></span></a>
                                             <ul className="dropmenu">
                                                 <li><a href="index.html">Homepage 1</a></li>
-                                                <li><a href="index_2.html">Homepage 2</a></li>
-                                                <li><a href="index_3.html">Homepage 3</a></li>
-                                                <li><a href="index_4.html">Homepage 4</a></li>
-                                                <li><a href="index_5.html">Homepage 5</a></li>
-                                                <li><a href="index_6.html">Homepage 6</a></li>
-                                                <li><a href="index_7.html">Homepage 7</a></li>
-                                                <li><a href="index_8.html">Homepage 8</a></li>
-                                                <li><a href="index_9.html">Homepage 9</a></li>
-                                                <li><a href="index_10.html">Homepage 10</a></li>
-                                                <li><a href="plane.html">Homepage 11</a></li>
-                                                <li><a href="hotels.html">Homepage 12</a></li>
-                                                <li><a href="video_bar.html">Homepage 13</a></li>
-                                                <li><a href="tour.html">Homepage 14</a></li>
-                                                <li><a href="ship.html">Homepage 15</a></li>
-                                                <li><a href="rental.html">Homepage 16</a></li>
-                                                <li><a href="cars.html">Homepage 17</a></li>
                                             </ul>
                                         </li>
                                         <li className="type-1"><a href="#">Hotels<span
@@ -212,9 +212,19 @@ class UserHome extends Component {
                                                 <li><a href="thank_you.html">Thank you</a></li>
                                             </ul>
                                         </li>
+
+                                        <li className="type-1"><a href="#">My Account<span
+                                            className="fa fa-angle-down"></span></a>
+                                            <ul className="dropmenu">
+                                                <li><a href="#">Account Preferences {this.props.username} </a></li>
+                                                <li><a href="car_block.html">Trips</a></li>
+                                                <li><a href="car_detail.html">Watchlist</a></li>
+                                                <li><a href="" onClick={this.handleSignOut}>Sign Out</a></li>
+
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </nav>
-
                             </div>
                         </div>
                     </div>
@@ -574,10 +584,10 @@ class UserHome extends Component {
 
                                                         <br/>
 
-                                                        <div class="form-check">
-                                                            <label class="form-check-label">
+                                                        <div className="form-check">
+                                                            <label className="form-check-label">
                                                                 <h6>
-                                                                    <input class="form-check-input" type="checkbox"
+                                                                    <input className="form-check-input" type="checkbox"
                                                                            value=""/>
                                                                     Email me KAYAK's deals
                                                                 </h6>
@@ -636,13 +646,25 @@ class UserHome extends Component {
                     </div>
                 </div>
 
-                <Route path="/UserPaymentDetails" render={() => (
-                    <UserPaymentDetails/>
-                )}/>
             </div>
 
         );
     }
 }
 
-export default withRouter(UserHome);
+//if you need anything from state to use here
+function mapStateToProps(state) {
+    console.log("User logged in is " + state.username);
+    return {
+        username: state.username
+    };
+}
+
+//if you need to push something to state, use action -> reducer
+function mapDispatchToProps(dispatch) {
+    return {
+
+    };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserHome));

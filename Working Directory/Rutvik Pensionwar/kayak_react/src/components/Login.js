@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
+
 import {login_success} from "../actions";
 import {doSignIn} from "../api/user/API_SignIn";
 
+import UserHome from './user/UserHome';
 
 class Login extends Component {
 
@@ -14,16 +16,22 @@ class Login extends Component {
 
     componentWillMount() {
 
-    }
+    };
 
     handleSignIn(userdata) {
+        console.log("1: " + userdata.username);
+        console.log("2: " + userdata.password);
         doSignIn(userdata)
             .then((res) => {
-            console.log(res.status);
-            console.log(userdata.username);
+                console.log(res.status);
+                console.log(userdata.username);
                 if (res.status === 200) {
                     this.props.loginSuccess(userdata.username, "successful login");
+
+                    this.props.history.push("/u");
+
                     console.log(this.props.menu);
+                    console.log(this.props.menu.username);
                 } else {
                     console.log("validation");
                 }
@@ -34,61 +42,61 @@ class Login extends Component {
     }
 
     render() {
-
+        console.log("Props: " + this.props.isLoggedIn);
         return (
-            <div className="row justify-content-md-center">
-                <div className="col-md-3">
-                    <form>
-                        <div className="form-group">
-                            <h1>Login</h1>
-                        </div>
-                        <div className="form-group">
-                            <input
-                                className="form-control"
-                                type="text"
-                                name= "username"
-                                label="Username"
-                                placeholder="Enter Username"
-                                onChange={(event) => {
-                                    this.userDet.username = event.target.value;
+            <div>
+                <form className="text-justify">
+                    <div className="form-group">
+                        <h4>Login</h4>
+                    </div>
+                    <div className="form-group">
+                        <input
+                            className="form-control input-sm"
+                            type="text"
+                            name="username"
+                            label="Username"
+                            placeholder=""
+                            onChange={(event) => {
+                                this.userDet.username = event.target.value;
 
-                                }}
-                            />
-                        </div>
+                            }}
+                        />
+                    </div>
 
-                        <div className="form-group">
-                            <input
-                                className="form-control"
-                                type="password"
-                                name = "password"
-                                label="password"
-                                placeholder="Enter Password"
-                                onChange={(event) => {
-                                    this.userDet.password = event.target.value;
-                                }}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <button
-                                className="btn btn-primary"
-                                type="button"
-                                onClick={() => this.handleSignIn(this.userDet)}>
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div className="form-group">
+                        <input
+                            className="form-control input-sm"
+                            type="password"
+                            name="password"
+                            label="password"
+                            placeholder=""
+                            onChange={(event) => {
+                                this.userDet.password = event.target.value;
+                            }}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <button
+                            className="login loginmodal-submit btn-block"
+                            type="button"
+                            onClick={() => this.handleSignIn(this.userDet)}>
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
         );
     }
 }
 
+//if you need anything from state to use here
 function mapStateToProps(state) {
     return {
         menu: state
     }
 }
 
+//if you need to push something to state, use action -> reducer
 function mapDispatchToProps(dispatch) {
     return {
         loginSuccess: (email, message) => {
@@ -97,4 +105,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
