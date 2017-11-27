@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import { Route, withRouter, Switch, Link } from 'react-router-dom';
 import AdminHome from "./admin/AdminHome";
-import UserHome from "./user/UserHome";
+import UserPaymentPage from "./user/UserPaymentPage";
+
 import Login from "./Login";
 import SignUp from "./SignUp";
-// import * as API from "../api/admin/*";
-import * as API from "../api/API";
+import Home from "./user/Home";
 
+import '../design/css/home.css'
+
+import * as API from "../api/API";
 
 class Kayak extends Component {
 
@@ -19,7 +22,7 @@ class Kayak extends Component {
     });
 
     componentWillMount(){
-        this.showLoginOption();
+        // this.showLoginOption();
     }
 
     handleLogout = (()=>{
@@ -74,22 +77,26 @@ class Kayak extends Component {
         return (
             <div>
                 <div className="container-fluid">
-                    <hr/>
-                    //Header
-                    {this.showLoginOption(this.state)}
-                    <hr/>
+
+                    {/*<hr/>*/}
+                    {/*{this.showLoginOption(this.state)}*/}
+                    {/*<hr/>*/}
+
                     {/*<Link to='/admin'><span className="glyphicon glyphicon-circle-arrow-right"></span>Admin</Link>*/}
+
                     <Switch>
                         <Route exact path="/" render={() =>
-                            <UserHome/>
+                            <Home/>
                         }/>
 
                         <Route path="/u" render={() =>
-                            <UserHome/>
+                            <UserPaymentPage/>
                         }/>
 
                         <Route path="/signup" render={() =>
-                            <SignUp handleSubmit={this.handleSubmit} invalidateUserSession={this.invalidateUserSession}/>
+                            <SignUp
+                                handleSubmit={this.handleSubmit}
+                                invalidateUserSession={this.invalidateUserSession}/>
                         }/>
 
                         <Route path="/login" render={() =>
@@ -108,10 +115,6 @@ class Kayak extends Component {
 
                     </Switch>
                 </div>
-                <br/>
-                <hr/>
-                    Footer
-                <hr/>
             </div>
         )
     }
