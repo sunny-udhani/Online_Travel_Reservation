@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Route, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux"
 import {login_success} from "../actions";
 import {doSignIn} from "../api/user/API_SignIn";
 
+import '../design/css/signinform.css'
 
 class Login extends Component {
 
@@ -25,11 +26,12 @@ class Login extends Component {
                 if (res.status === 200) {
                     this.props.loginSuccess(userdata.username, "successful login");
                     console.log(this.props.menu);
+                    this.props.history.push("/u");
                 }
                 else if (res.status === 201) {
                     this.props.loginSuccess(userdata.username, "successful admin login");
                     console.log(this.props.menu);
-                    this.props.handlePageChange("/admin");
+                    this.props.history.push("/admin");
                 }
                 else {
                     console.log("validation");
@@ -43,42 +45,43 @@ class Login extends Component {
     render() {
 
         return (
-            <div className="row justify-content-md-center">
-                <Link to='/signup'><span className="glyphicon glyphicon-circle-arrow-right"></span>Signup</Link>
-                <div className="col-md-3">
-                    <form>
-                        <div className="form-group">
-                            <h1>Login</h1>
+            <div className="signinform">
+                <div className="form-modal" >
+                    <form className="text-justify">
+                        <div className="">
+                            <h4>Login</h4>
                         </div>
-                        <div className="form-group">
+                        <br/>
+                        <div>
                             <input
                                 className="form-control"
                                 type="text"
-                                name= "username"
+                                name="username"
                                 label="Username"
-                                placeholder="Enter Username"
+                                placeholder=""
                                 onChange={(event) => {
                                     this.userDet.username = event.target.value;
 
                                 }}
                             />
                         </div>
-
-                        <div className="form-group">
+                        <br/>
+                        <div>
                             <input
                                 className="form-control"
                                 type="password"
-                                name = "password"
+                                name="password"
                                 label="password"
-                                placeholder="Enter Password"
+                                placeholder=""
                                 onChange={(event) => {
                                     this.userDet.password = event.target.value;
                                 }}
                             />
                         </div>
-                        <div className="form-group">
+                        <br/>
+                        <div>
                             <button
-                                className="btn btn-primary"
+                                className="login loginmodal-submit btn-block"
                                 type="button"
                                 onClick={() => this.handleSignIn(this.userDet)}>
                                 Submit
@@ -105,4 +108,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
