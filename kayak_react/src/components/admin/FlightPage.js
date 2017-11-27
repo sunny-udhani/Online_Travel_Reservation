@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "../../flight.css";
+import "../../modal.css";
 import * as API from "../../api/admin/API";
 
 class FlightPage extends Component {

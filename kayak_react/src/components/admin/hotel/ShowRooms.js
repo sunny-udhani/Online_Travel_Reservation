@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "../../../flight.css";
+import "../../../modal.css";
 
 class ShowRooms extends Component {
 
