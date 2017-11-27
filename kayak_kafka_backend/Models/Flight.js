@@ -1,35 +1,41 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let mongoURL = "mongodb://localhost:27017/Kayak";
+mongoose.connect(mongoURL);
 
-var mongoURL = "mongodb://localhost:27017/Kayak";
+let flightSchema = new Schema({
 
-//mongoose.connect(mongoURL);
-
-var flightSchema = new Schema({
-
-    flightId: {
-        type: Schema.Types.ObjectId,
+    flightNo: {
+        type: String,
         required: true
     },
     hostId: {
-        type: ObjectId,
+        type: String,
         required: true,
-        ref:'Host'
+        // ref:'Host'
     },
     flightOperator: {
         type: String,
         required: true
     },
-    tripType: {
+    // tripType: {
+    //     type: String,
+    //     required: true
+    // },
+    departureDate: {
+        type: Date,
+        required: true
+    },
+    arrivalDate: {
+        type: Date,
+        required: true
+    },
+    departureTime: {
         type: String,
         required: true
     },
-    flightStartTime: {
-        type: Date,
-        required: true
-    },
-    flightEndTime: {
-        type: Date,
+    arrivalTime: {
+        type: String,
         required: true
     },
     duration: {
@@ -45,10 +51,10 @@ var flightSchema = new Schema({
         required: true
     },
     flightImage: {
-        type: Number,
-        required: true
+        type: Number
+        // required: true
     },
-    classes: {
+    classes: [{
         classType: {
             type: String,
             required: true
@@ -61,32 +67,32 @@ var flightSchema = new Schema({
             type: Number,
             required: true
         }
-    },
+    }],
     ratings: {
         userId: {
-            type: ObjectId,
-            required: true,
-            ref: 'User'
+            type: Schema.Types.ObjectId,
+            // required: true,
+            // ref: 'User'
         },
         rating: {
             type: Number,
-            required: true
+            // required: true
         }
     },
     reviews: {
         userId: {
-            type: ObjectId,
-            required: true,
-            ref: 'User'
+            type: Schema.Types.ObjectId,
+            // required: true,
+            // ref: 'User'
         },
         reviews: {
             type: String,
-            required: true
+            // required: true
         }
     }
 
 });
 
-var Flight = mongoose.model('Host', flightSchema);
+let Flight = mongoose.model('flight', flightSchema);
 
 module.exports = Flight;

@@ -1,20 +1,17 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let mongoURL = "mongodb://localhost:27017/Kayak";
+mongoose.connect(mongoURL);
 
-var mongoURL = "mongodb://localhost:27017/Kayak";
+let hotelSchema = new Schema({
 
-//mongoose.connect(mongoURL);
-
-var hotelSchema = new Schema({
-
-    hotelId: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
+    // hotelId: {
+    //     type: Schema.Types.ObjectId,
+    //     required: true
+    // },
     hostId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref:'Host'
+        type: String,
+        required: true
     },
     hotelName: {
         type: String,
@@ -36,61 +33,57 @@ var hotelSchema = new Schema({
         type: Number,
         required: true
     },
-    totalRooms: {
-        type: Number,
-        required: true
-    },
-    availableRooms: {
-        type: Number,
-        required: true
-    },
+    // totalRooms: {
+    //     type: Number,
+    //     required: true
+    // },
+    // availableRooms: {
+    //     type: Number,
+    //     required: true
+    // },
     stars: {
         type: Number,
         required: true
     },
     images: {
-        type: String,
-        required: false
+        type: String
     },
-    rooms: {
+    rooms: [{
         roomType: {
             type: String,
-            required: true
+            required : true
         },
         roomCapacity: {
             type: Number,
-            required: true
+            required : true
         },
         roomPrice: {
             type: Number,
-            required: true
-        }
-    },
+            required : true
+        },
+        noOfRooms : {
+            type: Number,
+            required : true
+        },
+    }],
     ratings: {
         userId: {
-            type: Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: Schema.Types.ObjectId
         },
         rating: {
-            type: Number,
-            required: true
+            type: Number
         }
     },
     reviews: {
         userId: {
-            type: Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: Schema.Types.ObjectId
         },
         reviews: {
-            type: String,
-            required: true
+            type: String
         }
     }
-
 });
 
-var Hotel = mongoose.model('Hotel', hotelSchema);
+let Hotel = mongoose.model('hotel', hotelSchema);
 
 module.exports = Hotel;
