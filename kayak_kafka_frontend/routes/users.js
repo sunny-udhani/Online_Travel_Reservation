@@ -38,13 +38,21 @@ router.post('/login', function (req, res) {
 });
 
 router.post('/logout', function(req,res) {
+
     console.log(req.session.username);
-    req.session.destroy();
-    console.log('Session Destroyed');
-    res.status(200).send();
+    if(req.session.username!== null && req.session.username!==undefined){
+        req.session.destroy();
+        console.log('Session Destroyed');
+        res.status(200).send();
+    }
+    else {
+        console.log('Session does not exist');
+        res.status(400).send();
+    }
+
 });
 
-router.post('/getsession', function (req, res) {
+router.post('/validateSession', function (req, res) {
     console.log(req.session.username);
     if(req.session.username!== null && req.session.username!==undefined){
         res.status(200).send({"username":req.session.username});
