@@ -1,8 +1,8 @@
-var crypto = require('crypto');
-var conn = require('./Connection');
+let crypto = require('crypto');
+let conn = require('./Connection');
 
-var TIMEOUT = 8000; //time to wait for response in ms
-var self;
+let TIMEOUT = 8000; //time to wait for response in ms
+let self;
 
 exports = module.exports = KafkaRPC;
 
@@ -18,10 +18,10 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
 
     self = this;
     //generate a unique correlation id for this call
-    var correlationId = crypto.randomBytes(16).toString('hex');
+    let correlationId = crypto.randomBytes(16).toString('hex');
 
     //create a timeout for what should happen if we don't get a response
-    var tId = setTimeout(function (corr_id) {
+    let tId = setTimeout(function (corr_id) {
         //if this ever gets called we didn't get a response in a
         //timely fashion
         console.log('timeout');
@@ -31,7 +31,7 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
     }, TIMEOUT, correlationId);
 
     //create a request entry to store in a hash
-    var entry = {
+    let entry = {
         callback: callback,
         timeout: tId //the id for the timeout so we can clear it
     };
@@ -72,19 +72,19 @@ KafkaRPC.prototype.setupResponseQueue = function (producer, topic_name, next) {
     self = this;
 
     //subscribe to messages
-    var consumer = self.connection.getConsumer('response_topic');
+    let consumer = self.connection.getConsumer('response_topic');
 
     consumer.on('message', function (message) {
         console.log('msg received');
-        var data = JSON.parse(message.value);
+        let data = JSON.parse(message.value);
         console.log("Data received from backend");
         console.log(data);
         //get the correlationId
-        var correlationId = data.correlationId;
+        let correlationId = data.correlationId;
         //is it a response to a pending request
         if (correlationId in self.requests) {
             //retrieve the request entry
-            var entry = self.requests[correlationId];
+            let entry = self.requests[correlationId];
             //make sure we don't timeout by clearing it
             clearTimeout(entry.timeout);
             //delete the entry from hash

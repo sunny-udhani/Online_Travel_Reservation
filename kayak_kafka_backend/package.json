@@ -10,7 +10,8 @@
     "kafka-node": "^2.2.3",
     "mongodb": "^2.2.33",
     "mysql": "^2.15.0",
-    "bcrypt": "^1.0.3"
+    "bcrypt": "^1.0.3",
+    "mongoose": "^4.13.4"
   },
   "repository": {
     "type": "git",

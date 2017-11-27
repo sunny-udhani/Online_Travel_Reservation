@@ -18,8 +18,12 @@ const signIn = (state , action) => {
 };
 
 const signUp = (state , action) => {
-    console.log("signUp");
-
+    console.log("In reducer - signUp");
+    console.log("Username is : " + action.username);
+    return {
+        ...state,
+        username: action.username
+    }
 };
 
 const handleActions = (state = initial_state, action) => {

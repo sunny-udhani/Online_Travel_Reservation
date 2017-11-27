@@ -1,25 +1,33 @@
-var express = require('express');
+let express = require('express');
 const passport = require("passport");
-var router = express.Router();
+let router = express.Router();
 require('./passport')(passport);
+var kafka = require('./kafka/client');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    res.send('respond with a resource');
 });
 
 router.post('/login', function (req, res) {
-   console.log(req.body);
+    console.log(req.body);
     passport.authenticate('login', function(err, response) {
+        console.log("response:");
+        console.log(response);
         if(err) {
             console.log(err);
             res.status(400).send();
         }
         if(response.status===200) {
             req.session.username = response.username;
+            console.log("session initialized. :" + req.session.username);
+            res.status(response.status).send(req.session.username);
+        }
+        else if(response.status===201){
+            req.session.username = response.username;
+            console.log("session initialized for admin. : ");
             console.log(req.session.username);
-            console.log("session initialized");
-            return res.status(response.status).send(req.session);
+            res.status(response.status).send(req.session.username);
         }
         else if(response.status===400){
             res.status(response.status).send({"message":response.message});
@@ -31,10 +39,29 @@ router.post('/login', function (req, res) {
 });
 
 router.post('/logout', function(req,res) {
+
     console.log(req.session.username);
-    req.session.destroy();
-    console.log('Session Destroyed');
-    res.status(200).send();
+    console.log(req.session);
+    if(req.session.username!== null && req.session.username!==undefined){
+        req.session.destroy();
+        console.log('Session Destroyed');
+        res.status(200).send();
+    }
+    else {
+        console.log('Session does not exist');
+        res.status(400).send();
+    }
+
+});
+
+router.post('/validateSession', function (req, res) {
+    console.log(req.session.username);
+    if(req.session.username!== null && req.session.username!==undefined){
+        res.status(200).send({"username":req.session.username});
+    }
+    else {
+        res.status(204).end();
+    }
 });
 
 router.post('/signup', function(req, res, next){
@@ -50,9 +77,16 @@ router.post('/signup', function(req, res, next){
             else
             {
                 if(results.status === 200){
+                    req.session.username = results.username;
                     console.log("Received username: "+results.username);
                     console.log("Local username: "+ req.body.username);
-                    res.status(results,status).send({"message":"Signup Successful"});
+                    res.status(results.status).send({"message":"Signup Successful"});
+                }
+                else if(results.status === 201){
+                    req.session.username = results.username;
+                    console.log("Received admin username: "+results.username);
+                    console.log("Local username: "+ req.body.username);
+                    res.status(results.status).send({"message":"Signup Successful"});
                 }
                 else if(results.status === 301){
                     res.status(results.status).send({"message":"User already Exist"});

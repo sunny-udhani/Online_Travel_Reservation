@@ -1,6 +1,6 @@
-var MongoClient = require('mongodb').MongoClient;
-var db;
-var connected = false;
+let MongoClient = require('mongodb').MongoClient;
+let db;
+let connected = false;
 
 
 /**

@@ -8,7 +8,7 @@ import Kayak from "./components/Kayak";
 class App extends Component {
     render() {
         return (
-            <div className="App">
+            <div>
                 <BrowserRouter>
                     <Kayak/>
                 </BrowserRouter>

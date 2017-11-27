@@ -1,42 +1,53 @@
 let bcrypt = require('bcrypt');
 let mysql = require('../mysql/mysql');
-// var UserProfile = require('../models/userprofile');
-// let mongo = require('./mongo');
-// let mongoURL = "mongodb://localhost:27017/dropbox";
 
 handle_request = ((data, callback) => {
     let response = {
-        status : 400
+        status: 400
     };
     try {
 
         let salt = bcrypt.genSaltSync(10);
 
         let password = bcrypt.hashSync(data.password, salt);
-        let sqlQuery = "insert into users (username, password) values ('"+data.username+"','"+password+"');";
-        console.log(sqlQuery);
+
+        let userExist = "select password from users where username = '" + data.username + "'";
+
+        let insertUser = "insert into users (username, password, accessInd) values ('" + data.username + "','" + password + "', '" + data.accessInd + "');";
+        console.log("signup - SQL Query " + insertUser);
+
         mysql.fetchData(function (err, result) {
-            if(err){
+            if (err) {
                 console.log(err);
             }
             else {
                 console.log(result);
-                if(result.rows===1){
+                console.log(result.length);
+                if (result.rows === 1) {
                     response.status = 401;
                     response.message = "User Already Exists";
                     callback(null, response);
                 }
                 else {
                     mysql.insertData(function (err, result) {
-                        if(err){
+                        if (err) {
                             console.log(err);
                         }
                         else {
                             console.log(result);
-                            if(result.affectedRows===1){
-                                response.status = 200;
-                                response.message = "Signup Successful";
-                                callback(null, response);
+                            if (result.affectedRows === 1) {
+                                if(data.accessInd === "admin") {
+                                    response.status = 201;
+                                    response.username = data.username;
+                                    response.message = "User Signup Successful";
+                                    callback(null, response);
+                                }
+                                else {
+                                    response.status = 200;
+                                    response.username = data.username;
+                                    response.message = "Admin Signup Successful";
+                                    callback(null, response);
+                                }
                             }
                             else {
                                 response.status = 400;
@@ -44,18 +55,20 @@ handle_request = ((data, callback) => {
                                 callback(null, response);
                             }
                         }
-                    });
+                    }, insertUser);
                 }
             }
-        });
+        }, userExist);
     }
-    catch (e){
+    catch
+        (e) {
         console.log(e);
         err = e;
         response.status = 401;
         response.message = "Signup Failed";
-        callback(err,response);
+        callback(err, response);
     }
-});
+})
+;
 
 exports.handle_request = handle_request;

@@ -19,6 +19,7 @@ class AdminHome extends Component {
                 <Link to='/admin/flight'><span className="glyphicon glyphicon-circle-arrow-right"></span>Flight</Link>
                 <Link to='/admin/car'><span className="glyphicon glyphicon-circle-arrow-right"></span>Car</Link>
                 <Link to='/admin/profile'><span className="glyphicon glyphicon-circle-arrow-right"></span>Profile</Link>
+                <button className="btn btn-link" onClick={(()=>{this.props.handleLogout()})}>Logout</button>
                 <Switch>
 
                     <Route exact path="/admin" render={() => {
