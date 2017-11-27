@@ -17,6 +17,9 @@ class SignUp extends Component {
         this.handleSubmitClick = this.handleSubmitClick.bind(this);
     }
 
+    userdata = {
+    };
+
     handleChange(event) {
         this.setState(
             ...this.state,
@@ -26,7 +29,6 @@ class SignUp extends Component {
     }
 
     handleSubmitClick(event) {
-
         let formData = new FormData();
         formData = this.state;
         this.props.handleSubmitRegister(formData);
@@ -58,44 +60,6 @@ class SignUp extends Component {
                                             <input onChange={(e) => this.handleChange(e)} type="password"
                                                    required="required" id="password" name="password"
                                                    placeholder="Enter Password" className="form-control"/>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label className="control-label">First Name</label>
-                                            <input onChange={(e) => this.handleChange(e)} type="text" id="firstName"
-                                                   required name="firstName" placeholder="Enter First Name"
-                                                   className="form-control"/>
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="control-label">Last Name</label>
-                                            <input onChange={(e) => this.handleChange(e)} type="text" required
-                                                   id="lastName" name="lastName" placeholder="Enter Last Name"
-                                                   className="form-control"/>
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="control-label">Date of Birth</label>
-                                            <input onChange={(e) => this.handleChange(e)} type="date" required id="dob"
-                                                   name="dob" className="form-control"/>
-
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="control-label">Gender</label><br/>
-                                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                                   id="genderChoice1"
-                                                   name="gender" value="male"/>
-                                            <label className="control-label">Male</label>
-                                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                                   id="genderChoice2"
-                                                   name="gender" value="female"/>
-                                            <label className="control-label">Female</label>
-                                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                                   id="genderChoice3"
-                                                   name="gender" value="other"/>
-                                            <label className="control-label">Other</label>
-                                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                                   id="genderChoice4"
-                                                   name="gender" value="notSpecified"/>
-                                            <label className="control-label">Prefer not to specify</label>
                                         </div>
                                         <button
                                             className="btn btn-primary"

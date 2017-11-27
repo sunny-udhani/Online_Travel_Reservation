@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux"
 import {login_success} from "../actions";
@@ -24,7 +25,13 @@ class Login extends Component {
                 if (res.status === 200) {
                     this.props.loginSuccess(userdata.username, "successful login");
                     console.log(this.props.menu);
-                } else {
+                }
+                else if (res.status === 201) {
+                    this.props.loginSuccess(userdata.username, "successful admin login");
+                    console.log(this.props.menu);
+                    this.props.handlePageChange("/admin");
+                }
+                else {
                     console.log("validation");
                 }
             })
@@ -37,6 +44,7 @@ class Login extends Component {
 
         return (
             <div className="row justify-content-md-center">
+                <Link to='/signup'><span className="glyphicon glyphicon-circle-arrow-right"></span>Signup</Link>
                 <div className="col-md-3">
                     <form>
                         <div className="form-group">
