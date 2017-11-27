@@ -9,7 +9,7 @@ let kafka = require('./routes/kafka/client');
 require('./routes/passport')(passport);
 
 
-let mongoSessionURL = "mongodb://localhost:27017/Kayak";
+let mongoSessionURL = "mongodb://localhost:27017/kayak";
 let expressSessions = require("express-session");
 let mongoStore = require("connect-mongo/es5")(expressSessions);
 
@@ -37,20 +37,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(expressSessions({
     secret: "session",
     resave: false,
     //Forces the session to be saved back to the session store, even if the session was never modified during the request
     saveUninitialized: false, //force to save uninitialized session to db.
     //A session is uninitialized when it is new but not modified.
-    //duration: 30 * 60 * 1000,
-    //activeDuration: 5 * 6 * 1000,
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 6 * 1000,
     // duration: 30 * 60 * 1000,
     // activeDuration: 5 * 6 * 1000,
-    cookie: {
-        maxAge  : new Date(Date.now() + 1200000), //20 Minutes
-        expires : new Date(Date.now() + 1200000)  //20 Minutes
-    },
+    // cookie: {
+    //     maxAge  : new Date(Date.now() + 1200000), //20 Minutes
+    //     expires : new Date(Date.now() + 1200000)  //20 Minutes
+    // },
     store: new mongoStore({
         url: mongoSessionURL
     })
