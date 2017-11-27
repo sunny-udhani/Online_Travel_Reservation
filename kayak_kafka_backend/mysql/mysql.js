@@ -7,7 +7,8 @@ function getConnection() {
     connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        database: 'dropbox',
+        password : 'varun1993',
+        database: 'dropbox1',
         port: 3306,
         debug: false
     });
@@ -18,7 +19,8 @@ let pool = mysql.createPool({
     connectionLimit: 10,
     host: 'localhost',
     user: 'root',
-    database: 'dropbox',
+    password : 'varun1993',
+    database: 'dropbox1',
     port: 3306,
     debug: false
 });
