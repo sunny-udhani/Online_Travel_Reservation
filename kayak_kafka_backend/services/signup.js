@@ -1,15 +1,11 @@
 let bcrypt = require('bcrypt');
 let mysql = require('../mysql/mysql');
-// var UserProfile = require('../models/userprofile');
-// let mongo = require('./mongo');
-// let mongoURL = "mongodb://localhost:27017/dropbox";
 
 handle_request = ((data, callback) => {
     let response = {
         status : 400
     };
     try {
-
         let salt = bcrypt.genSaltSync(10);
 
         let password = bcrypt.hashSync(data.password, salt);
