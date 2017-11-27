@@ -2,6 +2,7 @@ let express = require('express');
 const passport = require("passport");
 let router = express.Router();
 require('./passport')(passport);
+var kafka = require('./kafka/client');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -11,7 +12,7 @@ router.get('/', function(req, res, next) {
 router.post('/login', function (req, res) {
     console.log(req.body);
     passport.authenticate('login', function(err, response) {
-        console.log("respomnse:");
+        console.log("response:");
         console.log(response);
         if(err) {
             console.log(err);
@@ -40,6 +41,7 @@ router.post('/login', function (req, res) {
 router.post('/logout', function(req,res) {
 
     console.log(req.session.username);
+    console.log(req.session);
     if(req.session.username!== null && req.session.username!==undefined){
         req.session.destroy();
         console.log('Session Destroyed');
@@ -75,9 +77,16 @@ router.post('/signup', function(req, res, next){
             else
             {
                 if(results.status === 200){
+                    req.session.username = results.username;
                     console.log("Received username: "+results.username);
                     console.log("Local username: "+ req.body.username);
-                    res.status(results,status).send({"message":"Signup Successful"});
+                    res.status(results.status).send({"message":"Signup Successful"});
+                }
+                else if(results.status === 201){
+                    req.session.username = results.username;
+                    console.log("Received admin username: "+results.username);
+                    console.log("Local username: "+ req.body.username);
+                    res.status(results.status).send({"message":"Signup Successful"});
                 }
                 else if(results.status === 301){
                     res.status(results.status).send({"message":"User already Exist"});
