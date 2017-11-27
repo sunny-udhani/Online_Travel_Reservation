@@ -27,7 +27,7 @@ let pool = mysql.createPool({
 
 function insertData(callback, sqlQuery) {
 
-    console.log("\nSQL Query:: " + sqlQuery);
+    console.log("\nmysql - SQL Query:: " + sqlQuery);
 
     connection = getConnection();
 
@@ -50,7 +50,7 @@ function insertData(callback, sqlQuery) {
 
 function fetchData(callback, sqlQuery) {
 
-    console.log("\nSQL Query::" + sqlQuery);
+    console.log("\nmysql - SQL Query::" + sqlQuery);
     connection = getConnection();
 
     // pool.getConnection(function (err, connection) {
@@ -73,7 +73,7 @@ function fetchData(callback, sqlQuery) {
 
 function updateData(callback, sqlQuery) {
 
-    console.log("\nSQL Query:: " + sqlQuery);
+    console.log("\nmysql - SQL Query:: " + sqlQuery);
 
     connection = getConnection();
 
@@ -95,7 +95,7 @@ function updateData(callback, sqlQuery) {
 
 function deleteData(callback, sqlQuery) {
 
-    console.log("\nSQL Query:: " + sqlQuery);
+    console.log("\nmysql - SQL Query:: " + sqlQuery);
 
     connection = getConnection();
     //

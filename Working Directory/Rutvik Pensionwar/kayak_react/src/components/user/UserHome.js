@@ -219,7 +219,7 @@ class UserHome extends Component {
                                                 <li><a href="#">Account Preferences {this.props.username} </a></li>
                                                 <li><a href="car_block.html">Trips</a></li>
                                                 <li><a href="car_detail.html">Watchlist</a></li>
-                                                <li><a href="" onClick={this.handleSignOut}>Sign Out</a></li>
+                                                <li><a onClick={this.handleSignOut}>Sign Out</a></li>
 
                                             </ul>
                                         </li>

@@ -9,11 +9,32 @@ import '../../design/css/jquery-ui.min.css'
 import '../../design/css/jquery-ui.structure.min.css'
 import '../../design/css/style.css'
 import '../../design/css/modal.css'
+import '../../design/css/myacc.css'
+
 
 class Home extends Component {
 
-    handleSubmit = (userdata) => {
-    };
+    constructor() {
+        super();
+        this.state = {
+            signupForm: <SignUp />,
+            signinForm: <Login />,
+            showSignupForm: false,
+            showSigninForm: false
+        };
+    }
+
+    renderSigninForm() {
+        this.setState({
+            showSigninForm: true
+        });
+    }
+
+    renderSignupForm() {
+        this.setState({
+            showSignupForm: true
+        });
+    }
 
     render() {
         return (
@@ -219,8 +240,8 @@ class Home extends Component {
                                         <li className="type-1"><a href="#">My Account<span
                                             className="fa fa-angle-down"></span></a>
                                             <ul className="dropmenu">
-                                                <li><a href="#" data-toggle="modal" data-target="#signup-modal">Sign Up</a></li>
-                                                <li><a href="#" data-toggle="modal" data-target="#login-modal">Sign In</a></li>
+                                                <li><a href = "#" onClick={this.renderSignupForm.bind(this)}>Sign Up</a></li>
+                                                <li><a href = "#" onClick={this.renderSigninForm.bind(this)}>Sign In</a></li>
                                                 <li><a href="car_block.html">Trips</a></li>
                                                 <li><a href="car_detail.html">Watchlist</a></li>
 
@@ -234,21 +255,26 @@ class Home extends Component {
                     </div>
                 </header>
 
-                <div className="modal fade" id="signup-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div className="modal-dialog">
-                        <div className="loginmodal-container">
-                            <SignUp />
-                        </div>
-                    </div>
+                <div className="myacc-dropdown">
+                    {this.state.showSigninForm ? this.state.signinForm : ''}
+                    {this.state.showSignupForm ? this.state.signupForm : ''}
                 </div>
 
-                <div className="modal fade" id="login-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div className="modal-dialog">
-                        <div className="loginmodal-container">
-                            <Login />
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="modal fade" id="signup-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">*/}
+                    {/*<div className="modal-dialog">*/}
+                        {/*<div className="loginmodal-container">*/}
+                            {/*<SignUp />*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
+
+                {/*<div className="modal fade" id="login-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">*/}
+                    {/*<div className="modal-dialog">*/}
+                        {/*<div className="loginmodal-container">*/}
+                            {/*<Login />*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
             </div>
 
         );

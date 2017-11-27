@@ -14,47 +14,46 @@ handle_request = ((data, callback) => {
 
         let password = bcrypt.hashSync(data.password, salt);
 
-        let userExist = "select userPassword from users where userEmail = '" + data.username + "'";
+        let userExist = "select password from users where username = '" + data.username + "'";
 
-        let insertUser = "insert into users (userEmail, userPassword) values ('" + data.userEmail + "','" + password + "');";
-        console.log("---SQL Query " + insertUser);
+        let insertUser = "insert into users (username, password) values ('" + data.username + "','" + password + "');";
+        console.log("signup - SQL Query " + insertUser);
 
         mysql.fetchData(function (err, result) {
-                if (err) {
-                    console.log(err);
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(result);
+                console.log(result.length);
+                if (result.rows === 1) {
+                    response.status = 401;
+                    response.message = "User Already Exists";
+                    callback(null, response);
                 }
                 else {
-                    console.log(result);
-                    console.log(result.length);
-                    if (result.rows === 1) {
-                        response.status = 401;
-                        response.message = "User Already Exists";
-                        callback(null, response);
-                    }
-                    else {
-                        mysql.insertData(function (err, result) {
-                            if (err) {
-                                console.log(err);
+                    mysql.insertData(function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            console.log(result);
+                            if (result.affectedRows === 1) {
+                                response.status = 200;
+                                response.username = data.username;
+                                response.message = "Signup Successful";
+                                callback(null, response);
                             }
                             else {
-                                console.log(result);
-                                if (result.affectedRows === 1) {
-                                    response.status = 200;
-                                    response.username = data.userEmail;
-                                    response.message = "Signup Successful";
-                                    callback(null, response);
-                                }
-                                else {
-                                    response.status = 400;
-                                    response.message = "Failed to Signup";
-                                    callback(null, response);
-                                }
+                                response.status = 400;
+                                response.message = "Failed to Signup";
+                                callback(null, response);
                             }
-                        }, insertUser);
-                    }
+                        }
+                    }, insertUser);
                 }
-            }, userExist
-        );
+            }
+        }, userExist);
     }
     catch
         (e) {

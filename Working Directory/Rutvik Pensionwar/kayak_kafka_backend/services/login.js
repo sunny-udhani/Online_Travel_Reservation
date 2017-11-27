@@ -9,7 +9,7 @@ handle_request = ((data, callback) => {
     };
     try {
         console.log("In Login");
-        let sqlQuery = "select userPassword from users where userEmail = '" + data.username + "'";
+        let sqlQuery = "select password from users where username = '" + data.username + "'";
         mysql.fetchData(function (err, result) {
             if (err) {
                 console.log(err);
@@ -22,10 +22,10 @@ handle_request = ((data, callback) => {
 
 
                     console.log("Password: " + data.password);
-                    console.log("User Password: " + result[0].userPassword);
-                    console.log(bcrypt.compareSync(data.password, result[0].userPassword));
+                    console.log("User Password: " + result[0].password);
+                    console.log(bcrypt.compareSync(data.password, result[0].password));
 
-                    if (bcrypt.compareSync(data.password, result[0].userPassword)) {
+                    if (bcrypt.compareSync(data.password, result[0].password)) {
                         response.status = 200;
                         response.username = data.username;
                         response.message = "Login Credentials are correct";

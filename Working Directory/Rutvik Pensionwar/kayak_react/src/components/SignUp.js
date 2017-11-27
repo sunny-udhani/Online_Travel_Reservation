@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
-import PropTypes from 'prop-types';
+import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
+
 import {signUpSuccess} from "../actions/index";
 import {doSignUp} from "../api/user/API_SignUp";
+
+import '../design/css/signupform.css'
 
 class SignUp extends Component {
 
@@ -29,15 +31,21 @@ class SignUp extends Component {
 
     handleSubmitClick() {
 
-        let formData = new FormData();
-        formData = this.state;
+        let userdata = new FormData();
+        userdata = this.state;
 
-        console.log("Formdata : " + formData);
+        console.log("Formdata : " + userdata);
 
-        doSignUp(formData)
+        doSignUp(userdata)
             .then((res) => {
                 if (res.status === 200) {
-                    this.props.handleSubmitRegister(res.userEmail);
+
+                    console.log("SignUp - username : " + res.username);
+                    console.log("Signup - message is - " + res.message);
+
+                    this.props.handleSubmitRegister(userdata.username);
+
+                    this.props.history.push("/u");
                 }
                 else if (res.status === 401) {
                     console.log("User Already Exists");
@@ -55,7 +63,8 @@ class SignUp extends Component {
     render() {
 
         return (
-            <div>
+            <div className="signupform">
+                <div className="form-modal" >
                 {/*<h4>SIGN UP</h4><br/>*/}
                 {/*<form>*/}
                 {/*<input type="text" name="user" placeholder="Username" />*/}
@@ -77,37 +86,41 @@ class SignUp extends Component {
                 {/*<div id="pane1" className="tab-pane">*/}
                 <form className="text-justify">
 
-                    <div className="form-group">
+                    <div>
                         <h5>Username</h5>
-                        <input onChange={(e) => this.handleChange(e)} type="email" id="userEmail"
-                               required="required" name="userEmail"
+                        <input onChange={(e) => this.handleChange(e)} type="email" id="username"
+                               required="required" name="username"
                                placeholder="" className="form-control input-sm"/>
                     </div>
-                    <div className="form-group">
+                    <br/>
+                    <div>
                         <h5>Password</h5>
                         <input onChange={(e) => this.handleChange(e)} type="password"
                                required="required" id="password" name="password"
                                placeholder="" className="form-control input-sm"/>
                     </div>
-
-                    <div className="form-group">
+                    <br/>
+                    <div>
                         <h5>First Name</h5>
                         <input onChange={(e) => this.handleChange(e)} type="text" id="firstName"
                                required name="firstName" placeholder=""
                                className="form-control input-sm"/>
                     </div>
-                    <div className="form-group">
+                    <br/>
+                    <div>
                         <h5>Last Name</h5>
                         <input onChange={(e) => this.handleChange(e)} type="text" required
                                id="lastName" name="lastName" placeholder=""
                                className="form-control input-sm"/>
                     </div>
-                    <div className="form-group">
+                    <br/>
+                    <div>
                         <h5>Date of Birth</h5>
                         <input onChange={(e) => this.handleChange(e)} type="date" required id="dob"
                                name="dob" className="form-control input-sm"/>
 
                     </div>
+                    <br/>
                     <div>
                         <h5>Gender</h5>
                         <input onChange={(e) => this.handleChange(e)} type="radio"
@@ -136,6 +149,7 @@ class SignUp extends Component {
                 {/*</div>*/}
                 {/*</div>*/}
             </div>
+            </div>
         );
     }
 }
@@ -148,10 +162,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        handleSubmitRegister: (userEmail) => {
-            dispatch(signUpSuccess(userEmail))
+        handleSubmitRegister: (username) => {
+            dispatch(signUpSuccess(username))
         }
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUp));

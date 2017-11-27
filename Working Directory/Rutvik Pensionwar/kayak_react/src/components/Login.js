@@ -5,6 +5,8 @@ import {connect} from "react-redux"
 import {login_success} from "../actions";
 import {doSignIn} from "../api/user/API_SignIn";
 
+import '../design/css/signinform.css'
+
 import UserHome from './user/UserHome';
 
 class Login extends Component {
@@ -44,46 +46,51 @@ class Login extends Component {
     render() {
         console.log("Props: " + this.props.isLoggedIn);
         return (
-            <div>
-                <form className="text-justify">
-                    <div className="form-group">
-                        <h4>Login</h4>
-                    </div>
-                    <div className="form-group">
-                        <input
-                            className="form-control input-sm"
-                            type="text"
-                            name="username"
-                            label="Username"
-                            placeholder=""
-                            onChange={(event) => {
-                                this.userDet.username = event.target.value;
 
-                            }}
-                        />
-                    </div>
+            <div className="signinform">
+                <div className="form-modal" >
+                    <form className="text-justify">
+                        <div className="">
+                            <h4>Login</h4>
+                        </div>
+                        <br/>
+                        <div>
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="username"
+                                label="Username"
+                                placeholder=""
+                                onChange={(event) => {
+                                    this.userDet.username = event.target.value;
 
-                    <div className="form-group">
-                        <input
-                            className="form-control input-sm"
-                            type="password"
-                            name="password"
-                            label="password"
-                            placeholder=""
-                            onChange={(event) => {
-                                this.userDet.password = event.target.value;
-                            }}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <button
-                            className="login loginmodal-submit btn-block"
-                            type="button"
-                            onClick={() => this.handleSignIn(this.userDet)}>
-                            Submit
-                        </button>
-                    </div>
-                </form>
+                                }}
+                            />
+                        </div>
+                        <br/>
+                        <div>
+                            <input
+                                className="form-control"
+                                type="password"
+                                name="password"
+                                label="password"
+                                placeholder=""
+                                onChange={(event) => {
+                                    this.userDet.password = event.target.value;
+                                }}
+                            />
+                        </div>
+                        <br/>
+                        <div>
+                            <button
+                                className="login loginmodal-submit btn-block"
+                                type="button"
+                                onClick={() => this.handleSignIn(this.userDet)}>
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }

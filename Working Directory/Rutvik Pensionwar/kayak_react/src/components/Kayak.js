@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import {Route, withRouter, Switch} from 'react-router-dom';
 import AdminHome from "./admin/AdminHome";
 import UserHome from "./user/UserHome";
 
@@ -25,11 +25,12 @@ class Kayak extends Component {
                         }/>
 
                         <Route exact path="/u" render={() => (
-                            <UserHome />
+                            <UserHome/>
                         )}/>
 
                         <Route path="/signup" render={() =>
-                            <SignUp handleSubmit={this.handleSubmit} invalidateUserSession={this.invalidateUserSession}/>
+                            <SignUp handleSubmit={this.handleSubmit}
+                                    invalidateUserSession={this.invalidateUserSession}/>
                         }/>
 
                         <Route path="/login" render={() =>
@@ -47,7 +48,7 @@ class Kayak extends Component {
                 </div>
                 <br/>
                 {/*<hr/>*/}
-                    {/*Footer*/}
+                {/*Footer*/}
                 {/*<hr/>*/}
             </div>
         )

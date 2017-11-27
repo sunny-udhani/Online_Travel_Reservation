@@ -51,15 +51,16 @@ router.post('/signup', function(req, res, next){
             else
             {
                 if(results.status === 200){
-                    console.log("Received username: "+results.username);
+                    req.session.username = results.username;
+                    console.log("Session username : "+results.username);
                     console.log("Local username: "+ req.body.username);
-                    res.status(results.status).send({"message":"Signup Successful"});
+                    res.status(results.status).send();
                 }
                 else if(results.status === 301){
-                    res.status(results.status).send({"message":"User already Exist"});
+                    res.status(results.status).send();
                 }
                 else if(results.status === 400) {
-                    res.status(results.status).send({"message":"Signup Failed"});
+                    res.status(results.status).send();
                 }
             }
         });

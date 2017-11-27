@@ -8,9 +8,9 @@ export function login_success(email, message) {
     }
 }
 
-export function signUpSuccess(userEmail) {
+export function signUpSuccess(username) {
     return {
         type: actionTypes.SIGN_UP,
-        userEmail
+        username
     }
 }
