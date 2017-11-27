@@ -1,6 +1,6 @@
-var passport = require("passport");
-var LocalStrategy = require("passport-local").Strategy;
-var kafka = require('./kafka/client');
+let passport = require("passport");
+let LocalStrategy = require("passport-local").Strategy;
+let kafka = require('./kafka/client');
 
 module.exports = function(passport) {
     passport.use('login', new LocalStrategy(function(username, password, done) {
@@ -14,9 +14,12 @@ module.exports = function(passport) {
                 else
                 {
                     if(results.status === 200){
-                        console.log("Received username: "+results.username);
                         console.log("Local username: "+ username);
-                        done(null,{username:results.username,status:results.status});
+                        done(null,results);
+                    }
+                    else if(results.status === 201){
+                        console.log("Local Admin username: "+ username);
+                        done(null,results);
                     }
                     else {
                         done(null,false);
