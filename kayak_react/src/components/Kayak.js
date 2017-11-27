@@ -34,7 +34,7 @@ class Kayak extends Component {
     showLoginOption = ((item)=>{
         console.log(item);
         console.log(this.props.admi);
-        API.getSession().then((response)=>{
+        API.validateSession().then((response)=>{
             if(response.status===200){
                 let username;
                 response.json().then((data)=>{
