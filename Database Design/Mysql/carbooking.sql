@@ -27,13 +27,13 @@ CREATE TABLE `carbooking` (
   `carId` mediumint(10) NOT NULL,
   `fromDate` date NOT NULL,
   `toDate` date NOT NULL,
-  `userEmail` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `rate` float NOT NULL,
   `fromTime` time NOT NULL,
   `toTime` time NOT NULL,
   PRIMARY KEY (`bookingId`),
-  KEY `userEmail_idx` (`userEmail`),
-  CONSTRAINT `carbooking_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `user` (`userEmail`) ON DELETE CASCADE
+  KEY `username_idx` (`username`),
+  CONSTRAINT `carbooking_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
