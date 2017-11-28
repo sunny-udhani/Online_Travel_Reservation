@@ -31,10 +31,10 @@ CREATE TABLE `flightbooking` (
   `toDate` date NOT NULL,
   `ticketPrice` int(5) NOT NULL,
   `totalAmount` int(6) NOT NULL,
-  `userEmail` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   PRIMARY KEY (`bookingId`),
-  KEY `userEmail_idx` (`userEmail`),
-  CONSTRAINT `flightbooking_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `user` (`userEmail`) ON DELETE CASCADE
+  KEY `username_idx` (`username`),
+  CONSTRAINT `flightbooking_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
