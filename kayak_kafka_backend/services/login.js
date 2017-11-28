@@ -1,27 +1,47 @@
-// var mongo = require("./mongo");
-// var mongoURL = "mongodb://localhost:27017/dropbox";
 let mysql = require('../mysql/mysql');
-var bcrypt = require("bcrypt");
+let bcrypt = require("bcrypt");
 
 handle_request = ((data, callback) => {
     let response = {
         status: 400
     };
+
+    // if(data.username==="admin" && data.password==="admin"){
+    //     response.status = 201;
+    //     response.username = data.username;
+    //     response.message = "Login Credentials are correct for admin";
+    //     callback(null, response);
+    // }
     try {
         console.log("In Login");
-        let sqlQuery = "select userPassword from users where userEmail = '" + data.username + "'";
+        let sqlQuery = "select password, accessInd from users where username = '" + data.username + "'";
         mysql.fetchData(function (err, result) {
             if (err) {
                 console.log(err);
             }
             else {
-
                 console.log(result);
-                console.log(result.length);
+                console.log("1: " + result.length);
+                console.log("2: " + result[0].password);
+                console.log("3: " + result[0].accessInd);
+
                 if (result.length === 1) {
-                    if (bcrypt.compareSync(data.password, result[0].userPassword)) {
-                        response.status = 200;
-                        response.message = "Login Credentials are correct";
+
+                    console.log("Password: " + data.password);
+                    console.log("User Password: " + result[0].password);
+                    console.log(bcrypt.compareSync(data.password, result[0].password));
+
+                    if (bcrypt.compareSync(data.password, result[0].password)) {
+                        if(result[0].accessInd === "admin") {
+                            response.status = 201;
+                            response.username = data.username;
+                            response.message = "Admin Login Credentials are correct";
+                        }
+                        else {
+                            response.status = 200;
+                            response.username = data.username;
+                            response.message = "User Login Credentials are correct";
+                        }
                     }
                     else {
                         response.message = "Password is incorrect. Please try again";

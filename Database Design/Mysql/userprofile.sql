@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `userprofile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userprofile` (
-  `userEmail` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `street` varchar(50) NOT NULL,
@@ -34,8 +34,8 @@ CREATE TABLE `userprofile` (
   `profileImage` varchar(100) DEFAULT NULL,
   `dateofbirth` date DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`userEmail`),
-  CONSTRAINT `userEmail` FOREIGN KEY (`userEmail`) REFERENCES `user` (`userEmail`) ON DELETE CASCADE
+  PRIMARY KEY (`username`),
+  CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

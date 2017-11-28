@@ -2,7 +2,7 @@ import {handleAddtoCart, handleRemoveFromCart} from "../actions/index";
 import {actionTypes} from "../actions/actionTypes";
 
 const initial_state = {
-    email: "",
+    username: "",
     isLoggedIn: false,
     message: ""
 };
@@ -11,15 +11,19 @@ const signIn = (state , action) => {
     console.log("signIn");
     return {
         ...state,
-        email: action.email,
+        username: action.email,
         message: action.message,
         isLoggedIn: true
     }
 };
 
 const signUp = (state , action) => {
-    console.log("signUp");
-
+    console.log("In reducer - signUp");
+    console.log("Username is : " + action.username);
+    return {
+        ...state,
+        username: action.username
+    }
 };
 
 const handleActions = (state = initial_state, action) => {

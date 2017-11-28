@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import {Route, withRouter, Switch} from 'react-router-dom';
 import AdminHome from "./admin/AdminHome";
 import UserHome from "./user/UserHome";
+
 import Login from "./Login";
 import HostHome from "./host/HostHome";
+import SignUp from "./SignUp";
+import Home from "./user/Home";
+
+import '../design/css/home.css'
 
 class Kayak extends Component {
-
 
     handleSubmit = (userdata) => {
     };
@@ -15,21 +19,18 @@ class Kayak extends Component {
         return (
             <div>
                 <div className="container-fluid">
-                    {/*<hr/>*/}
-                        {/*Header*/}
-                    {/*<hr/>*/}
-                    {/*<Link to='/admin'><span className="glyphicon glyphicon-circle-arrow-right"></span>Admin</Link>*/}
                     <Switch>
                         <Route exact path="/" render={() =>
-                            <UserHome/>
+                            <Home/>
                         }/>
 
-                        <Route path="/u" render={() =>
+                        <Route exact path="/u" render={() => (
                             <UserHome/>
-                        }/>
+                        )}/>
 
                         <Route path="/signup" render={() =>
-                            <Login handleSubmit={this.handleSubmit} invalidateUserSession={this.invalidateUserSession}/>
+                            <SignUp handleSubmit={this.handleSubmit}
+                                    invalidateUserSession={this.invalidateUserSession}/>
                         }/>
 
                         <Route path="/login" render={() =>
@@ -47,7 +48,7 @@ class Kayak extends Component {
                 </div>
                 <br/>
                 {/*<hr/>*/}
-                    {/*Footer*/}
+                {/*Footer*/}
                 {/*<hr/>*/}
             </div>
         )

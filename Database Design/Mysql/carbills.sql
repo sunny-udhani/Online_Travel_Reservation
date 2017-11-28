@@ -27,12 +27,12 @@ CREATE TABLE `carbills` (
   `bookingId` mediumint(10) NOT NULL,
   `totalAmount` float NOT NULL,
   `billDate` date NOT NULL,
-  `userEmail` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   PRIMARY KEY (`billId`),
   KEY `bookingId_idx` (`bookingId`),
-  KEY `userEmail_idx` (`userEmail`),
+  KEY `username_idx` (`username`),
   CONSTRAINT `carbills_ibfk_1` FOREIGN KEY (`bookingId`) REFERENCES `carbooking` (`bookingId`) ON DELETE CASCADE,
-  CONSTRAINT `carbills_ibfk_2` FOREIGN KEY (`userEmail`) REFERENCES `user` (`userEmail`) ON DELETE CASCADE
+  CONSTRAINT `carbills_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
