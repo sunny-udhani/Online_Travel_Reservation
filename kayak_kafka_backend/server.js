@@ -1,4 +1,5 @@
 let connection =  new require('./kafka/Connection');
+let req_topics =  require('./config/topic_enum').req_topic_names;
 
 require('./config/mongooseConfig');
 
