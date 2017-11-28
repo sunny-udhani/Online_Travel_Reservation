@@ -7,7 +7,7 @@ const initial_state = {
     message: ""
 };
 
-const signIn = (state , action) => {
+const signIn = (state, action) => {
     console.log("signIn");
     return {
         ...state,
@@ -18,8 +18,29 @@ const signIn = (state , action) => {
 };
 
 const signUp = (state , action) => {
-    console.log("signUp");
+    console.log("In reducer - signUp");
+    console.log("Username is : " + action.username);
+    return {
+        ...state,
+        username: action.username
+    }
+};
 
+
+const hotelList_Success = (state, action) => {
+    console.log("hotelList");
+    return {
+        ...state,
+        hotelList: action.hotelList
+    }
+};
+
+const filter_change = (state, action) => {
+    console.log("hotelList");
+    return {
+        ...state,
+        filterInd: action.filterInd
+    }
 };
 
 const handleActions = (state = initial_state, action) => {
@@ -29,6 +50,10 @@ const handleActions = (state = initial_state, action) => {
             return signIn(state, action);
         case actionTypes.SIGN_UP :
             return signUp(state, action);
+        case actionTypes.HOTEL_LISTING_SUCCESS :
+            return hotelList_Success(state, action);
+        case actionTypes.FILTER_PRICE_CHANGE :
+            return filter_change(state, action);
         default:
             return state;
     }
