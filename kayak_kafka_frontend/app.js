@@ -1,15 +1,16 @@
 let express = require('express');
 let path = require('path');
-let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-
 let passport = require('passport');
 let cors = require('cors');
 
 let index = require('./routes/index');
 let users = require('./routes/users');
+
+let admin = require('./routes/admin');
+let listings = require('./routes/listings');
 
 let mongoSessionURL = "mongodb://localhost:27017/kayak";
 let expressSessions = require("express-session");
@@ -29,8 +30,8 @@ let corsOptions = {
     origin: 'http://localhost:3000',
     credentials: true,
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -52,7 +53,8 @@ app.use(passport.initialize());
 
 app.use('/', index);
 app.use('/users', users);
-// app.use('/login', login);
+app.use('/admin', admin);
+app.use('/listings', listings);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
