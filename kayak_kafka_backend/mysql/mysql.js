@@ -1,3 +1,4 @@
+let fs = require('fs');
 let mysql = require('mysql');
 let connection;
 
@@ -5,22 +6,34 @@ let connection;
 //Put your mysql configuration settings - user, password, database and port
 function getConnection() {
     connection = mysql.createConnection({
-        host: 'localhost',
+        host: '35.188.193.23',
         user: 'root',
-        database: 'dropbox',
+        password: 'kayak',
+        database: 'kayak',
         port: 3306,
-        debug: false
+        debug: false,
+        ssl      : {
+            ca   : fs.readFileSync('D:\\certs\\server-ca.pem'), // should be enough for AWS
+            key  : fs.readFileSync('D:\\certs\\client-key.pem'), // required for google mysql cloud db
+            cert : fs.readFileSync('D:\\certs\\client-cert.pem'), // required for google mysql cloud db
+        }
     });
     return connection;
 }
 
 let pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'localhost',
+    host: '35.188.193.23',
     user: 'root',
-    database: 'dropbox',
+    password: 'kayak',
+    database: 'kayak',
     port: 3306,
-    debug: false
+    debug: false,
+    ssl      : {
+        ca   : fs.readFileSync('D:\\certs\\server-ca.pem'), // should be enough for AWS
+        key  : fs.readFileSync('D:\\certs\\client-key.pem'), // required for google mysql cloud db
+        cert : fs.readFileSync('D:\\certs\\client-cert.pem'), // required for google mysql cloud db
+    }
 });
 
 function insertData(callback, sqlQuery) {

@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var mongoURL = "mongodb://localhost:27017/Kayak";
 
 //mongoose.connect(mongoURL);
 
@@ -13,9 +12,8 @@ var carSchema = new Schema({
     },
     hostId: {
         type: Schema.Types.ObjectId,
-        required: true,
-        ref:'Host'
-    }
+        required: true
+    },
     carName: {
         type: String,
         required: true
@@ -53,23 +51,17 @@ var carSchema = new Schema({
     ratings: {
         userId: {
             type: Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
         },
         rating: {
             type: Number,
-            required: true
         }
     },
     reviews: {
         userId: {
             type: Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
         },
         reviews: {
-            type: String,
-            required: true
+            type: String
         }
     }
 

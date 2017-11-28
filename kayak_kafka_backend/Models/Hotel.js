@@ -1,20 +1,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var mongoURL = "mongodb://localhost:27017/Kayak";
 
-//mongoose.connect(mongoURL);
 
-var hotelSchema = new Schema({
+let hotelSchema = new Schema({
 
-    hotelId: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
+    // hotelId: {
+    //     type: Schema.Types.ObjectId,
+    //     required: true
+    // },
     hostId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref:'Host'
+        type: String,
+        required: true
     },
     hotelName: {
         type: String,
