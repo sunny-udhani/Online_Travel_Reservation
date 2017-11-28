@@ -28,10 +28,10 @@ CREATE TABLE `hotelbooking` (
   `fromDate` date NOT NULL,
   `toDate` date NOT NULL,
   `noOfPeople` varchar(45) NOT NULL,
-  `userEmail` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
   PRIMARY KEY (`bookingId`),
-  KEY `userEmail_idx` (`userEmail`),
-  CONSTRAINT `hotelbooking_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `user` (`userEmail`) ON DELETE CASCADE
+  KEY `username_idx` (`username`),
+  CONSTRAINT `hotelbooking_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
