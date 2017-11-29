@@ -1,5 +1,4 @@
 const winston = require('winston');
-winston.exceptions
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
