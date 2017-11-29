@@ -5,9 +5,10 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let passport = require('passport');
 let cors = require('cors');
-
+let redis = require('./config/redisConnect');
 let index = require('./routes/index');
 let users = require('./routes/users');
+let WinstonLogger = require('./config/winstonLogger');
 
 let admin = require('./routes/admin');
 let listings = require('./routes/listings');

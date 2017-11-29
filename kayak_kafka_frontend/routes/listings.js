@@ -1,11 +1,6 @@
 const express = require('express');
-const redis = require("redis");
-const redis_client = redis.createClient();
-
-redis_client.on('connect', function () {
-    console.log('connected');
-});
-
+const logger = require('winston');
+const redis_client = require("../config/redisConnect").getClient();
 const router = express.Router();
 const req_topic_enums = require('../config/topic_enum').req_topic_names;
 const kafka = require('./kafka/client');
@@ -19,6 +14,7 @@ router.post('/getHotels', function (req, res) {
     try {
         if (req.body.criteria) {
 
+            logger.info({message :{for: 'Hotel Listing request', data : {user: (req.session.username? req.session.username : "potential customer"), url_clicked: '/listings/hotels'}}});
             redis_client.hget(req.body.criteria.toString(), req.body.criteria.toString(), function (err, reply) {
 
                 if (err) {
