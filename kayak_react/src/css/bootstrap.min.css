@@ -4830,7 +4830,7 @@ button.close {
 }
 @media (min-width: 768px) {
 .modal-dialog {
-    margin: 30px auto;
+    margin: 225px auto;
     width: 600px;
 }
 .modal-content {
