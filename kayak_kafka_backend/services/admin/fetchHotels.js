@@ -1,4 +1,5 @@
 let Hotel = require('../../Models/Hotel');
+let ObjectId = require('mongodb').ObjectID;
 
 handle_request = ((data, callback) => {
     let response = {
@@ -7,7 +8,14 @@ handle_request = ((data, callback) => {
 
     try {
         console.log("Hotel Fetch");
-        Hotel.find({}, function (err, results) {
+        let query={};
+        if(data!=={}){
+            if(data.hotelId!== undefined && data.hotelId!== null){
+                query = {_id : ObjectId(data.hotelId)}
+            }
+        }
+        console.log(query);
+        Hotel.find(query, function (err, results) {
             if(err){
                 console.log(err);
             }
