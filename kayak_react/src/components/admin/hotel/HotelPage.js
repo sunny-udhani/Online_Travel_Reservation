@@ -235,13 +235,16 @@ class HotelPage extends Component {
                                                     <thead>
                                                     <tr>
                                                         <th>
-                                                            Host Id
-                                                        </th>
-                                                        <th>
-                                                            Hotel Id
+                                                            Host
                                                         </th>
                                                         <th>
                                                             Hotel Name
+                                                        </th>
+                                                        <th>
+                                                            City
+                                                        </th>
+                                                        <th>
+                                                            State
                                                         </th>
                                                     </tr>
                                                     </thead>
