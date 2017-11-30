@@ -1,17 +1,10 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
+let carSchema = new Schema({
 
-//mongoose.connect(mongoURL);
-
-var carSchema = new Schema({
-
-    carId: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
     hostId: {
-        type: Schema.Types.ObjectId,
+        type: String,
         required: true
     },
     carName: {
@@ -22,15 +15,20 @@ var carSchema = new Schema({
         type: String,
         required: true
     },
-    carSpecification: {
-        capacity: {
-            type: Number,
-            required: true
-        }
+    carMake: {
+        type: String,
+        required: true
+    },
+    carModel: {
+        type: String,
+        required: true
+    },
+    capacity: {
+        type: Number,
+        required: true
     },
     images: {
-        type: String,
-        required: false
+        type: String
     },
     city: {
         type: String,
@@ -67,6 +65,6 @@ var carSchema = new Schema({
 
 });
 
-var Car = mongoose.model('Car', carSchema);
+let Car = mongoose.model('car', carSchema);
 
 module.exports = Car;
