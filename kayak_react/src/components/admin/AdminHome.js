@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Route, withRouter, Switch, Link } from 'react-router-dom';
 import HotelPage from "./hotel/HotelPage";
-import FlightPage from "./FlightPage";
+import FlightPage from "./flight/FlightPage";
 import CarPage from "./CarPage";
 import AdminProfile from "./AdminProfile";
 

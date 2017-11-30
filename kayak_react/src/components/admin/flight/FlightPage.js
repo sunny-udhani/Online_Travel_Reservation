@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import * as API from "../../api/admin/API";
-import ShowFlights from "./flight/ShowFlights";
+import * as API from "../../../api/admin/API";
+import ShowFlights from "./ShowFlights";
 import {
     Badge,
     Row,
@@ -25,7 +25,7 @@ import {
     InputGroupAddon,
     InputGroupButton
 } from 'reactstrap';
-import {setFlightData_Success, addFlightData_Success} from "../../actions";
+import {setFlightData_Success, addFlightData_Success} from "../../../actions";
 import {connect} from "react-redux"
 
 class FlightPage extends Component {
