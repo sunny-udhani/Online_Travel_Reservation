@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import "../../../modal.css";
 
 class ShowRooms extends Component {
 
@@ -11,23 +10,44 @@ class ShowRooms extends Component {
             <tbody>
             <tr>
                 <td>
+                    Room Type :
+                </td>
+                <td>
                     {room.roomType}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Room Capacity :
                 </td>
                 <td>
                     {room.roomCapacity}
                 </td>
+            </tr>
+            <tr>
+                <td>
+                    Room Price :
+                </td>
                 <td>
                     {room.roomPrice}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Numer of Rooms :
                 </td>
                 <td>
                     {room.noOfRooms}
                 </td>
-                <td>
-                <button className="btn btn-primary" onClick={(()=>{
-                    this.props.changeShowAddRoomStatus(true, room.roomType, room._id);
-                })}>
-                    Change
-                </button>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button className="btn btn-primary" onClick={(()=>{
+                        // this.props.changeShowAddRoomStatus(true, room.roomType, room._id);
+                        this.props.changeShowAddRoomStatus(true, room);
+                    })}>
+                        Change
+                    </button>
                 </td>
             </tr>
             </tbody>
