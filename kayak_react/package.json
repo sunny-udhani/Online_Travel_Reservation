@@ -12,7 +12,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
     "redis": "^2.8.0",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "reactstrap": "^5.0.0-alpha.4"
   },
   "scripts": {
     "start": "react-scripts start",
