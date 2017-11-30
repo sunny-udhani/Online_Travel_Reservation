@@ -19,10 +19,12 @@ const logger = winston.createLogger({
             json: false,
             colorize: true
         }),
-        new (winston.transports.Console)({
+        new winston.transports.Console({
             timestamp: tsFormat,
+            level: 'info',
+            handleExceptions: true,
+            json: false,
             colorize: true,
-            level: 'info'
         }),
         new winston.transports.File({
             filename: `${logDir}/analytics.log`,
