@@ -3,6 +3,7 @@ import { Route, withRouter, Switch, Link } from 'react-router-dom';
 import HotelPage from "./hotel/HotelPage";
 import FlightPage from "./flight/FlightPage";
 import CarPage from "./CarPage";
+import AdminDashboard from "./AdminDashboard";
 import AdminProfile from "./AdminProfile";
 
 class AdminHome extends Component {
@@ -31,6 +32,15 @@ class AdminHome extends Component {
                             </div>
                         )
                     }}/>
+
+                    <Route path="/admin/dashboard" render={() => (
+                        <AdminDashboard
+                            validateUserSession={this.validateUserSession}
+                            handleLogout={this.handleLogout}
+                            handlePageChange={this.props.handlePageChange}
+                            // username={this.state.username}
+                        />
+                    )}/>
 
                     <Route path="/admin/hotel" render={() => (
                         <HotelPage
