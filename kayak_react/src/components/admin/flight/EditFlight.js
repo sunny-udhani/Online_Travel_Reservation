@@ -57,14 +57,14 @@ class EditFlight extends Component {
                 response.json().then((data)=>{
                     console.log(data);
                     console.log(data[0]);
-                    this.editFLightData = data[0];
+                    this.editFlightData = data[0];
                     this.setState(({
                         // ...this.state,
                         edit : data[0],
                         classes : data[0].classes
                     }));
                     console.log(data[0].classes);
-                    console.log(this.editFLightData);
+                    console.log(this.editFlightData);
                     // console.log(data[0].departureDate.substring(0,data[0].departureDate.indexOf("T")))
                 });
             }
@@ -122,7 +122,7 @@ class EditFlight extends Component {
             console.log(response.status);
             if(response.status===200){
                 // this.props.fetchFlights({flightId:data._id});
-                this.props.fetchFlights();
+                this.props.fetchFlights({"flighId":data._id});
                 this.props.handlePageChange("/admin/flight");
             }
             else if(response.status===300)
@@ -135,7 +135,7 @@ class EditFlight extends Component {
         });
     });
 
-    editFLightData = {};
+    editFlightData = {};
 
     editFlightClass = ((flightData, flightId) => {
         console.log(flightId);
@@ -256,9 +256,9 @@ class EditFlight extends Component {
                                                 <input type="text" className="form-control form-input1" value={this.state.edit.hostId}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               hostId : event.target.value
+                                                               ...this.state
                                                            });
-                                                           this.editFLightData.hostId = event.target.value;
+                                                           this.editFlightData.hostId = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -271,9 +271,9 @@ class EditFlight extends Component {
                                                 <input type="text" className="form-control form-input1" value={this.state.edit.flightOperator}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               flightOperator : event.target.value
+                                                               ...this.state
                                                            });
-                                                           this.editFLightData.flightOperator = event.target.value;
+                                                           this.editFlightData.flightOperator = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -286,9 +286,9 @@ class EditFlight extends Component {
                                                 <input type="text" className="form-control form-input1" value={this.state.edit.flightNo}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               flightNo : event.target.value
+                                                               ...this.state
                                                            });
-                                                           this.editFLightData.hotelName = event.target.value;
+                                                           this.editFlightData.flightNo = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -302,9 +302,10 @@ class EditFlight extends Component {
                                                        value={this.state.edit.departureDate===undefined ? "" : this.state.edit.departureDate.substring(0,this.state.edit.departureDate.indexOf("T"))}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               departureDate : event.target.value
+                                                               ...this.state
+                                                               // departureDate : event.target.value
                                                            });
-                                                           this.editFLightData.departureDate = event.target.value;
+                                                           this.editFlightData.departureDate = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -318,9 +319,8 @@ class EditFlight extends Component {
                                                        value={this.state.edit.departureTime}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               departureTime : event.target.value
-                                                           });
-                                                           this.editFLightData.departureTime = event.target.value;
+                                                               ...this.state                                                           });
+                                                           this.editFlightData.departureTime = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -334,9 +334,8 @@ class EditFlight extends Component {
                                                        value={this.state.edit.arrivalDate===undefined ? "" : this.state.edit.arrivalDate.substring(0,this.state.edit.arrivalDate.indexOf("T"))}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               arrivalDate : event.target.value
-                                                           });
-                                                           this.editFLightData.arrivalDate = event.target.value;
+                                                               ...this.state                                                           });
+                                                           this.editFlightData.arrivalDate = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -350,9 +349,8 @@ class EditFlight extends Component {
                                                        value={this.state.edit.arrivalTime}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               arrivalTime : event.target.value
-                                                           });
-                                                           this.editFLightData.arrivalTime = event.target.value;
+                                                               ...this.state                                                           });
+                                                           this.editFlightData.arrivalTime = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -365,9 +363,8 @@ class EditFlight extends Component {
                                                 <input type="text" className="form-control form-input1" value={this.state.edit.duration}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               duration : event.target.value
-                                                           });
-                                                           this.editFLightData.duration = event.target.value;
+                                                               ...this.state                                                           });
+                                                           this.editFlightData.duration = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -380,9 +377,8 @@ class EditFlight extends Component {
                                                 <input type="text" className="form-control form-input1" value={this.state.edit.origin}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               origin : event.target.value
-                                                           });
-                                                           this.editFLightData.origin = event.target.value;
+                                                               ...this.state                                                           });
+                                                           this.editFlightData.origin = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -395,9 +391,8 @@ class EditFlight extends Component {
                                                 <input type="text" className="form-control form-input1" value={this.state.edit.destination}
                                                        onChange={((event)=>{
                                                            this.setState({
-                                                               destination : event.target.value
-                                                           });
-                                                           this.editFLightData.destination = event.target.value;
+                                                               ...this.state                                                           });
+                                                           this.editFlightData.destination = event.target.value;
                                                        })}
                                                 />
                                             </td>
@@ -427,11 +422,11 @@ class EditFlight extends Component {
                                 </div>
                             </CardBody>
                             <CardFooter className="text-center">
-                                    <Button type="button" className="btn-primary" value="Save" onClick={(()=>{this.editFlight(this.editFLightData)})}>Save</Button>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <Button type="button" className="btn-primary"
-                                            onClick={(()=>{this.props.handlePageChange("/admin/flight")})}
-                                    >Back</Button>
+                                <Button type="button" className="btn-primary" value="Save" onClick={(()=>{this.editFlight(this.editFlightData)})}>Save</Button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <Button type="button" className="btn-primary"
+                                        onClick={(()=>{this.props.handlePageChange("/admin/flight")})}
+                                >Back</Button>
                             </CardFooter>
                         </Card>
                     </Col>

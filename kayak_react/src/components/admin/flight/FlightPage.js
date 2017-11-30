@@ -283,10 +283,6 @@ class FlightPage extends Component {
             if(response.status===200){
                 response.json().then((data)=>{
                     console.log(data);
-                    /*this.setState({
-                        ...this.state,
-                        flights : data
-                    });*/
                     this.props.setFlightData_Success(data);
                 });
             }
@@ -317,12 +313,10 @@ class FlightPage extends Component {
                     <Route exact path="/admin/flight" render={(()=>{
                         return (
                             <div>
-                                <h1>Flight</h1>
                                 <div>
                                     {
                                         this.showAddFlight()
                                     }
-
                                 </div>
                                 <div className="animated fadeIn">
                                     <Row>
@@ -343,7 +337,9 @@ class FlightPage extends Component {
                                                         <tr>
                                                             <th>Host</th>
                                                             <th>flight Number</th>
-                                                            <th>Flight Operator</th>
+                                                            <th>flight Origin</th>
+                                                            <th>flight Destination</th>
+                                                            <th>flight Duration</th>
                                                             {/*<th></th>*/}
                                                         </tr>
                                                         </thead>

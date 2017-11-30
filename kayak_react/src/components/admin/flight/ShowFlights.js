@@ -18,16 +18,19 @@ class ShowFlights extends Component {
         return (
             <tr>
                 <td>
-                    {flight.hostId}
-                </td>
-                <td>
-                    {flight._id}
+                    {flight.flightOperator}
                 </td>
                 <td>
                     {flight.flightNo}
                 </td>
                 <td>
-                    {flight.flightOperator}
+                    {flight.origin}
+                </td>
+                <td>
+                    {flight.destination}
+                </td>
+                <td>
+                    {flight.duration}
                 </td>
                 <td>
                     <Link
