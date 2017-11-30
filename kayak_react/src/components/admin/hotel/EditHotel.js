@@ -36,25 +36,9 @@ class EditHotel extends Component {
             rooms : [],
             hotel : {},
             modal : false,
-            changeRoom : false
+            changeRoom : false,
+            hotelId : ""
         };
-    }
-
-    componentWillMount(){
-        // let hotelId=this.props.match.params;
-        // API.fetchHotels(hotelId).then((response)=>{
-        //     console.log(response.status);
-        //     if(response.status===200) {
-        //         response.json().then((data)=>{
-        //             console.log(data);
-        //             this.editHotelData= data;
-        //             console.log(this.editHotelData);
-        //         });
-        //     }
-        //     else {
-        //         console.log("Error While fetching data");
-        //     }
-        // });
     }
 
     toggle = (()=>{
@@ -70,8 +54,7 @@ class EditHotel extends Component {
         if(show){
             this.roomdata = room;
             this.setState({
-                room : room,
-                changeRoom : true
+                room : room
             });
         }
         else {
@@ -86,9 +69,10 @@ class EditHotel extends Component {
     });
 
     editHotel = ((data)=>{
-        data.room = this.roomdata;
-        data.room.change = this.state.changeRoom;
         console.log(data);
+        if(this.roomdata!==undefined){
+            data.room = this.roomdata;
+        }
         // delete data["_id"];
         // console.log(data);
         API.modifyHotelData(data).then((response) => {
@@ -109,9 +93,10 @@ class EditHotel extends Component {
 
     editHotelData = {};
 
-    componentDidMount(){
-        let hotelId=this.props.match.params;
-        API.fetchHotels(hotelId).then((response)=>{
+
+    fetchHotelToModify = ((hotelId)=>{
+        let hotel = {"hotelId" : hotelId};
+        API.fetchHotels(hotel).then((response)=>{
             console.log(response.status);
             if(response.status===200) {
                 response.json().then((data)=>{
@@ -130,6 +115,15 @@ class EditHotel extends Component {
                 console.log("Error While fetching data");
             }
         });
+    });
+
+    componentWillMount(){
+        let hotelId=this.props.match.params.hotelId;
+        this.setState({
+            ...this.state,
+            hotelId : hotelId
+        });
+        this.fetchHotelToModify(hotelId);
     }
 
     addRoom = ((roomdata, hotelId) => {
@@ -214,10 +208,13 @@ class EditHotel extends Component {
                         />
                         <input type="button" value="Cancel"
                                className="btn btn-primary"
-                               onClick={(()=>{this.setState({
-                                   ...this.state,
-                                   modal : false
-                               })})}
+                               onClick={(()=>{
+                                   this.setState({
+                                       ...this.state,
+                                       modal : false
+                                   });
+                                   this.fetchHotelToModify(this.state.hotelId);
+                               })}
                         />
                     </ModalFooter>
                 </Modal>
@@ -317,7 +314,7 @@ class EditHotel extends Component {
                                         </tr>
                                         <tr>
                                             <th>
-                                                <label className="h4">Zip Code:</label>
+                                                <label className="h4">Stars:</label>
                                             </th>
                                             <td>
                                                 <input type="text" className="form-control form-input1" value={this.state.edit.stars}
@@ -354,8 +351,9 @@ class EditHotel extends Component {
                                     {this.showAddRoom()}
                                 </div>
                             </CardBody>
-                            <CardFooter className="center-block">
-                                <Button type="button" className="btn-primary" value="Edit" onClick={(()=>{this.editHotel(this.editHotelData)})}>EDIT</Button>
+                            <CardFooter className="text-center">
+                                <Button type="button" className="btn-primary" value="Edit"
+                                        onClick={(()=>{this.editHotel(this.editHotelData)})}>EDIT</Button>
                                 <Button type="button" className="btn-primary"
                                         onClick={(()=>{this.props.handlePageChange("/admin/hotel")})}
                                 >Back</Button>

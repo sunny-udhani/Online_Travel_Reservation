@@ -61,4 +61,22 @@ export function addHotelData_Success(hotelData) {
     }
 }
 
+export function setCarData_Success(carData) {
+    console.log(carData);
+    return {
+        type: actionTypes.ADMIN_CAR_LISTING_SUCCESS,
+        carData
+    }
+}
+
+export function addCarData_Success(carData) {
+    console.log(carData);
+    return {
+        type: actionTypes.ADMIN_ADD_CAR_SUCCESS,
+        carData
+    }
+}
+
+
+
 

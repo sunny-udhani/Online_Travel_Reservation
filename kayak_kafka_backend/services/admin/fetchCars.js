@@ -1,4 +1,4 @@
-let Flight = require('../../Models/Flight');
+let Car = require('../../Models/Car');
 let ObjectId = require('mongodb').ObjectID;
 
 handle_request = ((data, callback) => {
@@ -7,19 +7,18 @@ handle_request = ((data, callback) => {
     };
 
     try {
-        console.log("Flights Fetch");
+        console.log("Car Fetch");
         let query={};
         if(data!=={}){
-            if(data.flightId!== undefined && data.flightId!== null){
-                query = {
-                    _id : ObjectId(data.flightId)
-                }
+            if(data.carId!== undefined && data.carId!== null){
+                query = {_id : ObjectId(data.carId)}
             }
         }
         console.log(query);
-        Flight.find(query, function (err, results) {
+        Car.find(query, function (err, results) {
             if(err){
                 console.log(err);
+                callback(err, response);
             }
             else {
                 console.log("results : ");

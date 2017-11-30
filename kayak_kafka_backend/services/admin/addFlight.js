@@ -10,18 +10,17 @@ handle_request = ((data, callback) => {
         let flight = new Flight({
             flightNo : data.flightNo,
             hostId : data.hostId,
-            flightOperator: data.flightOperator,
+            flightOperator: data.flightOperator.toLowerCase(),
             departureDate : data.departureDate,
             arrivalDate : data.arrivalDate,
             departureTime : data.departureTime,
             arrivalTime : data.arrivalTime,
             duration : data.duration,
-            origin : data.origin,
-            destination : data.destination,
+            origin : data.origin.toLowerCase(),
+            destination : data.destination.toLowerCase(),
             flightImage : data.flightImage,
             classes : data.classes
         });
-        // console.log(flight);
         flight.save(function (err, results) {
             if(err){
                 console.log(err);

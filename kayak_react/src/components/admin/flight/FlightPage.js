@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import * as API from "../../../api/admin/API";
 import ShowFlights from "./ShowFlights";
+import {Switch, Route, withRouter} from 'react-router-dom';
 import {
     Badge,
     Row,
@@ -27,6 +28,7 @@ import {
 } from 'reactstrap';
 import {setFlightData_Success, addFlightData_Success} from "../../../actions";
 import {connect} from "react-redux"
+import EditFlight from "./EditFlight";
 
 class FlightPage extends Component {
 
@@ -275,16 +277,12 @@ class FlightPage extends Component {
 
     });
 
-    componentWillMount(){
-        API.fetchFlights().then((response) => {
+    fetchFlights = ((data)=>{
+        API.fetchFlights(data).then((response) => {
             console.log(response.status);
             if(response.status===200){
                 response.json().then((data)=>{
                     console.log(data);
-                    /*this.setState({
-                        ...this.state,
-                        flights : data
-                    });*/
                     this.props.setFlightData_Success(data);
                 });
             }
@@ -292,6 +290,10 @@ class FlightPage extends Component {
                 console.log("Error while fetching flight data");
             }
         })
+    });
+
+    componentWillMount(){
+        this.fetchFlights();
     }
 
     render() {
@@ -307,73 +309,94 @@ class FlightPage extends Component {
 
         return (
             <div className="container-fluid">
-                <h1>Flight</h1>
-                <div>
-                    {
-                        this.showAddFlight()
-                    }
-                    <button className="btn btn-primary" onClick={(()=>{
-                        this.setState({
-                            ...this.state,
-                            modal : true
-                        })
-                    })}>Add Flight</button>
-                </div>
-                <div className="animated fadeIn">
-                    <Row>
-                        <Col xs="12" lg="12">
-                            <Card>
-                                <CardHeader>
-                                    Flights
-                                </CardHeader>
-                                <CardBody>
-                                    <Table responsive>
-                                        <thead>
-                                        <tr>
-                                            <th>hostid</th>
-                                            <th>flight no</th>
-                                            <th>flight operator</th>
-                                            {/*<th></th>*/}
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {
-                                            this.props.state.flightData.map((flight, index)=>{
-                                                return(
-                                                    <ShowFlights
-                                                        key={index}
-                                                        flight={flight}
-                                                    />
-                                                )
-                                            })
-                                        }
-                                        </tbody>
-                                    </Table>
-                                    <Pagination>
-                                        <PaginationItem>
-                                            <PaginationLink previous href="#"></PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem active>
-                                            <PaginationLink href="#">1</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">2</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">3</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">4</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink next href="#"></PaginationLink>
-                                        </PaginationItem>
-                                    </Pagination>
-                                </CardBody>
-                            </Card>
-                        </Col>
-                    </Row>
-                </div>
+                <Switch>
+                    <Route exact path="/admin/flight" render={(()=>{
+                        return (
+                            <div>
+                                <div>
+                                    {
+                                        this.showAddFlight()
+                                    }
+                                </div>
+                                <div className="animated fadeIn">
+                                    <Row>
+                                        <Col xs="12" lg="12">
+                                            <Card>
+                                                <CardHeader>
+                                                    Flights
+                                                    <Button className="btn-primary pull-right" onClick={(()=>{
+                                                        this.setState({
+                                                            ...this.state,
+                                                            modal : true
+                                                        })
+                                                    })}>Add Flight</Button>
+                                                </CardHeader>
+                                                <CardBody>
+                                                    <Table responsive>
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Host</th>
+                                                            <th>flight Number</th>
+                                                            <th>flight Origin</th>
+                                                            <th>flight Destination</th>
+                                                            <th>flight Duration</th>
+                                                            {/*<th></th>*/}
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {
+                                                            this.props.state.flightData.map((flight, index)=>{
+                                                                return(
+                                                                    <ShowFlights
+                                                                        key={index}
+                                                                        flight={flight}
+                                                                    />
+                                                                )
+                                                            })
+                                                        }
+                                                        </tbody>
+                                                    </Table>
+                                                    <Pagination>
+                                                        <PaginationItem>
+                                                            <PaginationLink previous href="#"></PaginationLink>
+                                                        </PaginationItem>
+                                                        <PaginationItem active>
+                                                            <PaginationLink href="#">1</PaginationLink>
+                                                        </PaginationItem>
+                                                        <PaginationItem>
+                                                            <PaginationLink href="#">2</PaginationLink>
+                                                        </PaginationItem>
+                                                        <PaginationItem>
+                                                            <PaginationLink href="#">3</PaginationLink>
+                                                        </PaginationItem>
+                                                        <PaginationItem>
+                                                            <PaginationLink href="#">4</PaginationLink>
+                                                        </PaginationItem>
+                                                        <PaginationItem>
+                                                            <PaginationLink next href="#"></PaginationLink>
+                                                        </PaginationItem>
+                                                    </Pagination>
+                                                </CardBody>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </div>
+                        )
+                    })}/>
+
+                    <Route path="/admin/flight/:flightId" render={((match)=>{
+                        return(
+                            <EditFlight
+                                // groups={this.state.groups}
+                                // context={match}
+                                {...match}
+                                handlePageChange = {this.props.handlePageChange}
+                                fetchFlights = {this.fetchFlights}
+                            />
+                        )
+                    })}/>
+                </Switch>
             </div>
         );
     }
@@ -399,5 +422,5 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FlightPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FlightPage));
 

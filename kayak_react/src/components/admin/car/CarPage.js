@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import * as API from "../../../api/admin/API";
-import ShowHotels from "./ShowHotels";
-import {Switch, Route} from 'react-router-dom';
+import ShowCars from "./ShowCars";
+import EditCar from "./EditCar";
+import {Switch, Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 import {
     Row,
@@ -26,33 +27,29 @@ import {
     InputGroupAddon,
     InputGroupButton
 } from 'reactstrap';
-import {setHotelData_Success, addHotelData_Success} from "../../../actions";
-import EditHotel from "./EditHotel";
-import withRouter from "react-router-dom/es/withRouter";
+import {setCarData_Success, addCarData_Success} from "../../../actions";
 
-class HotelPage extends Component {
+
+class CarPage extends Component {
 
     constructor(){
         super();
         this.state = {
-            modal : false,
-            hotels : []
+            modal : false
         };
     }
 
-
-    handleSubmit = () => {
-    };
-
-    addHotelData = {
-        hostId : "",
-        hotelName : "",
-        hotelAddress : "",
-        city : "",
-        state : "",
-        zipCode : "",
-        totalRooms : 0,
-        stars : 0
+    addCarData = {
+        hostId: "",
+        carName: "",
+        carType: "",
+        carMake: "",
+        carModel: "",
+        capacity: "",
+        city: "",
+        state: "",
+        zipCode: 0,
+        price: 0,
     };
 
     toggle = (()=>{
@@ -62,9 +59,9 @@ class HotelPage extends Component {
         })
     });
 
-    addHotel = ((hotelData)=>{
-        console.log(hotelData);
-        API.addHotel(hotelData).then((response)=>{
+    addCar = ((carData)=>{
+        console.log(carData);
+        API.addCar(carData).then((response)=>{
             console.log(response.status);
             if(response.status===200){
                 response.json().then((data)=>{
@@ -73,48 +70,107 @@ class HotelPage extends Component {
                         ...this.state,
                         modal : false
                     });
-                    // this.fetchHotels();
-                    this.props.addHotelData_Success(data);
+                    this.props.addCarData_Success(data);
                 });
             }
             else {
-                console.log("Error while adding hotel");
+                console.log("Error while adding Car");
             }
         });
     });
 
-    showAddHotel = (()=>{
+    fetchCars = ((data)=> {
+        console.log("Wil Mount CarPage");
+        API.fetchCars(data).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    /*this.setState({
+                        ...this.state,
+                        cars : data
+                    });*/
+                    this.props.setCarData_Success(data);
+                });
+            }
+            else {
+                console.log("Error");
+            }
+        });
+    });
+
+
+    componentWillMount(){
+        this.fetchCars();
+    }
+
+    showAddCar = (()=>{
         if(this.state.modal){
             return(
                 <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Add Hotel</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Add Car</ModalHeader>
                     <ModalBody>
                         <Row>
-
                             <Col xs="12">
                                 <FormGroup>
 
                                     <input type="text" className="form-input" placeholder="Host Id"
                                            onChange={(event)=>{
-                                               this.addHotelData.hostId = event.target.value;
+                                               this.addCarData.hostId = event.target.value;
                                            }}
                                     />
                                 </FormGroup>
                             </Col>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-input" placeholder="Hotel Name"
+                                    <input type="text" className="form-input" placeholder="Car Name"
                                            onChange={(event)=>{
-                                               this.addHotelData.hotelName = event.target.value;
+                                               this.addCarData.carName = event.target.value;
                                            }}
                                     />
                                 </FormGroup>
                             </Col>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-input" placeholder="Hotel Address"
+                                    <input type="text" className="form-input" placeholder="Car Type"
                                            onChange={(event)=>{
-                                               this.addHotelData.hotelAddress = event.target.value;
+                                               this.addCarData.carType = event.target.value;
+                                           }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-input" placeholder="Car Make"
+                                           onChange={(event)=>{
+                                               this.addCarData.carMake = event.target.value;
+                                           }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-input" placeholder="Car Model"
+                                           onChange={(event)=>{
+                                               this.addCarData.carModel = event.target.value;
+                                           }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="number" className="form-input" placeholder="Passenger Capacity"
+                                           onChange={(event)=>{
+                                               this.addCarData.capacity = event.target.value;
+                                           }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="number" className="form-input" placeholder="Price"
+                                           onChange={(event)=>{
+                                               this.addCarData.price = event.target.value;
                                            }}
                                     />
                                 </FormGroup>
@@ -123,7 +179,7 @@ class HotelPage extends Component {
                                 <FormGroup>
                                     <input type="text" className="form-input" placeholder="City"
                                            onChange={(event)=>{
-                                               this.addHotelData.city = event.target.value;
+                                               this.addCarData.city = event.target.value;
                                            }}
                                     />
                                 </FormGroup>
@@ -132,7 +188,7 @@ class HotelPage extends Component {
                                 <FormGroup>
                                     <input type="text" className="form-input" placeholder="State"
                                            onChange={(event)=>{
-                                               this.addHotelData.state = event.target.value;
+                                               this.addCarData.state = event.target.value;
                                            }}
                                     />
                                 </FormGroup>
@@ -141,16 +197,7 @@ class HotelPage extends Component {
                                 <FormGroup>
                                     <input type="number" className="form-input" placeholder="ZipCode"
                                            onChange={(event)=>{
-                                               this.addHotelData.zipCode = event.target.value;
-                                           }}
-                                    />
-                                </FormGroup>
-                            </Col>
-                            <Col xs="12">
-                                <FormGroup>
-                                    <input type="number" max="5" className="form-input" placeholder="Stars"
-                                           onChange={(event)=>{
-                                               this.addHotelData.stars = event.target.value;
+                                               this.addCarData.zipCode = event.target.value;
                                            }}
                                     />
                                 </FormGroup>
@@ -158,8 +205,8 @@ class HotelPage extends Component {
                         </Row>
                     </ModalBody>
                     <ModalFooter>
-                        <input type="button" value="Add Hotel" className="btn btn-primary"
-                               onClick={(()=>{this.addHotel(this.addHotelData)})}
+                        <input type="button" value="Add Car" className="btn btn-primary"
+                               onClick={(()=>{this.addCar(this.addCarData)})}
                         />
 
 
@@ -183,49 +230,33 @@ class HotelPage extends Component {
 
     });
 
-    fetchHotels = ((data)=> {
-        console.log("Wil Mount HotelPage");
-        API.fetchHotels(data).then((response) => {
-            console.log(response.status);
-            if(response.status===200){
-                response.json().then((data)=>{
-                    console.log(data);
-                    this.props.setHotelData_Success(data);
-                });
-            }
-        });
-    });
 
-
-    componentWillMount(){
-        this.fetchHotels();
-    }
 
     render() {
         return (
             <div className="container-fluid">
                 <Switch>
-                    <Route exact path="/admin/hotel" render={(()=>{
+                    <Route exact path="/admin/car" render={(()=>{
                         return (
                             <div>
                                 <div>
                                     {
-                                        this.showAddHotel()
+                                        this.showAddCar()
                                     }
 
                                 </div>
-                                {/*<div>*/}
                                 <Row>
                                     <Col xs="12" lg="12">
                                         <Card>
                                             <CardHeader>
-                                                Hotels
+                                                Cars
+
                                                 <Button className="btn-primary pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         modal:true
                                                     })
-                                                })}>Add Hotel</Button>
+                                                })}>Add Car</Button>
                                             </CardHeader>
                                             <CardBody>
                                                 <Table>
@@ -235,23 +266,31 @@ class HotelPage extends Component {
                                                             Host
                                                         </th>
                                                         <th>
-                                                            Hotel Name
+                                                            Car Name
+                                                        </th>
+                                                        <th>
+                                                            Car Type
+                                                        </th>
+                                                        <th>
+                                                            Car Make
                                                         </th>
                                                         <th>
                                                             City
                                                         </th>
                                                         <th>
-                                                            State
+                                                            Zipcode
                                                         </th>
                                                     </tr>
                                                     </thead>
+                                                    {console.log(this.props.state.carData)}
                                                     {
-                                                        this.props.state.hotelData.map((hotel, index)=>{
+
+                                                        this.props.state.carData.map((car, index)=>{
                                                             return(
-                                                                <ShowHotels
+                                                                <ShowCars
                                                                     key = {index}
-                                                                    hotel = {hotel}
-                                                                    fetchHotels = {this.fetchHotels}
+                                                                    car = {car}
+                                                                    fetchCars = {this.fetchCars}
                                                                     handlePageChange = {this.props.handlePageChange}
                                                                 />
                                                             )
@@ -265,14 +304,14 @@ class HotelPage extends Component {
                             </div>
                         )
                     })}/>
-                    <Route path="/admin/hotel/:hotelId" render={((match)=>{
+                    <Route path="/admin/car/:carId" render={((match)=>{
                         return(
-                            <EditHotel
+                            <EditCar
                                 // groups={this.state.groups}
                                 // context={match}
                                 {...match}
                                 handlePageChange = {this.props.handlePageChange}
-                                fetchHotels = {this.fetchHotels}
+                                fetchCars = {this.fetchCars}
                             />
                         )
                     })}/>
@@ -281,7 +320,6 @@ class HotelPage extends Component {
         );
     }
 }
-
 
 function mapStateToProps(state) {
     console.log(state);
@@ -292,14 +330,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setHotelData_Success : (data) => {
-            dispatch(setHotelData_Success(data))
+        setCarData_Success : (data) => {
+            dispatch(setCarData_Success(data))
         }
         ,
-        addHotelData_Success: (data) => {
-            dispatch(addHotelData_Success(data))
+        addCarData_Success: (data) => {
+            dispatch(addCarData_Success(data))
         }
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HotelPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarPage));

@@ -1,25 +1,29 @@
-let Flight = require('../../Models/Flight');
-let ObjectId = require('mongodb').ObjectID;
+let Car = require('../../Models/Car');
 
 handle_request = ((data, callback) => {
     let response = {
         status: 400
     };
-
     try {
-        console.log("Flights Fetch");
-        let query={};
-        if(data!=={}){
-            if(data.flightId!== undefined && data.flightId!== null){
-                query = {
-                    _id : ObjectId(data.flightId)
-                }
-            }
-        }
-        console.log(query);
-        Flight.find(query, function (err, results) {
+        console.log("data");
+        console.log(data);
+        let car = new Car({
+            hostId: data.hostId,
+            carName: data.carName.toLowerCase(),
+            carType: data.carType.toLowerCase(),
+            carMake: data.carMake.toLowerCase(),
+            carModel: data.carModel.toLowerCase(),
+            capacity: data.capacity,
+            city: data.city.toLowerCase(),
+            state: data.state.toLowerCase(),
+            zipCode: data.zipCode,
+            price: data.price,
+        });
+        console.log(car);
+        car.save(function (err, results) {
             if(err){
                 console.log(err);
+                callback(err, response);
             }
             else {
                 console.log("results : ");

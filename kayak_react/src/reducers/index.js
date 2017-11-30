@@ -1,4 +1,3 @@
-import {handleAddtoCart, handleRemoveFromCart, setFlightData_Success} from "../actions/index";
 import {actionTypes} from "../actions/actionTypes";
 
 const initial_state = {
@@ -6,7 +5,8 @@ const initial_state = {
     isLoggedIn: false,
     message: "",
     flightData:[],
-    hotelData:[]
+    hotelData:[],
+    carData:[]
 };
 
 const signIn = (state, action) => {
@@ -90,6 +90,29 @@ const addHotelData = ((state , action) => {
     }
 });
 
+const setCarData = ((state, action) => {
+    console.log(state);
+    console.log(action);
+    return{
+        ...state,
+        carData : action.carData
+    }
+});
+
+
+const addCarData = ((state , action) => {
+    console.log("Before Adding");
+    console.log(state);
+    console.log(action);
+    state.carData.push(action.carData);
+    console.log("After Adding");
+    console.log(state);
+    return{
+        ...state,
+        [action.carData] : state.carData
+    }
+});
+
 const handleActions = (state = initial_state, action) => {
 
     switch (action.type) {
@@ -109,6 +132,10 @@ const handleActions = (state = initial_state, action) => {
             return setHotelData(state, action);
         case actionTypes.ADMIN_ADD_HOTEL_SUCCESS:
             return addHotelData(state, action);
+        case actionTypes.ADMIN_CAR_LISTING_SUCCESS :
+            return setCarData(state, action);
+        case actionTypes.ADMIN_ADD_CAR_SUCCESS:
+            return addCarData(state, action);
         default:
             return state;
     }
