@@ -1,10 +1,12 @@
-import {handleAddtoCart, handleRemoveFromCart} from "../actions/index";
+import {handleAddtoCart, handleRemoveFromCart, setFlightData_Success} from "../actions/index";
 import {actionTypes} from "../actions/actionTypes";
 
 const initial_state = {
     email: "",
     isLoggedIn: false,
-    message: ""
+    message: "",
+    flightData:[],
+    hotelData:[]
 };
 
 const signIn = (state, action) => {
@@ -43,6 +45,51 @@ const filter_change = (state, action) => {
     }
 };
 
+const setFlightData = (state , action) => {
+    console.log(state);
+    console.log(action);
+    return{
+        ...state,
+        flightData : action.flightdata
+    }
+};
+
+const addFlightData = ((state , action) => {
+    console.log("Before Adding");
+    console.log(state);
+    console.log(action);
+    state.flightData.push(action.flightData);
+    console.log("After Adding");
+    console.log(state);
+    return{
+        ...state,
+        [action.flightData] : state.flightData
+    }
+});
+
+const setHotelData = ((state, action) => {
+    console.log(state);
+    console.log(action);
+    return{
+        ...state,
+        hotelData : action.hotelData
+    }
+});
+
+
+const addHotelData = ((state , action) => {
+    console.log("Before Adding");
+    console.log(state);
+    console.log(action);
+    state.flightData.push(action.hotelData);
+    console.log("After Adding");
+    console.log(state);
+    return{
+        ...state,
+        [action.hotelData] : state.hotelData
+    }
+});
+
 const handleActions = (state = initial_state, action) => {
 
     switch (action.type) {
@@ -54,6 +101,14 @@ const handleActions = (state = initial_state, action) => {
             return hotelList_Success(state, action);
         case actionTypes.FILTER_PRICE_CHANGE :
             return filter_change(state, action);
+        case actionTypes.ADMIN_FLIGHT_LISTING_SUCCESS :
+            return setFlightData(state, action);
+        case actionTypes.ADMIN_ADD_FLIGHT_SUCCESS:
+            return addFlightData(state, action);
+        case actionTypes.ADMIN_HOTEL_LISTING_SUCCESS :
+            return setHotelData(state, action);
+        case actionTypes.ADMIN_ADD_HOTEL_SUCCESS:
+            return addHotelData(state, action);
         default:
             return state;
     }
