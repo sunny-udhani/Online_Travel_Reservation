@@ -45,6 +45,7 @@ class AdminHome extends Component {
                         <FlightPage
                             validateUserSession={this.validateUserSession}
                             handleLogout={this.handleLogout}
+                            handlePageChange = {this.props.handlePageChange}
                             // username={this.state.username}
                         />
                     )}/>
