@@ -62,9 +62,9 @@ class HotelPage extends Component {
         })
     });
 
-    addHotel = ((flightdata)=>{
-        console.log(flightdata);
-        API.addHotel(flightdata).then((response)=>{
+    addHotel = ((hotelData)=>{
+        console.log(hotelData);
+        API.addHotel(hotelData).then((response)=>{
             console.log(response.status);
             if(response.status===200){
                 response.json().then((data)=>{
@@ -183,17 +183,13 @@ class HotelPage extends Component {
 
     });
 
-    fetchHotels = (()=> {
+    fetchHotels = ((data)=> {
         console.log("Wil Mount HotelPage");
-        API.fetchHotels().then((response) => {
+        API.fetchHotels(data).then((response) => {
             console.log(response.status);
             if(response.status===200){
                 response.json().then((data)=>{
                     console.log(data);
-                    this.setState({
-                        ...this.state,
-                        hotels : data
-                    });
                     this.props.setHotelData_Success(data);
                 });
             }
@@ -216,12 +212,7 @@ class HotelPage extends Component {
                                     {
                                         this.showAddHotel()
                                     }
-                                    <button className="btn btn-primary" onClick={(()=>{
-                                        this.setState({
-                                            ...this.state,
-                                            modal:true
-                                        })
-                                    })}>Add Hotel</button>
+
                                 </div>
                                 {/*<div>*/}
                                 <Row>
@@ -229,6 +220,12 @@ class HotelPage extends Component {
                                         <Card>
                                             <CardHeader>
                                                 Hotels
+                                                <Button className="btn-primary pull-right" onClick={(()=>{
+                                                    this.setState({
+                                                        ...this.state,
+                                                        modal:true
+                                                    })
+                                                })}>Add Hotel</Button>
                                             </CardHeader>
                                             <CardBody>
                                                 <Table>
@@ -256,7 +253,6 @@ class HotelPage extends Component {
                                                                     hotel = {hotel}
                                                                     fetchHotels = {this.fetchHotels}
                                                                     handlePageChange = {this.props.handlePageChange}
-                                                                    editHotel = {this.editHotel}
                                                                 />
                                                             )
                                                         })

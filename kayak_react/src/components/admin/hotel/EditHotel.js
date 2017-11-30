@@ -353,8 +353,7 @@ class EditHotel extends Component {
                             </CardBody>
                             <CardFooter className="text-center">
                                 <Button type="button" className="btn-primary" value="Edit"
-                                        onClick={(()=>{this.editHotel(this.editHotelData)})}>Save</Button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        onClick={(()=>{this.editHotel(this.editHotelData)})}>EDIT</Button>
                                 <Button type="button" className="btn-primary"
                                         onClick={(()=>{this.props.handlePageChange("/admin/hotel")})}
                                 >Back</Button>
