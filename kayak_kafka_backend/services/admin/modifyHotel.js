@@ -17,10 +17,10 @@ handle_request = ((data, callback) => {
             $set:
                 {
                     hostId : data.hostId,
-                    hotelName : data.hotelName,
-                    hotelAddress : data.hotelAddress,
-                    city : data.city,
-                    state : data.state,
+                    hotelName : data.hotelName.toLowerCase(),
+                    hotelAddress : data.hotelAddress.toLowerCase(),
+                    city : data.city.toLowerCase(),
+                    state : data.state.toLowerCase(),
                     zipCode : data.zipCode,
                     stars : data.stars,
                     rooms : data.rooms
