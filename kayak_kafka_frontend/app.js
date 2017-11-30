@@ -5,17 +5,17 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let passport = require('passport');
 let cors = require('cors');
-let kafka = require('./routes/kafka/client');
-require('./routes/passport')(passport);
+let redis = require('./config/redisConnect');
+let index = require('./routes/index');
+let users = require('./routes/users');
+let WinstonLogger = require('./config/winstonLogger');
 
+let admin = require('./routes/admin');
+let listings = require('./routes/listings');
 
 let mongoSessionURL = "mongodb://localhost:27017/kayak";
 let expressSessions = require("express-session");
 let mongoStore = require("connect-mongo/es5")(expressSessions);
-
-let index = require('./routes/index');
-let users = require('./routes/users');
-let admin = require('./routes/admin');
 
 let app = express();
 
@@ -29,7 +29,7 @@ app.use(logger('dev'));
 
 let corsOptions = {
     origin: 'http://localhost:3000',
-    credentials: true
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -46,12 +46,6 @@ app.use(expressSessions({
     //A session is uninitialized when it is new but not modified.
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 6 * 1000,
-    // duration: 30 * 60 * 1000,
-    // activeDuration: 5 * 6 * 1000,
-    // cookie: {
-    //     maxAge  : new Date(Date.now() + 1200000), //20 Minutes
-    //     expires : new Date(Date.now() + 1200000)  //20 Minutes
-    // },
     store: new mongoStore({
         url: mongoSessionURL
     })
@@ -61,7 +55,7 @@ app.use(passport.initialize());
 app.use('/', index);
 app.use('/users', users);
 app.use('/admin', admin);
-// app.use('/login', login);
+app.use('/listings', listings);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

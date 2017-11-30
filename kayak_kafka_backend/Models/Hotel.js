@@ -5,10 +5,6 @@ mongoose.connect(mongoURL);
 
 let hotelSchema = new Schema({
 
-    // hotelId: {
-    //     type: Schema.Types.ObjectId,
-    //     required: true
-    // },
     hostId: {
         type: String,
         required: true
@@ -33,14 +29,6 @@ let hotelSchema = new Schema({
         type: Number,
         required: true
     },
-    // totalRooms: {
-    //     type: Number,
-    //     required: true
-    // },
-    // availableRooms: {
-    //     type: Number,
-    //     required: true
-    // },
     stars: {
         type: Number,
         required: true

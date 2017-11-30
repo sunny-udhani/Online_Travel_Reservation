@@ -11,9 +11,9 @@ handle_request = ((data, callback) => {
 
         let password = bcrypt.hashSync(data.password, salt);
 
-        let userExist = "select password from users where username = '" + data.username + "'";
+        let userExist = "select password from user where username = '" + data.username + "'";
 
-        let insertUser = "insert into users (username, password, accessInd) values ('" + data.username + "','" + password + "', '" + data.accessInd + "');";
+        let insertUser = "insert into user (username, password, accessInd) values ('" + data.username + "','" + password + "', '" + data.accessInd + "');";
         console.log("signup - SQL Query " + insertUser);
 
         mysql.fetchData(function (err, result) {

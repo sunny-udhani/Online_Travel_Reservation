@@ -1,16 +1,10 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
-let mongoURL = "mongodb://localhost:27017/Kayak";
-mongoose.connect(mongoURL);
 
 let carSchema = new Schema({
 
-    carId: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
     hostId: {
-        type: Schema.Types.ObjectId,
+        type: String,
         required: true
     },
     carName: {
@@ -21,15 +15,20 @@ let carSchema = new Schema({
         type: String,
         required: true
     },
-    carSpecification: {
-        capacity: {
-            type: Number,
-            required: true
-        }
+    carMake: {
+        type: String,
+        required: true
+    },
+    carModel: {
+        type: String,
+        required: true
+    },
+    capacity: {
+        type: Number,
+        required: true
     },
     images: {
-        type: String,
-        required: false
+        type: String
     },
     city: {
         type: String,

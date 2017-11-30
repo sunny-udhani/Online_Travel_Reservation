@@ -9,18 +9,19 @@ handle_request = ((data, callback) => {
         console.log(data);
         let hotel = new Hotel({
             hostId : data.hostId,
-            hotelName: data.hotelName,
-            hotelAddress : data.hotelAddress,
-            city : data.city,
-            state : data.state,
+            hotelName: data.hotelName.toLowerCase(),
+            hotelAddress : data.hotelAddress.toLowerCase(),
+            city : data.city.toLowerCase(),
+            state : data.state.toLowerCase(),
             zipCode : data.zipCode,
             stars : data.stars,
             rooms : [{
-                    roomType: "single",
+                    roomType: "delux",
                     roomCapacity: 0,
                     roomPrice: 0,
                     noOfRooms : 0
-                },
+                }
+                /*,
                 {
                     roomType: "double",
                     roomCapacity: 0,
@@ -38,7 +39,7 @@ handle_request = ((data, callback) => {
                     roomCapacity: 0,
                     roomPrice: 0,
                     noOfRooms : 0
-                },
+                },*/
             ],
             images : data.images
         });

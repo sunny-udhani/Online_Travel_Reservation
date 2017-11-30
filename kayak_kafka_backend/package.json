@@ -2,16 +2,17 @@
   "name": "kayak_kafka_backend",
   "version": "1.0.0",
   "description": "Back-End for Kafka",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "async": "latest",
+    "bcrypt": "^1.0.3",
     "kafka-node": "^2.2.3",
     "mongodb": "^2.2.33",
-    "mysql": "^2.15.0",
-    "bcrypt": "^1.0.3",
-    "mongoose": "^4.13.4"
+    "mongoose": "^4.13.4",
+    "mysql": "^2.15.0"
   },
   "repository": {
     "type": "git",

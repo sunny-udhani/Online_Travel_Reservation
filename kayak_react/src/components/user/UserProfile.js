@@ -7,7 +7,7 @@ class UserProfile extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <h1>User Profile</h1>
+                <h1 style={{marginTop:"100px"}}>User Profile</h1>
             </div>
         );
     }
