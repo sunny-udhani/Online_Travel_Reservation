@@ -10,16 +10,18 @@ let hotel_listing = require('./services/listing/hotelListing');
 let addflight = require('./services/admin/addFlight');
 let addhotel = require('./services/admin/addHotel');
 let fetchhotels = require('./services/admin/fetchHotels');
-let addRooms = require('./services/admin/addRooms');
+let modifyRooms = require('./services/admin/modifyRooms');
+let fetchflights = require('./services/admin/fetchFlights');
+let modifyHotel = require('./services/admin/modifyHotel');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
-
-let addFlightConsumer = connection.getConsumerObj("addflight_topic");
-let addHotelConsumer = connection.getConsumerObj("addhotel_topic");
-let fetchHotelsConsumer = connection.getConsumerObj("fetchhotels_topic");
-let addroomsConsumer = connection.getConsumerObj("addrooms_topic");
-
+let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
+let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
+let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
+let modifyRoomsConsumer = connection.getConsumerObj(req_topics.CHANGE_ROOMS);
+let fetchflightsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTS);
+let modifyHotelConsumer = connection.getConsumerObj(req_topics.MODIFY_HOTEL);
 let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
 
 try {
@@ -169,7 +171,7 @@ try {
         });
     });
 
-    addroomsConsumer.on('message', function (message) {
+    modifyRoomsConsumer.on('message', function (message) {
         console.log('message received');
         console.log(message);
         console.log(message.value);
@@ -178,7 +180,7 @@ try {
 
         console.log(data.replyTo);
 
-        addRooms.handle_request(data.data, function (err, res) {
+        modifyRooms.handle_request(data.data, function (err, res) {
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -235,6 +237,64 @@ try {
                 console.log(payloads);
             });
             // return;
+        });
+    });
+
+    fetchflightsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchflights.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    modifyHotelConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        modifyHotel.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
         });
     });
 }
