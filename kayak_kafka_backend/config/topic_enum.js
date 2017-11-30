@@ -8,7 +8,9 @@ exports.req_topic_names = {
     FETCH_HOTELS: 'fetchhotels_topic',
     CHANGE_ROOMS: 'addrooms_topic',
     FETCH_FLIGHTS: 'fetchflights_topic',
-    MODIFY_HOTEL : 'modifyhotel_topic'
+    MODIFY_HOTEL : 'modifyhotel_topic',
+    MODIFY_FLIGHT : 'modifyflight_topic',
+    MODIFY_FLIGHTCLASS : 'modifyflightclass_topic'
 
 };
 //
