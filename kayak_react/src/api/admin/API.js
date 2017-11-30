@@ -67,3 +67,35 @@ export const addRoomInHotel = (payload) =>
         console.log("This is error");
         return error;
     });
+
+export const fetchFlights = (payload) =>
+    fetch(`${api}/admin/fetchFlights`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const modifyHotelData = (payload) =>
+fetch(`${api}/admin/modifyHotel`, {
+    method: 'POST',
+    headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+    credentials:"include"
+}).then(res => {
+    return res;
+}).catch(error => {
+    console.log("This is error");
+    return error;
+});
