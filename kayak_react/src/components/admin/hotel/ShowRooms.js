@@ -15,6 +15,14 @@ class ShowRooms extends Component {
                 <td>
                     {room.roomType}
                 </td>
+                <td rowSpan="4">
+                    <button className="btn btn-primary" onClick={(()=>{
+                        // this.props.changeShowAddRoomStatus(true, room.roomType, room._id);
+                        this.props.changeShowAddRoomStatus(true, room);
+                    })}>
+                        Change
+                    </button>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -38,16 +46,6 @@ class ShowRooms extends Component {
                 </td>
                 <td>
                     {room.noOfRooms}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <button className="btn btn-primary" onClick={(()=>{
-                        // this.props.changeShowAddRoomStatus(true, room.roomType, room._id);
-                        this.props.changeShowAddRoomStatus(true, room);
-                    })}>
-                        Change
-                    </button>
                 </td>
             </tr>
             </tbody>
