@@ -6,14 +6,16 @@ require('./config/mongooseConfig');
 let producer = connection.getProducer();
 let login = require('./services/login');
 let signup = require('./services/signup');
+let hotel_listing = require('./services/listing/hotelListing');
 let addflight = require('./services/admin/addFlight');
 let addhotel = require('./services/admin/addHotel');
 let fetchhotels = require('./services/admin/fetchHotels');
 let addRooms = require('./services/admin/addRooms');
 
-let addFlightConsumer = connection.getConsumerObj("addflight_topic");
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
+
+let addFlightConsumer = connection.getConsumerObj("addflight_topic");
 let addHotelConsumer = connection.getConsumerObj("addhotel_topic");
 let fetchHotelsConsumer = connection.getConsumerObj("fetchhotels_topic");
 let addroomsConsumer = connection.getConsumerObj("addrooms_topic");
