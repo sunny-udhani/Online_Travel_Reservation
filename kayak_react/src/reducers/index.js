@@ -81,7 +81,7 @@ const addHotelData = ((state , action) => {
     console.log("Before Adding");
     console.log(state);
     console.log(action);
-    state.flightData.push(action.hotelData);
+    state.hotelData.push(action.hotelData);
     console.log("After Adding");
     console.log(state);
     return{
