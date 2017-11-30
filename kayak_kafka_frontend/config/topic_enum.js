@@ -10,7 +10,11 @@ exports.req_topic_names = {
     FETCH_FLIGHTS: 'fetchflights_topic',
     MODIFY_HOTEL : 'modifyhotel_topic',
     MODIFY_FLIGHT : 'modifyflight_topic',
-    MODIFY_FLIGHTCLASS : 'modifyflightclass_topic'
+    MODIFY_FLIGHTCLASS : 'modifyflightclass_topic',
+    FETCH_CARS: 'fetchcars_topic',
+    ADD_CAR: 'addcar_topic',
+    MODIFY_CAR : 'modifycar_topic'
+
 };
 //
 // exports.res_topic_names = {
