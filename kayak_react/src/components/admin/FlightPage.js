@@ -1,25 +1,53 @@
 import React, {Component} from 'react';
-import "../../modal.css";
 import * as API from "../../api/admin/API";
+import ShowFlights from "./flight/ShowFlights";
+import {
+    Badge,
+    Row,
+    Col,
+    Card,
+    CardHeader,
+    CardBody,
+    Table,
+    Pagination,
+    PaginationItem,
+    PaginationLink,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Form,
+    FormGroup,
+    FormText,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupButton
+} from 'reactstrap';
+import {setFlightData_Success, addFlightData_Success} from "../../actions";
+import {connect} from "react-redux"
 
 class FlightPage extends Component {
 
     constructor(){
         super();
         this.state = {
-            showAddFlight : false
+            flights : [],
+            modal : false
         };
     }
 
-
-    handleSubmit = () => {
-    };
+    toggle = (()=> {
+        this.setState({
+            modal: !this.state.modal
+        });
+    });
 
     addflightData = {
         flightOperator : "",
         flightNo : "",
         hostId : "",
-        // tripType : "",
         departureDate : "",
         arrivalDate : "",
         departureTime : "",
@@ -53,131 +81,189 @@ class FlightPage extends Component {
             if(response.status===200){
                 response.json().then((data)=>{
                     console.log(data);
+                    // this.setState((state)=>{
+                    //     state.flights.push(data);
+                    // });
+                    this.props.addFlightData_Success(data);
                 });
+                this.toggle();
+            }
+            else {
+                console.log("Error while adding flight data");
             }
         });
     });
 
     showAddFlight = (()=>{
-        console.log(this.state.showAddFlight);
-        if(this.state.showAddFlight){
+        console.log(this.state.modal);
+        if(this.state.modal){
             return(
-                <div className="signinform">
-                    <div className="form-modal">
-                        <div className="panel panel-heading">
-                            <form>
-                                <div className="form-group">
-                                    <label className="signin-label">Add Flight</label>
-                                    <input type="text" className="form-input" placeholder="Flight Operator"
+                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Add Flight</ModalHeader>
+                    <ModalBody>
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-control form-input1" placeholder="Flight Operator" required
                                            onChange={(event)=>{
                                                this.addflightData.flightOperator = event.target.value;
                                            }}
                                     />
-                                    <input type="text" className="form-input" placeholder="Flight Number"
-                                           onChange={(event)=>{
-                                               this.addflightData.flightNo = event.target.value;
-                                           }}
-                                    />
-                                    <input type="text" className="form-input" placeholder="Host Id"
+                                    <input type="text" className="form-control form-input1" placeholder="Host Id"
                                            onChange={(event)=>{
                                                this.addflightData.hostId = event.target.value;
                                            }}
                                     />
-                                    <input type="text" className="form-input" placeholder="Flight Duration"
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-control form-input1" placeholder="Flight Number"
                                            onChange={(event)=>{
-                                               this.addflightData.duration = event.target.value;
+                                               this.addflightData.flightNo = event.target.value;
                                            }}
                                     />
-                                    <input type="date" className="form-input" placeholder="Departure Date"
+                                </FormGroup>
+                            </Col>
+                        </Row>
+
+
+                        <Row>
+                            <Col xs="12">
+                                Departure:
+                                <FormGroup>
+                                    <input type="date" className="form-control form-input1"
                                            onChange={(event)=>{
                                                this.addflightData.departureDate = event.target.value;
                                            }}
                                     />
-                                    <input type="date" className="form-input" placeholder="Arrival Date"
-                                           onChange={(event)=>{
-                                               this.addflightData.arrivalDate = event.target.value;
-                                           }}
-                                    />
-                                    <input type="time" className="form-input" placeholder="Flight Departure Time"
+                                    <input type="time" className="form-control form-input1" placeholder="Flight Departure Time"
                                            onChange={(event)=>{
                                                this.addflightData.departureTime = event.target.value;
                                            }}
                                     />
-                                    <input type="time" className="form-input" placeholder="Flight Arrival Time"
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs="12">
+                                Arrival:
+                                <FormGroup>
+
+                                    <input type="date" className="form-control form-input1" placeholder="Arrival Date"
+                                           onChange={(event)=>{
+                                               this.addflightData.arrivalDate = event.target.value;
+                                           }}
+                                    />
+                                    <input type="time" className="form-control form-input1" placeholder="Flight Arrival Time"
                                            onChange={(event)=>{
                                                this.addflightData.arrivalTime = event.target.value;
                                            }}
                                     />
-
-                                    <input type="text" className="form-input" placeholder="Origin"
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-control form-input" width="10px" placeholder="Flight Duration"
+                                           onChange={(event)=>{
+                                               this.addflightData.duration = event.target.value;
+                                           }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-control form-input1" placeholder="Origin"
                                            onChange={(event)=>{
                                                this.addflightData.origin = event.target.value;
                                            }}
                                     />
-                                    <input type="text" className="form-input" placeholder="Destination"
+
+                                    <input type="text" placeholder="Destination" className="form-control form-input1"
                                            onChange={(event)=>{
                                                this.addflightData.destination = event.target.value;
                                            }}
                                     />
-                                    Business Class:
-                                    <div>
-                                        <input type="text" className="form-input" placeholder="Capacity"
-                                               onChange={(event)=>{
-                                                   this.addflightData.classes[0].noOfSeats=event.target.value;
-                                               }}
-                                        />
-                                        <input type="text" className="form-input" placeholder="Fare"
-                                               onChange={(event)=>{
-                                                   this.addflightData.classes[0].price=event.target.value;
-                                               }}
-                                        />
-                                    </div>
-                                    {/*<br/>*/}
-                                    FirstClass:
-                                    <div>
-                                        <input type="text" className="form-input" placeholder="Capacity"
-                                               onChange={(event)=>{
-                                                   this.addflightData.classes[1].noOfSeats=event.target.value;
-                                               }}
-                                        />
-                                        <input type="text" className="form-input" placeholder="Fare"
-                                               onChange={(event)=>{
-                                                   this.addflightData.classes[1].price=event.target.value;
-                                               }}
-                                        />
-                                    </div>
-                                    {/*<br/>*/}
-                                    Economy:
-                                    <div >
-                                        <input type="text" className="form-input" placeholder="Capacity"
-                                               onChange={(event)=>{
-                                                   this.addflightData.classes[2].noOfSeats=event.target.value;
-                                               }}
-                                        />
-                                        <input type="text" className="form-input" placeholder="Fare"
-                                               onChange={(event)=>{
-                                                   this.addflightData.classes[2].price=event.target.value;
-                                               }}
-                                        />
-                                    </div>
-                                    {/*<br/>*/}
-                                    {/*<input type="password" className="form-input" placeholder="Password"/>*/}
-                                    <input type="button" value="Add Flight" className="btn btn-primary"
-                                           onClick={(()=>{this.addflight(this.addflightData)})}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        Business Class:
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input className="form-control form-input1" type="text" placeholder="Capacity"
+                                           onChange={(event)=>{
+                                               this.addflightData.classes[0].noOfSeats=event.target.value;
+                                           }}
                                     />
-
-                                    <input type="button" value="Cancel"
-                                           className="btn btn-primary"
-                                           onClick={(()=>{this.setState({
-                                               ...this.state,
-                                               showAddFlight : false
-                                           })})}
+                                    {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
+                                    <input type="text" className="form-control form-input1" placeholder="Fare"
+                                           onChange={(event)=>{
+                                               this.addflightData.classes[0].price=event.target.value;
+                                           }}
                                     />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        {/*<br/>*/}
+                        FirstClass:
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-control form-input1" placeholder="Capacity"
+                                           onChange={(event)=>{
+                                               this.addflightData.classes[1].noOfSeats=event.target.value;
+                                           }}
+                                    />
+                                    {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
+                                    <input type="text" className="form-control form-input1" placeholder="Fare"
+                                           onChange={(event)=>{
+                                               this.addflightData.classes[1].price=event.target.value;
+                                           }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        {/*<br/>*/}
+                        Economy:
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="text" className="form-control form-input1" placeholder="Capacity"
+                                           onChange={(event)=>{
+                                               this.addflightData.classes[2].noOfSeats=event.target.value;
+                                           }}
+                                    />
+                                    {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
+                                    <input type="text" className="form-control form-input1" placeholder="Fare"
+                                           onChange={(event)=>{
+                                               this.addflightData.classes[2].price=event.target.value;
+                                           }}
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </ModalBody>
+                    <ModalFooter>
+                        <input type="button" value="Add Flight" className="btn btn-primary"
+                               onClick={(()=>{this.addflight(this.addflightData)})}
+                        />
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="button" value="Cancel"
+                               className="btn btn-primary"
+                               onClick={(()=>{this.setState({
+                                   ...this.state,
+                                   modal : false
+                               })})}
+                        />
+                    </ModalFooter>
+                </Modal>
             )
         }
         else {
@@ -189,6 +275,25 @@ class FlightPage extends Component {
 
     });
 
+    componentWillMount(){
+        API.fetchFlights().then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    /*this.setState({
+                        ...this.state,
+                        flights : data
+                    });*/
+                    this.props.setFlightData_Success(data);
+                });
+            }
+            else {
+                console.log("Error while fetching flight data");
+            }
+        })
+    }
+
     render() {
         window.onclick = (() => {
             // console.log(this.state.showAddFlight);
@@ -198,6 +303,7 @@ class FlightPage extends Component {
             //     })
             // }
         });
+        console.log(this.props.state);
 
         return (
             <div className="container-fluid">
@@ -209,13 +315,89 @@ class FlightPage extends Component {
                     <button className="btn btn-primary" onClick={(()=>{
                         this.setState({
                             ...this.state,
-                            showAddFlight:true
+                            modal : true
                         })
                     })}>Add Flight</button>
+                </div>
+                <div className="animated fadeIn">
+                    <Row>
+                        <Col xs="12" lg="12">
+                            <Card>
+                                <CardHeader>
+                                    Flights
+                                </CardHeader>
+                                <CardBody>
+                                    <Table responsive>
+                                        <thead>
+                                        <tr>
+                                            <th>hostid</th>
+                                            <th>flight no</th>
+                                            <th>flight operator</th>
+                                            {/*<th></th>*/}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {
+                                            this.props.state.flightData.map((flight, index)=>{
+                                                return(
+                                                    <ShowFlights
+                                                        key={index}
+                                                        flight={flight}
+                                                    />
+                                                )
+                                            })
+                                        }
+                                        </tbody>
+                                    </Table>
+                                    <Pagination>
+                                        <PaginationItem>
+                                            <PaginationLink previous href="#"></PaginationLink>
+                                        </PaginationItem>
+                                        <PaginationItem active>
+                                            <PaginationLink href="#">1</PaginationLink>
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationLink href="#">2</PaginationLink>
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationLink href="#">3</PaginationLink>
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationLink href="#">4</PaginationLink>
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationLink next href="#"></PaginationLink>
+                                        </PaginationItem>
+                                    </Pagination>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         );
     }
 }
 
-export default FlightPage;
+function mapStateToProps(state) {
+    console.log(state);
+    return {
+        state: state
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setFlightData_Success: (data) => {
+            dispatch(setFlightData_Success(data))
+        }
+        ,
+        addFlightData_Success: (data) => {
+            console.log(data);
+            dispatch(addFlightData_Success(data))
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlightPage);
+
