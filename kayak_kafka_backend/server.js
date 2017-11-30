@@ -15,6 +15,9 @@ let fetchflights = require('./services/admin/fetchFlights');
 let modifyHotel = require('./services/admin/modifyHotel');
 let modifyFlight = require('./services/admin/modifyFlight');
 let modifyFlightClass = require('./services/admin/modifyFlightClass');
+let addCar = require('./services/admin/addCar');
+let fetchCars = require('./services/admin/fetchCars');
+let modifyCar = require('./services/admin/modifyCar');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
@@ -27,6 +30,9 @@ let modifyHotelConsumer = connection.getConsumerObj(req_topics.MODIFY_HOTEL);
 let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
 let modifyFlightConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHT);
 let modifyFlightClassConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHTCLASS);
+let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
+let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
+let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
 
 
 try {
@@ -97,6 +103,11 @@ try {
 
         addflight.handle_request(data.data, function (err, res) {
             console.log('after handle' + res);
+
+            if (err) {
+                res.error = err;
+            }
+
             let payloads = [
                 {
                     topic: data.replyTo,
@@ -126,6 +137,9 @@ try {
         console.log(data.replyTo);
 
         addhotel.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -156,6 +170,9 @@ try {
         console.log(data.replyTo);
 
         fetchhotels.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -186,6 +203,9 @@ try {
         console.log(data.replyTo);
 
         modifyRooms.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -255,6 +275,9 @@ try {
         console.log(data.replyTo);
 
         fetchflights.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -284,6 +307,9 @@ try {
         console.log(data.replyTo);
 
         modifyHotel.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -313,6 +339,9 @@ try {
         console.log(data.replyTo);
 
         modifyFlight.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -342,6 +371,105 @@ try {
         console.log(data.replyTo);
 
         modifyFlightClass.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    fetchCarsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchCars.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    addCarConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        addCar.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    modifyCarConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        modifyCar.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
             console.log('after handle' + res);
             let payloads = [
                 {
