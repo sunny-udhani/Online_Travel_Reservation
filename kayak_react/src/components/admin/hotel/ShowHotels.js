@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import "../../../modal.css";
 import * as API from "../../../api/admin/API";
-import ShowRooms from "./ShowRooms"
+import {Link} from 'react-router-dom';
+
 
 class ShowHotels extends Component {
 
     constructor(){
         super();
         this.state = {
-            showAddRoom : false
+            modal : false
         }
     }
 
-    roomdata = {
+    /*roomdata = {
         roomId : "",
         roomType : "",
         roomCapacity : 0,
@@ -20,15 +20,24 @@ class ShowHotels extends Component {
         noOfRooms : 0
     };
 
-    changeShowAddRoomStatus = ((show, roomType, roomid)=>{
-       this.setState({
-          showAddRoom : show
-       });
-       this.roomdata.roomType = roomType;
-       this.roomdata.roomId = roomid;
-    });
+    toggle = (()=>{
+        this.setState({
+            ...this.state,
+            modal : !this.state.modal
+        });
+    });*/
 
-    addRoom = ((roomdata, hotelid) => {
+    /*changeShowAddRoomStatus = ((show, room)=>{
+        // this.roomdata.roomType = room.roomType;
+        // this.roomdata.roomId = room.roomid;
+        this.roomdata = room;
+        this.setState({
+            room : room
+        });
+        this.toggle();
+    });*/
+
+    /*addRoom = ((roomdata, hotelid) => {
         console.log(hotelid);
         let hotel = roomdata;
         hotel.hotelId = hotelid;
@@ -43,63 +52,71 @@ class ShowHotels extends Component {
             }
             this.setState({
                 ...this.state,
-                showAddRoom : false
+                modal : false
             })
         });
-    });
+    });*/
 
-    showAddRoom = ((hotelid)=>{
-        if(this.state.showAddRoom){
+    /*showAddRoom = ((hotel)=>{
+        console.log(this.state.modal);
+        if(this.state.modal){
             return(
-                <div className="signinform">
-                    <div className="form-modal">
-                        <div className="panel panel-heading">
-                            <form>
-                                <div className="form-group">
-                                    <div>
-                                        {/*roomType :
-                                        <select onChange={((event)=>{
-                                            this.roomdata.roomType = event.target.value
-                                        })}>
-                                            <option value="single">Single</option>
-                                            <option value="double">Double</option>
-                                            <option value="queen">Queen</option>
-                                            <option value="king">King</option>
-                                        </select>*/}
-                                        <input type="number" className="form-input" placeholder="Capacity of the room"
-                                               onChange={(event)=>{
-                                                   this.roomdata.roomCapacity = event.target.value;
-                                               }}
-                                        />
-                                        <input type="number" className="form-input" placeholder="Price of the Room"
-                                               onChange={(event)=>{
-                                                   this.roomdata.roomPrice = event.target.value;
-                                               }}
-                                        />
-                                        <input type="number" className="form-input" placeholder="Number of Rooms"
-                                               onChange={(event)=>{
-                                                   this.roomdata.noOfRooms = event.target.value;
-                                               }}
-                                        />
-                                    </div>
-                                    <input type="button" value="Add Room" className="btn btn-primary"
-                                           onClick={(()=>{this.addRoom(this.roomdata, hotelid)})}
+                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Add Hotel</ModalHeader>
+                    <ModalBody>
+                        <Row>
+                            <Col xs="12">
+                                <FormGroup>
+                                    Capacity of the Room :
+                                    <select value={this.state.room.roomCapacity} onChange={((event)=>{
+                                        this.roomdata.roomCapacity = event.target.value;
+                                    })}>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="number" placeholder="Price of the Room" value={this.state.room.roomPrice}
+                                           onChange={(event)=>{
+                                               this.setState({
+                                                   ...this.state
+                                               });
+                                               this.roomdata.roomPrice = event.target.value;
+                                           }}
                                     />
-                                    <input type="button" value="Cancel"
-                                           className="btn btn-primary"
-                                           onClick={(()=>{this.setState({
-                                               ...this.state,
-                                               showAddRoom : false
-                                           })})}
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <FormGroup>
+                                    <input type="number" placeholder="Number of Rooms" value={this.state.room.noOfRooms}
+                                           onChange={(event)=>{
+                                               this.roomdata.noOfRooms = event.target.value;
+                                           }}
                                     />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </ModalBody>
+                    <ModalFooter>
+                        <input type="button" value="Add Room" className="btn btn-primary"
+                               onClick={(()=>{this.addRoom(this.roomdata, hotel._id)})}
+                        />
+                        <input type="button" value="Cancel"
+                               className="btn btn-primary"
+                               onClick={(()=>{this.setState({
+                                   ...this.state,
+                                   modal : false
+                               })})}
+                        />
+                    </ModalFooter>
+                </Modal>
             )
         }
-    });
+    });*/
 
     render() {
 
@@ -108,39 +125,37 @@ class ShowHotels extends Component {
         return (
             <tbody>
             <tr>
-                <td>
+                {/*<td>
                     {hotel.hostId}
-                </td>
-                <td>
-                    {hotel._id}
-                </td>
+                </td>*/}
                 <td>
                     {hotel.hotelName}
                 </td>
                 <td>
-                    {hotel.totalRooms}
+                    {hotel.hotelAddress}
                 </td>
                 <td>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>
-                                Room Type
-                            </th>
-                            <th>
-                                Room Capacity
-                            </th>
-                            <th>
-                                Room Price
-                            </th>
-                            <th>
-                                No of Rooms
-                            </th>
-                        </tr>
-                        </thead>
-                        {/*<tbody>*/}
-                        {/*<tr>*/}
-                            {hotel.rooms.map((room, index)=> {
+                    {hotel.city}
+                </td>
+                <td>
+                    {hotel.state}
+                </td>
+                <td>
+                    <Link
+                        to={`/admin/hotel/${hotel._id}`}
+                        className="btn btn-link"
+                        key={hotel._id}
+                    >
+                        Edit
+                    </Link>
+                </td>
+
+                {/*<td>
+                    <tbody>
+                    <tr>
+                        Rooms:
+                        {
+                            hotel.rooms.map((room, index)=> {
                                 return (
                                     <ShowRooms
                                         key={index}
@@ -148,25 +163,14 @@ class ShowHotels extends Component {
                                         changeShowAddRoomStatus = {this.changeShowAddRoomStatus}
                                     />
                                 )
-                            })}
-                        {/*</tr>*/}
-                        {/*</tbody>*/}
-                    </table>
-                </td>
-                {/*<td>*/}
-                    {/*<button className="btn btn-primary" onClick={(()=>{*/}
-                        {/*this.setState({*/}
-                            {/*showAddRoom : true*/}
-                        {/*});*/}
-                    {/*})}>*/}
-                        {/*Change*/}
-                    {/*</button>*/}
-                {/*</td>*/}
-                <td>
-                    Edit Options to be added
-                </td>
+                            })
+                        }
+                    </tr>
+                    </tbody>
+                </td>*/}
+
+                {/*{this.showAddRoom(hotel)}*/}
             </tr>
-            {this.showAddRoom(hotel._id)}
             </tbody>
         );
     }
