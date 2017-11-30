@@ -131,3 +131,54 @@ export const modifyFlightClassData = (payload) =>
         console.log("This is error");
         return error;
     });
+
+export const fetchCars = (payload) =>
+    fetch(`${api}/admin/fetchCars`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const addCar = (payload) =>
+    fetch(`${api}/admin/addCar`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+
+export const modifyCarData = (payload) =>
+    fetch(`${api}/admin/modifyCar`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+
