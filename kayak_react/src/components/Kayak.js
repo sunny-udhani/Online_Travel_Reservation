@@ -165,6 +165,7 @@ class Kayak extends Component {
                         <Route path="/admin" render={() => (
                             <AdminHome
                                 handleLogout={this.handleLogout}
+                                handlePageChange={this.handlePageChange}
                             />
                         )}/>
 
