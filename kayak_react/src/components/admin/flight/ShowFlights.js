@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import * as API from "../../../api/admin/API";
-
+import {Link} from 'react-router-dom';
 
 class ShowFlights extends Component {
 
@@ -29,17 +29,14 @@ class ShowFlights extends Component {
                 <td>
                     {flight.flightOperator}
                 </td>
-                {/*<td>*/}
-                    {/*<button className="btn btn-primary" onClick={(()=>{*/}
-                        {/*this.setState({*/}
-                            {/*showAddRoom : true*/}
-                        {/*});*/}
-                    {/*})}>*/}
-                        {/*Change*/}
-                    {/*</button>*/}
-                {/*</td>*/}
                 <td>
-                    Edit Options to be added
+                    <Link
+                        to={`/admin/flight/${flight._id}`}
+                        className="btn btn-link"
+                        key={flight._id}
+                    >
+                        Edit
+                    </Link>
                 </td>
             </tr>
         );
