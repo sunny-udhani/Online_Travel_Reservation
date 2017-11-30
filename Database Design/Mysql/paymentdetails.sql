@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED='f6be16cc-cb71-11e7-a9d7-42010a8004e9:1-1118279';
+SET @@GLOBAL.GTID_PURGED='f6be16cc-cb71-11e7-a9d7-42010a8004e9:1-1128258';
 
 --
 -- Table structure for table `paymentdetails`
@@ -36,7 +36,6 @@ CREATE TABLE `paymentdetails` (
   `creditCardNumber` varchar(45) NOT NULL,
   `validThrough` date NOT NULL,
   `cvv` varchar(3) NOT NULL,
-  `billingAddress` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`creditCardNumber`),
   KEY `username_idx` (`username`),
   CONSTRAINT `paymentdetails_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -53,4 +52,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-30  0:43:12
+-- Dump completed on 2017-11-30  3:30:10
