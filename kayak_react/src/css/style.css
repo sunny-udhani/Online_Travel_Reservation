@@ -9344,6 +9344,19 @@ footer {
     position: relative;
     width: 100%;
 }
+
+.form-input1 {
+    border: 1px solid #565656;
+    border-radius: 25px;
+    display: inline-block;
+    float: left;
+    line-height: 14px;
+    margin-bottom: 15px;
+    padding: 15px;
+    position: relative;
+    width: 50%;
+}
+
 .form-input input {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     color: #fff;
