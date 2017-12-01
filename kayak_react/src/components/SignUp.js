@@ -6,12 +6,27 @@ import {signUpSuccess} from "../actions/index";
 import {doSignUp} from "../api/user/API_SignUp";
 
 import '../design/css/signupform.css'
+import * as LogAPI from "../api/user/API_Logging";
 
 class SignUp extends Component {
 
     static propTypes = {
         //handleSubmitRegister: PropTypes.func.isRequired
     };
+
+    componentWillMount(){
+        let click = {
+            // userId: "anonymous",
+            pageName: "SignUp",
+            timeStamp: new Date().toLocaleTimeString()
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
+    }
 
     constructor(props) {
         super(props);
