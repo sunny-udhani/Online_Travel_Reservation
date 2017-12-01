@@ -1,7 +1,5 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
-let mongoURL = "mongodb://localhost:27017/Kayak";
-mongoose.connect(mongoURL);
 
 let flightSchema = new Schema({
 
