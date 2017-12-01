@@ -15,7 +15,7 @@ class FlightSearch extends Component {
     searchCriteria = {
         from: "",
         to: "",
-        booking_type: "",
+        booking_type: "one-way",
         depart_date: "",
         return_date: "",
         no_of_people: "",

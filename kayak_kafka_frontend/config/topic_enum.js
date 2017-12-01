@@ -20,7 +20,8 @@ exports.req_topic_names = {
     ADD_HOST: 'addhost_topic',
     MODIFY_HOST: 'modifyhost_topic',
     FETCH_USERS: 'fetchusers_topic',
-    MODIFY_USERS: 'modifyusers_topic'
+    MODIFY_USERS: 'modifyusers_topic',
+    CAR_LISTING: 'car_listing_topic',
 };
 
 //

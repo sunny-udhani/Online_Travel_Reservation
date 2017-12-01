@@ -30,9 +30,9 @@ class FlightListing extends Component {
     filterCriteria = {
         priceStart: 0,
         priceEnd: 2000,
-        departStart: 2,
+        departStart: 0,
         departEnd: 20,
-        arrivalStart: 2,
+        arrivalStart: 0,
         arrivalEnd: 20,
         star: [],
     };
@@ -91,10 +91,12 @@ class FlightListing extends Component {
 
     render() {
         let flights = this.props.flightList;
-        if (flights === null || flights === undefined) {
+
+        if (flights === null || flights === undefined || flights.direct === null || flights.direct === undefined) {
             flights = {direct: [{}], indirect: [{}]};
         }
         console.log(flights);
+        console.log("before it all starts");
 
         return (
             <div className="list-wrapper bg-grey-2">
@@ -373,7 +375,7 @@ class FlightListing extends Component {
                                 {
                                     flights.direct.map((flight, index) => {
                                         console.log(flight.origin);
-                                        console.log("guard");
+                                        console.log("direct ka guard");
                                         if (flight.origin !== undefined) {
 
                                             function matchStar(star) {
@@ -498,7 +500,7 @@ class FlightListing extends Component {
                                 {
                                     flights.indirect.map((flight, index) => {
                                         console.log(flight.one);
-                                        console.log("guard");
+                                        console.log("indirect ka guard");
 
                                         if (flight.one !== undefined) {
 
