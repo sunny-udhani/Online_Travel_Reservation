@@ -24,7 +24,8 @@ import {
     Input,
     InputGroup,
     InputGroupAddon,
-    InputGroupButton
+    InputGroupButton,
+    Dropdown
 } from 'reactstrap';
 import {setHotelData_Success, addHotelData_Success} from "../../../actions";
 import EditHotel from "./EditHotel";
@@ -36,7 +37,8 @@ class HotelPage extends Component {
         super();
         this.state = {
             modal : false,
-            hotels : []
+            hotels : [],
+            searchModal : false
         };
     }
 
@@ -60,6 +62,26 @@ class HotelPage extends Component {
             ...this.state,
             modal : !this.state.modal
         })
+    });
+
+    toggleSearch = (()=>{
+        this.setState({
+            ...this.state,
+            searchModal : !this.state.searchModal
+        })
+    });
+
+    searchHotelData = {};
+
+    searchHotel = ((data)=>{
+        console.log(data);
+        let searchQuery = {
+            query : {}
+        };
+        searchQuery.query[data.searchBy] = data.searchCriteria;
+        console.log(searchQuery);
+        this.fetchHotels(searchQuery);
+        this.toggleSearch();
     });
 
     addHotel = ((hotelData)=>{
@@ -162,7 +184,6 @@ class HotelPage extends Component {
                                onClick={(()=>{this.addHotel(this.addHotelData)})}
                         />
 
-
                         <input type="button" value="Cancel"
                                className="btn btn-primary"
                                onClick={(()=>{this.setState({
@@ -183,8 +204,69 @@ class HotelPage extends Component {
 
     });
 
+    showSearchHotel = (()=>{
+        if(this.state.searchModal){
+            return(
+                <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggleSearch}>Search Hotel</ModalHeader>
+                    <ModalBody>
+                        <Row>
+                            <Col xs="12">
+                                <Table border="0" className="table-responsive">
+                                    <tr>
+                                        <td>
+                                            <label>Search By:</label>
+                                        </td>
+                                        <td>
+                                            <select className="dropdown" onChange={((event)=>{
+                                                this.searchHotelData.searchBy = event.target.value
+                                            })}>
+                                                <option value="host" selected="true">select</option>
+                                                <option value="host">Host</option>
+                                                <option value="hotelName">Hotel Name</option>
+                                                <option value="city">City</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Search Criteria:</label>
+                                        </td>
+                                        <td>
+                                            <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
+                                                   onChange={(event)=>{
+                                                       this.searchHotelData.searchCriteria = event.target.value;
+                                                   }}
+                                            />
+                                        </td>
+                                    </tr>
+                                </Table>
+                                <FormGroup>
+
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </ModalBody>
+                    <ModalFooter>
+                        <input type="button" value="Search Hotel" className="btn btn-primary"
+                               onClick={(()=>{this.searchHotel(this.searchHotelData)})}
+                        />
+                        <input type="button" value="Cancel"
+                               className="btn btn-primary"
+                               onClick={(()=>{this.toggleSearch()})}
+                        />
+                    </ModalFooter>
+                </Modal>
+            )
+        }
+        else {
+            return(<span></span>)
+        }
+    });
+
     fetchHotels = ((data)=> {
         console.log("Wil Mount HotelPage");
+        console.log(data);
         API.fetchHotels(data).then((response) => {
             console.log(response.status);
             if(response.status===200){
@@ -212,14 +294,22 @@ class HotelPage extends Component {
                                     {
                                         this.showAddHotel()
                                     }
-
+                                    {
+                                        this.showSearchHotel()
+                                    }
                                 </div>
                                 {/*<div>*/}
                                 <Row>
                                     <Col xs="12" lg="12">
                                         <Card>
-                                            <CardHeader>
-                                                Hotels
+                                            <CardHeader className="text-center">
+                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                    this.setState({
+                                                        ...this.state,
+                                                        searchModal:true
+                                                    })
+                                                })}>Search Hotel</Button>
+                                                <label className="text-center">Hotels</label>
                                                 <Button className="btn-primary pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
@@ -268,8 +358,6 @@ class HotelPage extends Component {
                     <Route path="/admin/hotel/:hotelId" render={((match)=>{
                         return(
                             <EditHotel
-                                // groups={this.state.groups}
-                                // context={match}
                                 {...match}
                                 handlePageChange = {this.props.handlePageChange}
                                 fetchHotels = {this.fetchHotels}
