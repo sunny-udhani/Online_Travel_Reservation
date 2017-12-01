@@ -16,7 +16,7 @@
     "redis": "^2.8.0",
     "redux": "^3.7.2",
     "reactstrap": "^5.0.0-alpha.4",
-    "react-chartjs-2":"^2.6.4",
+    "react-chartjs-2": "^2.6.4",
     "chart.js": "2.7.1"
   },
   "scripts": {

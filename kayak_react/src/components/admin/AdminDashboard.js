@@ -142,116 +142,117 @@ const polar = {
 class AdminDashboard extends Component {
     render() {
         return (
-            <div className="animated fadeIn" style={{position: "relative",height:"500px", width:"1000px"}}>
-            <CardColumns className="cols-2">
-            {/*<Card>*/}
-            {/*<CardHeader>*/}
-            {/*Line Chart*/}
-        {/*<div className="card-actions">*/}
-            {/*<a href="http://www.chartjs.org">*/}
-            {/*<small className="text-muted">docs</small>*/}
-            {/*</a>*/}
-            {/*</div>*/}
-            {/*</CardHeader>*/}
-            {/*<CardBody>*/}
-            {/*<div className="chart-wrapper">*/}
-            {/*<Line data={line}*/}
-        {/*options={{*/}
-            {/*maintainAspectRatio: false*/}
-        {/*}}*/}
-        {/*/>*/}
-        {/*</div>*/}
-        {/*</CardBody>*/}
-        {/*</Card>*/}
+            <div className="animated fadeIn" style={{position: "relative", height: "500px", width: "1000px"}}>
+                <CardColumns className="cols-2">
+                    {/*<Card>*/}
+                    {/*<CardHeader>*/}
+                    {/*Line Chart*/}
+                    {/*<div className="card-actions">*/}
+                    {/*<a href="http://www.chartjs.org">*/}
+                    {/*<small className="text-muted">docs</small>*/}
+                    {/*</a>*/}
+                    {/*</div>*/}
+                    {/*</CardHeader>*/}
+                    {/*<CardBody>*/}
+                    {/*<div className="chart-wrapper">*/}
+                    {/*<Line data={line}*/}
+                    {/*options={{*/}
+                    {/*maintainAspectRatio: false*/}
+                    {/*}}*/}
+                    {/*/>*/}
+                    {/*</div>*/}
+                    {/*</CardBody>*/}
+                    {/*</Card>*/}
 
-        {/*<Card>*/}
-        {/*<CardHeader>*/}
-        {/*Bar Chart*/}
-        {/*<div className="card-actions">*/}
-            {/*<a href="http://www.chartjs.org">*/}
-            {/*<small className="text-muted">docs</small>*/}
-            {/*</a>*/}
-            {/*</div>*/}
-            {/*</CardHeader>*/}
-            {/*<CardBody>*/}
-            {/*<div className="chart-wrapper">*/}
-            {/*<Bar data={bar}*/}
-        {/*options={{*/}
-            {/*maintainAspectRatio: false*/}
-        {/*}}*/}
-        {/*/>*/}
-        {/*</div>*/}
-        {/*</CardBody>*/}
-        {/*</Card>*/}
+                    {/*<Card>*/}
+                    {/*<CardHeader>*/}
+                    {/*Bar Chart*/}
+                    {/*<div className="card-actions">*/}
+                    {/*<a href="http://www.chartjs.org">*/}
+                    {/*<small className="text-muted">docs</small>*/}
+                    {/*</a>*/}
+                    {/*</div>*/}
+                    {/*</CardHeader>*/}
+                    {/*<CardBody>*/}
+                    {/*<div className="chart-wrapper">*/}
+                    {/*<Bar data={bar}*/}
+                    {/*options={{*/}
+                    {/*maintainAspectRatio: false*/}
+                    {/*}}*/}
+                    {/*/>*/}
+                    {/*</div>*/}
+                    {/*</CardBody>*/}
+                    {/*</Card>*/}
 
-        {/*<Card>*/}
-        {/*<CardHeader>*/}
-        {/*Doughnut Chart*/}
-        {/*<div className="card-actions">*/}
-            {/*<a href="http://www.chartjs.org">*/}
-            {/*<small className="text-muted">docs</small>*/}
-            {/*</a>*/}
-            {/*</div>*/}
-            {/*</CardHeader>*/}
-            {/*<CardBody>*/}
-            {/*<div className="chart-wrapper">*/}
-            {/*<Doughnut data={doughnut}/>*/}
-        {/*</div>*/}
-        {/*</CardBody>*/}
-        {/*</Card>*/}
+                    {/*<Card>*/}
+                    {/*<CardHeader>*/}
+                    {/*Doughnut Chart*/}
+                    {/*<div className="card-actions">*/}
+                    {/*<a href="http://www.chartjs.org">*/}
+                    {/*<small className="text-muted">docs</small>*/}
+                    {/*</a>*/}
+                    {/*</div>*/}
+                    {/*</CardHeader>*/}
+                    {/*<CardBody>*/}
+                    {/*<div className="chart-wrapper">*/}
+                    {/*<Doughnut data={doughnut}/>*/}
+                    {/*</div>*/}
+                    {/*</CardBody>*/}
+                    {/*</Card>*/}
 
-         {/*<Card>*/}
-        {/*<CardHeader>*/}
-        {/*Radar Chart*/}
-        {/*<div className="card-actions">*/}
-            {/*<a href="http://www.chartjs.org">*/}
-            {/*<small className="text-muted">docs</small>*/}
-            {/*</a>*/}
-            {/*</div>*/}
-            {/*</CardHeader>*/}
-            {/*<CardBody>*/}
-            {/*<div className="chart-wrapper">*/}
-            {/*<Radar data={radar}/>*/}
-        {/*</div>*/}
-        {/*</CardBody>*/}
-        {/*</Card>*/}
+                    {/*<Card>*/}
+                    {/*<CardHeader>*/}
+                    {/*Radar Chart*/}
+                    {/*<div className="card-actions">*/}
+                    {/*<a href="http://www.chartjs.org">*/}
+                    {/*<small className="text-muted">docs</small>*/}
+                    {/*</a>*/}
+                    {/*</div>*/}
+                    {/*</CardHeader>*/}
+                    {/*<CardBody>*/}
+                    {/*<div className="chart-wrapper">*/}
+                    {/*<Radar data={radar}/>*/}
+                    {/*</div>*/}
+                    {/*</CardBody>*/}
+                    {/*</Card>*/}
 
-        {/*<Card>*/}
-        {/*<CardHeader>*/}
-        {/*Pie Chart*/}
-        {/*<div className="card-actions">*/}
-            {/*<a href="http://www.chartjs.org">*/}
-            {/*<small className="text-muted">docs</small>*/}
-            {/*</a>*/}
-            {/*</div>*/}
-            {/*</CardHeader>*/}
-            {/*<CardBody>*/}
-            {/*<div className="chart-wrapper">*/}
-            {/*<Pie data={pie}/>*/}
-        {/*</div>*/}
-        {/*</CardBody>*/}
-        {/*</Card>*/}
+                    {/*<Card>*/}
+                    {/*<CardHeader>*/}
+                    {/*Pie Chart*/}
+                    {/*<div className="card-actions">*/}
+                    {/*<a href="http://www.chartjs.org">*/}
+                    {/*<small className="text-muted">docs</small>*/}
+                    {/*</a>*/}
+                    {/*</div>*/}
+                    {/*</CardHeader>*/}
+                    {/*<CardBody>*/}
+                    {/*<div className="chart-wrapper">*/}
+                    {/*<Pie data={pie}/>*/}
+                    {/*</div>*/}
+                    {/*</CardBody>*/}
+                    {/*</Card>*/}
 
-        <Card style={{position: "relative",height:"600px", width:"800px"}}>
-        <CardHeader>
-        Polar Area Chart
-        {/*<div className="card-actions" >*/}
-            {/*<a href="http://www.chartjs.org">*/}
-            {/*<small className="text-muted">docs</small>*/}
-            {/*</a>*/}
-            {/*</div>*/}
-            </CardHeader>
-            <br/>
-            <br/>
-            <CardBody>
-            <div className="chart-wrapper" style={{position: "relative",height:"250px", width:"800px"}}>
-                <Polar data={polar}/>
-        </div>
-        </CardBody>
-        </Card>
-        </CardColumns>
-        </div>
-    )
+                    <Card style={{position: "relative", height: "600px", width: "800px"}}>
+                        <CardHeader>
+                            Polar Area Chart
+                            {/*<div className="card-actions" >*/}
+                            {/*<a href="http://www.chartjs.org">*/}
+                            {/*<small className="text-muted">docs</small>*/}
+                            {/*</a>*/}
+                            {/*</div>*/}
+                        </CardHeader>
+                        <br/>
+                        <br/>
+                        <CardBody>
+                            <div className="chart-wrapper"
+                                 style={{position: "relative", height: "250px", width: "800px"}}>
+                                <Polar data={polar}/>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </CardColumns>
+            </div>
+        )
     }
 }
 
