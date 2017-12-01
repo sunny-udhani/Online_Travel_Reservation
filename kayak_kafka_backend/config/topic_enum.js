@@ -3,6 +3,7 @@ exports.req_topic_names = {
     LOGIN: 'login_request',
     LOGOUT: 'logout_request',
     HOTEL_LISTING: 'hotel_listing_request',
+    FLIGHT_LISTING: 'flight_listing_request',
 
 };
 //
