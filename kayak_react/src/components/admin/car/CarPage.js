@@ -35,7 +35,8 @@ class CarPage extends Component {
     constructor(){
         super();
         this.state = {
-            modal : false
+            modal : false,
+            searchModal : false
         };
     }
 
@@ -57,6 +58,12 @@ class CarPage extends Component {
             ...this.state,
             modal : !this.state.modal
         })
+    });
+
+    toggleSearch = (()=> {
+        this.setState({
+            searchModal: !this.state.searchModal
+        });
     });
 
     addCar = ((carData)=>{
@@ -99,6 +106,18 @@ class CarPage extends Component {
         });
     });
 
+    searchCarData = {};
+
+    searchCar = ((data)=>{
+        console.log(data);
+        let searchQuery = {
+            query : {}
+        };
+        searchQuery.query[data.searchBy] = data.searchCriteria;
+        console.log(searchQuery);
+        this.fetchCars(searchQuery);
+        this.toggleSearch();
+    });
 
     componentWillMount(){
         this.fetchCars();
@@ -230,7 +249,62 @@ class CarPage extends Component {
 
     });
 
+    showSearchCar = (()=>{
+       return(
+           <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
+               <ModalHeader toggle={this.toggleSearch}>Search Car</ModalHeader>
+               <ModalBody>
+                   <Row>
+                       <Col xs="12">
+                           <Table border="0" className="table-responsive">
+                               <tr>
+                                   <td>
+                                       <label>Search By:</label>
+                                   </td>
+                                   <td>
+                                       <select className="dropdown" onChange={((event)=>{
+                                           this.searchCarData.searchBy = event.target.value
+                                       })}>
+                                           <option value="host" selected="true">select</option>
+                                           <option value="host">Host</option>
+                                           <option value="carType">Car Type</option>
+                                           <option value="carMake">Car Make</option>
+                                           <option value="city">City</option>
+                                           <option value="capacity">Capacity</option>
+                                       </select>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td>
+                                       <label>Search Criteria:</label>
+                                   </td>
+                                   <td>
+                                       <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
+                                              onChange={(event)=>{
+                                                  this.searchCarData.searchCriteria = event.target.value;
+                                              }}
+                                       />
+                                   </td>
+                               </tr>
+                           </Table>
+                           <FormGroup>
 
+                           </FormGroup>
+                       </Col>
+                   </Row>
+               </ModalBody>
+               <ModalFooter>
+                   <input type="button" value="Search" className="btn btn-primary"
+                          onClick={(()=>{this.searchCar(this.searchCarData)})}
+                   />
+                   <input type="button" value="Cancel"
+                          className="btn btn-primary"
+                          onClick={(()=>{this.toggleSearch()})}
+                   />
+               </ModalFooter>
+           </Modal>
+       )
+    });
 
     render() {
         return (
@@ -243,14 +317,21 @@ class CarPage extends Component {
                                     {
                                         this.showAddCar()
                                     }
-
+                                    {
+                                        this.showSearchCar()
+                                    }
                                 </div>
                                 <Row>
                                     <Col xs="12" lg="12">
                                         <Card>
-                                            <CardHeader>
-                                                Cars
-
+                                            <CardHeader className="text-center">
+                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                    this.setState({
+                                                        ...this.state,
+                                                        searchModal : true
+                                                    })
+                                                })}>Search Car</Button>
+                                                <label className="h4"><b>Cars</b></label>
                                                 <Button className="btn-primary pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
@@ -263,22 +344,22 @@ class CarPage extends Component {
                                                     <thead>
                                                     <tr>
                                                         <th>
-                                                            Host
+                                                            <b>Host</b>
                                                         </th>
                                                         <th>
-                                                            Car Name
+                                                            <b>Car Name</b>
                                                         </th>
                                                         <th>
-                                                            Car Type
+                                                            <b>Car Type</b>
                                                         </th>
                                                         <th>
-                                                            Car Make
+                                                            <b>Car Make</b>
                                                         </th>
                                                         <th>
-                                                            City
+                                                            <b>City</b>
                                                         </th>
                                                         <th>
-                                                            Zipcode
+                                                            <b>Zipcode</b>
                                                         </th>
                                                     </tr>
                                                     </thead>

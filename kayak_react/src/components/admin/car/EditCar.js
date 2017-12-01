@@ -69,7 +69,7 @@ class EditCar extends Component {
         API.modifyCarData(data).then((response) => {
             console.log(response.status);
             if(response.status===200){
-                this.props.fetchCars({carId:data._id});
+                this.props.fetchCars({_id:data._id});
                 this.props.handlePageChange("/admin/car");
             }
             else if(response.status===300)
