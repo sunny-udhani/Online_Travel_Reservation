@@ -8,7 +8,7 @@ let cors = require('cors');
 let redis = require('./config/redisConnect');
 let index = require('./routes/index');
 let users = require('./routes/users');
-let WinstonLogger = require('./config/winstonLogger');
+let infoLogger = require('./routes/logger');
 
 let admin = require('./routes/admin');
 let listings = require('./routes/listings');
@@ -56,6 +56,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/admin', admin);
 app.use('/listings', listings);
+app.use('/logger', infoLogger);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

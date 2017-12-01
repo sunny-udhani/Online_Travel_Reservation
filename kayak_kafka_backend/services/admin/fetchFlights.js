@@ -1,27 +1,24 @@
 let Flight = require('../../Models/Flight');
+let ObjectId = require('mongodb').ObjectID;
 
 handle_request = ((data, callback) => {
     let response = {
         status: 400
     };
+
     try {
-        console.log("data");
-        console.log(data);
-        let flight = new Flight({
-            flightNo : data.flightNo,
-            hostId : data.hostId,
-            flightOperator: data.flightOperator.toLowerCase(),
-            departureDate : data.departureDate,
-            arrivalDate : data.arrivalDate,
-            departureTime : data.departureTime,
-            arrivalTime : data.arrivalTime,
-            duration : data.duration,
-            origin : data.origin.toLowerCase(),
-            destination : data.destination.toLowerCase(),
-            flightImage : data.flightImage,
-            classes : data.classes
-        });
-        flight.save(function (err, results) {
+        console.log("Flights Fetch");
+        let query={};
+        if(data!=={}){
+            if(data._id!== undefined && data._id!== null){
+                query = {_id : ObjectId(data._id)}
+            }
+            else {
+                query = data.query;
+            }
+        }
+        console.log(query);
+        Flight.find(query, function (err, results) {
             if(err){
                 console.log(err);
             }
@@ -39,10 +36,6 @@ handle_request = ((data, callback) => {
                 }
             }
         });
-        // mongo.connect(mongoURL, function () {
-        //     let
-        // });
-
     }
     catch (e) {
         console.log(e);

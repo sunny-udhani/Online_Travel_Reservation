@@ -1,4 +1,4 @@
-let Flight = require('../../Models/Flight');
+let Car = require('../../Models/Car');
 
 handle_request = ((data, callback) => {
     let response = {
@@ -7,23 +7,23 @@ handle_request = ((data, callback) => {
     try {
         console.log("data");
         console.log(data);
-        let flight = new Flight({
-            flightNo : data.flightNo,
-            hostId : data.hostId,
-            flightOperator: data.flightOperator.toLowerCase(),
-            departureDate : data.departureDate,
-            arrivalDate : data.arrivalDate,
-            departureTime : data.departureTime,
-            arrivalTime : data.arrivalTime,
-            duration : data.duration,
-            origin : data.origin.toLowerCase(),
-            destination : data.destination.toLowerCase(),
-            flightImage : data.flightImage,
-            classes : data.classes
+        let car = new Car({
+            hostId: data.hostId,
+            carName: data.carName.toLowerCase(),
+            carType: data.carType.toLowerCase(),
+            carMake: data.carMake.toLowerCase(),
+            carModel: data.carModel.toLowerCase(),
+            capacity: data.capacity,
+            city: data.city.toLowerCase(),
+            state: data.state.toLowerCase(),
+            zipCode: data.zipCode,
+            price: data.price,
         });
-        flight.save(function (err, results) {
+        console.log(car);
+        car.save(function (err, results) {
             if(err){
                 console.log(err);
+                callback(err, response);
             }
             else {
                 console.log("results : ");
@@ -39,10 +39,6 @@ handle_request = ((data, callback) => {
                 }
             }
         });
-        // mongo.connect(mongoURL, function () {
-        //     let
-        // });
-
     }
     catch (e) {
         console.log(e);

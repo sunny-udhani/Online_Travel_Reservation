@@ -10,16 +10,11 @@ let flightSchema = new Schema({
     hostId: {
         type: String,
         required: true,
-        // ref:'Host'
     },
     flightOperator: {
         type: String,
         required: true
     },
-    // tripType: {
-    //     type: String,
-    //     required: true
-    // },
     departureDate: {
         type: Date,
         required: true
@@ -49,8 +44,8 @@ let flightSchema = new Schema({
         required: true
     },
     flightImage: {
-        type: Number
-        // required: true
+        type: Number,
+        required: false
     },
     classes: [{
         classType: {
@@ -68,24 +63,18 @@ let flightSchema = new Schema({
     }],
     ratings: {
         userId: {
-            type: Schema.Types.ObjectId,
-            // required: true,
-            // ref: 'User'
+            type: Schema.Types.ObjectId
         },
         rating: {
-            type: Number,
-            // required: true
+            type: Number
         }
     },
     reviews: {
         userId: {
-            type: Schema.Types.ObjectId,
-            // required: true,
-            // ref: 'User'
+            type: Schema.Types.ObjectId
         },
         reviews: {
-            type: String,
-            // required: true
+            type: String
         }
     }
 

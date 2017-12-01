@@ -1,4 +1,4 @@
-let Hotel = require('../../Models/Hotel');
+let Car = require('../../Models/Car');
 let ObjectId = require('mongodb').ObjectID;
 
 handle_request = ((data, callback) => {
@@ -7,10 +7,9 @@ handle_request = ((data, callback) => {
     };
 
     try {
-        console.log("Hotel Fetch");
-        console.log(data);
+        console.log("Car Fetch");
         let query={};
-        if(data!=={} && data!==null && data!==undefined){
+        if(data!=={}){
             if(data._id!== undefined && data._id!== null){
                 query = {_id : ObjectId(data._id)}
             }
@@ -19,9 +18,10 @@ handle_request = ((data, callback) => {
             }
         }
         console.log(query);
-        Hotel.find(query, function (err, results) {
+        Car.find(query, function (err, results) {
             if(err){
                 console.log(err);
+                callback(err, response);
             }
             else {
                 console.log("results : ");
@@ -37,10 +37,6 @@ handle_request = ((data, callback) => {
                 }
             }
         });
-        // mongo.connect(mongoURL, function () {
-        //     let
-        // });
-
     }
     catch (e) {
         console.log(e);
