@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
 import AdminHome from "./admin/AdminHome";
 import UserPaymentPage from "./user/UserPaymentPage";
+import {connect} from "react-redux"
 
 import Login from "./Login";
 import SignUp from "./SignUp";
-import Home from "./user/Home";
 
 import '../design/css/home.css'
 
 import * as API from "../api/API";
+import {doLogout} from "../api/user/API_HandleLogout";
 
 import UserHome from "./user/UserHome";
 
@@ -22,6 +23,28 @@ import Listing from "./user/Listing";
 
 class Kayak extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            signupForm: <SignUp/>,
+            signinForm: <Login/>,
+            showSignupForm: false,
+            showSigninForm: false
+        };
+    }
+
+    renderSigninForm() {
+        this.setState({
+            showSigninForm: true
+        });
+    }
+
+    renderSignupForm() {
+        this.setState({
+            showSignupForm: true
+        });
+    }
+
     handleSubmit = (userdata) => {
     };
 
@@ -33,14 +56,15 @@ class Kayak extends Component {
         // this.showLoginOption();
     }
 
-    handleLogout = (() => {
-        API.doLogout().then((response) => {
-            console.log(response.status);
-            if (response.status === 201) {
-
-            }
-        });
-    });
+    handleSignOut = () => {
+        doLogout()
+            .then((status) => {
+                if (status === 200) {
+                    console.log("Logout Successful");
+                    this.props.history.push("/");
+                }
+            });
+    };
 
     showLoginOption = ((item) => {
         console.log(item);
@@ -83,6 +107,26 @@ class Kayak extends Component {
     });
 
     render() {
+        let dashboard = '';
+
+        if (this.props.isLoggedIn === false) {
+            dashboard =
+                <ul className="dropmenu">
+                    <li><a href="/signup" onClick={this.renderSignupForm.bind(this)}>Sign Up</a></li>
+                    <li><a href="/login" onClick={this.renderSigninForm.bind(this)}>Sign In</a></li>
+                </ul>
+
+        }
+        else {
+            dashboard =
+                <ul className="dropmenu">
+                    <li><a href="#">Account Preferences {this.props.username} </a></li>
+                    <li><a href="#" onClick={this.handleSignOut}>Sign Out</a></li>
+
+                </ul>
+        }
+
+
         return (
             <div>
                 <div className="container">
@@ -117,6 +161,15 @@ class Kayak extends Component {
                                                         className="fa fa-angle-down"></span></a>
 
                                                 </li>
+
+                                                {/*Added myAccount Tab*/}
+                                                <li className="type-1"><a href="#">My Account<span
+                                                    className="fa fa-angle-down"></span></a>
+
+                                                    {dashboard}
+
+                                                </li>
+
                                             </ul>
                                         </nav>
                                     </div>
@@ -124,6 +177,11 @@ class Kayak extends Component {
                             </div>
                         </div>
                     </header>
+                </div>
+
+                <div className="myacc-dropdown">
+                    {this.state.showSigninForm ? this.state.signinForm : ''}
+                    {this.state.showSignupForm ? this.state.signupForm : ''}
                 </div>
 
                 <div className="container">
@@ -175,5 +233,16 @@ class Kayak extends Component {
     }
 }
 
-export default withRouter(Kayak);
+function mapStateToProps(state) {
+
+    return {
+        username: state.email,
+        isLoggedIn: state.isLoggedIn
+    };
+}
+
+//if you need to push something to state, use action -> reducer
+
+
+export default withRouter(connect(mapStateToProps)(Kayak));
 
