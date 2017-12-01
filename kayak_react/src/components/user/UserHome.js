@@ -9,6 +9,7 @@ import SwipeImageBackground from "./swipeImageBackground";
 
 import Background from "../../img/main_slide_1.jpg";
 import *  as HotelListingAPI from "../../api/user/API_GetHotels";
+import * as LogAPI from "../../api/user/API_Logging";
 
 import "../../css/bootstrap.min.css";
 import "../../css/font-awesome.min.css";
@@ -21,6 +22,20 @@ import FlightSearch from "./FlightSearch";
 import CarSearch from "./CarSearch";
 
 class UserHome extends Component {
+
+    componentWillMount(){
+        let click = {
+          // userId: "anonymous",
+          pageName: "UserHome",
+          timeStamp: new Date().toLocaleTimeString()
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
+    }
 
     searchHotel = (searchCriteria) => {
         HotelListingAPI.getHotels(searchCriteria)
