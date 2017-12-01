@@ -1,5 +1,4 @@
 const express = require('express');
-//const logger = require('../config/winstonLogger');
 const redis_client = require("../config/redisConnect").getClient();
 const router = express.Router();
 const req_topic_enums = require('../config/topic_enum').req_topic_names;
@@ -14,7 +13,6 @@ router.post('/getHotels', function (req, res) {
     try {
         if (req.body.criteria) {
 
-            //logger.info({for: 'Hotel Listing request', data : {user: (req.session.username? req.session.username : "potential customer"), url_clicked: '/listings/hotels'}});
             redis_client.hget(req.body.criteria.toString(), req.body.criteria.toString(), function (err, reply) {
 
                 if (err) {
@@ -127,7 +125,6 @@ router.post('/getFlights', function (req, res) {
 
         if (req.body.criteria) {
 
-            logger.info({for: 'Flight Listing request', data : {user: (req.session.username? req.session.username : "potential customer"), searchCriteria: req.body.criteria,  url_clicked: '/listings/flights'}});
             redis_client.hget(req.body.criteria.toString(), req.body.criteria.toString(), function (err, reply) {
 
                 if (err) {
