@@ -36,13 +36,20 @@ class FlightPage extends Component {
         super();
         this.state = {
             flights : [],
-            modal : false
+            modal : false,
+            searchModal : false
         };
     }
 
     toggle = (()=> {
         this.setState({
             modal: !this.state.modal
+        });
+    });
+
+    toggleSearch = (()=> {
+        this.setState({
+            searchModal: !this.state.searchModal
         });
     });
 
@@ -95,6 +102,40 @@ class FlightPage extends Component {
             }
         });
     });
+
+
+
+    fetchFlights = ((data)=>{
+        API.fetchFlights(data).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    this.props.setFlightData_Success(data);
+                });
+            }
+            else {
+                console.log("Error while fetching flight data");
+            }
+        })
+    });
+
+    searchFlightData = {};
+
+    searchFlight = ((data)=>{
+        console.log(data);
+        let searchQuery = {
+            query : {}
+        };
+        searchQuery.query[data.searchBy] = data.searchCriteria;
+        console.log(searchQuery);
+        this.fetchFlights(searchQuery);
+        this.toggleSearch();
+    });
+
+    componentWillMount(){
+        this.fetchFlights();
+    }
 
     showAddFlight = (()=>{
         console.log(this.state.modal);
@@ -277,24 +318,66 @@ class FlightPage extends Component {
 
     });
 
-    fetchFlights = ((data)=>{
-        API.fetchFlights(data).then((response) => {
-            console.log(response.status);
-            if(response.status===200){
-                response.json().then((data)=>{
-                    console.log(data);
-                    this.props.setFlightData_Success(data);
-                });
-            }
-            else {
-                console.log("Error while fetching flight data");
-            }
-        })
-    });
+    showSearchFlight = (()=>{
+        if(this.state.searchModal){
+            return(
+                <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggleSearch}>Search Flight</ModalHeader>
+                    <ModalBody>
+                        <Row>
+                            <Col xs="12">
+                                <Table border="0" className="table-responsive">
+                                    <tr>
+                                        <td>
+                                            <label>Search By:</label>
+                                        </td>
+                                        <td>
+                                            <select className="dropdown" onChange={((event)=>{
+                                                this.searchFlightData.searchBy = event.target.value
+                                            })}>
+                                                <option value="host" selected="true">select</option>
+                                                <option value="host">Host</option>
+                                                <option value="flightNo">Flight Number</option>
+                                                <option value="flightOperator">Flight Operator</option>
+                                                <option value="origin">Origin City</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Search Criteria:</label>
+                                        </td>
+                                        <td>
+                                            <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
+                                                   onChange={(event)=>{
+                                                       this.searchFlightData.searchCriteria = event.target.value;
+                                                   }}
+                                            />
+                                        </td>
+                                    </tr>
+                                </Table>
+                                <FormGroup>
 
-    componentWillMount(){
-        this.fetchFlights();
-    }
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </ModalBody>
+                    <ModalFooter>
+                        <input type="button" value="Search Flight" className="btn btn-primary"
+                               onClick={(()=>{this.searchFlight(this.searchFlightData)})}
+                        />
+                        <input type="button" value="Cancel"
+                               className="btn btn-primary"
+                               onClick={(()=>{this.toggleSearch()})}
+                        />
+                    </ModalFooter>
+                </Modal>
+            )
+        }
+        else {
+            return(<span></span>)
+        }
+    });
 
     render() {
         window.onclick = (() => {
@@ -317,13 +400,22 @@ class FlightPage extends Component {
                                     {
                                         this.showAddFlight()
                                     }
+                                    {
+                                        this.showSearchFlight()
+                                    }
                                 </div>
                                 <div className="animated fadeIn">
                                     <Row>
                                         <Col xs="12" lg="12">
                                             <Card>
-                                                <CardHeader>
-                                                    Flights
+                                                <CardHeader className="text-center">
+                                                    <Button className="btn-primary pull-left" onClick={(()=>{
+                                                        this.setState({
+                                                            ...this.state,
+                                                            searchModal : true
+                                                        })
+                                                    })}>Search Flight</Button>
+                                                    <label>Flights</label>
                                                     <Button className="btn-primary pull-right" onClick={(()=>{
                                                         this.setState({
                                                             ...this.state,
@@ -388,8 +480,6 @@ class FlightPage extends Component {
                     <Route path="/admin/flight/:flightId" render={((match)=>{
                         return(
                             <EditFlight
-                                // groups={this.state.groups}
-                                // context={match}
                                 {...match}
                                 handlePageChange = {this.props.handlePageChange}
                                 fetchFlights = {this.fetchFlights}
