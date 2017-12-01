@@ -56,7 +56,7 @@ class UserHome extends Component {
                                 <div className="vertical-align">
                                     <div className="container">
                                         <div className="row">
-                                            <div className="col-md-12">
+                                            <div className="col-md-11">
                                                 <div className="main-title vert-title">
                                                     <div className="top-weather-info delay-1">
                                                         <p>London</p>
