@@ -449,7 +449,209 @@ router.post('/modifyCar', function(req, res, next) {
     // res.send('respond with a resource');
 });
 
+router.post('/fetchHosts', function(req, res, next) {
+    console.log(req.session.username);
+    let username = req.session.username;
+    //Uncomment when Session issue is resolved
+    // if(req.session.username!==null && req.session.username!==undefined){
+    console.log(req.body);
 
+    kafka.make_request(req_topic_enums.FETCH_HOSTS, req.body, function(err,results){
+        if(err){
+            console.log(err);
+        }
+        else
+        {
+            console.log(results);
+            if(results.status === 200){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 204){
+                console.log("Local username: "+ username);
+                res.status(results.status).end();
+            }
+            else if(results.status === 400){
+                console.log("Local username: "+ username);
+                res.status(results.status).end();
+            }
+            else {
+                res.status(results.status).end(results);
+            }
+        }
+    });
+    // }
+    // else {
+    //
+    // }
+
+    // res.send('respond with a resource');
+});
+
+router.post('/addHost', function(req, res, next) {
+    console.log(req.session.username);
+    let username = req.session.username;
+    //Uncomment when Session issue is resolved
+    // if(req.session.username!==null && req.session.username!==undefined){
+    console.log(req.body);
+
+    kafka.make_request(req_topic_enums.ADD_HOST, req.body, function(err,results){
+        if(err){
+            console.log(err);
+        }
+        else
+        {
+            console.log(results);
+            if(results.status === 200){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 400){
+                console.log("Local username: "+ username);
+                res.status(results.status).end();
+            }
+            else {
+                res.status(results.status).end();
+            }
+        }
+    });
+    // }
+    // else {
+    //
+    // }
+
+    // res.send('respond with a resource');
+});
+
+router.post('/modifyHost', function(req, res, next) {
+    console.log(req.session.username);
+    let username = req.session.username;
+    //Uncomment when Session issue is resolved
+    // if(req.session.username!==null && req.session.username!==undefined){
+    console.log(req.body);
+
+    kafka.make_request(req_topic_enums.MODIFY_HOST, req.body, function(err,results){
+        if(err){
+            console.log(err);
+        }
+        else
+        {
+            console.log(results);
+            if(results.status === 200){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 400){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 300){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 204){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else {
+                res.status(results.status).end();
+            }
+        }
+    });
+    // }
+    // else {
+    //
+    // }
+
+    // res.send('respond with a resource');
+});
+
+router.post('/fetchUsers', function(req, res, next) {
+    console.log(req.session.username);
+    let username = req.session.username;
+    //Uncomment when Session issue is resolved
+    // if(req.session.username!==null && req.session.username!==undefined){
+    console.log(req.body);
+
+    kafka.make_request(req_topic_enums.FETCH_USERS, req.body, function(err,results){
+        if(err){
+            console.log(err);
+        }
+        else
+        {
+            console.log(results);
+            if(results.status === 200){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 400){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 300){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 204){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else {
+                res.status(results.status).end();
+            }
+        }
+    });
+    // }
+    // else {
+    //
+    // }
+
+    // res.send('respond with a resource');
+});
+
+
+router.post('/modifyUsers', function(req, res, next) {
+    console.log(req.session.username);
+    let username = req.session.username;
+    //Uncomment when Session issue is resolved
+    // if(req.session.username!==null && req.session.username!==undefined){
+    console.log(req.body);
+
+    kafka.make_request(req_topic_enums.MODIFY_USERS, req.body, function(err,results){
+        if(err){
+            console.log(err);
+        }
+        else
+        {
+            console.log(results);
+            if(results.status === 200){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 400){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 300){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else if(results.status === 204){
+                console.log("Local username: "+ username);
+                res.status(results.status).send(results.data);
+            }
+            else {
+                res.status(results.status).end();
+            }
+        }
+    });
+    // }
+    // else {
+    //
+    // }
+
+    // res.send('respond with a resource');
+});
 
 
 module.exports = router;
