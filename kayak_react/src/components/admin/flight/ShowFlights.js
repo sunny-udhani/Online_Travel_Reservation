@@ -33,13 +33,24 @@ class ShowFlights extends Component {
                     {flight.duration}
                 </td>
                 <td>
-                    <Link
-                        to={`/admin/flight/${flight._id}`}
-                        className="btn btn-link"
-                        key={flight._id}
-                    >
-                        Edit
-                    </Link>
+                    <span>
+                        <Link
+                            to={`/admin/flight/${flight._id}`}
+                            className="btn btn-link"
+                            key={flight._id}
+                        >
+                            Edit
+                        </Link>
+                    </span>
+                    <span>
+                        <Link
+                            to={`/admin/flight/${flight._id}`}
+                            className="btn btn-link"
+                            key={flight._id}
+                        >
+                            View
+                        </Link>
+                    </span>
                 </td>
             </tr>
         );
