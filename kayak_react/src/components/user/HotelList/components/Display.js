@@ -7,7 +7,6 @@ import Summary from './Summary.js';
 import {getHotelRoom} from "../../../../api/user/API_HotelRoom.js";
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
-import NumericLabel from 'react-pretty-numbers';
 
 const headers = {
     'Accept': 'application/json'
@@ -58,7 +57,7 @@ export default class Display extends Component {
         let totalpriceOfRoom = priceOfRoom + tax;
 
         return (
-            <div className="container">
+
                 <div className="row">
 
                     <div className="col-lg-9 ">
@@ -71,7 +70,8 @@ export default class Display extends Component {
                         <Summary hotelRoom={this.state.hotelRoom}/>
                     </div>
                 </div>
-            </div>
+
+
         );
     }
 }
