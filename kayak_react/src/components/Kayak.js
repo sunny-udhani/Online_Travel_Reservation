@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, withRouter, Switch, Link} from 'react-router-dom';
+import {Route, withRouter, Switch, Link, Redirect} from 'react-router-dom';
 import AdminHome from "./admin/AdminHome";
 import UserPaymentPage from "./user/UserPaymentPage";
 
@@ -127,12 +127,14 @@ class Kayak extends Component {
                 </div>
 
                 <div className="container">
-                    {/*<Link to='/admin'><span classNameName="glyphicon glyphicon-circle-arrow-right"></span>Admin</Link>*/}
                     <Switch>
                         <Route exact path="/" render={() => {
-                            this.props.history.push("/u")
-                        }
-                        }/>
+                            return(
+                               <div>
+                                   {this.handlePageChange("/u")}
+                               </div>
+                            );
+                        }}/>
 
                         <Route path="/payment" render={() =>
                             <UserPaymentPage/>
