@@ -23,33 +23,34 @@ class AdminHome extends Component {
                         <Link to='/admin/flight'><span className="glyphicon glyphicon-circle-arrow-right"></span>Flight</Link>
                         <Link to='/admin/car'><span className="glyphicon glyphicon-circle-arrow-right"></span>Car</Link>
                         <Link to='/admin/profile'><span className="glyphicon glyphicon-circle-arrow-right"></span>Profile</Link>
+                        <Link to='/admin/dashboard'><span className="glyphicon glyphicon-circle-arrow-right"></span>Dashboard</Link>
                         <button className="btn btn-link" onClick={(()=>{this.props.handleLogout()})}>Logout</button>
                         <Switch>
                             <Route exact path="/admin" render={() => {
                                 return (
                                     <div>
-                                        Admin Home
+                                        {this.props.handlePageChange("/admin/dashboard")}
                                     </div>
                                 )
                             }}/>
 
-                    <Route path="/admin/dashboard" render={() => (
-                        <AdminDashboard
-                            validateUserSession={this.validateUserSession}
-                            handleLogout={this.handleLogout}
-                            handlePageChange={this.props.handlePageChange}
-                            // username={this.state.username}
-                        />
-                    )}/>
+                            <Route path="/admin/dashboard" render={() => (
+                                <AdminDashboard
+                                    validateUserSession={this.validateUserSession}
+                                    handleLogout={this.handleLogout}
+                                    handlePageChange={this.props.handlePageChange}
+                                    // username={this.state.username}
+                                />
+                            )}/>
 
-                    <Route path="/admin/hotel" render={() => (
-                        <HotelPage
-                            validateUserSession={this.validateUserSession}
-                            handleLogout={this.handleLogout}
-                            handlePageChange={this.props.handlePageChange}
-                            // username={this.state.username}
-                        />
-                    )}/>
+                            <Route path="/admin/hotel" render={() => (
+                                <HotelPage
+                                    validateUserSession={this.validateUserSession}
+                                    handleLogout={this.handleLogout}
+                                    handlePageChange={this.props.handlePageChange}
+                                    // username={this.state.username}
+                                />
+                            )}/>
 
                             <Route path="/admin/flight" render={() => (
                                 <FlightPage
