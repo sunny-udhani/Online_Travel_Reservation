@@ -26,3 +26,4 @@ router.post('/getHotelRoom',function(req,res){
     }
 
 });
+module.exports = router;

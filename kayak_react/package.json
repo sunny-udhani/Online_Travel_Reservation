@@ -3,21 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "chart.js": "2.7.1",
     "material-ui": "^0.19.4",
     "moment": "^2.19.3",
     "prop-types": "^15.5.10",
     "rc-slider": "^8.4.0",
     "react": "^15.6.1",
+    "react-chartjs-2": "^2.6.4",
     "react-dom": "^15.6.1",
     "react-moment": "^0.6.8",
+    "react-pretty-numbers": "^2.0.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
-    "redis": "^2.8.0",
-    "redux": "^3.7.2",
     "reactstrap": "^5.0.0-alpha.4",
-    "react-chartjs-2":"^2.6.4",
-    "chart.js": "2.7.1"
+    "redis": "^2.8.0",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",

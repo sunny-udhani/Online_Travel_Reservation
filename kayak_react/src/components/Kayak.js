@@ -229,16 +229,16 @@ class Kayak extends Component {
                             />
                         )}/>
 
-                        <Route path="/u/hotelroom" render={() => (
+                        <Route path="/hotelroom" render={() => (
                             <Display/>
                         )}/>
-                        <Route path="/u/pref" render={() => (
+                        <Route path="/pref" render={() => (
                             <Preferences/>
                         )}/>
-                        <Route path="/u/payinfo" render={() => (
+                        <Route path="/payinfo" render={() => (
                             <Payment/>
                         )}/>
-                        <Route path="/u/triphistory" render={() => (
+                        <Route path="/triphistory" render={() => (
                             <TripHistory/>
                         )}/>
 
