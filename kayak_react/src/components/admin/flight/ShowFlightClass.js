@@ -4,21 +4,21 @@ class ShowRooms extends Component {
 
     render() {
 
-        const {room} = this.props;
-        console.log(room);
+        const {item} = this.props;
+        console.log(item);
         return (
             <tbody>
             <tr>
                 <td>
-                    Room Type :
+                    Flight Class :
                 </td>
                 <td>
-                    {room.roomType}
+                    {item.classType}
                 </td>
-                <td rowSpan="4">
+                <td rowSpan="4" className="text-center">
                     <button className="btn btn-primary" onClick={(()=>{
-                        // this.props.changeShowAddRoomStatus(true, room.roomType, room._id);
-                        this.props.changeShowAddRoomStatus(true, room);
+                        // this.props.changeShowModifyClassStatus(true, item._id, item.classType, item.noOfSeats, item.price);
+                        this.props.changeShowModifyClassStatus(true, item);
                     })}>
                         Change
                     </button>
@@ -26,26 +26,18 @@ class ShowRooms extends Component {
             </tr>
             <tr>
                 <td>
-                    Room Capacity :
+                    Capacity:
                 </td>
                 <td>
-                    {room.roomCapacity}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Room Price :
-                </td>
-                <td>
-                    {room.roomPrice}
+                    {item.noOfSeats}
                 </td>
             </tr>
             <tr>
                 <td>
-                    Numer of Rooms :
+                    Price :
                 </td>
                 <td>
-                    {room.noOfRooms}
+                    {item.price}
                 </td>
             </tr>
             </tbody>

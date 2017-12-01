@@ -9,7 +9,7 @@ handle_request = ((data, callback) => {
         console.log("data");
         console.log(data);
         // {_id:ObjectId(data.hotelId)},
-        Hotel.updateOne({$and:[{_id:ObjectId(data.hotelId)},{'rooms._id': ObjectId(data.roomId)}]},
+        Hotel.updateOne({$and:[{_id:ObjectId(data.hotelId)},{'rooms._id': ObjectId(data._id)}]},
             {$set:
                 {
                     // 'rooms.$.roomType':data.roomType,
