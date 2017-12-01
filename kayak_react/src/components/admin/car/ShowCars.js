@@ -30,6 +30,7 @@ class ShowCars extends Component {
                     {car.zipCode}
                 </td>
                 <td>
+                    <span>
                     <Link
                         to={`/admin/car/${car._id}`}
                         className="btn btn-link"
@@ -37,6 +38,16 @@ class ShowCars extends Component {
                     >
                         Edit
                     </Link>
+                    </span>
+                    <span>
+                    <Link
+                        to={`/admin/car/${car._id}`}
+                        className="btn btn-link"
+                        key={car._id}
+                    >
+                        View
+                    </Link>
+                    </span>
                 </td>
             </tr>
             </tbody>
