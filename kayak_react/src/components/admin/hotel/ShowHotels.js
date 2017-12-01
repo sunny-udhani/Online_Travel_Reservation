@@ -141,35 +141,25 @@ class ShowHotels extends Component {
                     {hotel.state}
                 </td>
                 <td>
-                    <Link
-                        to={`/admin/hotel/${hotel._id}`}
-                        className="btn btn-link"
-                        key={hotel._id}
-                    >
+                    <span>
+                       <Link
+                           to={`/admin/hotel/${hotel._id}`}
+                           className="btn btn-link"
+                           key={hotel._id}
+                       >
                         Edit
-                    </Link>
+                        </Link>
+                    </span>
+                    <span>
+                        <Link
+                            to={`/admin/hotel/${hotel._id}`}
+                            className="btn btn-link"
+                            key={hotel._id}
+                        >
+                        View
+                        </Link>
+                    </span>
                 </td>
-
-                {/*<td>
-                    <tbody>
-                    <tr>
-                        Rooms:
-                        {
-                            hotel.rooms.map((room, index)=> {
-                                return (
-                                    <ShowRooms
-                                        key={index}
-                                        room={room}
-                                        changeShowAddRoomStatus = {this.changeShowAddRoomStatus}
-                                    />
-                                )
-                            })
-                        }
-                    </tr>
-                    </tbody>
-                </td>*/}
-
-                {/*{this.showAddRoom(hotel)}*/}
             </tr>
             </tbody>
         );

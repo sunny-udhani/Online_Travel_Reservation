@@ -309,7 +309,7 @@ class HotelPage extends Component {
                                                         searchModal:true
                                                     })
                                                 })}>Search Hotel</Button>
-                                                <label className="text-center">Hotels</label>
+                                                <label className="text-center"><b>Hotels</b></label>
                                                 <Button className="btn-primary pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
@@ -322,16 +322,16 @@ class HotelPage extends Component {
                                                     <thead>
                                                     <tr>
                                                         <th>
-                                                            Host
+                                                            <b>Host</b>
                                                         </th>
                                                         <th>
-                                                            Hotel Name
+                                                            <b>Hotel Name</b>
                                                         </th>
                                                         <th>
-                                                            City
+                                                            <b>City</b>
                                                         </th>
                                                         <th>
-                                                            State
+                                                            <b>State</b>
                                                         </th>
                                                     </tr>
                                                     </thead>
