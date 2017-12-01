@@ -134,7 +134,7 @@ class UserHome extends Component {
                                         <Link to='/u/flight'>Flight</Link>
                                     </li>
                                     <li className="click-tabs">
-                                        <Link to='/u/car'>Car</Link>
+                                        <Link to='/u/cars'>Car</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -165,7 +165,7 @@ class UserHome extends Component {
                                         />
                                     )}/>
 
-                                    <Route path="/u/car" render={() => (
+                                    <Route path="/u/cars" render={() => (
                                         <CarSearch
                                             listCars = {this.listCars}
                                             // validateUserSession={this.validateUserSession}

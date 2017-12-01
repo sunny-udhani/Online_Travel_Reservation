@@ -29,9 +29,10 @@ let pool = mysql.createPool({
     port: 3306,
     debug: false,
     ssl: {
-        ca   : fs.readFileSync('D:\\certs\\server-ca.pem'), // should be enough for AWS
-        key  : fs.readFileSync('D:\\certs\\client-key.pem'), // required for google mysql cloud db
-        cert : fs.readFileSync('D:\\certs\\client-cert.pem'), // required for google mysql cloud db
+        ca: fs.readFileSync('D:\\certs\\server-ca.pem'), // should be enough for AWS
+        key: fs.readFileSync('D:\\certs\\client-key.pem'), // required for google mysql cloud db
+        cert: fs.readFileSync('D:\\certs\\client-cert.pem'), // required for google mysql cloud db
+        // required for google mysql cloud db
     }
 });
 
