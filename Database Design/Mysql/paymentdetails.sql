@@ -34,7 +34,7 @@ CREATE TABLE `paymentdetails` (
   `username` varchar(50) NOT NULL,
   `nameoncard` varchar(50) NOT NULL,
   `creditCardNumber` varchar(45) NOT NULL,
-  `validThrough` date NOT NULL,
+  `validThrough` varchar(45) NOT NULL,
   `cvv` varchar(3) NOT NULL,
   PRIMARY KEY (`creditCardNumber`),
   KEY `username_idx` (`username`),

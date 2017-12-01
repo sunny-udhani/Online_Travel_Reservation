@@ -20,6 +20,11 @@ import "../css/style.css"
 import "../css/jquery-ui.min.css"
 import "../css/jquery-ui.structure.min.css"
 import Listing from "./user/Listing";
+import Payment from './user/HotelList/Preferences/Payment';
+import Preferences from "./user/HotelList/Preferences/Preferences";
+import TripHistory from "./user/HotelList/Preferences/TripHistory";
+import Display from './user/HotelList/components/Display.js';
+
 
 class Kayak extends Component {
 
@@ -222,6 +227,19 @@ class Kayak extends Component {
                                 handleLogout={this.handleLogout}
                                 handlePageChange={this.handlePageChange}
                             />
+                        )}/>
+
+                        <Route path="/u/hotelroom" render={() => (
+                            <Display/>
+                        )}/>
+                        <Route path="/u/pref" render={() => (
+                            <Preferences/>
+                        )}/>
+                        <Route path="/u/payinfo" render={() => (
+                            <Payment/>
+                        )}/>
+                        <Route path="/u/triphistory" render={() => (
+                            <TripHistory/>
                         )}/>
 
                     </Switch>

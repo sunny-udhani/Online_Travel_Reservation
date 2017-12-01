@@ -1,0 +1,143 @@
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+.header1{
+    padding: 16px 10px;
+    background: #558fe6;
+    color: #fff;
+    font-size: 23px ;
+    width:1015px;
+
+}
+.img1:hover {
+
+    position:relative;
+    top:-25px;
+    left:-35px;
+    width:500px;
+    height:auto;
+    display:block;
+    z-index:999;
+}
+
+
+.img1 {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 160px;
+    height: 110px;
+    border: 2px solid white;
+    box-shadow: 0 0 10px #d7d8db;
+}
+.header2{
+    padding-left: 20px;
+    border: 0;
+    padding: 0 26px 1px;
+    font-weight: normal;
+    color: #000 ;
+    font-size: 16px;
+}
+.carddetail{
+    box-shadow: 0 3px 10px #d7d8db;
+    background: white;
+    padding: 25px;
+}
+.conatiner{
+    background-color: white;
+    width:1050px;
+}
+.innercontainer{
+    margin-top: 0px;
+    background-color: #ffffff;
+    width:1015px;
+}
+.container roomlist{
+
+}
+p {
+    margin: 5px 0;
+}
+.description{
+    margin: 0;
+    font-size: 18px;
+}
+
+.description1{
+    font-size: 16px;
+    display: block;
+    margin-top: 5px;
+    font-weight: 500;
+    color:black;
+    float: left;
+}
+.description1tax{
+    font-size: 16px;
+}
+.totalprice{
+    margin-left: 34px;
+    padding-top: 10px;
+    font-size: 28px;
+    display: block;
+    margin-top: 5px;
+    font-weight: 500;
+    color:black;
+}
+.button {
+    background-color: orangered;
+    border: none;
+    color: white;
+    padding: 9px 36px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+
+}
+.buttonspan{
+
+}
+.cancel{
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    color: #20bf7c;
+    font-size: 12px;
+    display: block;
+
+}
+.cancellationpolicy{
+    text-align: center;
+}
+.tax{
+    display: block;
+    color: #545456;
+    margin-bottom: 5px;
+
+}
+.App-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+}
+
+.App-title {
+    font-size: 1.5em;
+}
+
+.App-intro {
+    font-size: large;
+}
+
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

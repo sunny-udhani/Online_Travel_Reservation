@@ -1,0 +1,125 @@
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+.col-md-3-navFileUpload{
+    padding-top: 3%;
+    padding-left: 10%;
+    text-align: left;
+
+}
+.col-md-8-navFileUpload{
+
+    width: 800px;
+    height: 400px;
+    margin-top: 3%;
+    margin-left: 5%;
+}
+.heading-container{
+    width:600px;
+    height:59px;
+    float: left;
+}
+.header-preferences{
+    float: left;
+    padding-left: 10px;
+    font-size:32px;
+    font-weight: bold ;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.line{
+    line-height: 1.231;
+    margin-top: 64px;
+}
+.email-details{
+    border-bottom: 1px solid #e2e2e2;
+    width: 700px;
+
+
+}
+.email-user{
+
+    width:200px;
+    text-align: left;
+    padding-left: 10px;
+}
+.email-info{
+
+    width: 273px;
+    text-align: left;
+    margin-left: 42%;
+}
+.password-details{
+    border-bottom: 1px solid #e2e2e2;
+    width:700px;
+    margin-top: 20px;
+
+}
+.password-user{
+
+    width:200px;
+    text-align: left;
+    padding-left:10px;
+}
+.password-info{
+
+    width:273px;
+    text-align: left;
+    margin-left:42%;
+}
+.airport-details{
+    border-bottom: 1px solid #e2e2e2;
+    width:700px;
+    margin-top:20px;
+
+}
+.airport-user{
+
+    width:200px;
+    text-align: left;
+    padding-left: 10px;
+}
+.airport-info{
+
+    width: 273px;
+    text-align: left;
+    margin-left:42%;
+}
+.user-bold{
+    font-weight: bold;
+}
+.delete-details{
+
+    width:700px;
+    margin-top:40px;
+
+
+}
+.delete-user{
+    width:200px;
+    text-align: left;
+    padding-left: 10px;
+    color: #558fe6;;
+
+}

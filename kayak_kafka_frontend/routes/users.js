@@ -3,6 +3,7 @@ const passport = require("passport");
 let router = express.Router();
 require('./passport')(passport);
 var kafka = require('./kafka/client');
+var	parser = require('multer')();
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -169,6 +170,58 @@ router.post('/getUserDetails', function (req, res) {
     catch (e) {
         console.log(e);
         res.status(400).json({message: "Fetch unsuccessful"});
+    }
+});
+
+
+router.post('/addusercard',parser.any(),function(req,res){
+    try {
+        console.log(req.body);
+        let x = req.body.cardnumber;
+        let y = x.toString();
+        if (y.length == 16) {
+            console.log("yayayya");
+
+
+            kafka.make_request('addusercard_topic', req.body, function (err, results) {
+                console.log(results);
+                if (results.code == 200) {
+                    res.json(results.user);
+                }
+                else {
+                    throw err;
+                }
+            })
+        }
+        else {
+            console.log("failed")
+        }
+    }
+    catch (e){
+        console.log(e);
+        res.status(400).json({message: "Failed to Get"});
+    }
+
+});
+
+router.post('/getbookinginfo_user',function (req,res) {
+    try{
+        console.log(req.body);
+        kafka.make_request('getbookinguser_topic',req.body,function (err,results) {
+            console.log(results);
+            console.log(JSON.stringify(results.rooms))
+            if(results.code==200){
+                res.json(results.user);
+            }
+            else {
+                throw err;
+            }
+        })
+    }
+    catch(e){
+        console.log(e);
+        res.status(400).json({message:"Failed to get Details"})
+
     }
 });
 

@@ -28,6 +28,14 @@ let modifyUser = require('./services/admin/user/modifyUser');
 let getFlightDetails = require('./services/getFlightDetails');
 let getUserDetails = require('./services/getUserDetails');
 
+//Pritam's services
+let getUserBooking_Info=require('./services/getUserBooking_Info');
+let addUserCard=require('./services/addUserCard');
+let getUserBooking_Flights=require('./services/getUserBooking_Flights');
+let getUserBooking_Cars=require('./services/getUserBooking_Cars');
+let getHotelRooms=require('./services/getHotelRooms.js');
+
+
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
 let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
@@ -52,6 +60,12 @@ let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETA
 let getUserDetails_Consumer = connection.getConsumerObj(req_topics.USER_DETAILS);
 
 let flightListing_Consumer = connection.getConsumerObj(req_topics.FLIGHT_LISTING);
+
+//pritam's consumers
+let getHotelRoomsConsumer=connection.getConsumerObj("fetchhotels_topic");
+let addUserCardConsumer=connection.getConsumerObj("addusercard_topic");
+let getUserBooking_InfoConsumer=connection.getConsumerObj("getbookinguser_topic");
+
 
 try {
     loginConsumer.on('message', function (message) {
@@ -279,7 +293,6 @@ try {
             // return;
         });
     });
-
 
     fetchflightsConsumer.on('message', function (message) {
         console.log('message received');
@@ -755,6 +768,118 @@ try {
             });
         });
     });
+
+    //Pritam's consumer listeners
+    getHotelRoomsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+
+        var data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getHotelRooms.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    addUserCardConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+
+        var data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        addUserCard.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    getUserBooking_InfoConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+
+        var data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getUserBooking_Info.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            getUserBooking_Flights.handle_request(data.data,function(err,resu) {
+
+                getUserBooking_Cars.handle_request(data.data,function(err,resul){
+                    let result=[];
+                    result.push(res,resu,resul);
+
+
+                    var payloads = [
+                        {
+                            topic: data.replyTo,
+                            messages: JSON.stringify({
+                                correlationId: data.correlationId,
+                                data: result
+                            }),
+                            partition: 0
+                        }
+                    ];
+                    producer.send(payloads, function (err, data) {
+                        console.log(data);
+                        console.log(payloads);
+                    });
+
+
+
+
+
+
+                });
+
+            });
+
+
+
+
+            // return;
+        });
+    });
+
 }
 catch (e){
     console.log(e)

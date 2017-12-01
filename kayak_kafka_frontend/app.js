@@ -12,6 +12,7 @@ let infoLogger = require('./routes/logger');
 
 let admin = require('./routes/admin');
 let listings = require('./routes/listings');
+let listingDetail = require('./routes/listingDetail');
 
 let mongoSessionURL = "mongodb://localhost:27017/kayak";
 let expressSessions = require("express-session");
@@ -56,6 +57,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/admin', admin);
 app.use('/listings', listings);
+app.use('/listingDetail', listingDetail);
 app.use('/logger', infoLogger);
 
 // catch 404 and forward to error handler
