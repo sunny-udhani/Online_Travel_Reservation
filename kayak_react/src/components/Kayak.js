@@ -94,27 +94,22 @@ class Kayak extends Component {
                                         <nav className="menu">
                                             <ul>
                                                 <li className="type-1 active">
-                                                    <a href="#">home<span className="fa fa-angle-down"></span></a>
+                                                    <Link to="/u/hotel">home<span className="fa fa-angle-down"></span></Link>
 
                                                 </li>
-                                                <li className="type-1"><a href="#">Hotels
+                                                <li className="type-1"><Link to="/u/hotel">Hotels
                                                     <span
-                                                        className="fa fa-angle-down"></span></a>
+                                                        className="fa fa-angle-down"></span></Link>
 
                                                 </li>
-                                                <li className="type-1"><a href="#">Flights
+                                                <li className="type-1"><Link to="/u/flight">Flights
                                                     <span
-                                                        className="fa fa-angle-down"></span></a>
+                                                        className="fa fa-angle-down"></span></Link>
 
                                                 </li>
-                                                <li className="type-1"><a href="#">Cars
+                                                <li className="type-1"><Link to="/u/cars">Cars
                                                     <span
-                                                        className="fa fa-angle-down"></span></a>
-
-                                                </li>
-                                                <li className="type-1"><a href="#">Cruises
-                                                    <span
-                                                        className="fa fa-angle-down"></span></a>
+                                                        className="fa fa-angle-down"></span></Link>
 
                                                 </li>
                                             </ul>

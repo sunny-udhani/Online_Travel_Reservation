@@ -24,7 +24,7 @@ const images = importAll(require.context('../../img', false, /\.(png|jpe?g|svg)$
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 
-class HotelListing extends Component {
+class CarListing extends Component {
 
     filterCriteria = {
         priceStart: 0,
@@ -43,7 +43,7 @@ class HotelListing extends Component {
     }
 
     componentWillMount() {
-        this.props.searchHotel({criteria: this.props.match.params.criteria})
+        // this.props.searchHotel({criteria: this.props.match.params.criteria})
     }
 
     componentDidMount() {
@@ -394,4 +394,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(HotelListing);
+export default connect(mapStateToProps, mapDispatchToProps)(CarListing);

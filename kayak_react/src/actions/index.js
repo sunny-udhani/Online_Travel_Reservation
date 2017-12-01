@@ -29,3 +29,24 @@ export function hotelList_Success(hotelList) {
         hotelList
     }
 }
+
+export function flightList_Success(flightList) {
+    return {
+        type: actionTypes.FLIGHT_LISTING_SUCCESS,
+        flightList
+    }
+}
+
+export function toggleBookingType(toggleInd) {
+    return {
+        type: actionTypes.TOGGLE_BOOKING_TYPE,
+        toggleInd
+    }
+}
+
+export function flightEssentialsAdd(className,tripType,noOfPassengers) {
+    return {
+        type: actionTypes.FLIGHT_ESSENTIALS_ADD,
+        className,tripType,noOfPassengers
+    }
+}

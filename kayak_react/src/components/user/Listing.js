@@ -5,16 +5,18 @@ import CarSearch from "./CarSearch";
 import FlightSearch from "./FlightSearch";
 import UserProfile from "./UserProfile";
 import HotelListing from "./HotelListing";
-import {hotelList_Success} from "../../actions/index";
+import {hotelList_Success, flightList_Success} from "../../actions/index";
 import {connect} from "react-redux";
 import * as HotelListingAPI from "../../api/user/API_GetHotels";
+import * as FlightListingAPI from "../../api/user/API_GetFlights";
+import FlightListing from "./FlightListing";
+import CarListing from "./CarListing";
 
 class Listing extends Component {
 
 
     handleSubmit = (userdata) => {
     };
-
 
     searchHotel = (searchCriteria) => {
         HotelListingAPI.getHotels(searchCriteria)
@@ -25,6 +27,46 @@ class Listing extends Component {
                         .then(data => {
                             console.log(data);
                             this.props.hotelList_Success(data);
+                        });
+                } else {
+                    console.log("error in getting list");
+                }
+            })
+            .catch(err => {
+                console.log("error");
+                console.log(err);
+            });
+    };
+
+    searchFlights = (searchCriteria) => {
+        FlightListingAPI.getFlights(searchCriteria)
+            .then(res => {
+                console.log(res.status);
+                if (res.status === 200) {
+                    res.json()
+                        .then(data => {
+                            console.log(data);
+                            this.props.flightList_Success(data);
+                        });
+                } else {
+                    console.log("error in getting list");
+                }
+            })
+            .catch(err => {
+                console.log("error");
+                console.log(err);
+            });
+    };
+
+    searchCars = (searchCriteria) => {
+        FlightListingAPI.getFlights(searchCriteria)
+            .then(res => {
+                console.log(res.status);
+                if (res.status === 200) {
+                    res.json()
+                        .then(data => {
+                            console.log(data);
+                            this.props.flightList_Success(data);
                         });
                 } else {
                     console.log("error in getting list");
@@ -47,19 +89,15 @@ class Listing extends Component {
                         )
                     }}/>
 
-                    <Route path="/listing/flight" render={() => {
+                    <Route path="/listing/flight/:criteria" render={(match) => {
                         return(
-                            <div>
-                                <h1>Flight</h1>
-                            </div>
+                            <FlightListing {...match} searchFlights={this.searchFlights} />
                         )
                     }}/>
 
-                    <Route path="/listing/car" render={() => {
+                    <Route path="/listing/car" render={(match) => {
                         return(
-                            <div>
-                                <h1>Car</h1>
-                            </div>
+                            <CarListing {...match} searchCars={this.searchCars} />
                         )
                     }}/>
                 </Switch>
@@ -71,8 +109,11 @@ class Listing extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        hotelList_Success: (email, message) => {
-            dispatch(hotelList_Success(email, message))
+        hotelList_Success: (data) => {
+            dispatch(hotelList_Success(data))
+        },
+        flightList_Success: (data) => {
+            dispatch(flightList_Success(data))
         }
     };
 }

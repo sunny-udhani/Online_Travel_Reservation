@@ -8,7 +8,7 @@ import {hotelList_Success} from "../../actions";
 import SwipeImageBackground from "./swipeImageBackground";
 
 import Background from "../../img/main_slide_1.jpg";
-import *  as HotelListingAPI from "../../api/user/API_GetHotels";
+import *  as FlightListingAPI from "../../api/user/API_GetFlights";
 
 import "../../css/bootstrap.min.css";
 import "../../css/font-awesome.min.css";
@@ -22,28 +22,22 @@ import CarSearch from "./CarSearch";
 
 class UserHome extends Component {
 
-    searchHotel = (searchCriteria) => {
-        HotelListingAPI.getHotels(searchCriteria)
-            .then(res => {
-                console.log(res.status);
-                if (res.status === 200) {
-                    res.json()
-                        .then(data => {
-                            console.log(data);
-                            this.props.hotelList_Success(data);
-                        });
-                } else {
-                    console.log("error in getting list");
-                }
-            })
-            .catch(err => {
-                console.log("error");
-                console.log(err);
-            });
+    listHotel = (searchCriteria) => {
+
+        this.props.handlePageChange("/listing/hotel/" + searchCriteria);
+
     };
 
-    listHotel = (searchCriteria) => {
-        this.props.handlePageChange("/listing/hotel/" + searchCriteria);
+    listFlights = (searchCriteria) => {
+
+        this.props.handlePageChange("/listing/flight/" + searchCriteria);
+
+    };
+
+    listCars = (searchCriteria) => {
+
+        this.props.handlePageChange("/listing/cars/" + searchCriteria);
+
     };
 
     render() {
@@ -164,6 +158,7 @@ class UserHome extends Component {
 
                                     <Route path="/u/flight" render={() => (
                                         <FlightSearch
+                                            listFlight = {this.listFlights}
                                             // validateUserSession={this.validateUserSession}
                                             // handleLogout={this.handleLogout}
                                             // username={this.state.username}
@@ -172,6 +167,7 @@ class UserHome extends Component {
 
                                     <Route path="/u/car" render={() => (
                                         <CarSearch
+                                            listCars = {this.listCars}
                                             // validateUserSession={this.validateUserSession}
                                             // handleLogout={this.handleLogout}
                                             // username={this.state.username}

@@ -7,6 +7,8 @@ let producer = connection.getProducer();
 let login = require('./services/login');
 let signup = require('./services/signup');
 let hotel_listing = require('./services/listing/hotelListing');
+let flight_listing = require('./services/listing/flightListing');
+
 let addflight = require('./services/admin/addFlight');
 let addhotel = require('./services/admin/addHotel');
 let fetchhotels = require('./services/admin/fetchHotels');
@@ -21,6 +23,7 @@ let fetchHotelsConsumer = connection.getConsumerObj("fetchhotels_topic");
 let addroomsConsumer = connection.getConsumerObj("addrooms_topic");
 
 let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
+let flightListing_Consumer = connection.getConsumerObj(req_topics.FLIGHT_LISTING);
 
 try {
     loginConsumer.on('message', function (message) {
@@ -217,8 +220,41 @@ try {
                 response_message.data = res
             }
 
-            console.log('after handle :');
-            console.log(response_message);
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: response_message
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    flightListing_Consumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        var data = JSON.parse(message.value);
+
+        flight_listing.listFlights(data.data, function (err, res) {
+            let response_message = {};
+
+            if (err) {
+                response_message.status = 400;
+                response_message.err = err;
+                response_message.data = null
+            } else {
+                response_message.status = 200;
+                response_message.err = null;
+                response_message.data = res
+            }
 
             var payloads = [
                 {
