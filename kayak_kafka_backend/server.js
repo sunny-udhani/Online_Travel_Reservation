@@ -11,16 +11,20 @@ let addflight = require('./services/admin/addFlight');
 let addhotel = require('./services/admin/addHotel');
 let fetchhotels = require('./services/admin/fetchHotels');
 let addRooms = require('./services/admin/addRooms');
+let getFlightDetails = require('./services/getFlightDetails');
+let getUserDetails = require('./services/getUserDetails');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
-
 let addFlightConsumer = connection.getConsumerObj("addflight_topic");
 let addHotelConsumer = connection.getConsumerObj("addhotel_topic");
 let fetchHotelsConsumer = connection.getConsumerObj("fetchhotels_topic");
 let addroomsConsumer = connection.getConsumerObj("addrooms_topic");
 
+
 let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
+let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETAILS);
+let getUserDetails_Consumer = connection.getConsumerObj(req_topics.USER_DETAILS);
 
 try {
     loginConsumer.on('message', function (message) {
@@ -232,6 +236,61 @@ try {
             ];
             producer.send(payloads, function (err, data) {
                 // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    getFlightDetails_Consumer.on('message', function (message) {
+        console.log("4");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getFlightDetails.getDetails(data.data, function (err, res) {
+
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("6");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    getUserDetails_Consumer.on('message', function (message) {
+        console.log("14");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getUserDetails.getDetails(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("16");
                 console.log(payloads);
             });
             // return;
