@@ -77,6 +77,31 @@ export function addCarData_Success(carData) {
     }
 }
 
+export function setHostData_Success(hostData) {
+    console.log(hostData);
+    return {
+        type: actionTypes.ADMIN_HOST_LISTING_SUCCESS,
+        hostData
+    }
+}
+
+export function addHostData_Success(hostData) {
+    console.log(hostData);
+    return {
+        type: actionTypes.ADMIN_ADD_HOST_SUCCESS,
+        hostData
+    }
+}
+
+
+export function setUserData_Success(userData) {
+    console.log(userData);
+    return {
+        type: actionTypes.ADMIN_USER_LISTING_SUCCESS,
+        userData
+    }
+}
+
 export function flightList_Success(flightList) {
     return {
         type: actionTypes.FLIGHT_LISTING_SUCCESS,

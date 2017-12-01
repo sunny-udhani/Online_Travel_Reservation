@@ -415,7 +415,7 @@ class FlightPage extends Component {
                                                             searchModal : true
                                                         })
                                                     })}>Search Flight</Button>
-                                                    <label>Flights</label>
+                                                    <label><b>Flights</b></label>
                                                     <Button className="btn-primary pull-right" onClick={(()=>{
                                                         this.setState({
                                                             ...this.state,
@@ -427,12 +427,11 @@ class FlightPage extends Component {
                                                     <Table responsive>
                                                         <thead>
                                                         <tr>
-                                                            <th>Host</th>
-                                                            <th>flight Number</th>
-                                                            <th>flight Origin</th>
-                                                            <th>flight Destination</th>
-                                                            <th>flight Duration</th>
-                                                            {/*<th></th>*/}
+                                                            <th><b>Host</b></th>
+                                                            <th><b>flight Number</b></th>
+                                                            <th><b>flight Origin</b></th>
+                                                            <th><b>flight Destination</b></th>
+                                                            <th><b>flight Duration</b></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>

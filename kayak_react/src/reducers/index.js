@@ -8,7 +8,9 @@ const initial_state = {
     toggleInd: false,
     flightData:[],
     hotelData:[],
-    carData:[]
+    carData:[],
+    hostData:[],
+    userData:[]
 };
 
 const signIn = (state, action) => {
@@ -141,6 +143,38 @@ const addCarData = ((state , action) => {
     }
 });
 
+const setHostData = ((state, action) => {
+    console.log(state);
+    console.log(action);
+    return{
+        ...state,
+        hostData : action.hostData
+    }
+});
+
+
+const addHostData = ((state , action) => {
+    console.log("Before Adding");
+    console.log(state);
+    console.log(action);
+    state.hostData.push(action.hostData);
+    console.log("After Adding");
+    console.log(state);
+    return{
+        ...state,
+        [action.hostData] : state.hostData
+    }
+});
+
+const setUserData = ((state, action) => {
+    console.log(state);
+    console.log(action);
+    return{
+        ...state,
+        userData : action.userData
+    }
+});
+
 
 const handleActions = (state = initial_state, action) => {
 
@@ -171,6 +205,12 @@ const handleActions = (state = initial_state, action) => {
             return setCarData(state, action);
         case actionTypes.ADMIN_ADD_CAR_SUCCESS:
             return addCarData(state, action);
+        case actionTypes.ADMIN_HOST_LISTING_SUCCESS :
+            return setHostData(state, action);
+        case actionTypes.ADMIN_ADD_HOST_SUCCESS:
+            return addHostData(state, action);
+        case actionTypes.ADMIN_USER_LISTING_SUCCESS:
+            return setUserData(state, action);
         default:
             return state;
     }

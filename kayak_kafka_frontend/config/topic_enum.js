@@ -15,7 +15,12 @@ exports.req_topic_names = {
     MODIFY_FLIGHTCLASS: 'modifyflightclass_topic',
     FETCH_CARS: 'fetchcars_topic',
     ADD_CAR: 'addcar_topic',
-    MODIFY_CAR: 'modifycar_topic'
+    MODIFY_CAR: 'modifycar_topic',
+    FETCH_HOSTS: 'fetchhosts_topic',
+    ADD_HOST: 'addhost_topic',
+    MODIFY_HOST: 'modifyhost_topic',
+    FETCH_USERS: 'fetchusers_topic',
+    MODIFY_USERS: 'modifyusers_topic'
 };
 
 //
