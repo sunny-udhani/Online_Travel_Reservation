@@ -20,6 +20,11 @@ let modifyFlightClass = require('./services/admin/modifyFlightClass');
 let addCar = require('./services/admin/addCar');
 let fetchCars = require('./services/admin/fetchCars');
 let modifyCar = require('./services/admin/modifyCar');
+let addHost = require('./services/admin/addHost');
+let fetchHosts = require('./services/admin/fetchHosts');
+let modifyHost = require('./services/admin/modifyHost');
+let fetchUsers = require('./services/admin/user/fetchUsers');
+let modifyUser = require('./services/admin/user/modifyUser');
 let getFlightDetails = require('./services/getFlightDetails');
 let getUserDetails = require('./services/getUserDetails');
 
@@ -35,6 +40,11 @@ let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
 let modifyFlightConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHT);
 let modifyFlightClassConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHTCLASS);
 let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
+let addHostConsumer = connection.getConsumerObj(req_topics.ADD_HOST);
+let fetchHostConsumer = connection.getConsumerObj(req_topics.FETCH_HOSTS);
+let modifyHostConsumer = connection.getConsumerObj(req_topics.MODIFY_HOST);
+let fetchUsersConsumer = connection.getConsumerObj(req_topics.FETCH_USERS);
+let modifyUsersConsumer = connection.getConsumerObj(req_topics.MODIFY_USERS);
 let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
 let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
 
@@ -583,6 +593,166 @@ try {
                 console.log(payloads);
             });
             // return;
+        });
+    });
+
+    addHostConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        addHost.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    fetchHostConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchHosts.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    modifyHostConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        modifyHost.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    fetchUsersConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchUsers.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    modifyUsersConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        modifyUser.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
         });
     });
 }
