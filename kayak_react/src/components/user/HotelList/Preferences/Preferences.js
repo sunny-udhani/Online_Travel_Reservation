@@ -16,8 +16,8 @@ import {connect} from "react-redux"
 
     render(){
         return(
-            <div className="container-fluid">
-            <div className="row">
+            <div className="container-fluid" >
+            <div className="row" style={{marginTop : "9%", backgroundColor: "#ffffff"}}>
             <div className="col-md-3-navFileUpload">
             <Navbar/>
             </div>

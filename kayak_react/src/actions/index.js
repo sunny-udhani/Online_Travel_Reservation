@@ -15,6 +15,12 @@ export function signUpSuccess(username) {
     }
 }
 
+export function logout_success() {
+    return {
+        type: actionTypes.LOGOUT_SUCCESS
+    }
+}
+
 
 export function filter_change(filterInd) {
     return {
@@ -143,21 +149,31 @@ export function hotelEssentialsAdd(fromDate, toDate, noOfPeople) {
         fromDate, toDate, noOfPeople,
     }
 }
+
 export function hotelListingView(id, roomType) {
     return {
         type: actionTypes.HOTEL_ESSENTIALS_ADD,
         id, roomType
     }
 }
+
 export function flightListingView(id) {
     return {
         type: actionTypes.HOTEL_ESSENTIALS_ADD,
         id
     }
 }
+
 export function carListingView(id) {
     return {
         type: actionTypes.HOTEL_ESSENTIALS_ADD,
         id
+    }
+}
+
+export function toggleLoginModal(togglInd) {
+    return {
+        type: actionTypes.TOGGLE_LOGIN_MODAL,
+        togglInd
     }
 }

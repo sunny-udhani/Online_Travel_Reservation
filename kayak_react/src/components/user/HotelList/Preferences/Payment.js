@@ -123,7 +123,7 @@ export default class Payment extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <div className="row">
+                <div className="row" style={{marginTop : "9%", backgroundColor: "#ffffff"}}>
                     <div className="col-md-3-paymentnavbar">
                         <Navbar/>
                     </div>

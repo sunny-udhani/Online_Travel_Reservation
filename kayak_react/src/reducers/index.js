@@ -10,7 +10,8 @@ const initial_state = {
     hotelData: [],
     carData: [],
     hostData: [],
-    userData: []
+    userData: [],
+    loginModaltoggleInd: false,
 };
 
 const signIn = (state, action) => {
@@ -20,6 +21,16 @@ const signIn = (state, action) => {
         email: action.email,
         message: action.message,
         isLoggedIn: true
+    }
+};
+
+const logout = (state, action) => {
+    console.log("logout");
+    return {
+        ...state,
+        email: "",
+        message: "logged out successfully",
+        isLoggedIn: false
     }
 };
 
@@ -221,11 +232,20 @@ const carListingView = (state, action) => {
     }
 };
 
+const toggleLoginModal = (state, action) => {
+    return {
+        ...state,
+        loginModaltoggleInd: action.togglInd
+    }
+};
+
 const handleActions = (state = initial_state, action) => {
 
     switch (action.type) {
         case actionTypes.LOGIN_SUCCESS :
             return signIn(state, action);
+        case actionTypes.LOGOUT_SUCCESS :
+            return logout(state, action);
         case actionTypes.SIGN_UP :
             return signUp(state, action);
         case actionTypes.HOTEL_LISTING_SUCCESS :
@@ -268,6 +288,8 @@ const handleActions = (state = initial_state, action) => {
             return flightListingView(state, action);
         case actionTypes.CAR_LISTING_VIEW:
             return carListingView(state, action);
+        case actionTypes.TOGGLE_LOGIN_MODAL:
+            return toggleLoginModal(state, action);
         default:
             return state;
     }

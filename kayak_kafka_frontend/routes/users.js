@@ -92,7 +92,7 @@ router.post('/signup', function (req, res, next) {
                     console.log("Local username: " + req.body.username);
                     res.status(results.status).send({"message": "Signup Successful"});
                 }
-                else if (results.status === 301) {
+                else if (results.status === 401) {
                     res.status(results.status).send({"message": "User already Exist"});
                 }
                 else if (results.status === 400) {

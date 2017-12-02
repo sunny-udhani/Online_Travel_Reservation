@@ -14,16 +14,19 @@ handle_request = ((data, callback) => {
         let userExist = "select password from user where username = '" + data.username + "'";
 
         let insertUser = "insert into user (username, password, accessInd) values ('" + data.username + "','" + password + "', '" + data.accessInd + "');";
+        let insertUserProfile = "insert into userprofile (username, firstName, lastName, dateofbirth, gender) values ('" + data.username + "', '" + data.firstname + "' ,  '" + data.lastname + "' , '" + data.dob + "' ,  '" + data.gender + "' );";
+
         console.log("signup - SQL Query " + insertUser);
 
         mysql.fetchData(function (err, result) {
             if (err) {
                 console.log(err);
+                callback(err);
             }
             else {
                 console.log(result);
                 console.log(result.length);
-                if (result.rows === 1) {
+                if (result.length === 1) {
                     response.status = 401;
                     response.message = "User Already Exists";
                     callback(null, response);
@@ -32,22 +35,37 @@ handle_request = ((data, callback) => {
                     mysql.insertData(function (err, result) {
                         if (err) {
                             console.log(err);
+                            callback(err);
                         }
                         else {
                             console.log(result);
                             if (result.affectedRows === 1) {
-                                if(data.accessInd === "admin") {
-                                    response.status = 201;
-                                    response.username = data.username;
-                                    response.message = "User Signup Successful";
-                                    callback(null, response);
-                                }
-                                else {
-                                    response.status = 200;
-                                    response.username = data.username;
-                                    response.message = "Admin Signup Successful";
-                                    callback(null, response);
-                                }
+
+                                mysql.insertData(function (err, result) {
+                                        if (err) {
+                                            console.log(err);
+                                            callback(err);
+                                        }
+                                        else {
+                                            console.log(result);
+                                            if (result.affectedRows === 1) {
+                                                if(data.accessInd === "admin") {
+                                                    response.status = 201;
+                                                    response.username = data.username;
+                                                    response.message = "User Signup Successful";
+                                                    callback(null, response);
+                                                }
+                                                else {
+                                                    response.status = 200;
+                                                    response.username = data.username;
+                                                    response.message = "Admin Signup Successful";
+                                                    callback(null, response);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    , insertUserProfile)
+
                             }
                             else {
                                 response.status = 400;
