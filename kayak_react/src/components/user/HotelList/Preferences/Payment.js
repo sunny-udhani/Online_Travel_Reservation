@@ -25,7 +25,7 @@ export default class Payment extends Component {
     };
 
     handleCancel(){
-        this.props.history.push('/u/payinfo');
+        this.props.history.push('/payinfo');
     }
 
     handleSubmitCard(e){
@@ -34,7 +34,7 @@ export default class Payment extends Component {
         console.log(this.state.nameoncard);
 
         var formdata=new FormData();
-        formdata.append("username","Pritam@gmail.com");
+        formdata.append("username","aaj@aaj.com");
         formdata.append("nameoncard",this.state.nameoncard);
         formdata.append("cardnumber",this.state.cardnumber);
         formdata.append("monthexpiry",this.state.monthexpiry);
@@ -47,14 +47,14 @@ export default class Payment extends Component {
         formdata.append("country",this.state.country);
         formdata.append("cvv",this.state.cvv);
         console.log(formdata);
-          /* addUserCard(formdata)
+          addUserCard(formdata)
                .then((res) => {
                    console.log("gotya");
 
             }).catch((err) => {
 
             console.log(err);
-        })*/
+        })
 
 
 
