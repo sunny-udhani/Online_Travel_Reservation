@@ -8,30 +8,15 @@ handle_request = ((data, callback) => {
     try {
         console.log("Users Fetch");
         console.log(data);
-        /*console.log(data.hasOwnProperty("hostName"));
-        console.log(data.hasOwnProperty("serviceType"));
-        console.log(data.hasOwnProperty("hostId"));*/
-        let fetch = "select * from userprofile where userprofile.username " +
-            "IN (select username from user where accessInd='user');";
-        let dataToBeFetched = "u.username, firstName, lastName, street, city, " +
-            "state, zipCode, phoneNumber, profileImage, dateofbirth, gender";
-        let fetchQuery = "select "+ dataToBeFetched +" from user as u join userprofile as up on u.username=up.username " +
-            "where accessInd = 'user';";
+        console.log(data.hasOwnProperty("username"));
+        let fetchQuery = "select * from user where accessInd = 'user';";
+
         if(data.hasOwnProperty("username")) {
+            let dataToBeFetched = "u.username, firstName, lastName, street, city, " +
+                "state, zipCode, phoneNumber, profileImage, dateofbirth, gender";
             fetchQuery = "select "+ dataToBeFetched +" from user as u join userprofile as up on u.username=up.username " +
-                "where accessInd = 'user' and up.username = '"+data.searchCriteria+"';";
-            fetch = "select * from userprofile where userprofile.username " +
-                "IN (select username from user where accessInd='user') and username = '"+ data.username +"';";
+                "where accessInd = 'user' and up.username = '"+data.username+"';";
         }
-        /*    fetchQuery = "select * from host where hostName = '"+ data.hostName +"';";
-        }
-        else if(data.hasOwnProperty("serviceType")){
-            fetchQuery = "select * from host where serviceType = '"+ data.serviceType +"';";
-        }
-        else if(data.hasOwnProperty("hostId")){
-            fetchQuery = "select * from host where hostId = '"+ data.hostId +"';";
-        }*/
-        console.log(fetch);
         console.log(fetchQuery);
 
         mysql.fetchData(function (err, results) {
@@ -52,7 +37,7 @@ handle_request = ((data, callback) => {
                     callback(null, response);
                 }
             }
-        }, fetch);
+        }, fetchQuery);
     }
     catch (e) {
         console.log(e);

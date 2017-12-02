@@ -8,7 +8,7 @@ handle_request = ((data, callback) => {
     try {
         console.log("Modify User");
         console.log(data);
-        let fetchQuery = "select * from user where username = '"+data.username+"' and accessInd = 'user';";
+        let fetchQuery = "select * from user where username = '"+data.username+"' and accessInd = '"+data.accessInd+"';";
         let updateQuery = "update userprofile set " +
             "firstName = '"+ data.firstName +"', " +
             "lastName = '"+ data.lastName +"', " +
@@ -17,7 +17,9 @@ handle_request = ((data, callback) => {
             "state = '"+ data.state +"', " +
             "zipCode = '"+ data.zipCode +"', " +
             "phoneNumber = '"+ data.phoneNumber +"', " +
-            "dateofbirth = '"+ data.dateofbirth.substring(0, data.dateofbirth.indexOf('T')) +"', " +
+            ((data.dateofbirth===null || data.dateofbirth===undefined) ? ""
+                    :
+                "dateofbirth = '"+ data.dateofbirth.substring(0, data.dateofbirth.indexOf('T')+"', ")) +
             "gender = '"+ data.gender +"' " +
             "where username = '"+ data.username +"';";
 
