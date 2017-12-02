@@ -106,9 +106,10 @@ class HotelPage extends Component {
     });
 
     showAddHotel = (()=>{
+        // alert(this.props.className);
         if(this.state.modal){
             return(
-                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className || "admin-modal"}>
                     <ModalHeader toggle={this.toggle}>Add Hotel</ModalHeader>
                     <ModalBody>
                         <Row>
