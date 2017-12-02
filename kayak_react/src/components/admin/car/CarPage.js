@@ -27,7 +27,7 @@ import {
     InputGroupAddon,
     InputGroupButton
 } from 'reactstrap';
-import {setCarData_Success, addCarData_Success} from "../../../actions";
+import {setCarData_Success, addCarData_Success, setHostData_Success} from "../../../actions";
 
 
 class CarPage extends Component {
@@ -119,7 +119,26 @@ class CarPage extends Component {
         this.toggleSearch();
     });
 
+    fetchHosts = (()=>{
+        API.fetchHosts({serviceType:"car"}).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    this.props.setHostData_Success(data);
+                });
+            }
+            else if(response.status===204){
+                console.log("Hosts Not Found");
+            }
+            else {
+                console.log("Error");
+            }
+        });
+    });
+
     componentWillMount(){
+        this.fetchHosts();
         this.fetchCars();
     }
 
@@ -132,12 +151,27 @@ class CarPage extends Component {
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-
-                                    <input type="text" className="form-input" placeholder="Host Id"
+                                    Host :
+                                    <select onChange={((event)=>{
+                                        this.addCarData.hostId = event.target.value;
+                                    })}>
+                                        <option>Select Host</option>
+                                    {
+                                        this.props.state.hostData.map((host)=>{
+                                            console.log(host);
+                                            if(host.serviceType==="car"){
+                                                return(
+                                                    <option value={host.hostId}>{host.hostName}</option>
+                                                )
+                                            }
+                                        })
+                                    }
+                                    </select>
+                                    {/*<input type="text" className="form-input" placeholder="Host Id"
                                            onChange={(event)=>{
                                                this.addCarData.hostId = event.target.value;
                                            }}
-                                    />
+                                    />*/}
                                 </FormGroup>
                             </Col>
                             <Col xs="12">
@@ -417,7 +451,11 @@ function mapDispatchToProps(dispatch) {
         ,
         addCarData_Success: (data) => {
             dispatch(addCarData_Success(data))
+        },
+        setHostData_Success: (data) => {
+            dispatch(setHostData_Success(data))
         }
+
     };
 }
 

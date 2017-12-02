@@ -18,7 +18,9 @@
     "react-scripts": "1.0.13",
     "reactstrap": "^5.0.0-alpha.4",
     "redis": "^2.8.0",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "react-responsive-sidebar": "^0.1.16",
+    "react-sidenav" : "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
