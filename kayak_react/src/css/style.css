@@ -1183,6 +1183,10 @@ b, strong {
     background: transparent none repeat scroll 0 0;
     color: #1e4389;
 }
+.logofront1pri{
+    width: 17px;
+    height: unset;
+}
 .c-button.hv-blue-8-o:hover {
     background: transparent none repeat scroll 0 0;
     color: #28a9e2;
