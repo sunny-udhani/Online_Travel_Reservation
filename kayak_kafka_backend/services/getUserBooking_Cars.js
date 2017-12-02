@@ -25,7 +25,7 @@ handle_request = ((data, callback) => {
                     resultcars.push(result);
                     mongo.connect(mongoURL, function(db){
                         console.log('Connected to mongo at: ' + mongoURL);
-                        db.collection('cars').findOne({hostId:"123"}, function(err, user){
+                        db.collection('cars').findOne({hostId:"12"}, function(err, user){
                             console.log(user);
                             if (user) {
                                 resultcars.push(user);
