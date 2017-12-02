@@ -20,14 +20,15 @@ class AdminHome extends Component {
                 <div className="container">
                     <div className="row">
                         <br/><hr/>
-                        <Link to='/admin/hotel'><span className="glyphicon glyphicon-circle-arrow-right"></span>Hotel</Link>
-                        <Link to='/admin/flight'><span className="glyphicon glyphicon-circle-arrow-right"></span>Flight</Link>
-                        <Link to='/admin/car'><span className="glyphicon glyphicon-circle-arrow-right"></span>Car</Link>
-                        <Link to='/admin/profile'><span className="glyphicon glyphicon-circle-arrow-right"></span>Profile</Link>
-                        <Link to='/admin/dashboard'><span className="glyphicon glyphicon-circle-arrow-right"></span>Dashboard</Link>
-                        <Link to='/admin/host'><span className="glyphicon glyphicon-circle-arrow-right"></span>Host</Link>
-                        <Link to='/admin/user'><span className="glyphicon glyphicon-circle-arrow-right"></span>User</Link>
-                        <button className="btn btn-link" onClick={(()=>{this.props.handleLogout()})}>Logout</button>
+                        <Link to='/admin/hotel' className="coloured-dash"><span className="glyphicon glyphicon-circle-arrow-right"></span>Hotel</Link>
+                        <Link to='/admin/flight'className="coloured-dash"><span className="glyphicon glyphicon-circle-arrow-right"></span>Flight</Link>
+                        <Link to='/admin/car'className="coloured-dash"><span className="glyphicon glyphicon-circle-arrow-right"></span>Car</Link>
+                        <Link to='/admin/profile'className="coloured-dash"><span className="glyphicon glyphicon-circle-arrow-right"></span>Profile</Link>
+                        <Link to='/admin/dashboard'className="coloured-dash"><span className="glyphicon glyphicon-circle-arrow-right"></span>Dashboard</Link>
+                        <Link to='/admin/host'className="coloured-dash"><span className="glyphicon glyphicon-circle-arrow-right"></span>Host</Link>
+                        <Link to='/admin/user'className="coloured-dash"><span className="glyphicon glyphicon-circle-arrow-right"></span>User</Link>
+                        <button className="btn btn-link" id="coloured-dash" onClick={(()=>{this.props.handleLogout()})}>Logout</button>
+
                         <Switch>
                             <Route exact path="/admin" render={() => {
                                 return (
