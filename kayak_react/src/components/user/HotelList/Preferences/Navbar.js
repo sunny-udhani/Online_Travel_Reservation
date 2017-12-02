@@ -9,11 +9,11 @@ export default class Navbar extends Component {
             <div className="col-md-12-navbar">
 
                         <br/><br/>
-                        <a className="prefed" id="a"href="/u/pref">Preferences </a>
+                        <a className="prefed" id="a"href="/pref">Preferences </a>
                         <br/><br/>
-                        <a classname="payinfoed" id="a"href="/u/payinfo">Payment Methods </a>
+                        <a classname="payinfoed" id="a"href="/payinfo">Payment Methods </a>
                         <br/><br/>
-                        <a className="triphistoried"id="a" href="/u/triphistory">Trip History</a>
+                        <a className="triphistoried"id="a" href="/triphistory">Trip History</a>
                         <br/>
                     </div>
 
