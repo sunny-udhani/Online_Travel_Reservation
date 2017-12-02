@@ -13,8 +13,11 @@ export const getbookinginfo_user = (payload) =>
         },
         body: JSON.stringify(payload)
     }).then(res => {
-        return res.status;
+        alert("succes fetch")
+        return res.json();
+        console.log(res )
     }).catch(error => {
+        alert("err")
         console.log("This is error");
         return error;
     });
