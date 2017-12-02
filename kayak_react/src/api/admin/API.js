@@ -290,7 +290,7 @@ export const validateAdminSession = () =>
         credentials:'include'
         // body: JSON.stringify()
     }).then(res => {
-        return res.status;
+        return res;
     }).catch(error => {
         console.log("This is error");
         return error;
