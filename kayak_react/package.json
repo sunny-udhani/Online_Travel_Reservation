@@ -19,7 +19,7 @@
     "reactstrap": "^5.0.0-alpha.4",
     "redis": "^2.8.0",
     "redux": "^3.7.2",
-    "react-sidenav" : "^2.1.2"
+    "react-sidenav": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
