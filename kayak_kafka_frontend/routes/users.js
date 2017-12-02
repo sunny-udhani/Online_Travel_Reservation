@@ -7,7 +7,7 @@ var	parser = require('multer')({dest: 'uploads/'});
 var fs = require('fs');
 var path = require('path');
 
-console.log("*******************************************", process.cwd());
+// console.log("*******************************************", process.cwd());
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
