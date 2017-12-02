@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Slider from 'rc-slider';
 import {connect} from "react-redux"
-import {hotelList_Success} from "../../actions";
+import {hotelList_Success, hotelListingView} from "../../actions";
 import 'rc-slider/assets/index.css';
 import {filter_change} from "../../actions/index";
 
@@ -40,13 +40,18 @@ class HotelListing extends Component {
         console.log("match for url");
 
         this.handleFilterChange = this.handleFilterChange.bind(this);
+        this.handleListingView = this.handleListingView.bind(this);
     }
 
     componentWillMount() {
         this.props.searchHotel({criteria: this.props.match.params.criteria})
     }
 
-    componentDidMount() {
+    handleListingView(id, roomType) {
+
+        this.props.listingView(id, roomType);
+        this.props.handlePageChange("");
+
     }
 
     handleFilterChange(value) {
@@ -350,8 +355,11 @@ class HotelListing extends Component {
                                                                     className="color-blue">{hotel.rooms[0].roomPrice}</span>
                                                                     /night
                                                                 </div>
-                                                                <a className="c-button b-40 bg-blue hv-blue-o grid-hidden"
-                                                                   href="#"> Book now</a>
+                                                                <button
+                                                                    className="c-button b-40 bg-blue hv-blue-o grid-hidden"
+                                                                    onClick={() => this.handleListingView(hotel._id, hotel.rooms[0].roomType)}
+                                                                > Book now
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -389,7 +397,10 @@ function mapDispatchToProps(dispatch) {
         },
         filter_change: (filterInd) => {
             dispatch(filter_change(filterInd))
-        }
+        },
+        listingView: (id, roomType) => {
+            dispatch(hotelListingView(id, roomType))
+        },
     };
 }
 

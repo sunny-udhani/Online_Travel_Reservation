@@ -8,6 +8,7 @@ let login = require('./services/login');
 let signup = require('./services/signup');
 let hotel_listing = require('./services/listing/hotelListing');
 let flight_listing = require('./services/listing/flightListing');
+let car_listing = require('./services/listing/carListing');
 
 let addflight = require('./services/admin/addFlight');
 let addhotel = require('./services/admin/addHotel');
@@ -60,6 +61,7 @@ let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETA
 let getUserDetails_Consumer = connection.getConsumerObj(req_topics.USER_DETAILS);
 
 let flightListing_Consumer = connection.getConsumerObj(req_topics.FLIGHT_LISTING);
+let carListing_Consumer = connection.getConsumerObj(req_topics.CAR_LISTING);
 
 //pritam's consumers
 let getHotelRoomsConsumer=connection.getConsumerObj("fetchhotels_topic");
@@ -876,6 +878,42 @@ try {
 
 
 
+            // return;
+        });
+    });
+
+    carListing_Consumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        var data = JSON.parse(message.value);
+
+        car_listing.listCars(data.data, function (err, res) {
+            let response_message = {};
+
+            if (err) {
+                response_message.status = 400;
+                response_message.err = err;
+                response_message.data = null
+            } else {
+                response_message.status = 200;
+                response_message.err = null;
+                response_message.data = res
+            }
+
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: response_message
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
             // return;
         });
     });

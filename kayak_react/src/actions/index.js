@@ -116,12 +116,48 @@ export function toggleBookingType(toggleInd) {
     }
 }
 
-export function flightEssentialsAdd(className,tripType,noOfPassengers) {
+export function flightEssentialsAdd(className, tripType, noOfPassengers, fromDate, toDate) {
     return {
         type: actionTypes.FLIGHT_ESSENTIALS_ADD,
-        className,tripType,noOfPassengers
+        className, tripType, noOfPassengers, fromDate, toDate
     }
 }
 
+export function carEssentialsAdd(fromDate, toDate) {
+    return {
+        type: actionTypes.CAR_ESSENTIALS_ADD,
+        fromDate, toDate
+    }
+}
 
+export function carList_Success(carList) {
+    return {
+        type: actionTypes.CAR_LISTING_SUCCESS,
+        carList,
+    }
+}
 
+export function hotelEssentialsAdd(fromDate, toDate, noOfPeople) {
+    return {
+        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        fromDate, toDate, noOfPeople,
+    }
+}
+export function hotelListingView(id, roomType) {
+    return {
+        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        id, roomType
+    }
+}
+export function flightListingView(id) {
+    return {
+        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        id
+    }
+}
+export function carListingView(id) {
+    return {
+        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        id
+    }
+}

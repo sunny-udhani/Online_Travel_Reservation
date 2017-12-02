@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
+import {flightEssentialsAdd, hotelEssentialsAdd, toggleBookingType} from "../../actions";
+import {connect} from "react-redux";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -18,6 +20,8 @@ class HotelSearch extends Component {
 
     searchHotels() {
         let searchString = "";
+
+        this.props.hotelEssentialsAdd(this.searchCriteria.check_in_date, this.searchCriteria.check_out_date, this.searchCriteria.no_of_people);
 
         searchString += this.searchCriteria.city + "_" + this.searchCriteria.check_in_date + "_" + this.searchCriteria.check_out_date + "_" + this.searchCriteria.no_of_people+ "_" + this.searchCriteria.no_of_rooms;
         this.props.listHotel(searchString)
@@ -83,4 +87,13 @@ class HotelSearch extends Component {
     }
 }
 
-export default HotelSearch;
+function mapDispatchToProps(dispatch) {
+    return {
+        hotelEssentialsAdd: (fromDate, toDate, noOfPeople) => {
+            dispatch(hotelEssentialsAdd(fromDate, toDate, noOfPeople))
+        }
+    };
+}
+
+
+export default connect(null, mapDispatchToProps)(HotelSearch);

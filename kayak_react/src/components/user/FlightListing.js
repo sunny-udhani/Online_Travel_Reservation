@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Slider from 'rc-slider';
 import Moment from 'react-moment';
 import {connect} from "react-redux"
-import {hotelList_Success} from "../../actions";
+import {flightListingView, hotelList_Success, hotelListingView} from "../../actions";
 import 'rc-slider/assets/index.css';
 import {filter_change} from "../../actions/index";
 
@@ -45,6 +45,7 @@ class FlightListing extends Component {
         console.log("match for url");
 
         this.handleFilterChange = this.handleFilterChange.bind(this);
+        this.handleListingView = this.handleListingView.bind(this);
         this.handleDepartFilterChange = this.handleDepartFilterChange.bind(this);
         this.handleArrivalFilterChange = this.handleArrivalFilterChange.bind(this);
     }
@@ -53,7 +54,11 @@ class FlightListing extends Component {
         this.props.searchFlights({criteria: this.props.match.params.criteria})
     }
 
-    componentDidMount() {
+    handleListingView(id) {
+
+        this.props.listingView(id);
+        this.props.handlePageChange("/payment/flights");
+
     }
 
     handleFilterChange(value) {
@@ -473,15 +478,17 @@ class FlightListing extends Component {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <a href="#"
-                                                                       className="c-button b-40 bg-red-3 hv-red-3-o">book
-                                                                        now</a>
+                                                                    <button
+                                                                        className="c-button b-40 bg-blue hv-blue-o grid-hidden"
+                                                                        onClick={() => this.handleListingView(flight._id)}
+                                                                    > Book now
+                                                                    </button>
 
                                                                 </div>
                                                                 <div
                                                                     className="title hotel-right clearfix cell-view grid-hidden">
                                                                     <div className="hotel-right-text color-dark-2">
-                                                                        <strong>{this.props.flightTripType}</strong><br/>
+                                                                        <strong>{this.props.flightTripType} Direct</strong><br/>
                                                                         flights
                                                                     </div>
                                                                 </div>
@@ -594,15 +601,17 @@ class FlightListing extends Component {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <a href="#"
-                                                                       className="c-button b-40 bg-red-3 hv-red-3-o">book
-                                                                        now</a>
+                                                                    <button
+                                                                        className="c-button b-40 bg-blue hv-blue-o grid-hidden"
+                                                                        onClick={() => this.handleListingView(flight._id)}
+                                                                    >book
+                                                                        now</button>
 
                                                                 </div>
                                                                 <div
                                                                     className="title hotel-right clearfix cell-view grid-hidden">
                                                                     <div className="hotel-right-text color-dark-2">
-                                                                        <strong>{this.props.flightTripType}</strong><br/>
+                                                                        <strong>{this.props.flightTripType}   Indirect</strong><br/>
                                                                         flights
                                                                     </div>
                                                                 </div>
@@ -640,7 +649,10 @@ function mapDispatchToProps(dispatch) {
     return {
         filter_change: (filterInd) => {
             dispatch(filter_change(filterInd))
-        }
+        },
+        listingView: (id) => {
+            dispatch(flightListingView(id))
+        },
     };
 }
 
