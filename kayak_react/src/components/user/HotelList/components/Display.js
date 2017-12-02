@@ -58,7 +58,7 @@ export default class Display extends Component {
 
         return (
 
-                <div className="row">
+                <div className="row hotel-room-p">
 
                     <div className="col-lg-9 ">
                         <Card hotelRoom={this.state.hotelRoom} />
