@@ -9,29 +9,34 @@ import {getbookinginfo_user} from '../../../../api/user/API_GetBookingInfo'
  class TripHistory extends Component{
      constructor(props) {
          super(props);
-
+         this.state = ({
+             flightuserdata: [],
+             hoteluserdata: [],
+             caruserdata: []
+         });
 
      }
 
     componentWillMount(){
         let userdet={
            // username:this.props.username
-                username:"Pritam@gmail.com"
+                username:"aaj@aaj.com"
         };
         getbookinginfo_user(userdet)
             .then((res) => {
-                console.log("gotya");
+                this.setState=({
+
+                hoteluserdata:res.data.res,
+                flightuserdata:res.data.resu,
+                caruserdata:res.data.resul
+
+            });
+                console.log(this.state.hoteluserdata);
 
             }).catch((err) => {
 
             console.log(err);
         })
-
-
-
-
-
-
     }
 
 
