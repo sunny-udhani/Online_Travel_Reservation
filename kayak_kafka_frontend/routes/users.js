@@ -3,7 +3,11 @@ const passport = require("passport");
 let router = express.Router();
 require('./passport')(passport);
 var kafka = require('./kafka/client');
-var	parser = require('multer')();
+var	parser = require('multer')({dest: 'uploads/'});
+var fs = require('fs');
+var path = require('path');
+
+console.log("*******************************************", process.cwd());
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -209,9 +213,13 @@ router.post('/getbookinginfo_user',function (req,res) {
         console.log(req.body);
         kafka.make_request('getbookinguser_topic',req.body,function (err,results) {
             console.log(results);
-            console.log(JSON.stringify(results.rooms))
+            let reults1=results.data;
+
+            console.log(reults1.res);
+            //console.log(JSON.stringify(results.rooms))
             if(results.code==200){
-                res.json(results.user);
+                res.json(results);
+
             }
             else {
                 throw err;
@@ -224,5 +232,20 @@ router.post('/getbookinginfo_user',function (req,res) {
 
     }
 });
+
+router.post('/addprofilepicture', parser.single('profile-picture'), function (req,res) {
+    var destination = path.join(process.cwd(), "public", "images", req.session.username + ".jpg");
+    fs.createReadStream(req.file.path).pipe(fs.createWriteStream(destination));
+    fs.unlink(req.file.path, function(err) {
+        if(err) {
+            res.status("500");
+            return res.send("An error occured");
+        }
+        res.send("Ohk");
+    })
+});
+
+
+
 
 module.exports = router;
