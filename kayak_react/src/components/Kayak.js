@@ -24,6 +24,7 @@ import Payment from './user/HotelList/Preferences/Payment';
 import Preferences from "./user/HotelList/Preferences/Preferences";
 import TripHistory from "./user/HotelList/Preferences/TripHistory";
 import Display from './user/HotelList/components/Display.js';
+import ProfileIconEditor from './user/HotelList/Preferences/ProfileIconEditor.js';
 
 
 class Kayak extends Component {
@@ -113,8 +114,11 @@ class Kayak extends Component {
 
     render() {
         let dashboard = '';
+       // let profilepicture='';
 
         if (this.props.isLoggedIn === false) {
+
+
             dashboard =
                 <ul className="dropmenu">
                     <li><a href="/signup" onClick={this.renderSignupForm.bind(this)}>Sign Up</a></li>
@@ -129,6 +133,9 @@ class Kayak extends Component {
                     <li><a href="#" onClick={this.handleSignOut}>Sign Out</a></li>
 
                 </ul>
+            /*profilepicture=
+                <li><ProfileIconEditor height="50" width="50"/></li>*/
+
         }
 
 
@@ -169,8 +176,9 @@ class Kayak extends Component {
                                                     {dashboard}
 
                                                 </li>
-
+                                                <li><ProfileIconEditor height="50" width="50"/></li>
                                             </ul>
+
                                         </nav>
                                     </div>
                                 </div>
