@@ -263,4 +263,19 @@ export const modifyUserData = (payload) =>
         return error;
     });
 
+export const fetchProfile = (payload) =>
+    fetch(`${api}/admin/fetchProfile`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
 
