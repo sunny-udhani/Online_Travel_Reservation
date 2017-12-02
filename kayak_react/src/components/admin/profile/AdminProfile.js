@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
+import * as API from '../../api/API';
 
 class AdminProfile extends Component {
 
     handleSubmit = (userdata) => {
     };
+
+    componentWillMount(){
+        API.fetchProfile().then((response) => {
+            console.log(response.status);
+        });
+    }
 
     render() {
         return (
