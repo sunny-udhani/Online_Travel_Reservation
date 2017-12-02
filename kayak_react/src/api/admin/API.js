@@ -279,3 +279,19 @@ export const fetchProfile = (payload) =>
         return error;
     });
 
+
+export const validateAdminSession = () =>
+    fetch(`${api}/admin/validateAdminSession`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        credentials:'include'
+        // body: JSON.stringify()
+    }).then(res => {
+        return res.status;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, withRouter, Switch, Link } from 'react-router-dom';
+import {Route, withRouter, Switch, Link} from 'react-router-dom';
 import HotelPage from "./hotel/HotelPage";
 import FlightPage from "./flight/FlightPage";
 import AdminDashboard from "./AdminDashboard";
@@ -7,10 +7,21 @@ import CarPage from "./car/CarPage";
 import AdminProfile from "./profile/AdminProfile";
 import HostPage from "./host/HostPage";
 import UserPage from "./user/UserPage";
-import SideNav, { Nav, NavText } from 'react-sidenav';
+import SideNav, {Nav, NavText} from 'react-sidenav';
+import * as API from "../../api/admin/API";
 
 class AdminHome extends Component {
 
+    componentWillMount() {
+        API.validateAdminSession().then((response) => {
+                if (response.status === 200) {
+
+                }else{
+                    this.props.handlePageChange("/u");
+                }
+            }
+        )
+    }
 
     render() {
         return (
@@ -95,7 +106,7 @@ class AdminHome extends Component {
                                     <FlightPage
                                         // validateUserSession={this.validateUserSession}
                                         handleLogout={this.handleLogout}
-                                        handlePageChange = {this.props.handlePageChange}
+                                        handlePageChange={this.props.handlePageChange}
                                         // username={this.state.username}
                                     />
                                 )}/>
@@ -104,7 +115,7 @@ class AdminHome extends Component {
                                     <CarPage
                                         // validateUserSession={this.props.validateUserSession}
                                         handleLogout={this.handleLogout}
-                                        handlePageChange = {this.props.handlePageChange}
+                                        handlePageChange={this.props.handlePageChange}
                                         // username={this.state.username}
                                     />
                                 )}/>
@@ -113,7 +124,7 @@ class AdminHome extends Component {
                                     <HostPage
                                         // validateUserSession={this.props.validateUserSession}
                                         handleLogout={this.handleLogout}
-                                        handlePageChange = {this.props.handlePageChange}
+                                        handlePageChange={this.props.handlePageChange}
                                         // username={this.state.username}
                                     />
                                 )}/>
@@ -129,7 +140,7 @@ class AdminHome extends Component {
                                 <Route path="/admin/user" render={() =>
                                     <UserPage
                                         handleLogout={this.handleLogout}
-                                        handlePageChange = {this.props.handlePageChange}
+                                        handlePageChange={this.props.handlePageChange}
                                     />
                                 }/>
                             </Switch>

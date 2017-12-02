@@ -695,6 +695,15 @@ router.post('/fetchProfile', function(req, res, next) {
 });
 
 
+router.post('/validateAdminSession', function (req, res) {
+    console.log(req.session.username);
+    if (req.session.username !== null && req.session.username !== undefined && req.session.username === "admin") {
+        res.status(200).send({"username": req.session.username});
+    }
+    else {
+        res.status(204).end();
+    }
+});
 
 
 module.exports = router;
