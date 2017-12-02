@@ -23,6 +23,7 @@ exports.req_topic_names = {
     FETCH_USERS: 'fetchusers_topic',
     MODIFY_USERS: 'modifyusers_topic',
     CAR_LISTING: 'car_listing_topic',
+    FETCH_USERPROFILE : 'fetchuserprofile_topic',
 };
 //
 // exports.res_topic_names = {
