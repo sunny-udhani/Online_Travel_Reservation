@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
 import {connect} from "react-redux";
-import {toggleBookingType,flightEssentialsAdd} from "../../actions/index";
+import {toggleBookingType, flightEssentialsAdd} from "../../actions/index";
 import FlightSearchDynamic from "./FlightSearchDynamic";
 
 // import "../../css/bootstrap.min.css"
@@ -26,12 +26,12 @@ class FlightSearch extends Component {
         let searchString = "";
         console.log(this.searchCriteria);
 
-        if(this.searchCriteria.class == -1){
+        if (this.searchCriteria.class == -1) {
             alert("please select a valid flight class ");
             return;
         }
 
-        this.props.flightEssentialsAdd(this.searchCriteria.class, this.searchCriteria.booking_type, this.searchCriteria.no_of_people);
+        this.props.flightEssentialsAdd(this.searchCriteria.class, this.searchCriteria.booking_type, this.searchCriteria.no_of_people, this.searchCriteria.depart_date, this.searchCriteria.return_date);
 
         if (this.props.toggleInd)
             searchString += this.searchCriteria.booking_type + "_" + this.searchCriteria.from + "_" + this.searchCriteria.to + "_" + this.searchCriteria.depart_date + "_" + this.searchCriteria.return_date + "_" + this.searchCriteria.no_of_people + "_" + this.searchCriteria.class;
@@ -112,8 +112,8 @@ function mapDispatchToProps(dispatch) {
         toggleBookingType: (filterInd) => {
             dispatch(toggleBookingType(filterInd))
         },
-    flightEssentialsAdd: (className, tripType, noOfPassengers) => {
-            dispatch(flightEssentialsAdd(className, tripType, noOfPassengers))
+        flightEssentialsAdd: (className, tripType, noOfPassengers, fromDate, toDate) => {
+            dispatch(flightEssentialsAdd(className, tripType, noOfPassengers, fromDate, toDate))
         }
     };
 }

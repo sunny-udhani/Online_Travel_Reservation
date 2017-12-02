@@ -6,11 +6,11 @@ const initial_state = {
     isLoggedIn: false,
     message: "",
     toggleInd: false,
-    flightData:[],
-    hotelData:[],
-    carData:[],
-    hostData:[],
-    userData:[]
+    flightData: [],
+    hotelData: [],
+    carData: [],
+    hostData: [],
+    userData: []
 };
 
 const signIn = (state, action) => {
@@ -32,7 +32,6 @@ const signUp = (state, action) => {
         isLoggedIn: true,
     }
 };
-
 
 const hotelList_Success = (state, action) => {
     console.log("hotelList");
@@ -57,6 +56,8 @@ const flightEssentialsAdd = (state, action) => {
         flightClass: action.className,
         flightTripType: action.tripType,
         flightNoOfPassengers: action.noOfPassengers,
+        flightFromDate: action.fromDate,
+        flightToDate: action.toDate,
     }
 };
 
@@ -74,107 +75,151 @@ const toggle_change = (state, action) => {
     }
 };
 
-
-const setFlightData = (state , action) => {
+const setFlightData = (state, action) => {
     console.log(state);
     console.log(action);
-    return{
+    return {
         ...state,
-        flightData : action.flightdata
+        flightData: action.flightdata
     }
 };
 
-const addFlightData = ((state , action) => {
+const addFlightData = ((state, action) => {
     console.log("Before Adding");
     console.log(state);
     console.log(action);
     state.flightData.push(action.flightData);
     console.log("After Adding");
     console.log(state);
-    return{
+    return {
         ...state,
-        [action.flightData] : state.flightData
+        [action.flightData]: state.flightData
     }
 });
 
 const setHotelData = ((state, action) => {
     console.log(state);
     console.log(action);
-    return{
+    return {
         ...state,
-        hotelData : action.hotelData
+        hotelData: action.hotelData
     }
 });
 
-
-const addHotelData = ((state , action) => {
+const addHotelData = ((state, action) => {
     console.log("Before Adding");
     console.log(state);
     console.log(action);
     state.hotelData.push(action.hotelData);
     console.log("After Adding");
     console.log(state);
-    return{
+    return {
         ...state,
-        [action.hotelData] : state.hotelData
+        [action.hotelData]: state.hotelData
     }
 });
 
 const setCarData = ((state, action) => {
     console.log(state);
     console.log(action);
-    return{
+    return {
         ...state,
-        carData : action.carData
+        carData: action.carData
     }
 });
 
-
-const addCarData = ((state , action) => {
+const addCarData = ((state, action) => {
     console.log("Before Adding");
     console.log(state);
     console.log(action);
     state.carData.push(action.carData);
     console.log("After Adding");
     console.log(state);
-    return{
+    return {
         ...state,
-        [action.carData] : state.carData
+        [action.carData]: state.carData
     }
 });
 
 const setHostData = ((state, action) => {
     console.log(state);
     console.log(action);
-    return{
+    return {
         ...state,
-        hostData : action.hostData
+        hostData: action.hostData
     }
 });
 
-
-const addHostData = ((state , action) => {
+const addHostData = ((state, action) => {
     console.log("Before Adding");
     console.log(state);
     console.log(action);
     state.hostData.push(action.hostData);
     console.log("After Adding");
     console.log(state);
-    return{
+    return {
         ...state,
-        [action.hostData] : state.hostData
+        [action.hostData]: state.hostData
     }
 });
 
 const setUserData = ((state, action) => {
     console.log(state);
     console.log(action);
-    return{
+    return {
         ...state,
-        userData : action.userData
+        userData: action.userData
     }
 });
 
+const carList_Success = (state, action) => {
+    console.log("carlist");
+    return {
+        ...state,
+        carList: action.carList
+    }
+};
+
+const carEssentialsAdd = (state, action) => {
+    console.log("car essentials add");
+    return {
+        ...state,
+        carFromDate: action.fromDate,
+        carToDate: action.toDate,
+    }
+};
+
+const hotelEssentialsAdd = (state, action) => {
+    console.log("hotel essentials add");
+    return {
+        ...state,
+        hotelFromDate: action.fromDate,
+        hotelToDate: action.toDate,
+        hotelNoOfPeople: action.noOfPeople,
+    }
+};
+
+const hotelListingView = (state, action) => {
+    return {
+        ...state,
+        hotelId: action.id,
+        hotelRoomType: action.roomType,
+    }
+};
+
+const flightListingView = (state, action) => {
+    return {
+        ...state,
+        flightId: action.id,
+    }
+};
+
+const carListingView = (state, action) => {
+    return {
+        ...state,
+        carId: action.id,
+    }
+};
 
 const handleActions = (state = initial_state, action) => {
 
@@ -211,6 +256,18 @@ const handleActions = (state = initial_state, action) => {
             return addHostData(state, action);
         case actionTypes.ADMIN_USER_LISTING_SUCCESS:
             return setUserData(state, action);
+        case actionTypes.CAR_LISTING_SUCCESS:
+            return carList_Success(state, action);
+        case actionTypes.CAR_ESSENTIALS_ADD:
+            return carEssentialsAdd(state, action);
+        case actionTypes.HOTEL_ESSENTIALS_ADD:
+            return hotelEssentialsAdd(state, action);
+        case actionTypes.HOTEL_LISTING_VIEW:
+            return hotelListingView(state, action);
+        case actionTypes.FLIGHT_LISTING_VIEW:
+            return flightListingView(state, action);
+        case actionTypes.CAR_LISTING_VIEW:
+            return carListingView(state, action);
         default:
             return state;
     }

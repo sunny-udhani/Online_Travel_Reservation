@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, withRouter, Switch, Link, Redirect } from 'react-router-dom';
+import {Route, withRouter, Switch, Link, Redirect} from 'react-router-dom';
 import HotelSearch from "./HotelSearch";
 import CarSearch from "./CarSearch";
 import FlightSearch from "./FlightSearch";
@@ -9,11 +9,20 @@ import {hotelList_Success, flightList_Success} from "../../actions/index";
 import {connect} from "react-redux";
 import * as HotelListingAPI from "../../api/user/API_GetHotels";
 import * as FlightListingAPI from "../../api/user/API_GetFlights";
+import * as CarListingAPI from "../../api/user/API_GetCars";
 import FlightListing from "./FlightListing";
 import CarListing from "./CarListing";
+import {carList_Success} from "../../actions";
 
 class Listing extends Component {
 
+    constructor(props) {
+
+        super(props);
+
+        this.handlePageChange = this.handlePageChange.bind(this);
+
+    }
 
     handleSubmit = (userdata) => {
     };
@@ -59,14 +68,14 @@ class Listing extends Component {
     };
 
     searchCars = (searchCriteria) => {
-        FlightListingAPI.getFlights(searchCriteria)
+        CarListingAPI.getCars(searchCriteria)
             .then(res => {
                 console.log(res.status);
                 if (res.status === 200) {
                     res.json()
                         .then(data => {
                             console.log(data);
-                            this.props.flightList_Success(data);
+                            this.props.carList_Success(data);
                         });
                 } else {
                     console.log("error in getting list");
@@ -78,26 +87,34 @@ class Listing extends Component {
             });
     };
 
+    handlePageChange(page) {
+        console.log(this);
+        this.props.handlePageChange(page);
+    }
+
     render() {
         return (
             <div className="container-fluid">
                 <Switch>
 
-                    <Route path="/listing/hotel/:criteria" render={(match) =>{
-                        return(
-                            <HotelListing {...match} searchHotel={this.searchHotel} />
+                    <Route path="/listing/hotel/:criteria" render={(match) => {
+                        return (
+                            <HotelListing {...match} searchHotel={this.searchHotel}
+                                          handlePageChange={this.handlePageChange}/>
                         )
                     }}/>
 
                     <Route path="/listing/flight/:criteria" render={(match) => {
-                        return(
-                            <FlightListing {...match} searchFlights={this.searchFlights} />
+                        return (
+                            <FlightListing {...match} searchFlights={this.searchFlights}
+                                           handlePageChange={this.handlePageChange}/>
                         )
                     }}/>
 
-                    <Route path="/listing/car" render={(match) => {
-                        return(
-                            <CarListing {...match} searchCars={this.searchCars} />
+                    <Route path="/listing/cars/:criteria" render={(match) => {
+                        return (
+                            <CarListing {...match} searchCars={this.searchCars}
+                                        handlePageChange={this.handlePageChange}/>
                         )
                     }}/>
                 </Switch>
@@ -114,7 +131,10 @@ function mapDispatchToProps(dispatch) {
         },
         flightList_Success: (data) => {
             dispatch(flightList_Success(data))
-        }
+        },
+        carList_Success: (data) => {
+            dispatch(carList_Success(data))
+        },
     };
 }
 

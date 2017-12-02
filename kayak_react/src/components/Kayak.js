@@ -150,7 +150,8 @@ class Kayak extends Component {
                                         <nav className="menu">
                                             <ul>
                                                 <li className="type-1 active">
-                                                    <Link to="/u/hotel">home<span className="fa fa-angle-down"></span></Link>
+                                                    <Link to="/u/hotel">home<span
+                                                        className="fa fa-angle-down"></span></Link>
 
                                                 </li>
                                                 <li className="type-1"><Link to="/u/hotel">Hotels
@@ -195,10 +196,10 @@ class Kayak extends Component {
                 <div className="container">
                     <Switch>
                         <Route exact path="/" render={() => {
-                            return(
-                               <div>
-                                   {this.handlePageChange("/u")}
-                               </div>
+                            return (
+                                <div>
+                                    {this.handlePageChange("/u")}
+                                </div>
                             );
                         }}/>
 
@@ -213,7 +214,7 @@ class Kayak extends Component {
                         }/>
 
                         <Route path="/listing" render={() =>
-                            <Listing/>
+                            <Listing handlePageChange={this.handlePageChange}/>
                         }/>
 
                         <Route path="/signup" render={() =>

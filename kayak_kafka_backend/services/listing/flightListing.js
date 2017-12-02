@@ -31,60 +31,22 @@ exports.listFlights = ((message, callback) => {
                 searchCriteria.return_date = criteriaArr[4].toString();
                 searchCriteria.no_of_people = criteriaArr[5].toString();
                 searchCriteria.class = criteriaArr[6].toString();
-
-                Flight.find({
-                    origin: searchCriteria.city.toLowerCase(),
-                    destination: searchCriteria.to.toLowerCase(),
-                    departureDate: searchCriteria.depart_date,
-                }, function (err, results) {
-                    // direct flights
+                let RoundFlightList = [];
+                listRoundFlights(function (err, roundFlightList) {
 
                     if (err) {
                         callback(err);
-                    }
-                    let HotelList = [];
+                    } else {
+                        RoundFlightList = roundFlightList;
+                        console.log(roundFlightList);
+                        console.log("round trip flights");
 
-                    if (results) {
-
-                        async.forEachOf(results, function (flight, index, cb) {
-                            if (flight !== null || flight !== "") {
-                                // direct flights
-                                console.log("hotel to match");
-                                console.log(flight);
-                                mysql.fetchData(function (err, result1) {
-                                    if (err) {
-                                        cb(err);
-                                    } else {
-                                        console.log("results from booking");
-
-                                        console.log(result1);
-                                        if (result1 !== null) {
-                                            console.log(flight.rooms);
-                                            if (result1[0].total < flight.rooms[0].noOfRooms) {
-                                                HotelList.push(flight);
-                                                cb();
-                                            } else {
-                                                cb();
-                                            }
-                                        } else {
-                                            cb();
-                                        }
-                                    }
-                                }, "select count(bookingid) as total from hotelbooking where hotelbooking.hotelId = '" + flight._id + "' and hotelbooking.fromDate = '" + searchCriteria.checkIn_date + "' and hotelbooking.toDate = '" + searchCriteria.checkOut_date + "'")
-                            }
-                        }, function (err) {
-                            if (err) {
-                                callback(err)
-                            } else {
-                                console.log("HotelList");
-
-                                console.log(HotelList);
-                                callback(null, HotelList);
-                            }
-                        });
+                        callback(null,RoundFlightList)
                     }
                 })
-            } else {
+
+            }
+            else {
                 searchCriteria.from = criteriaArr[1].toString().toLowerCase();
                 searchCriteria.to = criteriaArr[2].toString().toLowerCase();
                 searchCriteria.depart_date = criteriaArr[3].toString();
@@ -119,11 +81,14 @@ exports.listFlights = ((message, callback) => {
             }
         }
 
-    } catch (e) {
+    }
+    catch
+        (e) {
         console.log(e);
         callback(e, null)
     }
-});
+})
+;
 
 
 function listDirectFlights(callback) {
@@ -191,7 +156,7 @@ function listDirectFlights(callback) {
                         callback(null, FligthList);
                     }
                 });
-            }else{
+            } else {
                 callback();
             }
 
@@ -357,12 +322,178 @@ function listIndirectFlights(callback) {
                             callback(null, indirectFlights)
                         }
                     })
-            }else{
+            } else {
                 callback()
             }
         }
     })
 
+}
+
+function listRoundFlights(callback) {
+
+    let FlightList = [];
+
+    let tempFlightRecords = {one: {}, two: {}, totalPrice: 0};
+    // indirect flights
+
+    console.log(searchCriteria.from);
+    console.log(searchCriteria.to);
+    console.log(searchCriteria.depart_date);
+    console.log(searchCriteria.arrivalDate);
+
+
+    Flight.find({
+        origin: searchCriteria.from.toLowerCase(),
+        destination: {$ne: searchCriteria.to.toLowerCase()},
+        departureDate: searchCriteria.depart_date
+    }, function (err, side_one) {
+
+        console.log(err);
+
+        if (err) {
+            callback(err);
+        }
+
+        if (side_one) {
+            // indirect flights
+
+            if (side_one.length > 0) {
+
+                async.forEachOf(side_one, function (flight, index, cb1) {
+                        let totalPrice = 0;
+                        // indirect flights
+
+                        if (flight !== null) {
+
+                            console.log("flight to match");
+                            console.log(flight);
+                            console.log("1");
+
+
+                            mysql.fetchData(function (err, result1) {
+
+                                if (err) {
+                                    cb1(err);
+                                }
+                                else {
+                                    // indirect flights
+
+                                    if (result1 !== null) {
+
+                                        console.log(flight.classes);
+                                        console.log("1");
+
+                                        for (let i = 0; i < flight.classes.length; i++) {
+                                            console.log("2");
+                                            // indirect flights
+
+                                            console.log(flight.classes[i].classType.toString());
+
+                                            if (flight.classes[i].classType.toString().toLowerCase() === searchCriteria.class && result1[0].total < flight.classes[i].noOfSeats) {
+                                                // indirect flights
+
+                                                tempFlightRecords.one = flight;
+                                                totalPrice = flight.classes[i].price;
+
+                                                console.log("3");
+                                                console.log("search nxt flight with following restrictions");
+                                                // indirect flights
+                                                console.log(searchCriteria.from.toLowerCase());
+                                                console.log(searchCriteria.to.toLowerCase());
+                                                console.log(searchCriteria.arrivalDate);
+
+                                                Flight.findOne(
+                                                    {
+                                                        origin: searchCriteria.to.toLowerCase(),
+                                                        destination: searchCriteria.from.toLowerCase(),
+                                                        arrivalDate: searchCriteria.arrivalDate,
+                                                    },
+                                                    function (err, side_two) {
+                                                        console.log("4");
+                                                        console.log(side_two);
+                                                        // indirect flights
+
+                                                        if (side_two) {
+                                                            mysql.fetchData(function (err, result1) {
+
+                                                                if (err) {
+                                                                    cb1(err);
+                                                                }
+                                                                else {
+
+                                                                    // indirect flights
+                                                                    console.log("results from booking");
+                                                                    console.log(result1);
+
+                                                                    if (result1 !== null) {
+                                                                        // indirect flights
+                                                                        console.log("5")
+                                                                        console.log(side_two.classes);
+                                                                        for (let i = 0; i < side_two.classes.length; i++) {
+
+                                                                            console.log(side_two.classes[i].classType.toString());
+
+                                                                            if (side_two.classes[i].classType.toString().toLowerCase() === searchCriteria.class && result1[0].total < side_two.classes[i].noOfSeats) {
+                                                                                // indirect flights
+                                                                                console.log("6");
+                                                                                tempFlightRecords.two = side_two;
+
+                                                                                totalPrice += side_two.classes[i].price;
+                                                                                tempFlightRecords.totalPrice = totalPrice;
+                                                                                FlightList.push(tempFlightRecords);
+                                                                                cb1();
+                                                                            } else {
+                                                                                // indirect flights
+
+                                                                                // cb1();
+
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    else {
+                                                                        cb1();
+                                                                    }
+                                                                }
+                                                            }, "select count(noOfPassengers) as total from flightbooking where flightbooking.flightId = '" + side_two._id + "' and flightbooking.flightClass = '" + searchCriteria.class + "' ")
+
+                                                        }
+                                                        else {
+                                                            cb1();
+                                                        }
+
+
+                                                    }
+                                                )
+
+
+                                            }
+                                            else {
+                                                // cb1();
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        cb1();
+                                    }
+                                }
+
+                            }, "select count(noOfPassengers) as total from flightbooking where flightbooking.flightId = '" + flight._id + "' and flightbooking.flightClass = '" + searchCriteria.class + "' ")
+                        }
+                    },
+                    function (err) {
+                        if (err) {
+                            callback(err)
+                        } else {
+
+                            callback(null, FlightList)
+                        }
+                    })
+            } else {
+                callback()
+            }
+        }
+    })
 }
 
 function capitalizeFirstLetter(string) {

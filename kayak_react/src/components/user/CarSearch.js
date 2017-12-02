@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
+import {carEssentialsAdd, flightEssentialsAdd, toggleBookingType} from "../../actions";
+import {connect} from "react-redux";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -17,6 +19,10 @@ class CarSearch extends Component {
     searchCars() {
         let searchString = "";
 
+
+        this.props.carEssentialsAdd(this.searchCriteria.from_date, this.searchCriteria.to_date);
+
+
         searchString += this.searchCriteria.city + "_" + this.searchCriteria.from_date + "_" + this.searchCriteria.to_date;
         this.props.listCars(searchString)
     };
@@ -24,7 +30,7 @@ class CarSearch extends Component {
     render() {
         return (
             <div className="text-center">
-                <div className="form-row" style={{marginLeft : "20%"}}>
+                <div className="form-row" style={{marginLeft: "20%"}}>
                     <div className="form-group col-md-3">
                         <label className="form-label">City</label>
                         <input type="text" required="required" className="form-control" id="city" placeholder="city"
@@ -55,10 +61,21 @@ class CarSearch extends Component {
                                }/>
                     </div>
                 </div>
-                <center><button className="btn btn-warning" onClick={() => this.searchCars()}>Search</button></center>
+                <center>
+                    <button className="btn btn-warning" onClick={() => this.searchCars()}>Search</button>
+                </center>
             </div>
         );
     }
 }
 
-export default CarSearch;
+function mapDispatchToProps(dispatch) {
+    return {
+        carEssentialsAdd: (fromDate, toDate) => {
+            dispatch(carEssentialsAdd(fromDate, toDate))
+        }
+    };
+}
+
+
+export default connect(null, mapDispatchToProps)(CarSearch);
