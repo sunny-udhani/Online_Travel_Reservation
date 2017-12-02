@@ -35,7 +35,7 @@ let addUserCard=require('./services/addUserCard');
 let getUserBooking_Flights=require('./services/getUserBooking_Flights');
 let getUserBooking_Cars=require('./services/getUserBooking_Cars');
 let getHotelRooms=require('./services/getHotelRooms.js');
-
+let fetchUserProfile = require('./services/fetchUserProfile');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
@@ -56,6 +56,7 @@ let fetchUsersConsumer = connection.getConsumerObj(req_topics.FETCH_USERS);
 let modifyUsersConsumer = connection.getConsumerObj(req_topics.MODIFY_USERS);
 let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
 let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
+let fetchUserProfileConsumer = connection.getConsumerObj(req_topics.FETCH_USERPROFILE);
 
 let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETAILS);
 let getUserDetails_Consumer = connection.getConsumerObj(req_topics.USER_DETAILS);
@@ -843,9 +844,9 @@ try {
         console.log(data.replyTo);
 
         getUserBooking_Info.handle_request(data.data, function (err, res) {
-           let resusertrip={};
-           let result =[];
-          //  console.log('after handle' + res);
+            let resusertrip={};
+            let result =[];
+            //  console.log('after handle' + res);
             if(err){
                 console.log("no entries");
             }
@@ -857,54 +858,43 @@ try {
                     }
                     else{
                         result.push(resu);
-                    getUserBooking_Cars.handle_request(data.data, function (err, resul) {
-                        if(err){
-                            console.log(err);
-                        }
-
-                        result.push(resul);
-                        resusertrip.code=200;
-                        resusertrip.value="Successful booking history ";
-                        resusertrip.data=JSON.parse(result);
-
-                        console.log("here is the final data ");
-                        console.log(result);
-
-                        var payloads = [
-                            {
-                                topic: data.replyTo,
-                                messages: JSON.stringify({
-                                    correlationId: data.correlationId,
-                                    data: resusertrip
-                                }),
-                                partition: 0
+                        getUserBooking_Cars.handle_request(data.data, function (err, resul) {
+                            if(err){
+                                console.log(err);
                             }
-                        ];
-                        producer.send(payloads, function (err, data) {
-                            console.log(data);
-                            console.log(payloads);
+
+                            result.push(resul);
+                            resusertrip.code=200;
+                            resusertrip.value="Successful booking history ";
+                            resusertrip.data=JSON.parse(result);
+
+                            console.log("here is the final data ");
+                            console.log(result);
+
+                            var payloads = [
+                                {
+                                    topic: data.replyTo,
+                                    messages: JSON.stringify({
+                                        correlationId: data.correlationId,
+                                        data: resusertrip
+                                    }),
+                                    partition: 0
+                                }
+                            ];
+                            producer.send(payloads, function (err, data) {
+                                console.log(data);
+                                console.log(payloads);
+                            });
+
+
+
+
                         });
-
-
-
-
-            });
-            }         // return;
+                    }         // return;
+                });
+            }
         });
-        }
     });
-});
-
-
-
-
-
-
-
-
-
-
-
 
     carListing_Consumer.on('message', function (message) {
         console.log('message received');
@@ -939,6 +929,38 @@ try {
                 console.log(payloads);
             });
             // return;
+        });
+    });
+
+    fetchUserProfileConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchUserProfile.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
         });
     });
 
