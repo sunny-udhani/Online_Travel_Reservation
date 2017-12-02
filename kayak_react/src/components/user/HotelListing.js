@@ -352,7 +352,7 @@ class HotelListing extends Component {
                                                             </div>
                                                             <div className="title hotel-right clearfix cell-view">
                                                                 <div className="hotel-person color-dark-2">from <span
-                                                                    className="color-blue">{hotel.rooms[0].roomPrice}</span>
+                                                                    className="color-blue">$ {hotel.rooms[0].roomPrice}</span>
                                                                     /night
                                                                 </div>
                                                                 <button

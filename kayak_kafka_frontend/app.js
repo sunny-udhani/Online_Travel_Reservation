@@ -14,7 +14,7 @@ let admin = require('./routes/admin');
 let listings = require('./routes/listings');
 let listingDetail = require('./routes/listingDetail');
 
-let mongoSessionURL = "mongodb://localhost:27017/kayak";
+let mongoSessionURL = "mongodb://kayak:kayak@cluster0-shard-00-00-j61pv.mongodb.net:27017,cluster0-shard-00-01-j61pv.mongodb.net:27017,cluster0-shard-00-02-j61pv.mongodb.net:27017/kayak?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";
 let expressSessions = require("express-session");
 let mongoStore = require("connect-mongo/es5")(expressSessions);
 

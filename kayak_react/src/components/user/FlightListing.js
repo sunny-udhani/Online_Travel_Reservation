@@ -419,7 +419,7 @@ class FlightListing extends Component {
                                                 &&
                                                 (arrivalTimeNum[0] <= this.filterCriteria.arrivalEnd)
                                                 &&
-                                                (arrivalTimeNum[0] >= this.filterCriteria.departStart)
+                                                (arrivalTimeNum[0] >= this.filterCriteria.arrivalStart)
                                                 &&
                                                 (this.filterCriteria.star.length === 0 ? true : (this.filterCriteria.star.some(matchStar)))
                                             ) {
