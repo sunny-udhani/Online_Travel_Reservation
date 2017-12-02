@@ -841,44 +841,68 @@ try {
         console.log(data.replyTo);
 
         getUserBooking_Info.handle_request(data.data, function (err, res) {
-            console.log('after handle' + res);
-            getUserBooking_Flights.handle_request(data.data,function(err,resu) {
-
-                getUserBooking_Cars.handle_request(data.data,function(err,resul){
-                    let result=[];
-                    result.push(res,resu,resul);
-
-
-                    var payloads = [
-                        {
-                            topic: data.replyTo,
-                            messages: JSON.stringify({
-                                correlationId: data.correlationId,
-                                data: result
-                            }),
-                            partition: 0
+           let resusertrip={};
+           let result =[];
+          //  console.log('after handle' + res);
+            if(err){
+                console.log("no entries");
+            }
+            else {
+                result.push(res);
+                getUserBooking_Flights.handle_request(data.data, function (err, resu) {
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        result.push(resu);
+                    getUserBooking_Cars.handle_request(data.data, function (err, resul) {
+                        if(err){
+                            console.log(err);
                         }
-                    ];
-                    producer.send(payloads, function (err, data) {
-                        console.log(data);
-                        console.log(payloads);
-                    });
+
+                        result.push(resul);
+                        resusertrip.code=200;
+                        resusertrip.value="Successful booking history ";
+                        resusertrip.data=JSON.parse(result);
+
+                        console.log("here is the final data ");
+                        console.log(result);
+
+                        var payloads = [
+                            {
+                                topic: data.replyTo,
+                                messages: JSON.stringify({
+                                    correlationId: data.correlationId,
+                                    data: resusertrip
+                                }),
+                                partition: 0
+                            }
+                        ];
+                        producer.send(payloads, function (err, data) {
+                            console.log(data);
+                            console.log(payloads);
+                        });
 
 
 
-
-
-
-                });
 
             });
-
-
-
-
-            // return;
+            }         // return;
         });
+        }
     });
+});
+
+
+
+
+
+
+
+
+
+
+
 
 }
 catch (e){
