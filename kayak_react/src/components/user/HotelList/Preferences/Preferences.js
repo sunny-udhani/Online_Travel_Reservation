@@ -4,6 +4,7 @@ import {Route, withRouter} from 'react-router-dom';
 import '../bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './Navbar';
 import {connect} from "react-redux"
+// import ProfileIconEditor from './ProfileIconEditor';
 
  class Preferences extends Component{
 
@@ -51,6 +52,7 @@ import {connect} from "react-redux"
                      <p>San Francisco</p>
                      </div>
                     </div>
+
                     <div className="delete-details">
                         <div className="delete-user pull-left">
                             <button type="button" id="delete-info">Delete Account</button>
