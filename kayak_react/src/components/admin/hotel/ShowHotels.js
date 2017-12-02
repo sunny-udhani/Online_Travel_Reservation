@@ -125,9 +125,9 @@ class ShowHotels extends Component {
         return (
             <tbody>
             <tr>
-                {/*<td>
+                <td>
                     {hotel.hostId}
-                </td>*/}
+                </td>
                 <td>
                     {hotel.hotelName}
                 </td>

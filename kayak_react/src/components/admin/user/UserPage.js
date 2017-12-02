@@ -105,9 +105,6 @@ class UserPage extends Component {
                                         </td>
                                     </tr>
                                 </Table>
-                                <FormGroup>
-
-                                </FormGroup>
                             </Col>
                         </Row>
                     </ModalBody>
@@ -175,7 +172,7 @@ class UserPage extends Component {
                                                         searchModal:true
                                                     })
                                                 })}>Search User</Button>
-                                                <label className="text-center">User</label>
+                                                <label className="h4"><b>Users</b></label>
                                             </CardHeader>
                                             <CardBody>
                                                 <Table>

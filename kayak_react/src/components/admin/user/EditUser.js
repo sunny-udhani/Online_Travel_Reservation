@@ -38,6 +38,7 @@ class EditUser extends Component {
 
     editUser = ((data)=>{
         console.log(data);
+        data.accessInd = "user";
         API.modifyUserData(data).then((response) => {
             console.log(response.status);
             if(response.status===200){

@@ -290,7 +290,7 @@ class HostPage extends Component {
                                                         searchModal:true
                                                     })
                                                 })}>Search Host</Button>
-                                                <label className="text-center"><b>Host</b></label>
+                                                <label className="h4"><b>Hosts</b></label>
                                                 <Button className="btn-primary pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
