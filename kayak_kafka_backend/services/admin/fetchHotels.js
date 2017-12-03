@@ -8,14 +8,10 @@ handle_request = ((data, callback) => {
 
     try {
         console.log("Hotel Fetch");
-        console.log(data);
         let query={};
-        if(data!=={} && data!==null && data!==undefined){
-            if(data._id!== undefined && data._id!== null){
-                query = {_id : ObjectId(data._id)}
-            }
-            else {
-                query = data.query;
+        if(data!=={}){
+            if(data.hotelId!== undefined && data.hotelId!== null){
+                query = {_id : ObjectId(data.hotelId)}
             }
         }
         console.log(query);

@@ -22,6 +22,8 @@
     "passport-local": "^1.0.0",
     "redis": "^2.8.0",
     "serve-favicon": "~2.4.5",
-    "winston": "^3.0.0-rc1"
+    "winston": "^3.0.0-rc1",
+    "line-by-line": "^0.1.5",
+    "mocha": "^4.0.1"
   }
 }

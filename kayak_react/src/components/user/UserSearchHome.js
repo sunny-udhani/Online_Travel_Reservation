@@ -16,9 +16,7 @@ import "../../css/style.css";
 import "../../css/jquery-ui.min.css";
 import "../../css/jquery-ui.structure.min.css";
 
-
 class UserSearchHome extends Component {
-
 
     searchHotel = (searchCriteria) => {
        this.props.searchHotel(searchCriteria);

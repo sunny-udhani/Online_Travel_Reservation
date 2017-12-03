@@ -8,7 +8,13 @@ import {hotelList_Success} from "../../actions";
 import SwipeImageBackground from "./swipeImageBackground";
 
 import Background from "../../img/main_slide_1.jpg";
+import *  as HotelListingAPI from "../../api/user/API_GetHotels";
 import *  as FlightListingAPI from "../../api/user/API_GetFlights";
+
+import * as LogAPI from "../../api/user/API_Logging";
+
+
+import * as AlertConfig from "../../alertConfig";
 
 import "../../css/bootstrap.min.css";
 import "../../css/font-awesome.min.css";
@@ -21,6 +27,45 @@ import FlightSearch from "./FlightSearch";
 import CarSearch from "./CarSearch";
 
 class UserHome extends Component {
+
+    componentWillMount(){
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserHome",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
+    }
+
+    // searchHotel = (searchCriteria) => {
+    //     HotelListingAPI.getHotels(searchCriteria)
+    //         .then(res => {
+    //             console.log(res.status);
+    //             if (res.status === 200) {
+    //                 res.json()
+    //                     .then(data => {
+    //                         console.log(data);
+    //                         this.props.hotelList_Success(data);
+    //                     });
+    //             } else {
+    //                 console.log("error in getting list");
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log("error");
+    //             console.log(err);
+    //         });
+    // };
 
     listHotel = (searchCriteria) => {
 

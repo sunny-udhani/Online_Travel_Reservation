@@ -1,5 +1,6 @@
 const express = require('express');
 const redis_client = require("../config/redisConnect").getClient();
+const winston = require('../config/winston');
 const router = express.Router();
 const req_topic_enums = require('../config/topic_enum').req_topic_names;
 const kafka = require('./kafka/client');
@@ -12,6 +13,25 @@ router.post('/', function (req, res, next) {
 router.post('/getHotels', function (req, res) {
     try {
         if (req.body.criteria) {
+
+            let log = {
+                propertyClick:{
+                    userId: "anonymous",
+                    propertyName: "Hotel",
+                    url_clicked: '/listings/hotels',
+                    date: new Date().getDate(),
+                    month: new Date().getMonth(),
+                    year: 1900+new Date().getYear(),
+                    timeStamp: new Date().toLocaleTimeString()
+                }
+            };
+            if(req.session.username){
+                log.propertyClick.userId = req.session.username;
+            }
+            console.log(log);
+            console.log("Log added - ");
+            winston.info(log);
+            //-----------------------------------------------------------------------------------
 
             redis_client.hget(req.body.criteria.toString(), req.body.criteria.toString(), function (err, reply) {
 
@@ -125,6 +145,26 @@ router.post('/getFlights', function (req, res) {
 
         if (req.body.criteria) {
 
+            // ----------------------------------------------------------------------------------
+            let log = {
+                propertyClick:{
+                    userId: "anonymous",
+                    propertyName: "Flight",
+                    url_clicked: '/listings/flights',
+                    date: new Date().getDate(),
+                    month: new Date().getMonth(),
+                    year: 1900+new Date().getYear(),
+                    timeStamp: new Date().toLocaleTimeString()
+                }
+            };
+            if(req.session.username){
+                log.propertyClick.userId = req.session.username;
+            }
+            console.log(log);
+            console.log("Log added - ");
+            winston.info(log);
+            //-----------------------------------------------------------------------------------
+            
             redis_client.hget(req.body.criteria.toString(), req.body.criteria.toString(), function (err, reply) {
 
                 if (err) {
@@ -206,6 +246,26 @@ router.post('/getCars', function (req, res) {
 
         if (req.body.criteria) {
 
+            // ---------------------------------------------------------------------------
+            let log = {
+                propertyClick:{
+                    userId: "anonymous",
+                    propertyName: "Car",
+                    url_clicked: '/listings/cars',
+                    date: new Date().getDate(),
+                    month: new Date().getMonth(),
+                    year: 1900+new Date().getYear(),
+                    timeStamp: new Date().toLocaleTimeString()
+                }
+            };
+            if(req.session.username){
+                log.propertyClick.userId = req.session.username;
+            }
+            console.log(log);
+            console.log("Log added - ");
+            winston.info(log);
+            //-----------------------------------------------------------------------------------
+            
             redis_client.hget(req.body.criteria.toString(), req.body.criteria.toString(), function (err, reply) {
 
                 if (err) {

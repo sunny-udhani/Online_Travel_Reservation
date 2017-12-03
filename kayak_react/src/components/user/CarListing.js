@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import Slider from 'rc-slider';
 import Moment from 'react-moment';
-
 import {connect} from "react-redux"
 import {carListingView, flightListingView, hotelList_Success} from "../../actions";
 import 'rc-slider/assets/index.css';
 import {filter_change} from "../../actions/index";
+import * as LogAPI from "../../api/user/API_Logging";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -47,7 +47,22 @@ class CarListing extends Component {
     }
 
     componentWillMount() {
-        this.props.searchCars({criteria: this.props.match.params.criteria})
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserHome",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
     }
 
     handleListingView(id) {

@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import {flightListingView, hotelList_Success, hotelListingView} from "../../actions";
 import 'rc-slider/assets/index.css';
 import {filter_change} from "../../actions/index";
+import * as LogAPI from "../../api/user/API_Logging";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -51,7 +52,22 @@ class FlightListing extends Component {
     }
 
     componentWillMount() {
-        this.props.searchFlights({criteria: this.props.match.params.criteria})
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserHome",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
     }
 
     handleListingView(id) {
