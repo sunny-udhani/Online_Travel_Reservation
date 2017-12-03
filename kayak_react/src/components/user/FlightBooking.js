@@ -29,7 +29,7 @@ class FlightBooking extends Component {
 
         flightId: this.props.flightId,
         noofpassengers: this.props.flightNoofPassengers,
-        flight_class: this.props.fightClass,
+        flight_class: this.props.flightClass,
         trip_type: this.props.flightTripType,
         fromDate: this.props.flightFromDate,
         toDate: this.props.flightToDate,
@@ -308,57 +308,7 @@ class FlightBooking extends Component {
     render() {
         return (
             <div className="container">
-                <header className="color-1 hovered menu-3">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-3">
-                                <div className="nav">
-                                    <a href="index.html" className="logo">
-                                        <img
-                                            src="https://a1.r9cdn.net/rimg/provider-logos/common/socialmedia/kayak-logo.png?width=440&height=220&crop=false"
-                                            style={{height: "30%", width: "70%"}}/>
-                                    </a>
 
-                                    <div className="nav-menu-icon">
-                                        <a href="#"><i></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-9">
-                                <nav className="menu">
-                                    <ul>
-
-                                        <li className="type-1"><a href="#">Hotels<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">Flights<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">Cars<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">My Account<span
-                                            className="fa fa-angle-down"></span></a>
-                                            <ul className="dropmenu">
-                                                <li><a href="#">Account Preferences {this.props.username} </a></li>
-                                                <li><a href="car_block.html">Trips</a></li>
-                                                <li><a href="car_detail.html">Watchlist</a></li>
-                                                <li><a onClick={this.handleSignOut}>Sign Out</a></li>
-
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <br/>
-
-                <hr/>
-
-                <div>
                     <div className="container">
                         <div className="row list-wrapper  bg-grey-2">
                             <div className="col-md-8">
@@ -372,10 +322,10 @@ class FlightBooking extends Component {
                                                     <h5><strong
                                                         className="color-red-3">{this.state.flightObject.flightOperator}</strong>
                                                     </h5>
-                                                    <h4><b>{this.state.flightObject.origin}
-                                                        to {this.state.flightObject.destination}</b></h4>
+                                                    <h4><b>{this.state.flightObject.origin}&nbsp;
+                                                        to&nbsp;{this.state.flightObject.destination}</b></h4>
                                                     <h5>{this.state.flightObject.flightOperator} - <span
-                                                        className="color-red-3"> One Way - Economy -  Adults : 3</span>
+                                                        className="color-red-3"> {this.props.flightTripType} - {this.props.flightClass} -  Adults : {this.props.flightNoofPassengers}</span>
                                                     </h5>
 
                                                     <div className="fi_block">
@@ -873,8 +823,6 @@ class FlightBooking extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
-
             </div>
 
         );
@@ -886,7 +834,7 @@ function mapStateToProps(state) {
 
     return {
         flightId: state.flightId,
-        fightClass: state.flightClass,
+        flightClass: state.flightClass,
         flightTripType: state.flightTripType,
         flightNoofPassengers: state.flightNoOfPassengers,
         flightFromDate: state.flightFromDate,
