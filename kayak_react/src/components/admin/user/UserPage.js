@@ -187,6 +187,9 @@ class UserPage extends Component {
                                                         <th>
                                                             <b>Last Name</b>
                                                         </th>
+                                                        <th>
+                                                            <b>Date of Birth</b>
+                                                        </th>
                                                     </tr>
                                                     </thead>
                                                     {
