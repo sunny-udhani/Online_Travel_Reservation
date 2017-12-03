@@ -34,7 +34,7 @@ class FlightBooking extends Component {
         fromDate: this.props.flightFromDate,
         toDate: this.props.flightToDate,
 
-        baseprice : 0
+        baseprice: 0
     };
 
     flight_payment = {
@@ -59,28 +59,28 @@ class FlightBooking extends Component {
     traveler_details = [];
 
     billing_address = {
-        username : '',
-        street1 : '',
-        street2 : '',
-        postalcode : '',
-        city : '',
-        state : '',
-        country : ''
+        username: '',
+        street1: '',
+        street2: '',
+        postalcode: '',
+        city: '',
+        state: '',
+        country: ''
     };
 
     payment_details = {
-        username : '',
-        nameoncard : '',
-        creditCardnumber : '',
-        validThrough : '',
-        cvv : ''
+        username: '',
+        nameoncard: '',
+        creditCardnumber: '',
+        validThrough: '',
+        cvv: ''
     };
 
     add_travelers = (() => {
-        for (let i = 0 ; i < this.state.noofpassengers ; i++) {
+        for (let i = 0; i < this.state.noofpassengers; i++) {
             console.log("I --- " + i);
 
-            if(this.visit_flag === true) {
+            if (this.visit_flag === true) {
 
                 this.traveler_details.push({
                     first_name: '',
@@ -104,11 +104,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].first_name = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].first_name = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                             <div className="col-sm-6">
@@ -116,11 +116,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].last_name = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].last_name = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                         </div>
@@ -131,11 +131,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].email = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].email = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                             <div className="col-sm-6">
@@ -143,11 +143,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].phonenumber = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].phonenumber = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                         </div>
@@ -156,7 +156,7 @@ class FlightBooking extends Component {
             }
         }
 
-        return(
+        return (
             <div>
                 {this.travelers}
             </div>
@@ -181,8 +181,8 @@ class FlightBooking extends Component {
                             console.log("Length : " + data.classes.length);
                             console.log("Sample : " + data.classes[0].classType);
 
-                            for(let j = 0; j < data.classes.length; j++) {
-                                if(this.state.flight_class === data.classes[j].classType) {
+                            for (let j = 0; j < data.classes.length; j++) {
+                                if (this.state.flight_class === data.classes[j].classType) {
                                     this.setState({
                                         ...this.state,
                                         baseprice: data.classes[j].price
@@ -201,13 +201,25 @@ class FlightBooking extends Component {
                                         res.json()
                                             .then(userdata => {
 
+                                                console.log(userdata);
+                                                console.log(userdata.paymentDetails);
+
                                                 this.setState({
                                                     ...this.state,
                                                     flightObject: data,
                                                     userDetails: userdata.userDetails[0],
-                                                    paymentDetails: userdata.paymentDetails[0],
-                                                    billingAddress: userdata.billingAddress[0]
+                                                    paymentDetails: ( userdata.paymentDetails === undefined || userdata.paymentDetails.length === 0) ? null : userdata.paymentDetails[0],
+                                                    billingAddress: (userdata.billingAddress === undefined || userdata.billingAddress.length === 0) ? null : userdata.billingAddress[0]
                                                 });
+
+
+                                                if (userdata.paymentDetails !== undefined) {
+                                                    this.payment_details.nameoncard = userdata.paymentDetails.nameoncard;
+                                                    this.payment_details.username = userdata.paymentDetails.username;
+                                                    this.payment_details.creditCardnumber = userdata.paymentDetails.creditCardNumber;
+                                                    this.payment_details.validThrough = userdata.paymentDetails.validThrough;
+                                                    this.payment_details.cvv = userdata.paymentDetails.cvv;
+                                                }
 
                                                 console.log(this.state);
 
@@ -224,7 +236,6 @@ class FlightBooking extends Component {
 
                                                 console.log("Host ID : " + this.state.flightObject.hostId);
                                                 this.flight_payment.hostId = this.state.flightObject.hostId;
-
                                             });
 
                                     } else {
@@ -253,11 +264,11 @@ class FlightBooking extends Component {
                     console.log("success");
 
                     let payload = {
-                        bookingType : "flight",
-                        userdata : userdata,
-                        traveler_details : this.traveler_details,
-                        billing_address : this.billing_address,
-                        payment_details : this.payment_details
+                        bookingType: "flight",
+                        userdata: userdata,
+                        traveler_details: this.traveler_details,
+                        billing_address: this.billing_address,
+                        payment_details: this.payment_details
                     };
 
                     //independent API to insert traveler details, billing address, and payment details
@@ -520,7 +531,7 @@ class FlightBooking extends Component {
                                                                    name=""
                                                                    className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.userDetails.dateofbirth}
+                                                                // placeholder={this.state.userDetails.dateofbirth}
                                                             />
 
                                                         </div>
@@ -530,7 +541,7 @@ class FlightBooking extends Component {
                                                                    name=""
                                                                    className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.userDetails.gender}
+                                                                // placeholder={this.state.userDetails.gender}
                                                             />
                                                         </div>
                                                     </div>
@@ -621,7 +632,7 @@ class FlightBooking extends Component {
                                                             <input type="text" name=""
                                                                    className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.billingAddress.street1}
+                                                                // placeholder={this.state.billingAddress.street1}
                                                                    onChange={
                                                                        (event) => {
                                                                            this.billing_address.street1 = event.target.value
@@ -637,7 +648,7 @@ class FlightBooking extends Component {
                                                             <input type="text" name=""
                                                                    className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.billingAddress.street2}
+                                                                // placeholder={this.state.billingAddress.street2}
                                                                    onChange={
                                                                        (event) => {
                                                                            this.billing_address.street2 = event.target.value
@@ -653,7 +664,7 @@ class FlightBooking extends Component {
                                                             <h6>Postal Code</h6>
                                                             <input type="text" name="" className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.billingAddress.postalcode}
+                                                                // placeholder={this.state.billingAddress.postalcode}
                                                                    onChange={
                                                                        (event) => {
                                                                            this.billing_address.postalcode = event.target.value
@@ -665,7 +676,7 @@ class FlightBooking extends Component {
                                                             <h6>City</h6>
                                                             <input type="text" name="" className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.billingAddress.city}
+                                                                // placeholder={this.state.billingAddress.city}
                                                                    onChange={
                                                                        (event) => {
                                                                            this.billing_address.city = event.target.value
@@ -680,7 +691,7 @@ class FlightBooking extends Component {
                                                             <h6>State/Region</h6>
                                                             <input type="text" name="" className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.billingAddress.state}
+                                                                // placeholder={this.state.billingAddress.state}
                                                                    onChange={
                                                                        (event) => {
                                                                            this.billing_address.state = event.target.value
@@ -692,7 +703,7 @@ class FlightBooking extends Component {
                                                             <h6>Country</h6>
                                                             <input type="text" name="" className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.billingAddress.country}
+                                                                // placeholder={this.state.billingAddress.country}
                                                                    onChange={
                                                                        (event) => {
                                                                            this.billing_address.country = event.target.value
@@ -712,7 +723,9 @@ class FlightBooking extends Component {
                                                             <input type="text" name=""
                                                                    className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.paymentDetails.nameoncard}
+                                                                // placeholder={this.state.paymentDetails.nameoncard}
+                                                                   placeholder={this.payment_details.nameoncard}
+
                                                                    onChange={
                                                                        (event) => {
                                                                            this.payment_details.nameoncard = event.target.value
@@ -727,7 +740,9 @@ class FlightBooking extends Component {
                                                             <input type="text" name=""
                                                                    className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.paymentDetails.creditCardNumber}
+                                                                // placeholder={this.state.paymentDetails.creditCardNumber}
+                                                                   placeholder={this.payment_details.creditCardnumber}
+
                                                                    onChange={
                                                                        (event) => {
                                                                            this.payment_details.creditCardnumber = event.target.value
@@ -743,7 +758,9 @@ class FlightBooking extends Component {
                                                             <h6>Valid Through</h6>
                                                             <input type="date" name="" className="form-control input-sm"
                                                                    id="validThrough"
-                                                                   // placeholder={this.state.paymentDetails.validThrough}
+                                                                // placeholder={this.state.paymentDetails.validThrough}
+                                                                   placeholder={this.payment_details.validThrough}
+
                                                                    onChange={
                                                                        (event) => {
                                                                            this.payment_details.validThrough = event.target.value
@@ -756,7 +773,7 @@ class FlightBooking extends Component {
                                                             <h6>CVV</h6>
                                                             <input type="" name="" className="form-control input-sm"
                                                                    id=""
-                                                                   // placeholder={this.state.paymentDetails.cvv}
+                                                                   placeholder={this.payment_details.cvv}
                                                                    onChange={
                                                                        (event) => {
                                                                            this.payment_details.cvv = event.target.value
@@ -871,7 +888,7 @@ function mapStateToProps(state) {
         flightId: state.flightId,
         fightClass: state.flightClass,
         flightTripType: state.flightTripType,
-        flightNoofPassengers: state.flightNoofPassengers,
+        flightNoofPassengers: state.flightNoOfPassengers,
         flightFromDate: state.flightFromDate,
         flightToDate: state.flightToDate
     };
