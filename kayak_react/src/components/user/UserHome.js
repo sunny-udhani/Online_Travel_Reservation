@@ -10,7 +10,11 @@ import SwipeImageBackground from "./swipeImageBackground";
 import Background from "../../img/main_slide_1.jpg";
 import *  as HotelListingAPI from "../../api/user/API_GetHotels";
 import *  as FlightListingAPI from "../../api/user/API_GetFlights";
+
 import * as LogAPI from "../../api/user/API_Logging";
+
+
+import * as AlertConfig from "../../alertConfig";
 
 import "../../css/bootstrap.min.css";
 import "../../css/font-awesome.min.css";
