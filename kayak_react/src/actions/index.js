@@ -152,7 +152,7 @@ export function hotelEssentialsAdd(fromDate, toDate, noOfPeople) {
 
 export function hotelListingView(id, roomType) {
     return {
-        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        type: actionTypes.HOTEL_LISTING_VIEW,
         id, roomType
     }
 }
