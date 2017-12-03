@@ -166,9 +166,10 @@ class FlightBooking extends Component {
     componentWillMount() {
 
         let flightId = {
-            id: this.state.flightId
+            id: this.props.flightId
         };
 
+        console.log(this.props.state);
         console.log(flightId);
         console.log(this.state.flightId);
         console.log(this.props.flightId);
@@ -182,15 +183,12 @@ class FlightBooking extends Component {
                             console.log("Sample : " + data.classes[0].classType);
 
                             for(let j = 0; j < data.classes.length; j++) {
-                                if(this.state.flight_class === data.classes[j].classType) {
-                                    this.setState({
-                                        ...this.state,
-                                        baseprice: data.classes[j].price
-                                    });
+                                if(this.props.flight_class === data.classes[j].classType) {
+                                    this.base_price = data.class[j].price;
                                 }
                             }
 
-                            console.log("Base price : " + this.state.baseprice);
+                            console.log("Base price : " + this.base_price);
 
                             this.visit_flag = true;
                             console.log(this.visit_flag);
@@ -455,31 +453,31 @@ class FlightBooking extends Component {
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{this.state.noofpassengers}</span>
+                                                                className="color-red-3">{this.props.flightNoofPassengers}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{(this.state.baseprice).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.base_price).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{(this.state.baseprice * 0.09).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.base_price * 0.09).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-4">
                                                             <h6><span
-                                                                className="color-red-3">{(this.state.baseprice * 1.09).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.base_price * 1.09).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{(this.state.baseprice * this.state.noofpassengers * 1.09).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.base_price * this.props.flightNoofPassengers * 1.09).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -873,7 +871,8 @@ function mapStateToProps(state) {
         flightTripType: state.flightTripType,
         flightNoofPassengers: state.flightNoofPassengers,
         flightFromDate: state.flightFromDate,
-        flightToDate: state.flightToDate
+        flightToDate: state.flightToDate,
+        state: state
     };
 }
 
