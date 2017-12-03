@@ -102,6 +102,42 @@ router.post('/signup', function (req, res, next) {
     }
 });
 
+router.post('/getUserDetails', function (req, res) {
+    try {
+        console.log(req.session.username);
+
+        //edit payload
+        payload = {
+            username : req.session.username
+        };
+        console.log("12");
+
+        //edit if statements
+        kafka.make_request('getUserDetails_topic', payload, function (err, results) {
+            console.log('in result');
+            console.log(results);
+
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+            else {
+                if (results.status === 200) {
+
+                    res.status(results.status).send(results);
+                }
+                else if (results.status === 400) {
+                    res.status(results.status).send({"message": "Fetch unsuccessful"});
+                }
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Fetch unsuccessful"});
+    }
+});
+
 router.post('/getFlightDetails', function (req, res) {
 
     console.log("2 : " + req.body);
@@ -136,21 +172,80 @@ router.post('/getFlightDetails', function (req, res) {
     }
 });
 
-router.post('/getUserDetails', function (req, res) {
+router.post('/getHotelDetails', function (req, res) {
+
+    console.log("2 : " + req.body);
     try {
-        console.log(req.session.username);
+        kafka.make_request('getHotelDetails_topic', req.body, function(err, results) {
 
-        //edit payload
-        payload = {
-            username : req.session.username
-        };
-        console.log("12");
+            console.log("8");
+            console.log(results);
+            console.log(results.status);
+            console.log(results.message);
+            console.log(results.hotel);
 
-        //edit if statements
-        kafka.make_request('getUserDetails_topic', payload, function (err, results) {
+
+            if(err) {
+                console.log(err);
+                throw(err);
+            }
+            else {
+                if(results.status === 200) {
+                    console.log("9");
+                    res.status(results.status).send(results.hotel);
+                }
+                else {
+                    console.log("In users.js - getHotelDetails - Some other status code");
+                }
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Get hotel details failed"});
+    }
+});
+
+router.post('/getCarDetails', function (req, res) {
+
+    console.log("2 : " + req.body);
+    try {
+        kafka.make_request('getCarDetails_topic', req.body, function(err, results) {
+
+            console.log("8");
+            console.log(results);
+            console.log(results.status);
+            console.log(results.message);
+            console.log(results.car);
+
+
+            if(err) {
+                console.log(err);
+                throw(err);
+            }
+            else {
+                if(results.status === 200) {
+                    console.log("9");
+                    res.status(results.status).send(results.car);
+                }
+                else {
+                    console.log("In users.js - getCarDetails - Some other status code");
+                }
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Get car details failed"});
+    }
+});
+
+router.post('/bookFlight', function (req, res) {
+    try {
+        console.log(req.body);
+        kafka.make_request('bookFlight_topic', req.body, function (err, results) {
             console.log('in result');
             console.log(results);
-
             if (err) {
                 console.log(err);
                 throw err;
@@ -158,17 +253,102 @@ router.post('/getUserDetails', function (req, res) {
             else {
                 if (results.status === 200) {
 
-                    res.status(results.status).send(results);
+                    res.status(results.status).send({"message": "Flight booking successful"});
                 }
+
                 else if (results.status === 400) {
-                    res.status(results.status).send({"message": "Fetch unsuccessful"});
+                    res.status(results.status).send({"message": "Flight booking Failed"});
                 }
             }
         });
     }
     catch (e) {
         console.log(e);
-        res.status(400).json({message: "Fetch unsuccessful"});
+        res.status(400).json({message: "Flight booking Failed"});
+    }
+});
+
+router.post('/bookHotel', function (req, res) {
+    try {
+        console.log(req.body);
+        kafka.make_request('bookHotel_topic', req.body, function (err, results) {
+            console.log('in result');
+            console.log(results);
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+            else {
+                if (results.status === 200) {
+
+                    res.status(results.status).send({"message": "Hotel booking successful"});
+                }
+
+                else if (results.status === 400) {
+                    res.status(results.status).send({"message": "Hotel booking Failed"});
+                }
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Flight booking Failed"});
+    }
+});
+
+router.post('/bookCar', function (req, res) {
+    try {
+        console.log(req.body);
+        kafka.make_request('bookCar_topic', req.body, function (err, results) {
+            console.log('in result');
+            console.log(results);
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+            else {
+                if (results.status === 200) {
+
+                    res.status(results.status).send({"message": "Car booking successful"});
+                }
+
+                else if (results.status === 400) {
+                    res.status(results.status).send({"message": "Car booking Failed"});
+                }
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Flight booking Failed"});
+    }
+});
+
+router.post('/insertTravelerDetails', function (req, res) {
+    try {
+        console.log(req.body);
+        kafka.make_request('insertTravelers_topic', req.body, function (err, results) {
+            console.log('in result');
+            console.log(results);
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+            else {
+                if (results.status === 200) {
+
+                    res.status(results.status).send({"message": "Travelers added successful"});
+                }
+
+                else if (results.status === 400) {
+                    res.status(results.status).send({"message": "Travelers addition Failed"});
+                }
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Flight booking Failed"});
     }
 });
 

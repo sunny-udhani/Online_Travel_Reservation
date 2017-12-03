@@ -18,8 +18,16 @@ let modifyFlightClass = require('./services/admin/modifyFlightClass');
 let addCar = require('./services/admin/addCar');
 let fetchCars = require('./services/admin/fetchCars');
 let modifyCar = require('./services/admin/modifyCar');
+
+//Rutvik's services
 let getFlightDetails = require('./services/getFlightDetails');
+let getHotelDetails = require('./services/getHotelDetails');
+let getCarDetails = require('./services/getCarDetails');
 let getUserDetails = require('./services/getUserDetails');
+let bookFlight = require('./services/bookFlight');
+let bookHotel = require('./services/bookHotel');
+let bookCar = require('./services/bookCar');
+let insertTravelers = require('./services/insertTravelers');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
@@ -36,8 +44,15 @@ let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
 let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
 let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
 
+//Rutvik's consumers
 let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETAILS);
+let getHotelDetails_Consumer = connection.getConsumerObj(req_topics.HOTEL_DETAILS);
+let getCarDetails_Consumer = connection.getConsumerObj(req_topics.CAR_DETAILS);
 let getUserDetails_Consumer = connection.getConsumerObj(req_topics.USER_DETAILS);
+let bookFlight_Consumer = connection.getConsumerObj(req_topics.BOOK_FLIGHT);
+let bookHotel_Consumer = connection.getConsumerObj(req_topics.BOOK_HOTEL);
+let bookCar_Consumer = connection.getConsumerObj(req_topics.BOOK_CAR);
+let insertTravelers_Consumer = connection.getConsumerObj(req_topics.INSERT_TRAVELERS);
 
 try {
     loginConsumer.on('message', function (message) {
@@ -493,6 +508,33 @@ try {
         });
     });
 
+    getUserDetails_Consumer.on('message', function (message) {
+        console.log("14");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getUserDetails.getDetails(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("16");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
     getFlightDetails_Consumer.on('message', function (message) {
         console.log("4");
         console.log(JSON.stringify(message.value));
@@ -521,14 +563,15 @@ try {
         });
     });
 
-    getUserDetails_Consumer.on('message', function (message) {
-        console.log("14");
+    getHotelDetails_Consumer.on('message', function (message) {
+        console.log("4");
         console.log(JSON.stringify(message.value));
         let data = JSON.parse(message.value);
 
         console.log(data.replyTo);
 
-        getUserDetails.getDetails(data.data, function (err, res) {
+        getHotelDetails.getDetails(data.data, function (err, res) {
+
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -541,7 +584,151 @@ try {
                 }
             ];
             producer.send(payloads, function (err, data) {
-                console.log("16");
+                console.log("6");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    getCarDetails_Consumer.on('message', function (message) {
+        console.log("4");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getCarDetails.getDetails(data.data, function (err, res) {
+
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("6");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    bookFlight_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        bookFlight.doFlightBooking(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    bookHotel_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        bookHotel.doHotelBooking(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    bookCar_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        bookCar.doCarBooking(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    insertTravelers_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        insertTravelers.insertAllTravelers(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
                 console.log(payloads);
             });
             // return;

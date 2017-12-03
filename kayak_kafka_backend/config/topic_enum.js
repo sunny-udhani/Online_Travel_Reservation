@@ -15,8 +15,13 @@ exports.req_topic_names = {
     ADD_CAR: 'addcar_topic',
     MODIFY_CAR : 'modifycar_topic',
     FLIGHT_DETAILS: 'getFlightDetails_topic',
+    HOTEL_DETAILS: 'getHotelDetails_topic',
+    CAR_DETAILS: 'getCarDetails_topic',
     USER_DETAILS: 'getUserDetails_topic',
-
+    BOOK_FLIGHT: 'bookFlight_topic',
+    BOOK_HOTEL: 'bookHotel_topic',
+    BOOK_CAR: 'bookCar_topic',
+    INSERT_TRAVELERS: 'insertTravelers_topic',
 };
 //
 // exports.res_topic_names = {
