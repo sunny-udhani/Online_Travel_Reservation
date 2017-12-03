@@ -177,3 +177,27 @@ export function toggleLoginModal(togglInd) {
         togglInd
     }
 }
+
+export function setHotelBookingsData_Success(hotelBookingData){
+    console.log(hotelBookingData);
+    return {
+        type: actionTypes.ADMIN_HOTELBOOKING_LISTING_SUCCESS,
+        hotelBookingData
+    }
+}
+
+export function setCarBookingData_Success(carBookingData){
+    console.log(carBookingData);
+    return {
+        type: actionTypes.ADMIN_CARBOOKING_LISTING_SUCCESS,
+        carBookingData
+    }
+}
+
+export function addFlightBookingData_Success(flightBookingData){
+    console.log(flightBookingData);
+    return {
+        type: actionTypes.ADMIN_FLIGHTBOOKING_LISTING_SUCCESS,
+        flightBookingData
+    }
+}
