@@ -18,6 +18,11 @@ let modifyFlightClass = require('./services/admin/modifyFlightClass');
 let addCar = require('./services/admin/addCar');
 let fetchCars = require('./services/admin/fetchCars');
 let modifyCar = require('./services/admin/modifyCar');
+let logAnalytics = require('./services/admin/logAnalytics');
+let top10Properties = require('./services/admin/top10Properties');
+let top10Hosts = require('./services/admin/top10Hosts');
+let cityWiseRevenue = require('./services/admin/cityWiseRevenue');
+let reviewsOnProperties = require('./services/admin/reviewsOnProperties');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
@@ -33,9 +38,149 @@ let modifyFlightClassConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIG
 let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
 let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
 let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
-
+let logAnalyticsConsumer = connection.getConsumerObj(req_topics.LOG_ANALYTICS_DATA);
+let top10PropertiesConsumer = connection.getConsumerObj(req_topics.TOP_10_PROPERTIES);
+let top10HostsConsumer = connection.getConsumerObj(req_topics.TOP_10_HOSTS);
+let cityWiseRevenueConsumer = connection.getConsumerObj(req_topics.CITY_WISE_REVENUE);
+let reviewsOnPropertiesConsumer = connection.getConsumerObj(req_topics.REVIEWS_ON_PROPERTIES);
 
 try {
+
+    logAnalyticsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        logAnalytics.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    top10PropertiesConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        top10Properties.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    top10HostsConsumer.on('message', function (message) {
+        console.log('message received for top10Hosts');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        top10Hosts.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    cityWiseRevenueConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        cityWiseRevenue.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    reviewsOnPropertiesConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        reviewsOnProperties.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
     loginConsumer.on('message', function (message) {
         console.log('message received');
         console.log(JSON.stringify(message.value));

@@ -17,9 +17,14 @@ class Login extends Component {
 
     componentWillMount(){
         let click = {
-            // userId: "anonymous",
-            pageName: "SignIn",
-            timeStamp: new Date().toLocaleTimeString()
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserHome",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
         };
         console.log(click);
         LogAPI.logClicksPerPage(click)
