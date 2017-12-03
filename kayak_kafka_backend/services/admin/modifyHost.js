@@ -8,8 +8,8 @@ handle_request = ((data, callback) => {
     try {
         console.log("Hotel Fetch");
         console.log(data);
-        let fetchQuery = "select * from host where hostName = '"+data.hostName+"' and serviceType = '"+data.serviceType+"';";
-        let updateQuery = "update host set hostName = '"+ data.hostName +"', serviceType='"+data.serviceType+"' " +
+        let fetchQuery = "select * from host where hostName = '"+data.hostName.toLowerCase()+"' and serviceType = '"+data.serviceType+"';";
+        let updateQuery = "update host set hostName = '"+ data.hostName.toLowerCase() +"', serviceType='"+data.serviceType+"' " +
             "where hostId = '"+ data.hostId +"';";
 
         mysql.fetchData(function (err, result) {
