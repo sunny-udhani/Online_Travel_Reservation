@@ -375,3 +375,51 @@ export const validateAdminSession = () =>
         console.log("This is error");
         return error;
     });
+
+export const fetchHotelBookings = (payload) =>
+    fetch(`${api}/admin/fetchHotelBookings`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const fetchCarBookings = (payload) =>
+    fetch(`${api}/admin/fetchCarBookings`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const fetchFlightBookings = (payload) =>
+    fetch(`${api}/admin/fetchFlightBookings`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
