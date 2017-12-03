@@ -240,6 +240,24 @@ class Kayak extends Component {
     });
 
 
+    showProfileIcon = (() => {
+        // alert(this.props.className);
+        if (this.props.isLoggedIn) {
+            return (
+                <ProfileIconEditor height="50" width="50"/>
+
+            )
+        }
+        else {
+            return (
+                <div>
+                </div>
+            )
+        }
+
+    });
+
+
     render() {
         let dashboard = '';
         // let profilepicture='';
@@ -304,7 +322,11 @@ class Kayak extends Component {
                                                     {dashboard}
 
                                                 </li>
-                                                <li><ProfileIconEditor height="50" width="50"/></li>
+                                                <li>
+                                                    {
+                                                        this.showProfileIcon()
+                                                    }
+                                                </li>
                                             </ul>
 
                                         </nav>
