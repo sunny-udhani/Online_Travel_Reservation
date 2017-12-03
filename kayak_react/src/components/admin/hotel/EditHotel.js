@@ -78,7 +78,7 @@ class EditHotel extends Component {
         API.modifyHotelData(data).then((response) => {
             console.log(response.status);
             if(response.status===200){
-                this.props.fetchHotels({hotelId:data._id});
+                this.props.fetchHotels({_id:data._id});
                 this.props.handlePageChange("/admin/hotel");
             }
             else if(response.status===300)
@@ -354,6 +354,7 @@ class EditHotel extends Component {
                             <CardFooter className="text-center">
                                 <Button type="button" className="btn-primary" value="Edit"
                                         onClick={(()=>{this.editHotel(this.editHotelData)})}>EDIT</Button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button type="button" className="btn-primary"
                                         onClick={(()=>{this.props.handlePageChange("/admin/hotel")})}
                                 >Back</Button>

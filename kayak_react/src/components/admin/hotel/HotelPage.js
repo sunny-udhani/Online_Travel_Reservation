@@ -24,9 +24,10 @@ import {
     Input,
     InputGroup,
     InputGroupAddon,
-    InputGroupButton
+    InputGroupButton,
+    Dropdown
 } from 'reactstrap';
-import {setHotelData_Success, addHotelData_Success} from "../../../actions";
+import {setHotelData_Success, addHotelData_Success, setHostData_Success} from "../../../actions";
 import EditHotel from "./EditHotel";
 import withRouter from "react-router-dom/es/withRouter";
 
@@ -36,7 +37,8 @@ class HotelPage extends Component {
         super();
         this.state = {
             modal : false,
-            hotels : []
+            hotels : [],
+            searchModal : false
         };
     }
 
@@ -62,6 +64,26 @@ class HotelPage extends Component {
         })
     });
 
+    toggleSearch = (()=>{
+        this.setState({
+            ...this.state,
+            searchModal : !this.state.searchModal
+        })
+    });
+
+    searchHotelData = {};
+
+    searchHotel = ((data)=>{
+        console.log(data);
+        let searchQuery = {
+            query : {}
+        };
+        searchQuery.query[data.searchBy] = data.searchCriteria;
+        console.log(searchQuery);
+        this.fetchHotels(searchQuery);
+        this.toggleSearch();
+    });
+
     addHotel = ((hotelData)=>{
         console.log(hotelData);
         API.addHotel(hotelData).then((response)=>{
@@ -84,30 +106,34 @@ class HotelPage extends Component {
     });
 
     showAddHotel = (()=>{
+        // alert(this.props.className);
         if(this.state.modal){
             return(
-                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className || "admin-modal"}>
                     <ModalHeader toggle={this.toggle}>Add Hotel</ModalHeader>
                     <ModalBody>
                         <Row>
-
                             <Col xs="12">
                                 <FormGroup>
+                                    Select Host:
+                                    <select onChange={((event)=>{
+                                        let temp = event.target.value.split("_");
+                                        console.log(temp);
+                                        this.addHotelData.hostId = temp[0];
+                                        this.addHotelData.hotelName = temp[1];
 
-                                    <input type="text" className="form-input" placeholder="Host Id"
-                                           onChange={(event)=>{
-                                               this.addHotelData.hostId = event.target.value;
-                                           }}
-                                    />
-                                </FormGroup>
-                            </Col>
-                            <Col xs="12">
-                                <FormGroup>
-                                    <input type="text" className="form-input" placeholder="Hotel Name"
-                                           onChange={(event)=>{
-                                               this.addHotelData.hotelName = event.target.value;
-                                           }}
-                                    />
+                                    })}>
+                                        <option>Select Host</option>
+                                        {
+                                            this.props.state.hostData.map((host) => {
+                                                return(
+                                                    <option value={host.hostId+"_"+host.hostName}>
+                                                        {host.hostName}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </FormGroup>
                             </Col>
                             <Col xs="12">
@@ -162,7 +188,6 @@ class HotelPage extends Component {
                                onClick={(()=>{this.addHotel(this.addHotelData)})}
                         />
 
-
                         <input type="button" value="Cancel"
                                className="btn btn-primary"
                                onClick={(()=>{this.setState({
@@ -183,8 +208,69 @@ class HotelPage extends Component {
 
     });
 
+    showSearchHotel = (()=>{
+        if(this.state.searchModal){
+            return(
+                <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggleSearch}>Search Hotel</ModalHeader>
+                    <ModalBody>
+                        <Row>
+                            <Col xs="12">
+                                <Table border="0" className="table-responsive">
+                                    <tr>
+                                        <td>
+                                            <label>Search By:</label>
+                                        </td>
+                                        <td>
+                                            <select className="dropdown" onChange={((event)=>{
+                                                this.searchHotelData.searchBy = event.target.value
+                                            })}>
+                                                <option value="host" selected="true">select</option>
+                                                <option value="host">Host</option>
+                                                <option value="hotelName">Hotel Name</option>
+                                                <option value="city">City</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Search Criteria:</label>
+                                        </td>
+                                        <td>
+                                            <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
+                                                   onChange={(event)=>{
+                                                       this.searchHotelData.searchCriteria = event.target.value;
+                                                   }}
+                                            />
+                                        </td>
+                                    </tr>
+                                </Table>
+                                <FormGroup>
+
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </ModalBody>
+                    <ModalFooter>
+                        <input type="button" value="Search Hotel" className="btn btn-primary"
+                               onClick={(()=>{this.searchHotel(this.searchHotelData)})}
+                        />
+                        <input type="button" value="Cancel"
+                               className="btn btn-primary"
+                               onClick={(()=>{this.toggleSearch()})}
+                        />
+                    </ModalFooter>
+                </Modal>
+            )
+        }
+        else {
+            return(<span></span>)
+        }
+    });
+
     fetchHotels = ((data)=> {
         console.log("Wil Mount HotelPage");
+        console.log(data);
         API.fetchHotels(data).then((response) => {
             console.log(response.status);
             if(response.status===200){
@@ -198,6 +284,21 @@ class HotelPage extends Component {
 
 
     componentWillMount(){
+        API.fetchHosts({serviceType:"hotel"}).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    this.props.setHostData_Success(data);
+                });
+            }
+            else if(response.status===204){
+                console.log("Hosts Not Found");
+            }
+            else {
+                console.log("Error");
+            }
+        });
         this.fetchHotels();
     }
 
@@ -212,14 +313,22 @@ class HotelPage extends Component {
                                     {
                                         this.showAddHotel()
                                     }
-
+                                    {
+                                        this.showSearchHotel()
+                                    }
                                 </div>
                                 {/*<div>*/}
                                 <Row>
                                     <Col xs="12" lg="12">
                                         <Card>
-                                            <CardHeader>
-                                                Hotels
+                                            <CardHeader className="text-center">
+                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                    this.setState({
+                                                        ...this.state,
+                                                        searchModal:true
+                                                    })
+                                                })}>Search Hotel</Button>
+                                                <label className="h4"><b>Hotels</b></label>
                                                 <Button className="btn-primary pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
@@ -232,16 +341,16 @@ class HotelPage extends Component {
                                                     <thead>
                                                     <tr>
                                                         <th>
-                                                            Host
+                                                            <b>Host</b>
                                                         </th>
                                                         <th>
-                                                            Hotel Name
+                                                            <b>Hotel Name</b>
                                                         </th>
                                                         <th>
-                                                            City
+                                                            <b>City</b>
                                                         </th>
                                                         <th>
-                                                            State
+                                                            <b>State</b>
                                                         </th>
                                                     </tr>
                                                     </thead>
@@ -268,8 +377,6 @@ class HotelPage extends Component {
                     <Route path="/admin/hotel/:hotelId" render={((match)=>{
                         return(
                             <EditHotel
-                                // groups={this.state.groups}
-                                // context={match}
                                 {...match}
                                 handlePageChange = {this.props.handlePageChange}
                                 fetchHotels = {this.fetchHotels}
@@ -298,6 +405,9 @@ function mapDispatchToProps(dispatch) {
         ,
         addHotelData_Success: (data) => {
             dispatch(addHotelData_Success(data))
+        },
+        setHostData_Success: (data) => {
+            dispatch(setHostData_Success(data))
         }
     };
 }

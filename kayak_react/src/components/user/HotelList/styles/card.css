@@ -1,0 +1,209 @@
+/*.row .col-md-12{*/
+	/*background-color: #fff;*/
+	/*margin-top: 43px;*/
+	/*width:147%*/
+/*}*/
+/*.roominfo{*/
+	/*padding-left: 40px;*/
+/*}*/
+/*.roominfo1{*/
+	/*padding-left: 40px;*/
+/*}*/
+/*.roominfo2{*/
+	/*padding-left: 40px;*/
+/*}*/
+/*#me{*/
+	/*margin-left: 40px;*/
+/*}*/
+/*.freee{*/
+	/*padding-left: 20px;*/
+/*}*/
+/*.card{*/
+	/*border: 1px solid black;*/
+	/*width: 59%;*/
+
+/*}*/
+/*.glyphicon glyphicon-star{*/
+	/*color:black;*/
+/*}*/
+/*.hotel-name{*/
+	/*width: 610px;*/
+	/*height:20px;*/
+	/*float:right;*/
+	/*margin-right: 0%;*/
+	/*margin-top: 5px;*/
+	/*text-align: left;*/
+	/*font-weight: bold;*/
+
+/*}*/
+/*.hotel-star {*/
+	/*width: 100px;*/
+	/*height: 20px;*/
+	/*float: right;*/
+	/*margin-right: 55%;*/
+	/*margin-top: 5px;*/
+/*}*/
+
+/*.hotel-specs {*/
+	/*width: 300px;*/
+	/*height: 30px;*/
+	/*float: right;*/
+	/*margin-right: 33.4%;*/
+	/*margin-top: 5px;*/
+	/*text-align: left;*/
+/*}*/
+/*.hotel-banner{*/
+	/*border-color: green;*/
+	/*background-color: rgba(32,191,124,0.08);*/
+/*}*/
+/*.hotel-checkin, .hotel-checkout, .hotel-banner {*/
+	/*width: 300px;*/
+	/*height: 30px;*/
+	/*float: right;*/
+	/*margin-right: 33.4%;*/
+	/*margin-top:5px;*/
+	/*text-align: left;*/
+/*}*/
+
+/*.hotel-logos {*/
+	/*width:400px;*/
+	/*height:50px;*/
+	/*float:right;*/
+	/*margin-right: 22.4%;*/
+	/*margin-top:5px;*/
+	/*display: inline;*/
+	/*text-align: left;*/
+/*}*/
+
+/*#feedback{*/
+	/*font-size: smaller;*/
+/*}*/
+/*#review{*/
+	/*font-size: xx-small;*/
+/*}*/
+/*.cardTitle{*/
+	/*font-size: 13px;*/
+/*}*/
+/*.col-lg-6 col-sm-6 col-md-6 col-xs-6 middle{*/
+
+/*}*/
+/*.col-md-12star{*/
+	/*margin-top: 0px;*/
+	/*padding-left: 50px;*/
+/*}*/
+/*img{*/
+	/*height: 208px;*/
+	/*width: 235px;*/
+	/*vertical-align: text-top;*/
+/*}*/
+/*#green{*/
+	/*color: green;*/
+/*}*/
+/*#review{}*/
+
+/*.secondrow{*/
+	/*margin-top: 44px;*/
+    /*padding-bottom: 14px;*/
+/*}*/
+
+/*.rowfourthrow{*/
+	/*padding-left: 40px;*/
+/*}*/
+/*.title {*/
+	/*font-size: 25px;*/
+	/*font-weight: 200;*/
+	/*color: #000;*/
+	/*margin-bottom: 11px;*/
+	/*border: none;*/
+	/*padding: 0;*/
+	/*width: 101%;*/
+
+/*}*/
+
+/*.thirdrow{*/
+	/*font-size: smaller;*/
+    /*font-weight: bold;*/
+    /*margin-top: 23px;*/
+
+/*}*/
+/*.middle{*/
+/*}*/
+/*#change{*/
+ /*margin-left: 300px;*/
+	/*padding-left: 215px;*/
+
+/*}*/
+/*.imgg{*/
+	/*float: left;*/
+	/*width: 280px;*/
+	/*height: 225px;*/
+	/*margin-right: 20px;*/
+	/*display: block;*/
+/*}*/
+
+/*.viewdealbutton{*/
+	    /*color: rgb(255, 255, 255);*/
+	    /*line-height: 30px;*/
+	    /*background-color: rgb(255, 105, 15);*/
+	    /*background-clip: border-box;*/
+	    /*margin-top: 69px;*/
+        /*width: -webkit-fill-available;*/
+/*}*/
+/*.star{*/
+	/*margin-left: -15px;*/
+/*}*/
+/*#me{*/
+	/*color: #20bf7c;*/
+	/*background-color: rgba(32,191,124,0.08);*/
+	/*font-weight: 500;*/
+	/*padding: 5px 10px;*/
+	/*margin-right: 5px;*/
+	/*font-size: 12px;*/
+	/*border: 1px solid #20bf7c;*/
+	/*display: inline-block;*/
+/*}*/
+/*#hey{*/
+	/*width:26%;*/
+/*}*/
+/*.img2{*/
+	/*float: left;*/
+	/*width: 315px;*/
+	/*min-width: 315px;*/
+	/*height: 225px;*/
+	/*margin-right: 20px;*/
+	/*display: block;*/
+/*}*/
+/*.ac{*/
+	/*transform: scale(0.5) translate(-50%,-45%);*/
+/*}*/
+/*.pk{*/
+	/*transform: scale(0.5) translate(-50%,-45%);*/
+/*}*/
+/*.pl{*/
+	/*transform: scale(0.5) translate(-50%,-45%);*/
+/*}*/
+/*#cost{*/
+
+    /*font-size: 25px;*/
+    /*margin-left: 27px;*/
+/*}*/
+/*.cardTitle{*/
+	/*font-weight: bold;*/
+/*}*/
+/*.shareicon, .watchicon{*/
+	/*width: 15px;*/
+    /*display: inline-block;*/
+    /*vertical-align: middle !important;*/
+	/*margin-right: 20px;*/
+	/*vertical-align: bottom;*/
+/*}*/
+
+/*.logos {*/
+	/*height: 100%;*/
+	/*width: 10%;*/
+	/*margin-left: 3%;*/
+	/*float: left;*/
+/*}*/
+/*.glyphicon-star{*/
+	/*color:gold;*/
+/*}*/

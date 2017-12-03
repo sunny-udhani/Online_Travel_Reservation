@@ -1,0 +1,309 @@
+/*.signupform {*/
+    /*position: fixed;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*left: 0;*/
+    /*top: 0;*/
+    /*display: block;*/
+    /*padding: 0 18px 18px 18px;*/
+    /*border-radius: 0 0 3px 3px;*/
+    /*font-size: 13px;*/
+
+/*}*/
+/*.img1 {*/
+    /*width: 217px;*/
+    /*height: 149px;*/
+    /*margin-top: 15px;*/
+
+
+/*}*/
+/*.smallimage .img2{*/
+    /*width: 50px;*/
+    /*height: 50px;*/
+    /*margin: 1px;*/
+
+/*}*/
+/*.smallimage .img1:hover {*/
+    /*position:relative;*/
+    /*top:-25px;*/
+    /*left:-35px;*/
+    /*width:500px;*/
+    /*height:auto;*/
+    /*display:block;*/
+    /*z-index:999;*/
+/*}*/
+/*.detail{*/
+    /*padding-left: 55px;*/
+    /*font-weight: bold;*/
+
+/*}*/
+/*.detailed{*/
+    /*font-weight: normal;*/
+    /*display: block;*/
+    /*padding-top: 5px;*/
+    /*padding-left: 55px;*/
+/*}*/
+/*.detailed1{*/
+    /*font-weight: bold;*/
+
+    /*padding-left: 55px;*/
+/*}*/
+/*.detailed2{*/
+    /*padding-left: 55px;*/
+    /*color:green;*/
+/*}*/
+/*.carddetails{*/
+    /*position: relative;*/
+    /*top: 60%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    /*box-shadow: 0 3px 10px #d7d8db;*/
+    /*background: white;*/
+    /*margin-bottom: 10px;*/
+
+/*}*/
+
+/*.smallimage .img3:hover {*/
+    /*position:relative;*/
+    /*top:-25px;*/
+    /*left:-35px;*/
+    /*width:500px;*/
+    /*height:auto;*/
+    /*display:block;*/
+    /*z-index:999;*/
+/*}*/
+/*.smallimage .img4:hover {*/
+    /*position:relative;*/
+    /*top:-25px;*/
+    /*left:-35px;*/
+    /*width:500px;*/
+    /*height:auto;*/
+    /*display:block;*/
+    /*z-index:999;*/
+/*}*/
+
+/*.smallimage .img3{*/
+    /*width: 75px;*/
+    /*height: 50px;*/
+    /*margin: 1px;*/
+    /*padding-left: 23px;*/
+/*}*/
+/*.smallimage .img4{*/
+    /*width: 100px;*/
+    /*height: 50px;*/
+    /*margin: 1px;*/
+    /*padding-left: 48px;*/
+/*}*/
+
+/*.signupform {*/
+    /*z-index:2000;*/
+/*}*/
+
+/*.signupform .form-modal {*/
+    /*position: relative;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    /*background: #FFF;*/
+    /*height: 60vh;*/
+    /*width: 30vw;*/
+/*}*/
+
+/*.signupform .form-modal .form-group {*/
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    /*width: 100%;*/
+    /*padding: 50px;*/
+/*}*/
+
+/*.signupform .form-modal .form-group .create-acc-label {*/
+    /*position: absolute;*/
+    /*font-size: 15px;*/
+    /*top: -12px;*/
+    /*left: 50%;*/
+    /*padding: 0px 10px;*/
+    /*transform: translateX(-50%);*/
+    /*background-color: #FFF;*/
+    /*font-weight: normal;*/
+/*}*/
+
+/*.signupform .form-modal .form-input {*/
+    /*margin-bottom: 10px;*/
+    /*padding: 10px 20px;*/
+    /*border: 1px solid rgb(194, 194, 198);*/
+    /*width: 100%;*/
+/*}*/
+
+/*.signupform .form-modal .form-input:focus {*/
+    /*border-color: rgb(255, 105, 15);*/
+    /*outline: none;*/
+/*}*/
+
+/*.signupform .form-modal .create-account-submit {*/
+    /*width: 100%;*/
+    /*background-color: rgb(84, 84, 86);*/
+    /*color: #FFF;*/
+    /*padding: 10px 20px;*/
+    /*border: none;*/
+/*}*/
+/*.App {*/
+    /*text-align: center;*/
+/*}*/
+
+/*.App-logo {*/
+    /*animation: App-logo-spin infinite 20s linear;*/
+    /*height: 80px;*/
+/*}*/
+/*.header1{*/
+    /*padding: 16px 10px;*/
+    /*background: #558fe6;*/
+    /*color: #fff;*/
+
+/*}*/
+/*.img1:hover {*/
+    /*position:relative;*/
+    /*top:-25px;*/
+    /*left:-35px;*/
+    /*width:500px;*/
+    /*height:auto;*/
+    /*display:block;*/
+    /*z-index:999;*/
+/*}*/
+
+
+/*.img1 {*/
+    /*padding: 0;*/
+    /*margin: 0;*/
+    /*position: relative;*/
+    /*width: 160px;*/
+    /*height: 110px;*/
+    /*border: 2px solid white;*/
+    /*box-shadow: 0 0 10px #d7d8db;*/
+/*}*/
+/*.header2{*/
+    /*padding-left: 20px;*/
+    /*border: 0;*/
+    /*padding: 0 26px 1px;*/
+    /*font-weight: normal;*/
+    /*color: #000 ;*/
+    /*font-size: 16px;*/
+/*}*/
+
+/*.container header1 innercontainer{*/
+    /*margin-top: 0px;*/
+    /*background-color: #ffffff;*/
+/*}*/
+/*.container roomlist{*/
+
+/*}*/
+/*.headerhere{*/
+    /*font-weight: bold;*/
+/*}*/
+/*p {*/
+    /*margin: 5px 0;*/
+/*}*/
+/*.description{*/
+    /*margin: 0;*/
+    /*font-size: 12px;*/
+/*}*/
+/*.description1 .totalprice{*/
+    /*font-size: 16px;*/
+    /*display: block;*/
+    /*margin-top: 5px;*/
+    /*font-weight: 500;*/
+    /*color:black;*/
+
+/*}*/
+
+/*.button {*/
+    /*background-color: orangered;*/
+    /*border: none;*/
+    /*color: white;*/
+    /*padding: 9px 36px;*/
+    /*text-align: center;*/
+    /*text-decoration: none;*/
+    /*display: inline-block;*/
+    /*font-size: 16px;*/
+    /*margin: 4px 2px;*/
+    /*cursor: pointer;*/
+
+/*}*/
+/*.buttonspan{*/
+
+/*}*/
+/*.cancel{*/
+    /*text-align: center;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*color: #20bf7c;*/
+    /*font-size: 12px;*/
+    /*display: block;*/
+
+/*}*/
+/*.cancellationpolicy{*/
+    /*text-align: center;*/
+/*}*/
+/*.tax{*/
+    /*display: block;*/
+    /*color: #545456;*/
+    /*margin-bottom: 5px;*/
+
+/*}*/
+/*.App-header {*/
+    /*background-color: #222;*/
+    /*height: 150px;*/
+    /*padding: 20px;*/
+    /*color: white;*/
+/*}*/
+
+/*.App-title {*/
+    /*font-size: 1.5em;*/
+/*}*/
+
+/*.App-intro {*/
+    /*font-size: large;*/
+/*}*/
+
+/*@keyframes App-logo-spin {*/
+    /*from { transform: rotate(0deg); }*/
+    /*to { transform: rotate(360deg); }*/
+/*}*/
+
+/*.App {*/
+    /*text-align: center;*/
+/*}*/
+
+/*.App-logo {*/
+    /*animation: App-logo-spin infinite 20s linear;*/
+    /*height: 80px;*/
+/*}*/
+
+/*.App-header {*/
+    /*background-color: #222;*/
+    /*height: 150px;*/
+    /*padding: 20px;*/
+    /*color: white;*/
+/*}*/
+
+/*.App-title {*/
+    /*font-size: 1.5em;*/
+/*}*/
+
+/*.App-intro {*/
+    /*font-size: large;*/
+/*}*/
+
+/*@keyframes App-logo-spin {*/
+    /*from { transform: rotate(0deg); }*/
+    /*to { transform: rotate(360deg); }*/
+/*}*/
+
+/*input#showdetail-modal ~ .signupform {*/
+    /*display: none;*/
+/*}*/
+
+/*input#showdetail-modal:checked ~ .signupform {*/
+    /*display: initial;*/
+/*}*/

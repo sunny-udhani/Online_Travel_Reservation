@@ -9,6 +9,7 @@ import SwipeImageBackground from "./swipeImageBackground";
 
 import Background from "../../img/main_slide_1.jpg";
 import *  as HotelListingAPI from "../../api/user/API_GetHotels";
+import *  as FlightListingAPI from "../../api/user/API_GetFlights";
 import * as LogAPI from "../../api/user/API_Logging";
 
 import "../../css/bootstrap.min.css";
@@ -42,28 +43,42 @@ class UserHome extends Component {
             .catch(err => console.log(err));
     }
 
-    searchHotel = (searchCriteria) => {
-        HotelListingAPI.getHotels(searchCriteria)
-            .then(res => {
-                console.log(res.status);
-                if (res.status === 200) {
-                    res.json()
-                        .then(data => {
-                            console.log(data);
-                            this.props.hotelList_Success(data);
-                        });
-                } else {
-                    console.log("error in getting list");
-                }
-            })
-            .catch(err => {
-                console.log("error");
-                console.log(err);
-            });
-    };
+    // searchHotel = (searchCriteria) => {
+    //     HotelListingAPI.getHotels(searchCriteria)
+    //         .then(res => {
+    //             console.log(res.status);
+    //             if (res.status === 200) {
+    //                 res.json()
+    //                     .then(data => {
+    //                         console.log(data);
+    //                         this.props.hotelList_Success(data);
+    //                     });
+    //             } else {
+    //                 console.log("error in getting list");
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log("error");
+    //             console.log(err);
+    //         });
+    // };
 
     listHotel = (searchCriteria) => {
+
         this.props.handlePageChange("/listing/hotel/" + searchCriteria);
+
+    };
+
+    listFlights = (searchCriteria) => {
+
+        this.props.handlePageChange("/listing/flight/" + searchCriteria);
+
+    };
+
+    listCars = (searchCriteria) => {
+
+        this.props.handlePageChange("/listing/cars/" + searchCriteria);
+
     };
 
     render() {
@@ -82,7 +97,7 @@ class UserHome extends Component {
                                 <div className="vertical-align">
                                     <div className="container">
                                         <div className="row">
-                                            <div className="col-md-12">
+                                            <div className="col-md-11">
                                                 <div className="main-title vert-title">
                                                     <div className="top-weather-info delay-1">
                                                         <p>London</p>
@@ -112,7 +127,7 @@ class UserHome extends Component {
                                 <div className="vertical-align">
                                     <div className="container">
                                         <div className="row">
-                                            <div className="col-md-12">
+                                            <div className="col-md-11">
                                                 <div className="main-title vert-title">
                                                     <div className="top-weather-info delay-1">
                                                         <p>London</p>
@@ -160,7 +175,7 @@ class UserHome extends Component {
                                         <Link to='/u/flight'>Flight</Link>
                                     </li>
                                     <li className="click-tabs">
-                                        <Link to='/u/car'>Car</Link>
+                                        <Link to='/u/cars'>Car</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -184,14 +199,16 @@ class UserHome extends Component {
 
                                     <Route path="/u/flight" render={() => (
                                         <FlightSearch
+                                            listFlight = {this.listFlights}
                                             // validateUserSession={this.validateUserSession}
                                             // handleLogout={this.handleLogout}
                                             // username={this.state.username}
                                         />
                                     )}/>
 
-                                    <Route path="/u/car" render={() => (
+                                    <Route path="/u/cars" render={() => (
                                         <CarSearch
+                                            listCars = {this.listCars}
                                             // validateUserSession={this.validateUserSession}
                                             // handleLogout={this.handleLogout}
                                             // username={this.state.username}

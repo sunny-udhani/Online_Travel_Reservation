@@ -122,7 +122,7 @@ class EditFlight extends Component {
             console.log(response.status);
             if(response.status===200){
                 // this.props.fetchFlights({flightId:data._id});
-                this.props.fetchFlights({"flighId":data._id});
+                this.props.fetchFlights({"_id":data._id});
                 this.props.handlePageChange("/admin/flight");
             }
             else if(response.status===300)

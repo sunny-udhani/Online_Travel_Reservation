@@ -1,0 +1,26 @@
+.progressbar {
+    width: 100%;
+    position: relative;
+    margin-top: 1.2em;
+}
+
+.progressbar .progress-div {
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1000;
+}
+
+.progressbar .label1, .progressbar .label2 {
+    position: absolute;
+    top: -1.2em;
+}
+
+.progressbar .label1 {
+    left: 0px;
+}
+
+.progressbar .label2 {
+    right: 0px;
+}

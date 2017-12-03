@@ -15,6 +15,12 @@ export function signUpSuccess(username) {
     }
 }
 
+export function logout_success() {
+    return {
+        type: actionTypes.LOGOUT_SUCCESS
+    }
+}
+
 
 export function filter_change(filterInd) {
     return {
@@ -77,6 +83,97 @@ export function addCarData_Success(carData) {
     }
 }
 
+export function setHostData_Success(hostData) {
+    console.log(hostData);
+    return {
+        type: actionTypes.ADMIN_HOST_LISTING_SUCCESS,
+        hostData
+    }
+}
+
+export function addHostData_Success(hostData) {
+    console.log(hostData);
+    return {
+        type: actionTypes.ADMIN_ADD_HOST_SUCCESS,
+        hostData
+    }
+}
 
 
+export function setUserData_Success(userData) {
+    console.log(userData);
+    return {
+        type: actionTypes.ADMIN_USER_LISTING_SUCCESS,
+        userData
+    }
+}
 
+export function flightList_Success(flightList) {
+    return {
+        type: actionTypes.FLIGHT_LISTING_SUCCESS,
+        flightList
+    }
+}
+
+export function toggleBookingType(toggleInd) {
+    return {
+        type: actionTypes.TOGGLE_BOOKING_TYPE,
+        toggleInd
+    }
+}
+
+export function flightEssentialsAdd(className, tripType, noOfPassengers, fromDate, toDate) {
+    return {
+        type: actionTypes.FLIGHT_ESSENTIALS_ADD,
+        className, tripType, noOfPassengers, fromDate, toDate
+    }
+}
+
+export function carEssentialsAdd(fromDate, toDate) {
+    return {
+        type: actionTypes.CAR_ESSENTIALS_ADD,
+        fromDate, toDate
+    }
+}
+
+export function carList_Success(carList) {
+    return {
+        type: actionTypes.CAR_LISTING_SUCCESS,
+        carList,
+    }
+}
+
+export function hotelEssentialsAdd(fromDate, toDate, noOfPeople) {
+    return {
+        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        fromDate, toDate, noOfPeople,
+    }
+}
+
+export function hotelListingView(id, roomType) {
+    return {
+        type: actionTypes.HOTEL_LISTING_VIEW,
+        id, roomType
+    }
+}
+
+export function flightListingView(id) {
+    return {
+        type: actionTypes.FLIGHT_LISTING_VIEW,
+        id
+    }
+}
+
+export function carListingView(id) {
+    return {
+        type: actionTypes.CAR_LISTING_VIEW,
+        id
+    }
+}
+
+export function toggleLoginModal(togglInd) {
+    return {
+        type: actionTypes.TOGGLE_LOGIN_MODAL,
+        togglInd
+    }
+}

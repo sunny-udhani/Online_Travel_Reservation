@@ -26,7 +26,7 @@ import {
     InputGroupAddon,
     InputGroupButton
 } from 'reactstrap';
-import {setFlightData_Success, addFlightData_Success} from "../../../actions";
+import {setFlightData_Success, addFlightData_Success, setHostData_Success} from "../../../actions";
 import {connect} from "react-redux"
 import EditFlight from "./EditFlight";
 
@@ -36,13 +36,20 @@ class FlightPage extends Component {
         super();
         this.state = {
             flights : [],
-            modal : false
+            modal : false,
+            searchModal : false
         };
     }
 
     toggle = (()=> {
         this.setState({
             modal: !this.state.modal
+        });
+    });
+
+    toggleSearch = (()=> {
+        this.setState({
+            searchModal: !this.state.searchModal
         });
     });
 
@@ -96,26 +103,83 @@ class FlightPage extends Component {
         });
     });
 
+
+
+    fetchFlights = ((data)=>{
+        API.fetchFlights(data).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    this.props.setFlightData_Success(data);
+                });
+            }
+            else {
+                console.log("Error while fetching flight data");
+            }
+        })
+    });
+
+    searchFlightData = {};
+
+    searchFlight = ((data)=>{
+        console.log(data);
+        let searchQuery = {
+            query : {}
+        };
+        searchQuery.query[data.searchBy] = data.searchCriteria;
+        console.log(searchQuery);
+        this.fetchFlights(searchQuery);
+        this.toggleSearch();
+    });
+
+    componentWillMount(){
+        API.fetchHosts({serviceType:"flight"}).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    this.props.setHostData_Success(data);
+                });
+            }
+            else if(response.status===204){
+                console.log("Hosts Not Found");
+            }
+            else {
+                console.log("Error");
+            }
+        });
+        this.fetchFlights();
+    }
+
     showAddFlight = (()=>{
         console.log(this.state.modal);
         if(this.state.modal){
             return(
-                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.modal} className={'modal-primary ' + this.props.className}>
                     <ModalHeader toggle={this.toggle}>Add Flight</ModalHeader>
                     <ModalBody>
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-control form-input1" placeholder="Flight Operator" required
-                                           onChange={(event)=>{
-                                               this.addflightData.flightOperator = event.target.value;
-                                           }}
-                                    />
-                                    <input type="text" className="form-control form-input1" placeholder="Host Id"
-                                           onChange={(event)=>{
-                                               this.addflightData.hostId = event.target.value;
-                                           }}
-                                    />
+                                    Flight Operator:
+                                    <select onChange={((event)=>{
+                                        let a = event.target.value.split("_");
+                                        this.addflightData.flightOperator = a[1];
+                                        this.addflightData.hostId = a[0];
+                                        console.log(this.addflightData);
+                                    })} name="select">
+                                        <option value="select" name="select">Select Flight Operator</option>
+                                        {
+                                            this.props.state.hostData.map((host)=>{
+                                                return(
+                                                    <option value={host.hostId+"_"+host.hostName}>
+                                                        {host.hostName}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -277,24 +341,65 @@ class FlightPage extends Component {
 
     });
 
-    fetchFlights = ((data)=>{
-        API.fetchFlights(data).then((response) => {
-            console.log(response.status);
-            if(response.status===200){
-                response.json().then((data)=>{
-                    console.log(data);
-                    this.props.setFlightData_Success(data);
-                });
-            }
-            else {
-                console.log("Error while fetching flight data");
-            }
-        })
-    });
+    showSearchFlight = (()=>{
+        if(this.state.searchModal){
+            return(
+                <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggleSearch}>Search Flight</ModalHeader>
+                    <ModalBody>
+                        <Row>
+                            <Col xs="12">
+                                <Table border="0" className="table-responsive">
+                                    <tr>
+                                        <td>
+                                            <label>Search By:</label>
+                                        </td>
+                                        <td>
+                                            <select className="dropdown" onChange={((event)=>{
+                                                this.searchFlightData.searchBy = event.target.value
+                                            })}>
+                                                <option value="select" selected="true">select</option>
+                                                <option value="flightNo">Flight Number</option>
+                                                <option value="flightOperator">Flight Operator</option>
+                                                <option value="origin">Origin City</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Search Criteria:</label>
+                                        </td>
+                                        <td>
+                                            <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
+                                                   onChange={(event)=>{
+                                                       this.searchFlightData.searchCriteria = event.target.value;
+                                                   }}
+                                            />
+                                        </td>
+                                    </tr>
+                                </Table>
+                                <FormGroup>
 
-    componentWillMount(){
-        this.fetchFlights();
-    }
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </ModalBody>
+                    <ModalFooter>
+                        <input type="button" value="Search Flight" className="btn btn-primary"
+                               onClick={(()=>{this.searchFlight(this.searchFlightData)})}
+                        />
+                        <input type="button" value="Cancel"
+                               className="btn btn-primary"
+                               onClick={(()=>{this.toggleSearch()})}
+                        />
+                    </ModalFooter>
+                </Modal>
+            )
+        }
+        else {
+            return(<span></span>)
+        }
+    });
 
     render() {
         window.onclick = (() => {
@@ -317,13 +422,22 @@ class FlightPage extends Component {
                                     {
                                         this.showAddFlight()
                                     }
+                                    {
+                                        this.showSearchFlight()
+                                    }
                                 </div>
                                 <div className="animated fadeIn">
                                     <Row>
                                         <Col xs="12" lg="12">
                                             <Card>
-                                                <CardHeader>
-                                                    Flights
+                                                <CardHeader className="text-center">
+                                                    <Button className="btn-primary pull-left" onClick={(()=>{
+                                                        this.setState({
+                                                            ...this.state,
+                                                            searchModal : true
+                                                        })
+                                                    })}>Search Flight</Button>
+                                                    <label className="h4"><b>Flights</b></label>
                                                     <Button className="btn-primary pull-right" onClick={(()=>{
                                                         this.setState({
                                                             ...this.state,
@@ -335,12 +449,11 @@ class FlightPage extends Component {
                                                     <Table responsive>
                                                         <thead>
                                                         <tr>
-                                                            <th>Host</th>
-                                                            <th>flight Number</th>
-                                                            <th>flight Origin</th>
-                                                            <th>flight Destination</th>
-                                                            <th>flight Duration</th>
-                                                            {/*<th></th>*/}
+                                                            <th><b>Host</b></th>
+                                                            <th><b>flight Number</b></th>
+                                                            <th><b>flight Origin</b></th>
+                                                            <th><b>flight Destination</b></th>
+                                                            <th><b>flight Duration</b></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -388,8 +501,6 @@ class FlightPage extends Component {
                     <Route path="/admin/flight/:flightId" render={((match)=>{
                         return(
                             <EditFlight
-                                // groups={this.state.groups}
-                                // context={match}
                                 {...match}
                                 handlePageChange = {this.props.handlePageChange}
                                 fetchFlights = {this.fetchFlights}
@@ -418,6 +529,9 @@ function mapDispatchToProps(dispatch) {
         addFlightData_Success: (data) => {
             console.log(data);
             dispatch(addFlightData_Success(data))
+        },
+        setHostData_Success: (data) => {
+            dispatch(setHostData_Success(data))
         }
     };
 }

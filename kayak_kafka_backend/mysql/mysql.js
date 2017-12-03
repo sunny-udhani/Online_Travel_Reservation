@@ -2,7 +2,6 @@ let fs = require('fs');
 let mysql = require('mysql');
 let connection;
 
-
 //Put your mysql configuration settings - user, password, database and port
 function getConnection() {
     connection = mysql.createConnection({
@@ -12,7 +11,7 @@ function getConnection() {
         database: 'kayak',
         port: 3306,
         debug: false,
-        ssl      : {
+        ssl: {
             ca   : fs.readFileSync('D:\\certs\\server-ca.pem'), // should be enough for AWS
             key  : fs.readFileSync('D:\\certs\\client-key.pem'), // required for google mysql cloud db
             cert : fs.readFileSync('D:\\certs\\client-cert.pem'), // required for google mysql cloud db
@@ -29,10 +28,11 @@ let pool = mysql.createPool({
     database: 'kayak',
     port: 3306,
     debug: false,
-    ssl      : {
-        ca   : fs.readFileSync('D:\\certs\\server-ca.pem'), // should be enough for AWS
-        key  : fs.readFileSync('D:\\certs\\client-key.pem'), // required for google mysql cloud db
-        cert : fs.readFileSync('D:\\certs\\client-cert.pem'), // required for google mysql cloud db
+    ssl: {
+        ca: fs.readFileSync('D:\\certs\\server-ca.pem'), // should be enough for AWS
+        key: fs.readFileSync('D:\\certs\\client-key.pem'), // required for google mysql cloud db
+        cert: fs.readFileSync('D:\\certs\\client-cert.pem'), // required for google mysql cloud db
+        // required for google mysql cloud db
     }
 });
 

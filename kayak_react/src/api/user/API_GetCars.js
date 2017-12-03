@@ -13,7 +13,7 @@ export const getCars = (payload) =>
         },
         body: JSON.stringify(payload)
     }).then(res => {
-        return res.json();
+        return res;
     }).catch(error => {
         console.log("This is error");
         return error;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {connect} from "react-redux"
+import {connect} from "react-redux";
 import {login_success} from "../actions";
 import {doSignIn} from "../api/user/API_SignIn";
 

@@ -2,6 +2,32 @@ import React, {Component} from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 
+
+import {
+    Row,
+    Col,
+    Card,
+    CardHeader,
+    CardBody,
+    Table,
+    Pagination,
+    PaginationItem,
+    PaginationLink,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Form,
+    FormGroup,
+    FormText,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupButton,
+    Dropdown
+} from 'reactstrap';
+
 import {signUpSuccess} from "../actions/index";
 import {doSignUp} from "../api/user/API_SignUp";
 
@@ -78,6 +104,7 @@ class SignUp extends Component {
                 }
                 else if (res.status === 401) {
                     console.log("User Already Exists");
+                    alert("User Already Exists");
                 }
                 else {
                     console.log("Failed to Signup");
@@ -92,81 +119,86 @@ class SignUp extends Component {
     render() {
 
         return (
-            <div className="signupform">
-                <div className="form-modal" >
-                    <form className="text-justify">
-                        <div>
-                            <h5>Username</h5>
-                            <input onChange={(e) => this.handleChange(e)} type="email" id="username"
-                                   required="required" name="username"
-                                   placeholder="" className="form-control input-sm"/>
-                        </div>
-                        <br/>
-                        <div>
-                            <h5>Password</h5>
-                            <input onChange={(e) => this.handleChange(e)} type="password"
-                                   required="required" id="password" name="password"
-                                   placeholder="" className="form-control input-sm"/>
-                        </div>
-                        <br/>
-                        <div>
-                            <h5>First Name</h5>
-                            <input onChange={(e) => this.handleChange(e)} type="text" id="firstName"
-                                   name="firstName" placeholder=""
-                                   className="form-control input-sm"/>
-                        </div>
-                        <br/>
-                        <div>
-                            <h5>Last Name</h5>
-                            <input onChange={(e) => this.handleChange(e)} type="text" id="lastName"
-                                   name="lastName" placeholder=""
-                                   className="form-control input-sm"/>
-                        </div>
-                        <br/>
-                        <div>
-                            <h5>Date of Birth</h5>
-                            <input onChange={(e) => this.handleChange(e)} type="date" id="dob"
-                                   name="dob" className="form-control input-sm"/>
+            <Modal isOpen={true} className="signup-modal">
+                <ModalHeader>Sign-Up</ModalHeader>
+                <ModalBody>
+                    <Row>
+                        <Col xs="12">
+                            <FormGroup>
+                                <input type="text" name="username" className="form-input" placeholder="Username"
+                                       onChange={(event) => {
+                                           this.handleChange(event);
+                                       }}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <input type="password" name="password" className="form-input" placeholder="Password"
+                                       onChange={(event) => {
+                                           this.handleChange(event);
+                                       }}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <input type="text" name="firstname" className="form-input" placeholder="FirstName"
+                                       onChange={(event) => {
+                                           this.handleChange(event);
+                                       }}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <input type="text" name="lastname" className="form-input" placeholder="LastName"
+                                       onChange={(event) => {
+                                           this.handleChange(event);
+                                       }}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <input type="date" name="dob" className="form-input" placeholder="DOB"
+                                       onChange={(event) => {
+                                           this.handleChange(event);
+                                       }}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <input onChange={(e) => this.handleChange(e)} type="radio"
+                                       id="genderChoice1"
+                                       name="gender" value="male"/>
+                                <label className=""><h6>Male</h6></label>
+                                <input onChange={(e) => this.handleChange(e)} type="radio"
+                                       id="genderChoice2"
+                                       name="gender" value="female"/>
+                                <label className=""><h6>Female</h6></label>
+                                <input onChange={(e) => this.handleChange(e)} type="radio"
+                                       id="genderChoice4"
+                                       name="gender" value="notSpecified"/>
+                                <label className=""><h6>Prefer not to say</h6></label>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                </ModalBody>
+                <ModalFooter>
+                    <input type="button" value="SignUp" className="btn btn-primary"
+                           onClick={() => this.handleSubmitClick()}
+                    />
 
-                        </div>
-                        <br/>
-                        <div>
-                            <h5>Gender</h5>
-                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                   id="genderChoice1"
-                                   name="gender" value="male"/>
-                            <label className=""><h6>Male</h6></label>
-                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                   id="genderChoice2"
-                                   name="gender" value="female"/>
-                            <label className=""><h6>Female</h6></label>
-                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                   id="genderChoice4"
-                                   name="gender" value="notSpecified"/>
-                            <label className=""><h6>Prefer not to say</h6></label>
-                        </div>
-                        <br/>
-                        <div>
-                            <h5>Access Indicator</h5>
-                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                   id="accessInd1"
-                                   name="accessInd" value="admin"/>
-                            <label className=""><h6>Admin</h6></label>
-                            <input onChange={(e) => this.handleChange(e)} type="radio"
-                                   id="accessInd2"
-                                   name="accessInd" value="user"/>
-                            <label className=""><h6>User</h6></label>
-                        </div>
-                        <button
-                            className="login loginmodal-submit btn-block"
-                            type="button"
-                            onClick={() => this.handleSubmitClick()}>
-                            Submit
-                        </button>
-
-                    </form>
-                </div>
-            </div>
+                    <input type="button" value="Cancel"
+                           className="btn btn-primary"
+                           onClick={() => {
+                               this.props.handlePageChange("/u");
+                           }}
+                    />
+                </ModalFooter>
+            </Modal>
         );
     }
 }

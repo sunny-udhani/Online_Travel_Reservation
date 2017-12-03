@@ -1,0 +1,29 @@
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+/*.row .col-md-12 {*/
+    /*margin-top: 43px;*/
+    /*width: 147%;*/
+/*}*/
+/*#a{*/
+        /*color: #666;*/
+/*}*/
