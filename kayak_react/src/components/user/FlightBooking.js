@@ -169,6 +169,9 @@ class FlightBooking extends Component {
             id: this.state.flightId
         };
 
+        console.log(flightId);
+        console.log(this.state.flightId);
+        console.log(this.props.flightId);
         getFlightDetails(flightId)
             .then(res => {
                 if (res.status === 200) {

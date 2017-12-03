@@ -159,14 +159,14 @@ export function hotelListingView(id, roomType) {
 
 export function flightListingView(id) {
     return {
-        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        type: actionTypes.FLIGHT_LISTING_VIEW,
         id
     }
 }
 
 export function carListingView(id) {
     return {
-        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        type: actionTypes.CAR_LISTING_VIEW,
         id
     }
 }

@@ -56,6 +56,7 @@ class FlightListing extends Component {
 
     handleListingView(id) {
 
+        console.log(id);
         this.props.listingView(id);
         this.props.handlePageChange("/payment/flights");
 
