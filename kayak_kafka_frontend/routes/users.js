@@ -3,6 +3,11 @@ const passport = require("passport");
 let router = express.Router();
 require('./passport')(passport);
 var kafka = require('./kafka/client');
+var	parser = require('multer')({dest: 'uploads/'});
+var fs = require('fs');
+var path = require('path');
+
+// console.log("*******************************************", process.cwd());
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -87,7 +92,7 @@ router.post('/signup', function (req, res, next) {
                     console.log("Local username: " + req.body.username);
                     res.status(results.status).send({"message": "Signup Successful"});
                 }
-                else if (results.status === 301) {
+                else if (results.status === 401) {
                     res.status(results.status).send({"message": "User already Exist"});
                 }
                 else if (results.status === 400) {
@@ -351,5 +356,76 @@ router.post('/insertTravelerDetails', function (req, res) {
         res.status(400).json({message: "Flight booking Failed"});
     }
 });
+
+
+router.post('/addusercard',parser.any(),function(req,res){
+    try {
+        console.log(req.body);
+        let x = req.body.cardnumber;
+        let y = x.toString();
+        if (y.length == 16) {
+            console.log("yayayya");
+
+
+            kafka.make_request('addusercard_topic', req.body, function (err, results) {
+                console.log(results);
+                if (results.code == 200) {
+                    res.json(results.user);
+                }
+                else {
+                    throw err;
+                }
+            })
+        }
+        else {
+            console.log("failed")
+        }
+    }
+    catch (e){
+        console.log(e);
+        res.status(400).json({message: "Failed to Get"});
+    }
+
+});
+
+router.post('/getbookinginfo_user',function (req,res) {
+    try{
+        console.log(req.body);
+        kafka.make_request('getbookinguser_topic',req.body,function (err,results) {
+            console.log(results);
+            let reults1=results.data;
+
+            console.log(reults1.res);
+            //console.log(JSON.stringify(results.rooms))
+            if(results.code==200){
+                res.json(results);
+
+            }
+            else {
+                throw err;
+            }
+        })
+    }
+    catch(e){
+        console.log(e);
+        res.status(400).json({message:"Failed to get Details"})
+
+    }
+});
+
+router.post('/addprofilepicture', parser.single('profile-picture'), function (req,res) {
+    var destination = path.join(process.cwd(), "public", "images", req.session.username + ".jpg");
+    fs.createReadStream(req.file.path).pipe(fs.createWriteStream(destination));
+    fs.unlink(req.file.path, function(err) {
+        if(err) {
+            res.status("500");
+            return res.send("An error occured");
+        }
+        res.send("Ohk");
+    })
+});
+
+
+
 
 module.exports = router;

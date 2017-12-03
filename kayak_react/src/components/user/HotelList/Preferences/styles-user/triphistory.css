@@ -1,0 +1,63 @@
+.col-md-3-triphistorynavbar{
+    padding-top: 3%;
+    padding-left: 10%;
+    text-align: left;
+
+}
+
+.col-md-9-triphistorynavbar{
+    width: 65%;
+    margin-top: 4%;
+    margin-left: 5%;
+}
+.heading-triphistory{
+    border-bottom: 1px solid;
+}
+.heading-trip{
+    margin-top:5px;
+    font-size: 30px;
+    font-weight: bold;
+    padding-right:80px;
+
+}
+.heading1-triphistory{
+    float:left;
+    margin-top:5px;
+    width:100%;
+}
+.heading1-trip{
+
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 5px;
+
+}
+.hotelbookinginformation{
+    float:left;
+    width:100%;
+
+}
+.hotelbookingdata{
+    float:left;
+    border-bottom: 1px transparent;
+
+}
+.hotelbookingid{
+    border-right: 1px solid;
+    float:left;
+    width:120px;
+}
+.hotelbookingidtrue{
+    width:40px;
+    float:left;
+    height:30px;
+}
+.hotelbookingidfalse{
+    float:left;
+    width:110px;
+
+}
+.borderone{
+    width:100%;
+
+}

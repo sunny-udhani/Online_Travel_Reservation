@@ -27,7 +27,7 @@ import {
     InputGroupButton,
     Dropdown
 } from 'reactstrap';
-import {setHotelData_Success, addHotelData_Success} from "../../../actions";
+import {setHotelData_Success, addHotelData_Success, setHostData_Success} from "../../../actions";
 import EditHotel from "./EditHotel";
 import withRouter from "react-router-dom/es/withRouter";
 
@@ -106,30 +106,34 @@ class HotelPage extends Component {
     });
 
     showAddHotel = (()=>{
+        // alert(this.props.className);
         if(this.state.modal){
             return(
-                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className || "admin-modal"}>
                     <ModalHeader toggle={this.toggle}>Add Hotel</ModalHeader>
                     <ModalBody>
                         <Row>
-
                             <Col xs="12">
                                 <FormGroup>
+                                    Select Host:
+                                    <select onChange={((event)=>{
+                                        let temp = event.target.value.split("_");
+                                        console.log(temp);
+                                        this.addHotelData.hostId = temp[0];
+                                        this.addHotelData.hotelName = temp[1];
 
-                                    <input type="text" className="form-input" placeholder="Host Id"
-                                           onChange={(event)=>{
-                                               this.addHotelData.hostId = event.target.value;
-                                           }}
-                                    />
-                                </FormGroup>
-                            </Col>
-                            <Col xs="12">
-                                <FormGroup>
-                                    <input type="text" className="form-input" placeholder="Hotel Name"
-                                           onChange={(event)=>{
-                                               this.addHotelData.hotelName = event.target.value;
-                                           }}
-                                    />
+                                    })}>
+                                        <option>Select Host</option>
+                                        {
+                                            this.props.state.hostData.map((host) => {
+                                                return(
+                                                    <option value={host.hostId+"_"+host.hostName}>
+                                                        {host.hostName}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </FormGroup>
                             </Col>
                             <Col xs="12">
@@ -280,6 +284,21 @@ class HotelPage extends Component {
 
 
     componentWillMount(){
+        API.fetchHosts({serviceType:"hotel"}).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    this.props.setHostData_Success(data);
+                });
+            }
+            else if(response.status===204){
+                console.log("Hosts Not Found");
+            }
+            else {
+                console.log("Error");
+            }
+        });
         this.fetchHotels();
     }
 
@@ -309,7 +328,7 @@ class HotelPage extends Component {
                                                         searchModal:true
                                                     })
                                                 })}>Search Hotel</Button>
-                                                <label className="text-center">Hotels</label>
+                                                <label className="h4"><b>Hotels</b></label>
                                                 <Button className="btn-primary pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
@@ -322,16 +341,16 @@ class HotelPage extends Component {
                                                     <thead>
                                                     <tr>
                                                         <th>
-                                                            Host
+                                                            <b>Host</b>
                                                         </th>
                                                         <th>
-                                                            Hotel Name
+                                                            <b>Hotel Name</b>
                                                         </th>
                                                         <th>
-                                                            City
+                                                            <b>City</b>
                                                         </th>
                                                         <th>
-                                                            State
+                                                            <b>State</b>
                                                         </th>
                                                     </tr>
                                                     </thead>
@@ -386,6 +405,9 @@ function mapDispatchToProps(dispatch) {
         ,
         addHotelData_Success: (data) => {
             dispatch(addHotelData_Success(data))
+        },
+        setHostData_Success: (data) => {
+            dispatch(setHostData_Success(data))
         }
     };
 }

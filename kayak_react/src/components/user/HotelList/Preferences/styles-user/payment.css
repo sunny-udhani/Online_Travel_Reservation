@@ -1,0 +1,151 @@
+
+.col-md-3-paymentnavbar{
+    padding-top: 3%;
+    padding-left: 10%;
+    text-align: left;
+
+}
+.col-md-8-paymentnavbar{
+    width: 800px;
+    height: 400px;
+    margin-top: 4%;
+    margin-left: 5%;
+}
+.header0-preferences{
+    float:left;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+.heading-container1{
+    border-bottom:1px solid #e2e2e2;
+    width: 100%;
+    height:59px;
+    float: left;
+}
+.heading-container2{
+
+    width: 100%;
+    float:left;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 15px;
+}
+.heading-container3{
+    width:100%;
+    float:left;
+    text-align: left;
+    padding-left: 10px;
+}
+.header1-preferences{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.header2-preferences{
+    font-size: 17px;
+}
+
+.informationofcard{
+    width:100%;
+    height:39px;
+    float:left;
+    margin-top:10px;
+}
+.form-group{
+    width:300px;
+    float:left;
+    height:39px;
+    margin-left: 10px;
+}
+.form-group-state{
+    width:130px;
+    float:left;
+    height:39px;
+    margin-left: 10px;
+
+}
+.month-picker{
+    width:100%;
+    height:39px;
+    float: left;
+    margin-top:10px;
+}
+.month-picker-value{
+    border:1px solid #e2e2e2;
+    width: 110px;
+    height:100%;
+    float: left;
+margin-left: 10px;
+
+}
+
+.year-picker-value{
+    border:1px solid #e2e2e2;
+    width:110px;
+    height:100%;
+    padding-left:0px;
+    float:left;
+    padding-left: 10px;
+}
+.heading-container4{
+    border-bottom:1px solid #e2e2e2;
+    width: 100%;
+    height:39px;
+    float: left;
+}
+.header3-preferences{
+    font-size: 17px;
+    float: left;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+#addcard{
+    box-sizing: border-box;
+background: #ff690f;
+filter: none;
+border: 0;
+color: white;
+outline-width: 0;
+cursor: pointer;
+display: inline-block;
+min-width: 80px;
+text-decoration: none!important;
+box-shadow: none;
+border-radius: 2px;
+    float: left;
+    margin-top: 5px;
+}
+
+.form-group-add{
+    width:100px;
+    float:left;
+    height:39px;
+}
+.form-group-cancel{
+    width: 20%;
+    float:left;
+    height:39px;
+}
+.btn btn-danger{
+    float: left;
+}
+#cancelcard{
+    float:left;
+    margin-top:5px;
+}
+.visaimages{
+    height: 70%;
+    margin-left: 0%;
+
+}
+.mastercardd{
+    width:40%;
+    height:60px;
+    float:left;
+
+}
+.form-grouppp{
+    padding-left: 10px;
+    width:80px;
+    float:left;
+}

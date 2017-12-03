@@ -1,0 +1,51 @@
+.collapsible-card {
+    width: 100%;
+}
+
+.collapsible-card .header {
+    background-color: #FFF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: right;
+    margin-top: 10px;
+}
+.col-md-12 header{
+    margin-top: 20px;
+}
+.detaildescription{
+    text-align: center;
+    bottom: 0;
+    color: #545456;
+    background: 0;
+    font-size: 16px;
+}
+.collapsible-card input#collapse-toggle {
+    display: none;
+}
+
+.collapsible-card input#collapse-toggle ~ .header span.glyphicon-chevron-down {
+    display: inline !important;
+}
+
+.collapsible-card input#collapse-toggle ~ .header span.glyphicon-chevron-up {
+    display: none !important;
+}
+
+
+.collapsible-card input#collapse-toggle:checked ~ .header .glyphicon-chevron-up {
+    display: initial !important;
+}
+
+.collapsible-card input#collapse-toggle:checked ~ .header .glyphicon-chevron-down {
+    display: none !important;
+}
+
+.collapsible-card input#collapse-toggle ~ .body {
+    display: none;
+}
+.collapsible-card input#collapse-toggle:checked ~ .body {
+    display: block;
+}
+.reviewdetails{
+    text-align: center;
+}
