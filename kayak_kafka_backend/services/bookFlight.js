@@ -8,12 +8,37 @@ doFlightBooking = ((data, callback) => {
     try {
 
         console.log("In bookFlight.js");
-        console.log("Flight ID : " + data.flightId);
+        console.log("The payload is : ");
+        console.log(data);
 
-        let insertFlightBooking = "insert into flightbooking (flightId, noOfPassengers, flightClass, tripType, fromDate, toDate, ticketPrice, totalAmount, username) " +
-            "values ('" + data.flightId + "','" + data.noOfPassengers + "', '" + data.flightClass + "', '" + data.tripType + "', '" + data.fromDate + "', '" + data.toDate + "', '" + data.ticketPrice + "', '" + data.totalAmount + "', '" + data.username + "');";
+        let insertFlightBooking = "";
 
-        console.log("signup - SQL Query " + insertFlightBooking);
+        console.log("To date : " + data.tripType);
+
+        let today_date = new Date();
+
+        let month = today_date.getUTCMonth() + 1;
+        let day = today_date.getUTCDate();
+        let year = today_date.getUTCFullYear();
+
+        console.log(today_date);
+        console.log(month);
+        console.log(day);
+        console.log(year);
+
+
+        if (data.tripType === 'one-way') {
+            insertFlightBooking = "insert into flightbooking (flightId, noOfPassengers, flightClass, tripType, fromDate, ticketPrice, totalAmount, username, hostId, bill_day, bill_month, bill_year) " +
+                "values ('" + data.flightId + "','" + data.noOfPassengers + "', '" + data.flightClass + "', '" + data.tripType + "', '" + data.fromDate + "', '" + data.ticketPrice + "', '" + data.totalAmount + "', '" + data.username + "', '" + data.hostId + "', '" + day + "', '" + month + "', '" + year + "');";
+
+            }
+        else {
+            insertFlightBooking = "insert into flightbooking (flightId, noOfPassengers, flightClass, tripType, fromDate, toDate, ticketPrice, totalAmount, username, hostId, bill_day, bill_month, bill_year) " +
+                "values ('" + data.flightId + "','" + data.noOfPassengers + "', '" + data.flightClass + "', '" + data.tripType + "', '" + data.fromDate + "', '" + data.toDate + "', '" + data.ticketPrice + "', '" + data.totalAmount + "', '" + data.username + "', '" + data.hostId + "', '" + day + "', '" + month + "', '" + year + "');";
+
+        }
+
+        console.log("bookFlight - SQL Query " + insertFlightBooking);
 
         mysql.insertData(function (err, result) {
             if (err) {
@@ -41,7 +66,7 @@ doFlightBooking = ((data, callback) => {
         console.log(e);
         err = e;
         response.status = 401;
-        response.message = "Signup Failed";
+        response.message = "Flight booking Failed";
         callback(err, response);
     }
 })

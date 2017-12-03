@@ -555,6 +555,7 @@ try {
 
         getUserDetails.getDetails(data.data, function (err, res) {
             console.log('after handle' + res);
+            console.log(res);
             let payloads = [
                 {
                     topic: data.replyTo,
