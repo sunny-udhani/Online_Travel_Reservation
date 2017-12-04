@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
 import {flightEssentialsAdd, hotelEssentialsAdd, toggleBookingType} from "../../../../actions/index";
 import {connect} from "react-redux";
+import AlertContainer from 'react-alert';
+
+import {alertOptions, showAlert} from "../../../../alertConfig";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -21,9 +24,40 @@ class HotelSearch extends Component {
     searchHotels() {
         let searchString = "";
 
+        if (this.searchCriteria.city === "") {
+            showAlert("Select appropriate city", "error", this);
+            return;
+        }
+
+        if (Date.parse(new Date(this.searchCriteria.check_out_date)) < Date.parse(new Date(this.searchCriteria.check_in_date)) || Date.parse(new Date(this.searchCriteria.check_out_date)) === Date.parse(new Date(this.searchCriteria.check_in_date))) {
+            showAlert("Select appropriate check-in or check-out dates", "error", this);
+            return;
+        }
+
+        if (this.searchCriteria.no_of_people === "" || this.searchCriteria.no_of_people === "0") {
+            showAlert("Select appropriate number of people", "error", this);
+            return;
+        }
+
+        if (this.searchCriteria.no_of_rooms === "" || this.searchCriteria.no_of_rooms === "0") {
+            showAlert("Select appropriate number of rooms", "error", this);
+            return;
+        }
+
+        if (this.searchCriteria.check_out_date === "") {
+            showAlert("Select appropriate check out date", "error", this);
+            return;
+        }
+
+        if (this.searchCriteria.check_in_date === "") {
+            showAlert("Select appropriate check in date", "error", this);
+            return;
+        }
+
+
         this.props.hotelEssentialsAdd(this.searchCriteria.check_in_date, this.searchCriteria.check_out_date, this.searchCriteria.no_of_people);
 
-        searchString += this.searchCriteria.city + "_" + this.searchCriteria.check_in_date + "_" + this.searchCriteria.check_out_date + "_" + this.searchCriteria.no_of_people+ "_" + this.searchCriteria.no_of_rooms;
+        searchString += this.searchCriteria.city + "_" + this.searchCriteria.check_in_date + "_" + this.searchCriteria.check_out_date + "_" + this.searchCriteria.no_of_people + "_" + this.searchCriteria.no_of_rooms;
         this.props.listHotel(searchString)
     };
 
@@ -63,7 +97,7 @@ class HotelSearch extends Component {
                     <div className="form-group col-md-2">
                         <label className="table-label">No. of Persons</label>
                         <input type="number" className="form-control" required="required" id="noofpersons"
-                               placeholder="2"
+                               placeholder="no of persons"
                                onChange={
                                    (event) => {
                                        this.searchCriteria.no_of_people = event.target.value
@@ -73,7 +107,7 @@ class HotelSearch extends Component {
                     <div className="form-group col-md-2">
                         <label className="table-label">No. of rooms</label>
                         <input type="number" className="form-control" required="required" id="noofrooms"
-                               placeholder="1"
+                               placeholder="no of rooms"
                                onChange={
                                    (event) => {
                                        this.searchCriteria.no_of_rooms = event.target.value
@@ -81,7 +115,11 @@ class HotelSearch extends Component {
                                }/>
                     </div>
                 </div>
-                <center><button className="btn btn-warning" onClick={() => this.searchHotels()}>Search</button></center>
+                <center>
+                    <button className="btn btn-warning" onClick={() => this.searchHotels()}>Search</button>
+                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
+
+                </center>
             </div>
         );
     }

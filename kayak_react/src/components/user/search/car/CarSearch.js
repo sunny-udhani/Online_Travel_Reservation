@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
 import {carEssentialsAdd, flightEssentialsAdd, toggleBookingType} from "../../../../actions/index";
 import {connect} from "react-redux";
+import {alertOptions, showAlert} from "../../../../alertConfig";
+import AlertContainer from 'react-alert';
+
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -18,6 +21,28 @@ class CarSearch extends Component {
 
     searchCars() {
         let searchString = "";
+
+        console.log(this);
+
+        if (this.searchCriteria.city === "") {
+            showAlert("Select appropriate city", "error", this);
+            return;
+        }
+
+        if (Date.parse(new Date(this.searchCriteria.to_date)) < Date.parse(new Date(this.searchCriteria.from_date)) || Date.parse(new Date(this.searchCriteria.to_date)) === Date.parse(new Date(this.searchCriteria.from_date))) {
+            showAlert("Select appropriate from and to dates", "error", this);
+            return;
+        }
+
+        if (this.searchCriteria.from_date === "") {
+            showAlert("Select appropriate from date", "error", this);
+            return;
+        }
+
+        if (this.searchCriteria.to_date === "") {
+            showAlert("Select appropriate to date", "error", this);
+            return;
+        }
 
 
         this.props.carEssentialsAdd(this.searchCriteria.from_date, this.searchCriteria.to_date);
@@ -63,6 +88,7 @@ class CarSearch extends Component {
                 </div>
                 <center>
                     <button className="btn btn-warning" onClick={() => this.searchCars()}>Search</button>
+                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                 </center>
             </div>
         );

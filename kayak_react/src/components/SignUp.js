@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
+import AlertContainer from 'react-alert';
+
+import {alertOptions, showAlert} from "../alertConfig";
 
 
 import {
@@ -40,14 +43,14 @@ class SignUp extends Component {
         //handleSubmitRegister: PropTypes.func.isRequired
     };
 
-    componentWillMount(){
+    componentWillMount() {
         let click = {
-            pageClick:{
+            pageClick: {
                 userId: "anonymous",
                 pageName: "UserHome",
                 date: new Date().getDate(),
                 month: new Date().getMonth(),
-                year: 1900+new Date().getYear(),
+                year: 1900 + new Date().getYear(),
                 timeStamp: new Date().toLocaleTimeString()
             }
         };
@@ -67,8 +70,7 @@ class SignUp extends Component {
         this.handleSubmitClick = this.handleSubmitClick.bind(this);
     }
 
-    userdata = {
-    };
+    userdata = {};
 
     handleChange(event) {
         this.setState(
@@ -83,6 +85,41 @@ class SignUp extends Component {
         userdata = this.state;
 
         console.log("Formdata : " + userdata);
+
+        console.log(userdata);
+        console.log(this);
+        console.log(this.state);
+
+        if (this.state.username === "") {
+            showAlert("Please enter Username", "error", this);
+            return;
+        }
+
+        if (this.state.password === "") {
+            showAlert("Please enter password", "error", this);
+            return;
+        }
+
+        if (this.state.firstname === "") {
+            showAlert("Please enter firstname", "error", this);
+            return;
+        }
+
+        if (this.state.lastname === "") {
+            showAlert("Please enter lastname", "error", this);
+            return;
+        }
+
+        if (this.state.dob === "") {
+            showAlert("Please enter dob", "error", this);
+            return;
+        }
+
+        if (this.state.gender === "") {
+            showAlert("Please enter gender", "error", this);
+            return;
+        }
+
 
         doSignUp(userdata)
             .then((res) => {
@@ -122,6 +159,8 @@ class SignUp extends Component {
             <Modal isOpen={true} className="signup-modal">
                 <ModalHeader>Sign-Up</ModalHeader>
                 <ModalBody>
+                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
+
                     <Row>
                         <Col xs="12">
                             <FormGroup>
@@ -185,6 +224,8 @@ class SignUp extends Component {
                             </FormGroup>
                         </Col>
                     </Row>
+                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
+
                 </ModalBody>
                 <ModalFooter>
                     <input type="button" value="SignUp" className="btn btn-primary"
@@ -198,6 +239,8 @@ class SignUp extends Component {
                            }}
                     />
                 </ModalFooter>
+                <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
+
             </Modal>
         );
     }
