@@ -41,11 +41,11 @@ let bookCar = require('./services/bookCar');
 let insertTravelers = require('./services/insertTravelers');
 
 //Pritam's services
-let getUserBooking_Hotels = require('./services/getUserBooking_Hotels');
-let addUserCard = require('./services/addUserCard');
-let getUserBooking_Flights = require('./services/getUserBooking_Flights');
-let getUserBooking_Cars = require('./services/getUserBooking_Cars');
-let getHotelRooms = require('./services/getHotelRooms.js');
+let addUserCard=require('./services/addUserCard');
+let getUserBooking_Hotels=require('./services/getUserBooking_Hotels');
+let getUserBooking_Flights=require('./services/getUserBooking_Flights');
+let getUserBooking_Cars=require('./services/getUserBooking_Cars');
+let getHotelRooms=require('./services/getHotelRooms.js');
 let fetchUserProfile = require('./services/fetchUserProfile');
 let editUserProfile = require('./services/editUserProfile');
 let getUserProfile = require('./services/getUserProfile');
@@ -62,27 +62,8 @@ let reviewsOnProperties = require('./services/admin/reviewsOnProperties');
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
 let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
-<<<<<<< HEAD
 
 
- let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
- let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
- let modifyRoomsConsumer = connection.getConsumerObj(req_topics.CHANGE_ROOMS);
- let fetchflightsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTS);
- let modifyHotelConsumer = connection.getConsumerObj(req_topics.MODIFY_HOTEL);
- let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
- let modifyFlightConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHT);
- let modifyFlightClassConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHTCLASS);
- let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
- let addHostConsumer = connection.getConsumerObj(req_topics.ADD_HOST);
- let fetchHostConsumer = connection.getConsumerObj(req_topics.FETCH_HOSTS);
- let modifyHostConsumer = connection.getConsumerObj(req_topics.MODIFY_HOST);
- let fetchUsersConsumer = connection.getConsumerObj(req_topics.FETCH_USERS);
- let modifyUsersConsumer = connection.getConsumerObj(req_topics.MODIFY_USERS);
- let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
- let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
- let fetchUserProfileConsumer = connection.getConsumerObj(req_topics.FETCH_USERPROFILE);
-=======
 let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
 let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
 let modifyRoomsConsumer = connection.getConsumerObj(req_topics.CHANGE_ROOMS);
@@ -104,7 +85,6 @@ let fetchHotelBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTE
 let fetchCarBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_CARBOOKINGS);
 let fetchFlightBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTBOOKINGS);
 // let fetchUserBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_USERBOOKINGS);
->>>>>>> 1b762c4be0cd0fdbc36946c53b004181cf81b6a8
 
 //Rutvik's consumers
 let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETAILS);
@@ -1375,6 +1355,7 @@ try {
             });
         });
     });
+
     getCreditCardDetailsConsumer.on('message', function (message) {
         console.log('message received');
         console.log(message);

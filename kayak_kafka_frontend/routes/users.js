@@ -183,19 +183,16 @@ router.post('/getHotelDetails', function (req, res) {
     try {
         kafka.make_request('getHotelDetails_topic', req.body, function(err, results) {
 
-<<<<<<< HEAD
         //edit payload
         payload = {
             username: req.session.username
         };
         console.log("12");
-=======
             console.log("8");
             console.log(results);
             console.log(results.status);
             console.log(results.message);
             console.log(results.hotel);
->>>>>>> 1b762c4be0cd0fdbc36946c53b004181cf81b6a8
 
 
             if(err) {
