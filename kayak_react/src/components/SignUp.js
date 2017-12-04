@@ -64,7 +64,14 @@ class SignUp extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            username : "",
+            password : "",
+            firstname : "",
+            lastname : "",
+            dob : "",
+            gender : "",
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmitClick = this.handleSubmitClick.bind(this);
@@ -86,36 +93,46 @@ class SignUp extends Component {
 
         console.log("Formdata : " + userdata);
 
-        console.log(userdata);
-        console.log(this);
         console.log(this.state);
 
         if (this.state.username === "") {
+            console.log(this);
+
             showAlert("Please enter Username", "error", this);
             return;
         }
 
         if (this.state.password === "") {
+            console.log(this);
+
             showAlert("Please enter password", "error", this);
             return;
         }
 
         if (this.state.firstname === "") {
+            console.log(this);
+
             showAlert("Please enter firstname", "error", this);
             return;
         }
 
         if (this.state.lastname === "") {
+            console.log(this);
+
             showAlert("Please enter lastname", "error", this);
             return;
         }
 
         if (this.state.dob === "") {
+            console.log(this);
+
             showAlert("Please enter dob", "error", this);
             return;
         }
 
         if (this.state.gender === "") {
+            console.log(this);
+
             showAlert("Please enter gender", "error", this);
             return;
         }
@@ -124,26 +141,26 @@ class SignUp extends Component {
         doSignUp(userdata)
             .then((res) => {
                 if (res.status === 200) {
-
-                    console.log("SignUp - username : " + res.username);
-                    console.log("Signup - message is - " + res.message);
+                    showAlert("Sign up successful", "info", this);
 
                     this.props.handleSubmitRegister(userdata.username);
                     this.props.history.push("/u");
                 }
                 if (res.status === 201) {
 
-                    console.log("SignUp - username : " + res.username);
-                    console.log("Signup - message is - " + res.message);
+                    showAlert("Sign up successful", "info", this);
 
                     this.props.handleSubmitRegister(userdata.username);
                     this.props.history.push("/admin");
                 }
                 else if (res.status === 401) {
                     console.log("User Already Exists");
-                    alert("User Already Exists");
+                    showAlert("User Already Exists", "error", this);
+
                 }
                 else {
+                    showAlert("Failed to Signup", "error", this);
+
                     console.log("Failed to Signup");
                 }
             })
@@ -219,7 +236,7 @@ class SignUp extends Component {
                                 <label className=""><h6>Female</h6></label>
                                 <input onChange={(e) => this.handleChange(e)} type="radio"
                                        id="genderChoice4"
-                                       name="gender" value="notSpecified"/>
+                                       name="gender" value="no"/>
                                 <label className=""><h6>Prefer not to say</h6></label>
                             </FormGroup>
                         </Col>
