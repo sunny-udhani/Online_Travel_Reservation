@@ -11,84 +11,174 @@ create_Index = ((data,callback)=>{
     // let index = "useranalytics"+Math.random();
     let index = "useranalytics";
 
-    esClient.indices.delete({index: index},function(err,resp,status) {
-        console.log("delete ",resp);
+    esClient.indices.exists({index: index},function(err,resp,status) {
 
-        let type = "userinfo";
+        console.log("Exists - ", resp);
 
-        let i = 0;
+        if (resp) {
 
-        let temp = true;
+            esClient.indices.delete({index: index},function(err,resp,status) {
+                console.log("delete ",resp);
 
-        data.forEach( d => {
+                let type = "userinfo";
 
-        if(temp){
-            console.log("Type of d - "+ typeof d);
-            console.log(d.pageClick);
-            if(d.pageClick !== undefined){
-                console.log("Page - "+d.pageClick);
-            }
-            if(d.propertyClick !== undefined){
-                console.log("Property - "+d.propertyClick);
-            }
-            temp = false;
-        }
+                let i = 0;
 
-            bulkBody.push({
-                index: {
-                    _index: index,
-                    _type: type,
-                    _id: i++
-                }
-            });
+                let temp = true;
 
-            if(d.pageClick !== undefined){
-                bulkBody.push(d.pageClick);
-            }
-            if(d.propertyClick !== undefined){
-                bulkBody.push(d.propertyClick);
-            }
+                data.forEach( d => {
 
-        });
-
-        esClient.bulk({headers: {'content-type': 'application/x-ndjson'}, body: bulkBody})
-            .then(response => {
-
-                console.log(response);
-
-                // Code was here
-                console.log(`Successfully indexed ${data.length} items`);
-
-                let results = {
-
-                    pageClicks:{
-                        UserHome: 10,
-                        SignIn: 10,
-                        SignUp: 10,
-                        HotelListing: 10,
-                        CarListing: 10,
-                        FlightListing: 10,
-                        UserProfile: 10,
-                        UserPaymentPage: 10
-                    },
-                    propertyClicks:{
-                        Hotel: 10,
-                        Flight: 10,
-                        Car: 10
+                    if(temp){
+                        console.log("Type of d - "+ typeof d);
+                        console.log(d.pageClick);
+                        if(d.pageClick !== undefined){
+                            console.log("Page - "+d.pageClick);
+                        }
+                        if(d.propertyClick !== undefined){
+                            console.log("Property - "+d.propertyClick);
+                        }
+                        temp = false;
                     }
 
-                };
+                    bulkBody.push({
+                        index: {
+                            _index: index,
+                            _type: type,
+                            _id: i++
+                        }
+                    });
 
-                esClient.cat.indices(
-                    {v: true})
-                    .then(console.log)
-                    .catch(err => console.error(`Error connecting to the es client: ${err}`)
-                    );
+                    if(d.pageClick !== undefined){
+                        bulkBody.push(d.pageClick);
+                    }
+                    if(d.propertyClick !== undefined){
+                        bulkBody.push(d.propertyClick);
+                    }
 
-                callback(results);
+                });
 
-            })
-            .catch(err => console.log(err));
+                esClient.bulk({headers: {'content-type': 'application/x-ndjson'}, body: bulkBody})
+                    .then(response => {
+
+                        console.log(response);
+
+                        // Code was here
+                        console.log(`Successfully indexed ${data.length} items`);
+
+                        let results = {
+
+                            pageClicks:{
+                                UserHome: 10,
+                                SignIn: 10,
+                                SignUp: 10,
+                                HotelListing: 10,
+                                CarListing: 10,
+                                FlightListing: 10,
+                                UserProfile: 10,
+                                UserPaymentPage: 10
+                            },
+                            propertyClicks:{
+                                Hotel: 10,
+                                Flight: 10,
+                                Car: 10
+                            }
+
+                        };
+
+                        esClient.cat.indices(
+                            {v: true})
+                            .then(console.log)
+                            .catch(err => console.error(`Error connecting to the es client: ${err}`)
+                            );
+
+                        callback(results);
+
+                    })
+                    .catch(err => console.log(err));
+
+            });
+
+        }
+
+        else{
+
+            let type = "userinfo";
+
+            let i = 0;
+
+            let temp = true;
+
+            data.forEach( d => {
+
+                if(temp){
+                    console.log("Type of d - "+ typeof d);
+                    console.log(d.pageClick);
+                    if(d.pageClick !== undefined){
+                        console.log("Page - "+d.pageClick);
+                    }
+                    if(d.propertyClick !== undefined){
+                        console.log("Property - "+d.propertyClick);
+                    }
+                    temp = false;
+                }
+
+                bulkBody.push({
+                    index: {
+                        _index: index,
+                        _type: type,
+                        _id: i++
+                    }
+                });
+
+                if(d.pageClick !== undefined){
+                    bulkBody.push(d.pageClick);
+                }
+                if(d.propertyClick !== undefined){
+                    bulkBody.push(d.propertyClick);
+                }
+
+            });
+
+            esClient.bulk({headers: {'content-type': 'application/x-ndjson'}, body: bulkBody})
+                .then(response => {
+
+                    console.log(response);
+
+                    // Code was here
+                    console.log(`Successfully indexed ${data.length} items`);
+
+                    let results = {
+
+                        pageClicks:{
+                            UserHome: 10,
+                            SignIn: 10,
+                            SignUp: 10,
+                            HotelListing: 10,
+                            CarListing: 10,
+                            FlightListing: 10,
+                            UserProfile: 10,
+                            UserPaymentPage: 10
+                        },
+                        propertyClicks:{
+                            Hotel: 10,
+                            Flight: 10,
+                            Car: 10
+                        }
+
+                    };
+
+                    esClient.cat.indices(
+                        {v: true})
+                        .then(console.log)
+                        .catch(err => console.error(`Error connecting to the es client: ${err}`)
+                        );
+
+                    callback(results);
+
+                })
+                .catch(err => console.log(err));
+
+        }
 
     });
 
@@ -235,12 +325,30 @@ handle_request = ((data, callback) => {
     // create_Index(data,
     //     function (results) {
     //         try {
+    //
     //             response.status = 200;
     //             // response.clicksPerPage = {UserProfile:results.hits.total};
     //             // response.clicksPerPage = results;
     //             console.log(results.pageClicks.UserProfile);
     //             response.analytics = results;
     //             callback(null, response);
+    //
+    //             // perform_analytics(
+    //             //     function (results) {
+    //             //         try {
+    //             //             response.status = 200;
+    //             //             // response.clicksPerPage = {UserProfile:results.hits.total};
+    //             //             // response.clicksPerPage = results;
+    //             //             console.log(results.pageClicks.UserProfile);
+    //             //             response.analytics = results;
+    //             //             callback(null, response);
+    //             //         }
+    //             //         catch (e) {
+    //             //             console.log(e);
+    //             //             callback(e, response);
+    //             //         }
+    //             //     });
+    //
     //         }
     //         catch (e) {
     //             console.log(e);
