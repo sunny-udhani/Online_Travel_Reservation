@@ -22,8 +22,7 @@ handle_request = ((data, callback) => {
             else {
                 console.log(result);
                 console.log("1: " + result.length);
-                console.log("2: " + result[0].password);
-                console.log("3: " + result[0].accessInd);
+
 
                 if (result.length === 1) {
 
