@@ -28,6 +28,17 @@ handle_request = ((data, callback) => {
                 "h.serviceType='flight' and " +
                 "fb.bookingId = "+ data.bookingId + ";";
         }
+        else if(data.hasOwnProperty("searchbyusername")){
+            console.log(data.searchbyusername);
+            fetchQuery = "select fb.hostId, h.hostName, fb.bookingId, fb.flightId, fb.noOfPassengers, " +
+                "fb.flightClass, fb.fromDate ,fb.toDate, fb.ticketPrice, fb.totalAmount, fb.bill_day, " +
+                "fb.bill_month, fb.bill_year, fb.username " +
+                "from flightbooking as fb " +
+                "join host as h " +
+                "on fb.hostId = h.hostId where " +
+                "h.serviceType='flight' and " +
+                "fb.username = '"+ data.searchbyusername + "';";
+        }
 
         /*console.log(data.hasOwnProperty("hostName"));
         console.log(data.hasOwnProperty("serviceType"));

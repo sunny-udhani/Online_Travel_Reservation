@@ -10,10 +10,11 @@ handle_request = ((data, callback) => {
         console.log("Flights Fetch");
         let query={};
         if(data!=={}){
-            if(data.flightId!== undefined && data.flightId!== null){
-                query = {
-                    _id : ObjectId(data.flightId)
-                }
+            if(data._id!== undefined && data._id!== null){
+                query = {_id : ObjectId(data._id)}
+            }
+            else {
+                query = data.query;
             }
         }
         console.log(query);

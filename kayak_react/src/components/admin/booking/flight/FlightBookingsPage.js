@@ -76,10 +76,8 @@ class FlightBookingsPage extends Component {
 
     searchFlight = ((data)=>{
         console.log(data);
-        let searchQuery = {
-            query : {}
-        };
-        searchQuery.query[data.searchBy] = data.searchCriteria;
+        let searchQuery = {};
+        searchQuery[data.searchBy] = data.searchCriteria;
         console.log(searchQuery);
         this.fetchFlights(searchQuery);
         this.toggleSearch();
@@ -107,9 +105,8 @@ class FlightBookingsPage extends Component {
                                                 this.searchFlightData.searchBy = event.target.value
                                             })}>
                                                 <option value="select" selected="true">select</option>
-                                                <option value="flightNo">Flight Number</option>
-                                                <option value="flightOperator">Flight Operator</option>
-                                                <option value="origin">Origin City</option>
+                                                <option value="bookingId">Booking Id</option>
+                                                <option value="searchbyusername">Username</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -168,13 +165,16 @@ class FlightBookingsPage extends Component {
                                         <Col xs="12" lg="12">
                                             <Card>
                                                 <CardHeader className="text-center">
-                                                    <Button className="btn-primary pull-left" onClick={(()=>{
+                                                    <Button className="btn btn-link pull-left" onClick={(()=>{
                                                         this.setState({
                                                             ...this.state,
                                                             searchModal : true
                                                         })
-                                                    })}>Search Flight</Button>
-                                                    <label className="h4"><b>Flights</b></label>
+                                                    })}>Filter</Button>
+                                                    <Button className="btn btn-link pull-left" onClick={(()=>{
+                                                        this.fetchFlightBookings()
+                                                    })}>Clear</Button>
+                                                    <label className="h4"><b>Flight Bookings</b></label>
                                                 </CardHeader>
                                                 <CardBody>
                                                     <Table responsive>
@@ -201,26 +201,6 @@ class FlightBookingsPage extends Component {
                                                         }
                                                         </tbody>
                                                     </Table>
-                                                    <Pagination>
-                                                        <PaginationItem>
-                                                            <PaginationLink previous href="#"></PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem active>
-                                                            <PaginationLink href="#">1</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">2</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">3</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">4</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink next href="#"></PaginationLink>
-                                                        </PaginationItem>
-                                                    </Pagination>
                                                 </CardBody>
                                             </Card>
                                         </Col>

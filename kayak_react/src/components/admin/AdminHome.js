@@ -17,14 +17,13 @@ import FlightBookingsPage from '../admin/booking/flight/FlightBookingsPage';
 class AdminHome extends Component {
 
     componentWillMount() {
-        /*API.validateAdminSession().then((response) => {
-                if (response.status === 200) {
-
-                }else{
-                    this.props.handlePageChange("/u");
-                }
+        API.validateAdminSession().then((response) => {
+            if (response.status === 200) {
+                console.log("Admin Logged Successfully");
+            }else{
+                this.props.handlePageChange("/u");
             }
-        )*/
+        })
     }
 
     render() {
@@ -66,9 +65,6 @@ class AdminHome extends Component {
                                         </Nav>
                                         <Nav id="car">
                                             <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/carbooking")})}>Car</Button></NavText>
-                                        </Nav>
-                                        <Nav id="userbooking">
-                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/userbookings")})}>UserBookings</Button></NavText>
                                         </Nav>
                                     </Nav>
                                     <Nav id='profile'>

@@ -82,9 +82,8 @@ class CarBookingsPage extends Component {
     searchCar = ((data)=>{
         console.log(data);
         let searchQuery = {
-            query : {}
         };
-        searchQuery.query[data.searchBy] = data.searchCriteria;
+        searchQuery[data.searchBy] = data.searchCriteria;
         console.log(searchQuery);
         this.fetchCars(searchQuery);
         this.toggleSearch();
@@ -111,11 +110,8 @@ class CarBookingsPage extends Component {
                                             this.searchCarData.searchBy = event.target.value
                                         })}>
                                             <option value="host" selected="true">select</option>
-                                            <option value="host">Host</option>
-                                            <option value="carType">Car Type</option>
-                                            <option value="carMake">Car Make</option>
-                                            <option value="city">City</option>
-                                            <option value="capacity">Capacity</option>
+                                            <option value="bookingId">bookingId</option>
+                                            <option value="searchbyusername">username</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -167,13 +163,16 @@ class CarBookingsPage extends Component {
                                     <Col xs="12" lg="12">
                                         <Card>
                                             <CardHeader className="text-center">
-                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         searchModal : true
                                                     })
-                                                })}>Search Car</Button>
-                                                <label className="h4"><b>Cars</b></label>
+                                                })}>Filter</Button>
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
+                                                    this.fetchCarBookings()
+                                                })}>Clear</Button>
+                                                <label className="h4"><b>Car Booking</b></label>
                                             </CardHeader>
                                             <CardBody>
                                                 <Table>

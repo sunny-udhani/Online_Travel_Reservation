@@ -65,9 +65,8 @@ class HotelBookingsPage extends Component {
     searchHotelBooking = ((data)=>{
         console.log(data);
         let searchQuery = {
-            query : {}
         };
-        searchQuery.query[data.searchBy] = data.searchCriteria;
+        searchQuery[data.searchBy] = data.searchCriteria;
         console.log(searchQuery);
         this.fetchHotelBookings(searchQuery);
         this.toggleSearch();
@@ -92,8 +91,8 @@ class HotelBookingsPage extends Component {
                                             })}>
                                                 <option value="host" selected="true">select</option>
                                                 <option value="bookingId">Booking Id</option>
-                                                <option value="username">Username</option>
-                                                <option value="city">City</option>
+                                                <option value="searchbyusername">Username</option>
+                                                {/*<option value="city">City</option>*/}
                                             </select>
                                         </td>
                                     </tr>
@@ -176,13 +175,16 @@ class HotelBookingsPage extends Component {
                                     <Col xs="12" lg="12">
                                         <Card>
                                             <CardHeader className="text-center">
-                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         searchModal:true
                                                     })
-                                                })}>Search Booking</Button>
-                                                <label className="h4"><b>Hotels</b></label>
+                                                })}>Filter</Button>
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
+                                                    this.fetchHotelBookings()
+                                                })}>Clear</Button>
+                                                <label className="h4"><b>Hotel Bookings</b></label>
                                             </CardHeader>
                                             <CardBody>
                                                 <Table>

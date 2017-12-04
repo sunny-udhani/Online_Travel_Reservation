@@ -10,8 +10,11 @@ handle_request = ((data, callback) => {
         console.log("Car Fetch");
         let query={};
         if(data!=={}){
-            if(data.carId!== undefined && data.carId!== null){
-                query = {_id : ObjectId(data.carId)}
+            if(data._id!== undefined && data._id!== null){
+                query = {_id : ObjectId(data._id)}
+            }
+            else {
+                query = data.query;
             }
         }
         console.log(query);

@@ -348,14 +348,17 @@ class HotelPage extends Component {
                                     <Col xs="12" lg="12">
                                         <Card>
                                             <CardHeader className="text-center">
-                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         searchModal:true
                                                     })
-                                                })}>Search Hotel</Button>
+                                                })}>Filter</Button>
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
+                                                    this.fetchHotels();
+                                                })}>Clear</Button>
                                                 <label className="h4"><b>Hotels</b></label>
-                                                <Button className="btn-primary pull-right" onClick={(()=>{
+                                                <Button className="btn btn-link pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         modal:true

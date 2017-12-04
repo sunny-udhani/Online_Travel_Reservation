@@ -432,14 +432,17 @@ class FlightPage extends Component {
                                         <Col xs="12" lg="12">
                                             <Card>
                                                 <CardHeader className="text-center">
-                                                    <Button className="btn-primary pull-left" onClick={(()=>{
+                                                    <Button className="btn btn-link pull-left" onClick={(()=>{
                                                         this.setState({
                                                             ...this.state,
                                                             searchModal : true
                                                         })
-                                                    })}>Search Flight</Button>
+                                                    })}>Filter</Button>
+                                                    <Button className="btn btn-link pull-left" onClick={(()=>{
+                                                        this.fetchFlights()
+                                                    })}>Clear</Button>
                                                     <label className="h4"><b>Flights</b></label>
-                                                    <Button className="btn-primary pull-right" onClick={(()=>{
+                                                    <Button className="btn btn-link pull-right" onClick={(()=>{
                                                         this.setState({
                                                             ...this.state,
                                                             modal : true
@@ -451,10 +454,10 @@ class FlightPage extends Component {
                                                         <thead>
                                                         <tr>
                                                             <th><b>Host</b></th>
-                                                            <th><b>flight Number</b></th>
-                                                            <th><b>flight Origin</b></th>
-                                                            <th><b>flight Destination</b></th>
-                                                            <th><b>flight Duration</b></th>
+                                                            <th><b>Flight Number</b></th>
+                                                            <th><b>Flight Origin</b></th>
+                                                            <th><b>Flight Destination</b></th>
+                                                            <th><b>Flight Duration</b></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -470,26 +473,6 @@ class FlightPage extends Component {
                                                         }
                                                         </tbody>
                                                     </Table>
-                                                    <Pagination>
-                                                        <PaginationItem>
-                                                            <PaginationLink previous href="#"></PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem active>
-                                                            <PaginationLink href="#">1</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">2</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">3</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">4</PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink next href="#"></PaginationLink>
-                                                        </PaginationItem>
-                                                    </Pagination>
                                                 </CardBody>
                                             </Card>
                                         </Col>
