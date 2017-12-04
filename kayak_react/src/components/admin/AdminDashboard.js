@@ -3,6 +3,7 @@ import {Bar, Doughnut, Line, Pie, Polar, Radar, HorizontalBar} from 'react-chart
 import {CardColumns, Card, CardHeader, CardBody, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
 import * as AdminAPI from "../../api/admin/API";
 import UserProfile from "../user/UserProfile";
+import Tree from "react-d3-tree";
 
 const line = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -516,6 +517,59 @@ class AdminDashboard extends Component {
             }]
         };
 
+        const clickStreamTree = [
+            {
+                name: 'User Home',
+                attributes: {
+                    Time: ' 60 seconds ',
+                },
+                children: [
+                    {
+                        name: 'Hotel Listing',
+                        attributes: {
+                            Time: ' 120 seconds ',
+                        },
+                        children: [
+                            {
+                                name: 'Hotel Details',
+                                attributes: {
+                                    Time: ' 75 seconds ',
+                                },
+                            },
+                            {
+                                name: 'Hotel Details',
+                                attributes: {
+                                    Time: ' 100 seconds ',
+                                },
+                            },
+                            {
+                                name: 'Hotel Details',
+                                attributes: {
+                                    Time: ' 45 seconds ',
+                                },
+                                children: [
+                                    {
+                                        name: 'Sign In',
+                                        attributes: {
+                                            Time: ' 20 seconds ',
+                                        },
+                                        children: [
+                                            {
+                                                name: 'Payment',
+                                                attributes: {
+                                                    Time: ' 150 seconds ',
+                                                }
+                                            },
+                                        ]
+                                    },
+                                ]
+                            },
+                        ]
+                    },
+                ],
+            },
+        ];
+
         return (
             // style={{position: "relative",height:"500px", width:"1000px"}}
             <div className="container-fluid">
@@ -679,8 +733,7 @@ class AdminDashboard extends Component {
                             </CardBody>
                         </Card>
 
-
-                        <Card  style={{position: "relative",height:"295px"}}>
+                        <Card  style={{position: "relative",height:"247px"}}>
                             <CardHeader>
                                 Less seen area of Website
                                 <div className="card-actions">
@@ -696,7 +749,7 @@ class AdminDashboard extends Component {
                             </CardBody>
                         </Card>
 
-                        <Card  style={{position: "relative",height:"295px"}}>
+                        <Card style={{position: "relative",height:"247px"}}>
                             <CardHeader>
                                 Property Reviews
                                 <div className="card-actions">
@@ -712,7 +765,7 @@ class AdminDashboard extends Component {
                             </CardBody>
                         </Card>
 
-                        <Card>
+                        <Card style={{position: "relative",height:"247px"}}>
                             <CardHeader>
                                 Top 10 Hosts
                                 <div className="card-actions">
@@ -731,7 +784,27 @@ class AdminDashboard extends Component {
                         {/*style={{position: "relative",height:"600px", width:"800px"}}*/}
 
                     </CardColumns>
+
+                    <br/>
+
+                    <Card style={{position: "relative",height:"250px"}}>
+                        <CardHeader>
+                            User Click Stream
+                            <div className="card-actions">
+                                <a href="#">
+                                    <small className="text-muted">Enlarge</small>
+                                </a>
+                            </div>
+                        </CardHeader>
+                        <CardBody>
+                            <div id="treeWrapper">
+                                <Tree data={clickStreamTree} />
+                            </div>
+                        </CardBody>
+                    </Card>
+
                 </Card>
+
             </div>
 
         )
