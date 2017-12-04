@@ -63,7 +63,7 @@ create_Index = ((data,callback)=>{
                         console.log(response);
 
                         // Code was here
-                        console.log(`Successfully indexed ${data.length} items`);
+                        console.log(`Successfully indexed ${data.length} items ----- after deleting`);
 
                         let results = {
 
@@ -85,13 +85,13 @@ create_Index = ((data,callback)=>{
 
                         };
 
-                        esClient.cat.indices(
-                            {v: true})
-                            .then(console.log)
-                            .catch(err => console.error(`Error connecting to the es client: ${err}`)
-                            );
+                        // esClient.cat.indices(
+                        //     {v: true})
+                        //     .then(console.log)
+                        //     .catch(err => console.error(`Error connecting to the es client: ${err}`)
+                        //     );
 
-                        callback(results);
+                        setTimeout(function(){ callback(results); }, 1500);
 
                     })
                     .catch(err => console.log(err));
@@ -167,13 +167,13 @@ create_Index = ((data,callback)=>{
 
                     };
 
-                    esClient.cat.indices(
-                        {v: true})
-                        .then(console.log)
-                        .catch(err => console.error(`Error connecting to the es client: ${err}`)
-                        );
+                    // esClient.cat.indices(
+                    //     {v: true})
+                    //     .then(console.log)
+                    //     .catch(err => console.error(`Error connecting to the es client: ${err}`)
+                    //     );
 
-                    callback(results);
+                    setTimeout(function(){ callback(results); }, 1500);
 
                 })
                 .catch(err => console.log(err));
@@ -322,56 +322,56 @@ handle_request = ((data, callback) => {
 
     let response = {status:400,analytics:{}};
 
-    // create_Index(data,
+    create_Index(data,
+        function (results) {
+            try {
+
+                // response.status = 200;
+                // // response.clicksPerPage = {UserProfile:results.hits.total};
+                // // response.clicksPerPage = results;
+                // console.log(results.pageClicks.UserProfile);
+                // response.analytics = results;
+                // callback(null, response);
+
+                perform_analytics(
+                    function (results) {
+                        try {
+                            response.status = 200;
+                            // response.clicksPerPage = {UserProfile:results.hits.total};
+                            // response.clicksPerPage = results;
+                            console.log(results.pageClicks.UserProfile);
+                            response.analytics = results;
+                            callback(null, response);
+                        }
+                        catch (e) {
+                            console.log(e);
+                            callback(e, response);
+                        }
+                    });
+
+            }
+            catch (e) {
+                console.log(e);
+                callback(e, response);
+            }
+        }
+    );
+
+    // perform_analytics(
     //     function (results) {
     //         try {
-    //
     //             response.status = 200;
     //             // response.clicksPerPage = {UserProfile:results.hits.total};
     //             // response.clicksPerPage = results;
     //             console.log(results.pageClicks.UserProfile);
     //             response.analytics = results;
     //             callback(null, response);
-    //
-    //             // perform_analytics(
-    //             //     function (results) {
-    //             //         try {
-    //             //             response.status = 200;
-    //             //             // response.clicksPerPage = {UserProfile:results.hits.total};
-    //             //             // response.clicksPerPage = results;
-    //             //             console.log(results.pageClicks.UserProfile);
-    //             //             response.analytics = results;
-    //             //             callback(null, response);
-    //             //         }
-    //             //         catch (e) {
-    //             //             console.log(e);
-    //             //             callback(e, response);
-    //             //         }
-    //             //     });
-    //
     //         }
     //         catch (e) {
     //             console.log(e);
     //             callback(e, response);
     //         }
-    //     }
-    // );
-
-    perform_analytics(
-        function (results) {
-            try {
-                response.status = 200;
-                // response.clicksPerPage = {UserProfile:results.hits.total};
-                // response.clicksPerPage = results;
-                console.log(results.pageClicks.UserProfile);
-                response.analytics = results;
-                callback(null, response);
-            }
-            catch (e) {
-                console.log(e);
-                callback(e, response);
-            }
-    });
+    // });
 });
 
 exports.handle_request = handle_request;
