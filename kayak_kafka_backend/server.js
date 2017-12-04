@@ -1,5 +1,5 @@
-let connection =  new require('./kafka/Connection');
-let req_topics =  require('./config/topic_enum').req_topic_names;
+let connection = new require('./kafka/Connection');
+let req_topics = require('./config/topic_enum').req_topic_names;
 
 require('./config/mongooseConfig');
 
@@ -30,44 +30,54 @@ let getFlightDetails = require('./services/getFlightDetails');
 let getUserDetails = require('./services/getUserDetails');
 
 //Pritam's services
-let getUserBooking_Info=require('./services/getUserBooking_Info');
-let addUserCard=require('./services/addUserCard');
-let getUserBooking_Flights=require('./services/getUserBooking_Flights');
-let getUserBooking_Cars=require('./services/getUserBooking_Cars');
-let getHotelRooms=require('./services/getHotelRooms.js');
+let getUserBooking_Hotels = require('./services/getUserBooking_Hotels');
+let addUserCard = require('./services/addUserCard');
+let getUserBooking_Flights = require('./services/getUserBooking_Flights');
+let getUserBooking_Cars = require('./services/getUserBooking_Cars');
+let getHotelRooms = require('./services/getHotelRooms.js');
 let fetchUserProfile = require('./services/fetchUserProfile');
+let editUserProfile = require('./services/editUserProfile');
+let getUserProfile = require('./services/getUserProfile');
+let getCreditCardDetails=require('./services/getCreditCardDetails');
+
+
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
 let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
-let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
-let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
-let modifyRoomsConsumer = connection.getConsumerObj(req_topics.CHANGE_ROOMS);
-let fetchflightsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTS);
-let modifyHotelConsumer = connection.getConsumerObj(req_topics.MODIFY_HOTEL);
-let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
-let modifyFlightConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHT);
-let modifyFlightClassConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHTCLASS);
-let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
-let addHostConsumer = connection.getConsumerObj(req_topics.ADD_HOST);
-let fetchHostConsumer = connection.getConsumerObj(req_topics.FETCH_HOSTS);
-let modifyHostConsumer = connection.getConsumerObj(req_topics.MODIFY_HOST);
-let fetchUsersConsumer = connection.getConsumerObj(req_topics.FETCH_USERS);
-let modifyUsersConsumer = connection.getConsumerObj(req_topics.MODIFY_USERS);
-let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
-let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
-let fetchUserProfileConsumer = connection.getConsumerObj(req_topics.FETCH_USERPROFILE);
+
+
+ let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
+ let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
+ let modifyRoomsConsumer = connection.getConsumerObj(req_topics.CHANGE_ROOMS);
+ let fetchflightsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTS);
+ let modifyHotelConsumer = connection.getConsumerObj(req_topics.MODIFY_HOTEL);
+ let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
+ let modifyFlightConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHT);
+ let modifyFlightClassConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHTCLASS);
+ let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
+ let addHostConsumer = connection.getConsumerObj(req_topics.ADD_HOST);
+ let fetchHostConsumer = connection.getConsumerObj(req_topics.FETCH_HOSTS);
+ let modifyHostConsumer = connection.getConsumerObj(req_topics.MODIFY_HOST);
+ let fetchUsersConsumer = connection.getConsumerObj(req_topics.FETCH_USERS);
+ let modifyUsersConsumer = connection.getConsumerObj(req_topics.MODIFY_USERS);
+ let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
+ let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
+ let fetchUserProfileConsumer = connection.getConsumerObj(req_topics.FETCH_USERPROFILE);
 
 let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETAILS);
 let getUserDetails_Consumer = connection.getConsumerObj(req_topics.USER_DETAILS);
 
 let flightListing_Consumer = connection.getConsumerObj(req_topics.FLIGHT_LISTING);
-let carListing_Consumer = connection.getConsumerObj(req_topics.CAR_LISTING);
+ let carListing_Consumer = connection.getConsumerObj(req_topics.CAR_LISTING);
 
 //pritam's consumers
-let getHotelRoomsConsumer=connection.getConsumerObj("fetchhotels_topic");
-let addUserCardConsumer=connection.getConsumerObj("addusercard_topic");
-let getUserBooking_InfoConsumer=connection.getConsumerObj("getbookinguser_topic");
+let getHotelRoomsConsumer = connection.getConsumerObj("fetchhotels_topic");
+let addUserCardConsumer = connection.getConsumerObj("addusercard_topic");
+let getUserBooking_InfoConsumer = connection.getConsumerObj("getbookinguser_topic");
+let editUserProfileConsumer = connection.getConsumerObj("editprofileuser_topic");
+let getUserProfileConsumer = connection.getConsumerObj("getuserprofileinfo_topic");
+let getCreditCardDetailsConsumer=connection.getConsumerObj("getcreditcarddetails_topic");
 
 
 try {
@@ -163,11 +173,11 @@ try {
     });
 
     addHotelConsumer.on('message', function (message) {
-        console.log('message received');
-        console.log(message);
-        console.log(message.value);
-        console.log(JSON.stringify(message.value));
-        let data = JSON.parse(message.value);
+         console.log('message received');
+         console.log(message);
+         console.log(message.value);
+         console.log(JSON.stringify(message.value));
+         let data = JSON.parse(message.value);
 
         console.log(data.replyTo);
 
@@ -803,6 +813,38 @@ try {
         });
     });
 
+
+    getUserProfileConsumer.on('message', function (message) {
+        console.log("17");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getUserProfile.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("18");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+
+
+
+
     addUserCardConsumer.on('message', function (message) {
         console.log('message received');
         console.log(message);
@@ -812,6 +854,7 @@ try {
         var data = JSON.parse(message.value);
 
         console.log(data.replyTo);
+        console.log(data.data);
 
         addUserCard.handle_request(data.data, function (err, res) {
             console.log('after handle' + res);
@@ -833,6 +876,7 @@ try {
         });
     });
 
+
     getUserBooking_InfoConsumer.on('message', function (message) {
         console.log('message received');
         console.log(message);
@@ -842,34 +886,39 @@ try {
         var data = JSON.parse(message.value);
 
         console.log(data.replyTo);
+        let resusertrip = {};
 
-        getUserBooking_Info.handle_request(data.data, function (err, res) {
-            let resusertrip={};
-            let result =[];
-            //  console.log('after handle' + res);
-            if(err){
-                console.log("no entries");
+        let carResult = [];
+        let hotelResult = [];
+        let flightResult = [];
+
+        getUserBooking_Hotels.handle_request(data.data, function (err, res1) {
+
+            if (err) {
+                console.log(err);
             }
             else {
-                result.push(res);
-                getUserBooking_Flights.handle_request(data.data, function (err, resu) {
-                    if(err){
+                hotelResult = res1;
+
+                getUserBooking_Flights.handle_request(data.data, function (err, res2) {
+                    if (err) {
                         console.log(err);
                     }
-                    else{
-                        result.push(resu);
-                        getUserBooking_Cars.handle_request(data.data, function (err, resul) {
-                            if(err){
+                    else {
+                        flightResult =res2;
+
+                        getUserBooking_Cars.handle_request(data.data, function (err, res3) {
+                            if (err) {
                                 console.log(err);
                             }
 
-                            result.push(resul);
-                            resusertrip.code=200;
-                            resusertrip.value="Successful booking history ";
-                            resusertrip.data=JSON.parse(result);
+                            carResult = res3;
 
-                            console.log("here is the final data ");
-                            console.log(result);
+                            resusertrip.code = 200;
+                            resusertrip.value = "Successful booking history ";
+                            let resultJSON = {hotel : hotelResult, flight: flightResult, car: carResult};
+
+                            resusertrip.data = resultJSON
 
                             var payloads = [
                                 {
@@ -883,10 +932,7 @@ try {
                             ];
                             producer.send(payloads, function (err, data) {
                                 console.log(data);
-                                console.log(payloads);
                             });
-
-
 
 
                         });
@@ -963,9 +1009,73 @@ try {
             });
         });
     });
+    getCreditCardDetailsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+
+        var data = JSON.parse(message.value);
+        console.log(data.data.details);
+        console.log(data.replyTo);
+
+        getCreditCardDetails.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+
+    });
+
+
+
+    editUserProfileConsumer.on('message', function (message) {
+        console.log("******************************");
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+
+        var data = JSON.parse(message.value);
+        console.log(data.data.details);
+        console.log(data.replyTo);
+
+        editUserProfile.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
 
 }
-catch (e){
+catch (e) {
     console.log(e)
 }
 
