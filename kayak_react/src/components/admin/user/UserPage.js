@@ -166,12 +166,15 @@ class UserPage extends Component {
                                     <Col xs="12" lg="12">
                                         <Card>
                                             <CardHeader className="text-center">
-                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         searchModal:true
                                                     })
-                                                })}>Search User</Button>
+                                                })}>Filter</Button>
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
+                                                    this.fetchUsers()
+                                                })}>Clear</Button>
                                                 <label className="h4"><b>Users</b></label>
                                             </CardHeader>
                                             <CardBody>

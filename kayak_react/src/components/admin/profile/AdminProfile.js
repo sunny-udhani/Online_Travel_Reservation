@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import * as API from '../../../api/admin/API';
-import {setUserData_Success} from "../../../actions";
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {
@@ -52,7 +51,6 @@ class AdminProfile extends Component {
             }
             else if(response.status===204){
                 console.log("No data found for the admin");
-                this.props.setUserData_Success([]);
             }
             else if(response.status===400){
                 console.log("Error while fetching admin data");

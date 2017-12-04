@@ -385,14 +385,17 @@ class CarPage extends Component {
                                     <Col xs="12" lg="12">
                                         <Card>
                                             <CardHeader className="text-center">
-                                                <Button className="btn-primary pull-left" onClick={(()=>{
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         searchModal : true
                                                     })
-                                                })}>Search Car</Button>
+                                                })}>Filter</Button>
+                                                <Button className="btn btn-link pull-left" onClick={(()=>{
+                                                    this.fetchCars()
+                                                })}>Clear</Button>
                                                 <label className="h4"><b>Cars</b></label>
-                                                <Button className="btn-primary pull-right" onClick={(()=>{
+                                                <Button className="btn btn-link pull-right" onClick={(()=>{
                                                     this.setState({
                                                         ...this.state,
                                                         modal:true
