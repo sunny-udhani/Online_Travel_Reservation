@@ -67,18 +67,41 @@ class AdminProfile extends Component {
         this.fetchProfile();
     }
 
+    validate = {
+        errors: "default"
+    };
+
     editAdmin = ((data) => {
        console.log(data);
        data.accessInd = "admin";
-        API.modifyUserData(data).then((response)=>{
-          console.log(response.status);
-          if(response.status===200){
-              this.fetchProfile();
-          }
-          else {
-              console.log("error");
-          }
-       });
+
+        console.log(data.zipCode);
+
+        //---------------------------- Zip Code Validation -----------------------------------
+
+        let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+
+        let zipCode = parseInt(data.zipCode);
+
+        console.log(" Validating zip code ..... "+zipCodePattern.test(zipCode));
+
+        if(zipCodePattern.test(zipCode)){
+            console.log("Successful - entry");
+            API.modifyUserData(data).then((response)=>{
+                console.log(response.status);
+                if(response.status===200){
+                    this.fetchProfile();
+                }
+                else {
+                    console.log("error");
+                }
+            });
+        }
+        else {
+            this.validate.errors = "zipCode,";
+            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+        }
+
     });
 
     editAdminData = {};
@@ -253,6 +276,9 @@ class AdminProfile extends Component {
                                             </td>
                                         </tr>
                                     </Table>
+                                </div>
+                                <div id="errors">
+
                                 </div>
                             </CardBody>
                             <CardFooter className="text-center">

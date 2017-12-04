@@ -30,10 +30,10 @@ class HotelBooking extends Component {
         paymentDetails: '',
         billingAddress: '',
 
-        hotelId : this.props.hotelId,
-        roomType : this.props.hotelRoomType,
-        fromDate : this.props.hotelFromDate,
-        toDate : this.props.hotelToDate,
+        hotelId: this.props.hotelId,
+        roomType: this.props.hotelRoomType,
+        fromDate: this.props.hotelFromDate,
+        toDate: this.props.hotelToDate,
         noofpeople: this.props.hotelNoOfPeople,
 
         base_price: 0
@@ -41,13 +41,13 @@ class HotelBooking extends Component {
 
     hotel_payment = {
         hotelId: '',
-        noOfPeople : '',
-        roomType : '',
+        noOfPeople: '',
+        roomType: '',
         fromDate: '',
         toDate: '',
-        ticketPrice : '',
+        ticketPrice: '',
         totalAmount: '',
-        username : '',
+        username: '',
         hostId: ''
     };
 
@@ -165,7 +165,6 @@ class HotelBooking extends Component {
     handleHotelBooking(userdata) {
         console.log("In handleFlightBooking");
         console.log(userdata);
-
         bookHotel(userdata)
             .then((res) => {
                 console.log(res.status);
@@ -327,33 +326,33 @@ class HotelBooking extends Component {
                                                     <div className="col-sm-12">
 
                                                         <div className="col-sm-2">
-                                                            <h5><span
+                                                            <h4><span
                                                                 className="color-red-3">{this.state.noofpeople}</span>
-                                                            </h5>
+                                                            </h4>
                                                         </div>
 
                                                         <div className="col-sm-2">
-                                                            <h5><span
+                                                            <h4><span
                                                                 className="color-red-3">{(this.state.base_price).toFixed(2)}</span>
-                                                            </h5>
+                                                            </h4>
                                                         </div>
 
                                                         <div className="col-sm-3">
-                                                            <h5><span
+                                                            <h4><span
                                                                 className="color-red-3">{(this.state.base_price * 0.09).toFixed(2)}</span>
-                                                            </h5>
+                                                            </h4>
                                                         </div>
 
                                                         <div className="col-sm-2">
-                                                            <h5><span
+                                                            <h4><span
                                                                 className="color-red-3">{(this.state.base_price * 1.09).toFixed(2)}</span>
-                                                            </h5>
+                                                            </h4>
                                                         </div>
 
                                                         <div className="col-sm-3">
-                                                            <h5><span
+                                                            <h4><span
                                                                 className="color-red-3">{(this.state.base_price * this.state.noofpeople * 1.09).toFixed(2)}</span>
-                                                            </h5>
+                                                            </h4>
                                                         </div>
                                                     </div>
 
@@ -703,7 +702,7 @@ function mapStateToProps(state) {
         hotelRoomType: state.hotelRoomType,
         hotelFromDate: state.hotelFromDate,
         hotelToDate: state.hotelToDate,
-        hotelNoOfPeople: state.hotelNoOfPeople
+        hotelNoOfPeople: state.hoetlNoOfPeople
 
     };
 }

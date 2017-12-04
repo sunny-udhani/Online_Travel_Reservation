@@ -14,10 +14,15 @@ class ShowUsers extends Component {
                     {user.username}
                 </td>
                 <td>
-                    {user.firstName}
+                    {user.firstname}
                 </td>
                 <td>
-                    {user.lastName}
+                    {user.lastname}
+                </td>
+                <td>
+                    {(user.dateofbirth === null || user.dateofbirth === undefined ? ""
+                        :
+                        user.dateofbirth.substr(0, user.dateofbirth.indexOf("T")))}
                 </td>
                 <td>
                     <span>

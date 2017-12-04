@@ -311,6 +311,7 @@ class FlightBooking extends Component {
                 <hr/>
 
                 <div>
+
                     <div className="container">
                         <div className="row list-wrapper  bg-grey-2">
                             <div className="col-md-8">
@@ -324,8 +325,8 @@ class FlightBooking extends Component {
                                                     <h5><strong
                                                         className="color-red-3">{this.state.flightObject.flightOperator}</strong>
                                                     </h5>
-                                                    <h4><b>{this.state.flightObject.origin}
-                                                        to {this.state.flightObject.destination}</b></h4>
+                                                    <h4><b>{this.state.flightObject.origin}&nbsp;
+                                                        to&nbsp;{this.state.flightObject.destination}</b></h4>
                                                     <h5>{this.state.flightObject.flightOperator} - <span
                                                         className="color-red-3"> {this.props.flightTripType} - {this.props.flightClass} - Adults : {this.props.flightNoofPassengers}</span>
                                                     </h5>
@@ -659,6 +660,7 @@ class FlightBooking extends Component {
                                                             />
                                                         </div>
                                                     </div>
+
                                                     <div className="col-sm-12">
                                                         <hr/>
                                                         <h5><strong className="color-red-3">Card Details</strong></h5>
@@ -753,6 +755,8 @@ class FlightBooking extends Component {
                                                             </h6>
                                                         </div>
                                                     </div>
+
+
                                                     <div className="col-sm-12">
                                                         <button
                                                             className="btn-block btn-success btn-group-sm"
@@ -761,17 +765,20 @@ class FlightBooking extends Component {
                                                             BOOK
                                                         </button>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="col-md-4">
                                 <div className="list-content clearfix">
                                     <div className="list-item-entry">
                                         <div className="hotel-item style-10 bg-white">
                                             <div className="table-view">
+
                                                 <div className="title hotel-middle cell-view">
                                                     <h4 className="">Summary</h4>
                                                     <hr/>
@@ -821,8 +828,10 @@ class FlightBooking extends Component {
         );
     }
 }
+
 //if you need anything from state to use here
 function mapStateToProps(state) {
+
     return {
         flightId: state.flightId,
         flightClass: state.flightClass,

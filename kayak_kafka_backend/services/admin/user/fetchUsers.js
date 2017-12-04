@@ -9,13 +9,16 @@ handle_request = ((data, callback) => {
         console.log("Users Fetch");
         console.log(data);
         console.log(data.hasOwnProperty("username"));
-        let fetchQuery = "select * from user where accessInd = 'user';";
+        let fetchQuery = "select u.username, firstname, lastname, dateofbirth from user as u " +
+            "join userprofile as up " +
+            "on u.username=up.username " +
+            "where u.accessInd != 'admin';";
 
         if(data.hasOwnProperty("username")) {
             let dataToBeFetched = "u.username, firstName, lastName, street, city, " +
                 "state, zipCode, phoneNumber, profileImage, dateofbirth, gender";
             fetchQuery = "select "+ dataToBeFetched +" from user as u join userprofile as up on u.username=up.username " +
-                "where accessInd = 'user' and up.username = '"+data.username+"';";
+                "where accessInd != 'admin' and up.username = '"+data.username+"';";
         }
         console.log(fetchQuery);
 

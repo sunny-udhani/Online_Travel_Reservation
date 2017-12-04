@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux"
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
-import UserSearchHome from "./UserSearchHome";
+import UserSearchHome from "./search/UserSearchHome";
 import UserProfile from "./UserProfile";
-import HotelListing from "./HotelListing";
+import HotelListing from "./listing/hotel/HotelListing";
 import {hotelList_Success} from "../../actions";
 import SwipeImageBackground from "./swipeImageBackground";
 
 import Background from "../../img/main_slide_1.jpg";
+import *  as HotelListingAPI from "../../api/user/API_GetHotels";
 import *  as FlightListingAPI from "../../api/user/API_GetFlights";
+import Payment from './HotelList/Preferences/Payment';
+
+import * as LogAPI from "../../api/user/API_Logging";
+
+
+import * as AlertConfig from "../../alertConfig";
 
 import "../../css/bootstrap.min.css";
 import "../../css/font-awesome.min.css";
@@ -16,11 +23,50 @@ import "../../css/style.css";
 import "../../css/jquery-ui.min.css";
 import "../../css/jquery-ui.structure.min.css";
 
-import HotelSearch from "./HotelSearch";
-import FlightSearch from "./FlightSearch";
-import CarSearch from "./CarSearch";
+import HotelSearch from "./search/hotel/HotelSearch";
+import FlightSearch from "./search/flight/FlightSearch";
+import CarSearch from "./search/car/CarSearch";
 
 class UserHome extends Component {
+
+    componentWillMount(){
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserHome",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
+    }
+
+    // searchHotel = (searchCriteria) => {
+    //     HotelListingAPI.getHotels(searchCriteria)
+    //         .then(res => {
+    //             console.log(res.status);
+    //             if (res.status === 200) {
+    //                 res.json()
+    //                     .then(data => {
+    //                         console.log(data);
+    //                         this.props.hotelList_Success(data);
+    //                     });
+    //             } else {
+    //                 console.log("error in getting list");
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log("error");
+    //             console.log(err);
+    //         });
+    // };
 
     listHotel = (searchCriteria) => {
 
@@ -164,6 +210,7 @@ class UserHome extends Component {
                                             // username={this.state.username}
                                         />
                                     )}/>
+
 
                                     <Route path="/u/cars" render={() => (
                                         <CarSearch

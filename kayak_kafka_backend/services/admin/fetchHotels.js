@@ -37,10 +37,6 @@ handle_request = ((data, callback) => {
                 }
             }
         });
-        // mongo.connect(mongoURL, function () {
-        //     let
-        // });
-
     }
     catch (e) {
         console.log(e);

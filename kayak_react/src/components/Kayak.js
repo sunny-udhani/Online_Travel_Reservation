@@ -20,12 +20,15 @@ import "../css/font-awesome.min.css"
 import "../css/style.css"
 import "../css/jquery-ui.min.css"
 import "../css/jquery-ui.structure.min.css"
-import Listing from "./user/Listing";
+import Listing from "./user/listing/Listing";
 import Payment from './user/HotelList/Preferences/Payment';
 import Preferences from "./user/HotelList/Preferences/Preferences";
 import TripHistory from "./user/HotelList/Preferences/TripHistory";
-import Display from './user/HotelList/components/Display.js';
 import ProfileIconEditor from './user/HotelList/Preferences/ProfileIconEditor.js';
+import EditUserInfo from './user/HotelList/Preferences/EditUserInfo';
+import AlertContainer from 'react-alert';
+
+import {alertOptions, showAlert} from "../alertConfig";
 
 
 import {
@@ -159,12 +162,23 @@ class Kayak extends Component {
 
     doLogin = ((loginData) => {
 
+        if (loginData.username === "") {
+            showAlert("Enter username used for sign up", "error", this);
+            return;
+        }
+
+        if (loginData.password === "") {
+            showAlert("Enter password used for sign up", "error", this);
+            return;
+        }
+
         doSignIn(loginData)
             .then((res) => {
                 console.log(res.status);
                 console.log(loginData.username);
                 if (res.status === 200) {
                     this.props.loginSuccess(loginData.username, "successful login");
+                    showAlert("Logged In Successfully", "info", this);
                     this.toggle(false);
                     this.props.history.push("/u");
 
@@ -173,11 +187,14 @@ class Kayak extends Component {
                 else if (res.status === 201) {
                     this.props.loginSuccess(loginData.username, "successful admin login");
                     this.toggle(false);
+                    showAlert("Admin Logged In Successfully", "info", this);
 
                     this.props.history.push("/admin");
                 }
                 else {
                     console.log("validation");
+                    showAlert("Login Unsuccessful", "error", this);
+
                 }
             })
             .catch((err) => {
@@ -381,6 +398,8 @@ class Kayak extends Component {
                                     {
                                         this.showLogin()
                                     }
+                                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
+
                                 </div>
                             )
                         }
@@ -393,20 +412,24 @@ class Kayak extends Component {
                             />
                         )}/>
 
-                        <Route path="/hotelroom" render={() => (
-                            <Display/>
-                        )}/>
+
                         <Route path="/pref" render={() => (
-                            <Preferences/>
+                            <Preferences handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/payinfo" render={() => (
-                            <Payment/>
+                            <Payment handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/triphistory" render={() => (
                             <TripHistory/>
                         )}/>
+                        <Route path="/editdetails" render={() => (
+                            <EditUserInfo handlePageChange={this.handlePageChange} />
+                        )}/>
+
 
                     </Switch>
+                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
+
                 </div>
             </div>
         )

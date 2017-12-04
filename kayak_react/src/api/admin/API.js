@@ -4,6 +4,86 @@ const headers = {
     'Accept': 'application/json'
 };
 
+export const logAnalyticsData = (payload) =>
+    fetch(`${api}/admin/logAnalyticsData`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res.json();
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const top10Properties = (payload) =>
+    fetch(`${api}/admin/top10Properties`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res.json();
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const cityWiseRevenue = (payload) =>
+    fetch(`${api}/admin/cityWiseRevenue`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res.json();
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const top10Hosts = (payload) =>
+    fetch(`${api}/admin/top10Hosts`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res.json();
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const reviewsOnProperties = (payload) =>
+    fetch(`${api}/admin/reviewsOnProperties`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res.json();
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
 export const addflightData = (payload) =>
     fetch(`${api}/admin/addFlightData`, {
         method: 'POST',
@@ -289,6 +369,54 @@ export const validateAdminSession = () =>
         },
         credentials:'include'
         // body: JSON.stringify()
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const fetchHotelBookings = (payload) =>
+    fetch(`${api}/admin/fetchHotelBookings`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const fetchCarBookings = (payload) =>
+    fetch(`${api}/admin/fetchCarBookings`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
+export const fetchFlightBookings = (payload) =>
+    fetch(`${api}/admin/fetchFlightBookings`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
     }).then(res => {
         return res;
     }).catch(error => {

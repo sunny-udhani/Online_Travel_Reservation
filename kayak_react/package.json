@@ -7,19 +7,19 @@
     "material-ui": "^0.19.4",
     "moment": "^2.19.3",
     "prop-types": "^15.5.10",
-    "rc-slider": "^8.4.0",
+    "rc-slider": "^8.5.0",
     "react": "^15.6.1",
+    "react-alert": "^2.4.0",
     "react-chartjs-2": "^2.6.4",
     "react-dom": "^15.6.1",
     "react-moment": "^0.6.8",
-    "react-pretty-numbers": "^2.0.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
+    "react-sidenav": "^2.1.2",
     "reactstrap": "^5.0.0-alpha.4",
     "redis": "^2.8.0",
-    "redux": "^3.7.2",
-    "react-sidenav": "^2.1.2"
+    "redux": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",

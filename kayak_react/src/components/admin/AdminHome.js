@@ -9,18 +9,22 @@ import HostPage from "./host/HostPage";
 import UserPage from "./user/UserPage";
 import SideNav, {Nav, NavText} from 'react-sidenav';
 import * as API from "../../api/admin/API";
+import {Button} from 'reactstrap';
+import HotelBookingsPage from '../admin/booking/hotel/HotelBookingsPage';
+import CarBookingsPage from '../admin/booking/car/CarBookingsPage';
+import FlightBookingsPage from '../admin/booking/flight/FlightBookingsPage';
 
 class AdminHome extends Component {
 
     componentWillMount() {
-        API.validateAdminSession().then((response) => {
+        /*API.validateAdminSession().then((response) => {
                 if (response.status === 200) {
 
                 }else{
                     this.props.handlePageChange("/u");
                 }
             }
-        )
+        )*/
     }
 
     render() {
@@ -29,48 +33,47 @@ class AdminHome extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="row">
-                            <div style={{background: '#2c3e50', color: '#FFF', width: 100}} className="pull-left">
+                            <div style={{background: '#2c3e50', color: '#FFF', width: 120}} className="pull-left">
                                 <SideNav highlightColor='#E91E63' highlightBgColor='#00bcd4' defaultSelected='sales'>
-                                    <Link to="/admin/dashboard">
-                                        <Nav id='dashboard'>
-                                            <NavText>Dashboard</NavText>
-                                        </Nav>
-                                    </Link>
-                                    <Link to="/admin/hotel">
+                                    <Nav id='dashboard'>
+                                        <NavText style={{align:"center"}}><Button style={{color: '#FFF'}} className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/dashboard")})}>Dashboard</Button></NavText>
+                                    </Nav>
+                                    <Nav>
+                                        <NavText className="text-center">Listing</NavText>
                                         <Nav id='hotel'>
-                                            <NavText>Hotel</NavText>
+                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/hotel")})}>Hotel</Button></NavText>
                                         </Nav>
-                                    </Link>
-                                    <Link to="/admin/flight">
                                         <Nav id='flight'>
-                                            <NavText>Flight</NavText>
+                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/flight")})}>Flight</Button></NavText>
                                         </Nav>
-                                    </Link>
-                                    <Link to="/admin/car">
                                         <Nav id='car'>
-                                            <NavText>Car</NavText>
+                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/car")})}>Car</Button></NavText>
                                         </Nav>
-                                    </Link>
-                                    <Link to="/admin/host">
-                                        <Nav id='host'>
-                                            <NavText>Host</NavText>
+                                    </Nav>
+                                    <Nav id='host'>
+                                        <NavText className="text-center"><Button style={{color: '#FFF'}} className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/host")})}>Host</Button></NavText>
+                                    </Nav>
+                                    <Nav id='user'>
+                                        <NavText><Button style={{color: '#FFF'}} className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/user")})}>User</Button></NavText>
+                                    </Nav>
+                                    <Nav id='booking'>
+                                        <NavText>Bookings</NavText>
+                                        <Nav id="hotel">
+                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/hotelbooking")})}>Hotel</Button></NavText>
                                         </Nav>
-                                    </Link>
-                                    <Link to="/admin/user">
-                                        <Nav id='user'>
-                                            <NavText>User</NavText>
+                                        <Nav id="flight">
+                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/flightbooking")})}>Flight</Button></NavText>
                                         </Nav>
-                                    </Link>
-                                    <Link to="/admin/bookings">
-                                        <Nav id='booking'>
-                                            <NavText>Bookings</NavText>
+                                        <Nav id="car">
+                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/carbooking")})}>Car</Button></NavText>
                                         </Nav>
-                                    </Link>
-                                    <Link to="/admin/profile">
-                                        <Nav id='profile'>
-                                            <NavText>Profile</NavText>
+                                        <Nav id="userbooking">
+                                            <NavText><Button className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/userbookings")})}>UserBookings</Button></NavText>
                                         </Nav>
-                                    </Link>
+                                    </Nav>
+                                    <Nav id='profile'>
+                                        <NavText><Button style={{color: '#FFF'}} className="btn btn-link" onClick={(()=>{this.props.handlePageChange("/admin/profile")})}>Profile</Button></NavText>
+                                    </Nav>
                                 </SideNav>
                             </div>
                         </div>
@@ -139,6 +142,27 @@ class AdminHome extends Component {
 
                                 <Route path="/admin/user" render={() =>
                                     <UserPage
+                                        handleLogout={this.handleLogout}
+                                        handlePageChange={this.props.handlePageChange}
+                                    />
+                                }/>
+
+                                <Route path="/admin/hotelbooking" render={() =>
+                                    <HotelBookingsPage
+                                        handleLogout={this.handleLogout}
+                                        handlePageChange={this.props.handlePageChange}
+                                    />
+                                }/>
+
+                                <Route path="/admin/flightbooking" render={() =>
+                                    <FlightBookingsPage
+                                        handleLogout={this.handleLogout}
+                                        handlePageChange={this.props.handlePageChange}
+                                    />
+                                }/>
+
+                                <Route path="/admin/carbooking" render={() =>
+                                    <CarBookingsPage
                                         handleLogout={this.handleLogout}
                                         handlePageChange={this.props.handlePageChange}
                                     />

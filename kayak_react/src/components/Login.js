@@ -6,6 +6,7 @@ import {login_success} from "../actions";
 import {doSignIn} from "../api/user/API_SignIn";
 
 import '../design/css/signinform.css'
+import * as LogAPI from "../api/user/API_Logging";
 
 class Login extends Component {
 
@@ -14,9 +15,24 @@ class Login extends Component {
         password: ""
     };
 
-    componentWillMount() {
-
-    };
+    componentWillMount(){
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserHome",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
+    }
 
     handleSignIn(userdata) {
         doSignIn(userdata)
@@ -40,7 +56,7 @@ class Login extends Component {
             .catch((err) => {
                 console.log(err);
             })
-    };
+    }
 
     render() {
 

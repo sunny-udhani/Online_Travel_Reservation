@@ -30,6 +30,15 @@ exports.req_topic_names = {
     BOOK_HOTEL: 'bookHotel_topic',
     BOOK_CAR: 'bookCar_topic',
     INSERT_TRAVELERS: 'insertTravelers_topic',
+    // GET_CHART_DATA : 'getchartdata_topic',
+    LOG_ANALYTICS_DATA: 'logAnalyticsData_topic',
+    TOP_10_PROPERTIES: 'top10Properties_topic',
+    CITY_WISE_REVENUE:'cityWiseRevenue_topic',
+    TOP_10_HOSTS: 'top10Hosts_topic',
+    REVIEWS_ON_PROPERTIES: 'reviewsOnProperties_topic',
+    FETCH_HOTELBOOKINGS : 'fetchhotelbookings_topic',
+    FETCH_CARBOOKINGS : 'fetchcarbookings_topic',
+    FETCH_FLIGHTBOOKINGS : 'fetchflightbookings_topic',
 };
 //
 // exports.res_topic_names = {

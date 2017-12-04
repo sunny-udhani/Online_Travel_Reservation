@@ -57,6 +57,10 @@ class HotelPage extends Component {
         stars : 0
     };
 
+    validate = {
+      errors: "default"
+    };
+
     toggle = (()=>{
         this.setState({
             ...this.state,
@@ -85,24 +89,41 @@ class HotelPage extends Component {
     });
 
     addHotel = ((hotelData)=>{
+
         console.log(hotelData);
-        API.addHotel(hotelData).then((response)=>{
-            console.log(response.status);
-            if(response.status===200){
-                response.json().then((data)=>{
-                    console.log(data);
-                    this.setState({
-                        ...this.state,
-                        modal : false
+
+        //---------------------------- Zip Code Validation -----------------------------------
+
+        let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+
+        let zipCode = parseInt(this.addHotelData.zipCode);
+
+        console.log(" Validating zip code ..... "+zipCodePattern.test(zipCode));
+
+        if(zipCodePattern.test(zipCode)){
+            console.log("Successful - entry");
+            API.addHotel(hotelData).then((response)=>{
+                console.log(response.status);
+                if(response.status===200){
+                    response.json().then((data)=>{
+                        console.log(data);
+                        this.setState({
+                            ...this.state,
+                            modal : false
+                        });
+                        // this.fetchHotels();
+                        this.props.addHotelData_Success(data);
                     });
-                    // this.fetchHotels();
-                    this.props.addHotelData_Success(data);
-                });
-            }
-            else {
-                console.log("Error while adding hotel");
-            }
-        });
+                }
+                else {
+                    console.log("Error while adding hotel");
+                }
+            });
+        }
+        else {
+            this.validate.errors = "zipCode,";
+            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+        }
     });
 
     showAddHotel = (()=>{
@@ -180,6 +201,11 @@ class HotelPage extends Component {
                                            }}
                                     />
                                 </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <div id="errors">
+
+                                </div>
                             </Col>
                         </Row>
                     </ModalBody>
