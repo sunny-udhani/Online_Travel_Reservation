@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import './styles-user/navbar.css';
+import {Link} from 'react-router-dom';
+
 import {Route, withRouter} from 'react-router-dom';
 import '../bootstrap/dist/css/bootstrap.min.css';
 
@@ -9,11 +11,11 @@ export default class Navbar extends Component {
             <div className="col-md-12-navbar">
 
                         <br/><br/>
-                        <a className="prefed" id="a"href="/pref">Preferences </a>
+                        <Link className="prefed" id="a" to = "/pref">Preferences </Link>
                         <br/><br/>
-                        <a classname="payinfoed" id="a"href="/payinfo">Payment Methods </a>
+                        <Link classname="payinfoed" id="a" to = "/payinfo">Payment Methods </Link>
                         <br/><br/>
-                        <a className="triphistoried"id="a" href="/triphistory">Trip History</a>
+                        <Link className="triphistoried"id="a" to = "/triphistory">Trip History</Link>
                         <br/>
                     </div>
 

@@ -10,14 +10,14 @@ mongo.connect(mongoURL, function (db_actual) {
 
 
 handle_request = ((data, callback) => {
-    console.log("*************************************Cars");
+    console.log("*************************************Hotels");
     let response = {
         status: 400
     };
     let username = data.username;
-    let carId = '';
+    let hotelId = '';
     try {
-        let getcarbookingsinfo = "select * from carbooking where carbooking.username = '" + data.username + "' ";
+        let gethotelbookingsinfo = "select * from hotelbooking where hotelbooking.username = '" + data.username + "' ";
 
         mysql.fetchData(function (err, result) {
             if (err) {
@@ -25,20 +25,21 @@ handle_request = ((data, callback) => {
             }
             else {
                 if (result.length !== 0) {
-                    let resultcars = [];
+                    let resulthotels = [];
 
                     async.forEachOf(result, function (booking, index, cb) {
                         console.log(booking);
-                        carId = booking.carId;
-                        db.collection('cars').findOne({_id: new ObjectID(carId)}, function (err, carDetails) {
-                            console.log(carDetails);
-                            console.log(err);
-                            if (carDetails) {
-                                let car_booking = {one: {}, two: {}}
+                        hotelId = booking.hotelId;
 
-                                car_booking.two = booking;
-                                car_booking.one = carDetails;
-                                resultcars.push(car_booking);
+                        db.collection('hotels').findOne({_id: new ObjectID(hotelId)}, function (err, hotelDetails) {
+                            console.log(hotelDetails);
+                            console.log(err);
+                            if (hotelDetails) {
+                                let hotel_booking = {one: {}, two: {}}
+
+                                hotel_booking.two = booking;
+                                hotel_booking.one = hotelDetails;
+                                resulthotels.push(hotel_booking);
                                 cb();
                                 // console.log("******************in hotel final result");
                                 // console.log(resulthotels)
@@ -57,15 +58,15 @@ handle_request = ((data, callback) => {
                         } else {
                             console.log("flights -- ");
 
-                            console.log(resultcars);
-                            callback(null, resultcars);
+                            console.log(resulthotels);
+                            callback(null, resulthotels);
                         }
                     });
                 }
 
 
             }
-        }, getcarbookingsinfo);
+        }, gethotelbookingsinfo);
     }
 
     catch (e) {

@@ -66,24 +66,45 @@ class CarPage extends Component {
         });
     });
 
+    validate = {
+        errors: "default"
+    };
+
     addCar = ((carData)=>{
+
         console.log(carData);
-        API.addCar(carData).then((response)=>{
-            console.log(response.status);
-            if(response.status===200){
-                response.json().then((data)=>{
-                    console.log(data);
-                    this.setState({
-                        ...this.state,
-                        modal : false
+
+        //---------------------------- Zip Code Validation -----------------------------------
+
+        let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+
+        let zipCode = parseInt(this.addCarData.zipCode);
+
+        console.log(" Validating zip code ..... "+zipCodePattern.test(zipCode));
+
+        if(zipCodePattern.test(zipCode)){
+            console.log("Successful - entry");
+            API.addCar(carData).then((response)=>{
+                console.log(response.status);
+                if(response.status===200){
+                    response.json().then((data)=>{
+                        console.log(data);
+                        this.setState({
+                            ...this.state,
+                            modal : false
+                        });
+                        this.props.addCarData_Success(data);
                     });
-                    this.props.addCarData_Success(data);
-                });
-            }
-            else {
-                console.log("Error while adding Car");
-            }
-        });
+                }
+                else {
+                    console.log("Error while adding Car");
+                }
+            });
+        }
+        else {
+            this.validate.errors = "zipCode,";
+            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+        }
     });
 
     fetchCars = ((data)=> {
@@ -254,6 +275,11 @@ class CarPage extends Component {
                                            }}
                                     />
                                 </FormGroup>
+                            </Col>
+                            <Col xs="12">
+                                <div id="errors">
+
+                                </div>
                             </Col>
                         </Row>
                     </ModalBody>

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import * as API from "../../../api/admin/API";
 import ShowFlights from "./ShowFlights";
 import {Switch, Route, withRouter} from 'react-router-dom';
+import admincss from './admin.css'
 import {
     Badge,
     Row,
@@ -186,7 +187,7 @@ class FlightPage extends Component {
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-control form-input1" placeholder="Flight Number"
+                                    <input type="text" className="form-controlpritamadmin form-input1" placeholder="Flight Number"
                                            onChange={(event)=>{
                                                this.addflightData.flightNo = event.target.value;
                                            }}
@@ -200,12 +201,12 @@ class FlightPage extends Component {
                             <Col xs="12">
                                 Departure:
                                 <FormGroup>
-                                    <input type="date" className="form-control form-input1"
+                                    <input type="date" className="form-controlpritamadmin form-input1"
                                            onChange={(event)=>{
                                                this.addflightData.departureDate = event.target.value;
                                            }}
                                     />
-                                    <input type="time" className="form-control form-input1" placeholder="Flight Departure Time"
+                                    <input type="time" className="form-controlpritamadmin form-input1" placeholder="Flight Departure Time"
                                            onChange={(event)=>{
                                                this.addflightData.departureTime = event.target.value;
                                            }}
@@ -218,12 +219,12 @@ class FlightPage extends Component {
                                 Arrival:
                                 <FormGroup>
 
-                                    <input type="date" className="form-control form-input1" placeholder="Arrival Date"
+                                    <input type="date" className="form-controlpritamadmin form-input1" placeholder="Arrival Date"
                                            onChange={(event)=>{
                                                this.addflightData.arrivalDate = event.target.value;
                                            }}
                                     />
-                                    <input type="time" className="form-control form-input1" placeholder="Flight Arrival Time"
+                                    <input type="time" className="form-controlpritamadmin form-input1" placeholder="Flight Arrival Time"
                                            onChange={(event)=>{
                                                this.addflightData.arrivalTime = event.target.value;
                                            }}
@@ -234,7 +235,7 @@ class FlightPage extends Component {
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-control form-input" width="10px" placeholder="Flight Duration"
+                                    <input type="text" className="form-controlpritamadmin form-input" width="10px" placeholder="Flight Duration"
                                            onChange={(event)=>{
                                                this.addflightData.duration = event.target.value;
                                            }}
@@ -245,13 +246,13 @@ class FlightPage extends Component {
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-control form-input1" placeholder="Origin"
+                                    <input type="text" className="form-controlpritamadmin form-input1" placeholder="Origin"
                                            onChange={(event)=>{
                                                this.addflightData.origin = event.target.value;
                                            }}
                                     />
 
-                                    <input type="text" placeholder="Destination" className="form-control form-input1"
+                                    <input type="text" placeholder="Destination" className="form-controlpritamadmin form-input1"
                                            onChange={(event)=>{
                                                this.addflightData.destination = event.target.value;
                                            }}
@@ -263,13 +264,13 @@ class FlightPage extends Component {
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input className="form-control form-input1" type="text" placeholder="Capacity"
+                                    <input className="form-controlpritamadmin form-input1" type="text" placeholder="Capacity"
                                            onChange={(event)=>{
                                                this.addflightData.classes[0].noOfSeats=event.target.value;
                                            }}
                                     />
                                     {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
-                                    <input type="text" className="form-control form-input1" placeholder="Fare"
+                                    <input type="text" className="form-controlpritamadmin form-input1" placeholder="Fare"
                                            onChange={(event)=>{
                                                this.addflightData.classes[0].price=event.target.value;
                                            }}
@@ -282,13 +283,13 @@ class FlightPage extends Component {
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-control form-input1" placeholder="Capacity"
+                                    <input type="text" className="form-controlpritamadmin form-input1" placeholder="Capacity"
                                            onChange={(event)=>{
                                                this.addflightData.classes[1].noOfSeats=event.target.value;
                                            }}
                                     />
                                     {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
-                                    <input type="text" className="form-control form-input1" placeholder="Fare"
+                                    <input type="text" className="form-controlpritamadmin form-input1" placeholder="Fare"
                                            onChange={(event)=>{
                                                this.addflightData.classes[1].price=event.target.value;
                                            }}
@@ -301,13 +302,13 @@ class FlightPage extends Component {
                         <Row>
                             <Col xs="12">
                                 <FormGroup>
-                                    <input type="text" className="form-control form-input1" placeholder="Capacity"
+                                    <input type="text" className="form-controlpritamadmin form-input1" placeholder="Capacity"
                                            onChange={(event)=>{
                                                this.addflightData.classes[2].noOfSeats=event.target.value;
                                            }}
                                     />
                                     {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
-                                    <input type="text" className="form-control form-input1" placeholder="Fare"
+                                    <input type="text" className="form-controlpritamadmin    form-input1" placeholder="Fare"
                                            onChange={(event)=>{
                                                this.addflightData.classes[2].price=event.target.value;
                                            }}

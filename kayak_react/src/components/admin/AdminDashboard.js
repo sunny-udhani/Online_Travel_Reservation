@@ -196,15 +196,13 @@ class AdminDashboard extends Component {
                 },
                 {
                     city: 'San Fransisco',
-                    revenue: [50,60,70]
+                    revenue: [10,60,70]
                 },
             ],
-            cityWiseRevenue:[
-                {
-                    labels: ['Hotel','Flight','Car'],
-                    data: [0,0,0]
-                }
-            ],
+            cityWiseRevenue:{
+                    labels: [],
+                    data: []
+            },
             top10Hosts:{
                 labels: [],
                 data: []
@@ -309,25 +307,29 @@ class AdminDashboard extends Component {
 
     loadCityRevenue = (event) => {
         let _city = event.target.value;
+        console.log(_city+" - in loadCityRevenue");
         this.state.citiesRevenue.forEach((city)=>{
-             if(city === _city){
+            console.log("city - "+city.city+" - _city - "+_city);
+             if(city.city === _city){
+                 console.log("Found match ..... loading revenue to chart's data - "+city.revenue);
                  this.setState({
                      ...this.state,
-                     cityWiseRevenue:{
+                     cityWiseRevenue: {
                          labels: ['Hotel','Flight','Car'],
                          data: city.revenue
                      }
                  });
+                 console.log("after state change - "+this.state.cityWiseRevenue.labels+" - "+this.state.cityWiseRevenue.data);
              }
         });
 
     };
 
-    loadOptions = (city) => {
-        console.log("In loadOptions");
-        console.log(" City - "+city.city+" Revenue - "+city.revenue);
-        return (<option  style={{textAlign:"center"}} value={city.city} >{city.city}</option>);
-    };
+    // loadOptions = (city) => {
+    //     console.log("In loadOptions");
+    //     console.log(" City - "+city.city+" Revenue - "+city.revenue);
+    //     return (<option value={city.city} >{city.city}</option>);
+    // };
 
     toggle() {
         this.setState({
@@ -458,7 +460,7 @@ class AdminDashboard extends Component {
                     borderWidth: 1,
                     hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                     hoverBorderColor: 'rgba(255,99,132,1)',
-                    data: [25,35,69]
+                    data: this.state.cityWiseRevenue.data
                 }
             ]
         };
@@ -569,19 +571,17 @@ class AdminDashboard extends Component {
                     <br/>
                     <CardBody>
                         <div className="chart-wrapper">
-                            <div style={{textAlign:"center"}} >
-                                Choose City :
-                                <select onChange={((event)=>{this.loadCityRevenue(event)})} >
-                                    <option style={{textAlign:"center"}} value="Select" default="default">Select</option>
+                            {/*<div style={{textAlign:"center"}} >*/}
+                                {/*Choose City :*/}
+                                <select style={{textAlign:"center"}} onChange={(event)=> this.loadCityRevenue(event)} >
+                                    <option style={{textAlign:"center"}} value="Select">Select</option>
                                     {
-                                        this.state.citiesRevenue && this.state.citiesRevenue.forEach((city)=>{
-                                            {this.loadOptions(city)}
-                                        })
+                                    this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(
+                                        <option style={{textAlign:"center"}} value={city.city}>{city.city}</option>
+                                    )))
                                     }
-                                    {/*<option  style={{textAlign:"center"}} value="opel">Opel</option>*/}
-                                    {/*<option  style={{textAlign:"center"}} value="audi">Audi</option>*/}
                                 </select>
-                            </div>
+                            {/*</div>*/}
                             {/*<Dropdown style={{textAlign:"center"}} isOpen={this.state.dropdownOpen} size="sm" toggle={this.toggle}>*/}
                                 {/*<DropdownToggle caret >*/}
                                     {/*Choose city*/}
@@ -589,12 +589,17 @@ class AdminDashboard extends Component {
                                 {/*<DropdownMenu>*/}
                                     {/*/!*<DropdownItem header>Header</DropdownItem>*!/*/}
                                     {/*/!*<DropdownItem disabled>Action</DropdownItem>*!/*/}
-                                    {/*<DropdownItem value="San Jose">San Jose</DropdownItem>*/}
-                                    {/*<DropdownItem value="San Fransisco">San Fransisco</DropdownItem>*/}
-                                    {/*<DropdownItem value="Santa Cruz">Santa Cruz</DropdownItem>*/}
-                                    {/*<DropdownItem value="New York">New York</DropdownItem>*/}
-                                    {/*<DropdownItem value="Los Angeles">Los Angeles</DropdownItem>*/}
-                                    {/*<DropdownItem value="Seattle">Seattle</DropdownItem>*/}
+                                    {/*{*/}
+                                        {/*this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(*/}
+                                            {/*<DropdownItem onClick={(event)=> this.loadCityRevenue(event)} value={city.city}>{city.city}</DropdownItem>*/}
+                                        {/*)))*/}
+                                    {/*}*/}
+                                    {/*/!*<DropdownItem value="San Jose">San Jose</DropdownItem>*!/*/}
+                                    {/*/!*<DropdownItem value="San Fransisco">San Fransisco</DropdownItem>*!/*/}
+                                    {/*/!*<DropdownItem value="Santa Cruz">Santa Cruz</DropdownItem>*!/*/}
+                                    {/*/!*<DropdownItem value="New York">New York</DropdownItem>*!/*/}
+                                    {/*/!*<DropdownItem value="Los Angeles">Los Angeles</DropdownItem>*!/*/}
+                                    {/*/!*<DropdownItem value="Seattle">Seattle</DropdownItem>*!/*/}
                                     {/*/!*<DropdownItem divider />*!/*/}
                                     {/*/!*<DropdownItem>Another Action</DropdownItem>*!/*/}
                                 {/*</DropdownMenu>*/}

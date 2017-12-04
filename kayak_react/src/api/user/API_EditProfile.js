@@ -5,15 +5,16 @@ const headers = {
 };
 
 export const editProfile = (payload) =>
-    fetch(`${api}/user/editProfile`, {
+    fetch(`${api}/users/editprofileofuser`, {
         method: 'POST',
         headers: {
             ...headers,
-            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: payload,
+        credentials: 'include'
+
     }).then(res => {
-        return res.status;
+        return res;
     }).catch(error => {
         console.log("This is error");
         return error;

@@ -36,31 +36,53 @@ class EditUser extends Component {
         };
     }
 
+    validate = {
+        errors: "default"
+    };
+
     editUser = ((data)=>{
         console.log(data);
         data.accessInd = "user";
-        API.modifyUserData(data).then((response) => {
-            console.log(response.status);
-            if(response.status===200){
-                this.props.fetchUsers({username:data.username});
-                this.props.handlePageChange("/admin/user");
-            }
-            else if(response.status===300)
-            {
-                console.log("Nothing to Change");
-            }
-            else if(response.status===204)
-            {
-                console.log("Record Exist with edited pair already in database");
-            }
-            else if(response.status===400)
-            {
-                console.log("Error while updating data");
-            }
-            else {
-                console.log("Error");
-            }
-        });
+
+        console.log(data.zipCode);
+
+        //---------------------------- Zip Code Validation -----------------------------------
+
+        let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+
+        let zipCode = parseInt(data.zipCode);
+
+        console.log(" Validating zip code ..... "+zipCodePattern.test(zipCode));
+
+        if(zipCodePattern.test(zipCode)){
+            console.log("Successful - entry");
+            API.modifyUserData(data).then((response) => {
+                console.log(response.status);
+                if(response.status===200){
+                    this.props.fetchUsers({username:data.username});
+                    this.props.handlePageChange("/admin/user");
+                }
+                else if(response.status===300)
+                {
+                    console.log("Nothing to Change");
+                }
+                else if(response.status===204)
+                {
+                    console.log("Record Exist with edited pair already in database");
+                }
+                else if(response.status===400)
+                {
+                    console.log("Error while updating data");
+                }
+                else {
+                    console.log("Error");
+                }
+            });
+        }
+        else {
+            this.validate.errors = "zipCode,";
+            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+        }
     });
 
     editUserData = {};
@@ -256,6 +278,9 @@ class EditUser extends Component {
                                             </td>
                                         </tr>
                                     </Table>
+                                </div>
+                                <div id="errors">
+
                                 </div>
                             </CardBody>
                             <CardFooter className="text-center">

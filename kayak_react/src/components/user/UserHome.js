@@ -10,6 +10,7 @@ import SwipeImageBackground from "./swipeImageBackground";
 import Background from "../../img/main_slide_1.jpg";
 import *  as HotelListingAPI from "../../api/user/API_GetHotels";
 import *  as FlightListingAPI from "../../api/user/API_GetFlights";
+import Payment from './HotelList/Preferences/Payment';
 
 import * as LogAPI from "../../api/user/API_Logging";
 
@@ -209,6 +210,7 @@ class UserHome extends Component {
                                             // username={this.state.username}
                                         />
                                     )}/>
+
 
                                     <Route path="/u/cars" render={() => (
                                         <CarSearch

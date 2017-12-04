@@ -4,8 +4,8 @@ const headers = {
     'Accept': 'application/json'
 };
 
-export const getbookinginfo_user = (payload) =>
-    fetch(`${api}/users/getbookinginfo_user`, {
+export const getuserprofile_user = (payload) =>
+    fetch(`${api}/users/getuserprofile_user`, {
         method: 'POST',
         headers: {
             ...headers,
@@ -15,8 +15,10 @@ export const getbookinginfo_user = (payload) =>
         credentials: 'include'
 
     }).then(res => {
+
         return res.json();
     }).catch(error => {
+
         console.log("This is error");
         return error;
     });

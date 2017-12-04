@@ -23,8 +23,8 @@ import Listing from "./user/listing/Listing";
 import Payment from './user/HotelList/Preferences/Payment';
 import Preferences from "./user/HotelList/Preferences/Preferences";
 import TripHistory from "./user/HotelList/Preferences/TripHistory";
-import Display from './user/HotelList/components/Display.js';
 import ProfileIconEditor from './user/HotelList/Preferences/ProfileIconEditor.js';
+import EditUserInfo from './user/HotelList/Preferences/EditUserInfo';
 import AlertContainer from 'react-alert';
 
 import {alertOptions, showAlert} from "../alertConfig";
@@ -411,18 +411,20 @@ class Kayak extends Component {
                             />
                         )}/>
 
-                        <Route path="/hotelroom" render={() => (
-                            <Display/>
-                        )}/>
+
                         <Route path="/pref" render={() => (
-                            <Preferences/>
+                            <Preferences handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/payinfo" render={() => (
-                            <Payment/>
+                            <Payment handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/triphistory" render={() => (
                             <TripHistory/>
                         )}/>
+                        <Route path="/editdetails" render={() => (
+                            <EditUserInfo handlePageChange={this.handlePageChange} />
+                        )}/>
+
 
                     </Switch>
                     <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
