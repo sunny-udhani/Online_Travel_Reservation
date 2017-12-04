@@ -28,7 +28,8 @@ handle_request = ((data, callback) => {
                 jsonObj.hotel = hotelObj.data;
                 fetchCityByCars(function (err, carObj) {
                     if(err){
-
+                        console.log(err);
+                        callback(err, response);
                     }
                     else {
                         console.log("carObj");
@@ -37,7 +38,8 @@ handle_request = ((data, callback) => {
                         console.log(jsonObj);
                         fetchCityByFlights(function (err, flightObj) {
                             if(err) {
-
+                                console.log(err);
+                                callback(err, response);
                             }
                             else {
                                 console.log("carObj");
@@ -45,6 +47,18 @@ handle_request = ((data, callback) => {
                                 jsonObj.flight = flightObj.data;
                                 console.log("jsonObj : ");
                                 console.log(jsonObj);
+                                filterDataByCity(jsonObj, function (err, result) {
+                                    if(err){
+                                        console.log(err);
+                                        callback(err, response);
+                                    }
+                                    else {
+                                        response.status=200;
+                                        response.data = jsonObj;
+                                        callback(null, response)
+                                    }
+                                });
+
                             }
                         });
                     }
@@ -331,6 +345,16 @@ fetchCityByFlights  = ((callback)=>{
     catch (e){
         console.log(e);
         callback(e, response);
+    }
+});
+
+//TODO : For Vishwesh to complete
+filterDataByCity = ((jsonObj, callback) => {
+    let result = {
+        city : "",
+        car : 0,
+        hotel : 0,
+        flight : 0
     }
 });
 
