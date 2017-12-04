@@ -30,11 +30,9 @@ class ProfileIconEditor extends Component {
 
         return(
             <div className="profile-icon-editor" style={style}>
-<<<<<<< HEAD
                 <img src={"http://localhost:3001/images/Pritam@gmail.com.jpg=" + Date.now()} alt={this.props.alt || "No profile picture Available"} />
-=======
                 <img src={"http://localhost:3001/images/"+this.props.username+".jpg?_=" + Date.now()} alt={this.props.alt || "No profile picture Available"} />
->>>>>>> 1b762c4be0cd0fdbc36946c53b004181cf81b6a8
+
                 <form>
                     <input className="hidden" type="file" id="profile-icon-editor-input" onChange={this.changeProfilePicture.bind(this)}/>
                     <label htmlFor="profile-icon-editor-input" className="glyphicon glyphicon-pencil"></label>
