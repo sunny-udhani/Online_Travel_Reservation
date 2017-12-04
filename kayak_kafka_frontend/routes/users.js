@@ -3,7 +3,7 @@ const passport = require("passport");
 let router = express.Router();
 require('./passport')(passport);
 var kafka = require('./kafka/client');
-var	parser = require('multer')({dest: 'uploads/'});
+var parser = require('multer')({dest: 'uploads/'});
 var fs = require('fs');
 var path = require('path');
 
@@ -111,7 +111,7 @@ router.post('/getFlightDetails', function (req, res) {
 
     console.log("2 : " + req.body);
     try {
-        kafka.make_request('getFlightDetails_topic', req.body, function(err, results) {
+        kafka.make_request('getFlightDetails_topic', req.body, function (err, results) {
 
             console.log("8");
             console.log(results);
@@ -120,12 +120,12 @@ router.post('/getFlightDetails', function (req, res) {
             console.log(results.flight);
 
 
-            if(err) {
+            if (err) {
                 console.log(err);
                 throw(err);
             }
             else {
-                if(results.status === 200) {
+                if (results.status === 200) {
                     console.log("9");
                     res.status(results.status).send(results.flight);
                 }
@@ -147,7 +147,7 @@ router.post('/getUserDetails', function (req, res) {
 
         //edit payload
         payload = {
-            username : req.session.username
+            username: req.session.username
         };
         console.log("12");
 
@@ -158,10 +158,9 @@ router.post('/getUserDetails', function (req, res) {
 
             if (err) {
                 console.log(err);
-                throw err;
-            }
+                res.status(400).json({message: "Fetch unsuccessful"});            }
             else {
-                if (results.status === 200) {
+                   if (results.status === 200) {
 
                     res.status(results.status).send(results);
                 }
@@ -177,67 +176,139 @@ router.post('/getUserDetails', function (req, res) {
     }
 });
 
-
-router.post('/addusercard',parser.any(),function(req,res){
+router.post('/addusercard', parser.any(), function (req, res) {
     try {
-        console.log(req.body);
+        payload = {
+            usercard: req.body,
+            username: req.session.username
+        }
+        // console.log(req.body);
         let x = req.body.cardnumber;
         let y = x.toString();
         if (y.length == 16) {
-            console.log("yayayya");
+            console.log("Valid");
 
 
-            kafka.make_request('addusercard_topic', req.body, function (err, results) {
+            kafka.make_request('addusercard_topic', payload, function (err, results) {
                 console.log(results);
-                if (results.code == 200) {
+                if (results.status == 200) {
                     res.json(results.user);
                 }
                 else {
-                    throw err;
+                    res.status(404).json({message: "Not found"})
                 }
             })
         }
         else {
-            console.log("failed")
+            res.status(411).json({message: "Invalid Card"})
         }
     }
-    catch (e){
+    catch (e) {
         console.log(e);
         res.status(400).json({message: "Failed to Get"});
     }
 
 });
 
-router.post('/getbookinginfo_user',function (req,res) {
-    try{
-        console.log(req.body);
-        kafka.make_request('getbookinguser_topic',req.body,function (err,results) {
-            console.log(results);
-            let reults1=results.data;
 
-            console.log(reults1.res);
+router.post('/getuserprofile_user', function (req, res) {
+    try {
+        payload = {
+            username: req.session.username
+        }
+        // console.log(req.body);
+
+
+
+            kafka.make_request('getuserprofileinfo_topic', payload, function (err, results) {
+                console.log(results);
+                if (results.status == 200) {
+                    res.json(results.data);
+                }
+                else {
+                    res.status(404).json({message: "Not found"})
+                }
+            })
+
+
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Failed to Get"});
+    }
+
+});
+
+
+
+
+router.post('/getcreditcarddetails', function (req, res) {
+    try {
+        payload = {
+            username: req.session.username
+        }
+        // console.log(req.body);
+
+
+
+        kafka.make_request('getcreditcarddetails_topic', payload, function (err, results) {
+            console.log(results);
+            if (results.status == 200) {
+                res.json(results.data);
+            }
+            else {
+                res.status(404).json({message: "Not found"})
+            }
+        })
+
+
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Failed to Get"});
+    }
+
+});
+
+
+
+
+
+
+router.post('/getbookinginfo_user', function (req, res) {
+    try {
+        payload = {
+            username: req.session.username
+        };
+
+
+        console.log(req.body);
+        kafka.make_request('getbookinguser_topic', payload, function (err, results) {
+            console.log(results);
+            let reults1 = results.data;
+
             //console.log(JSON.stringify(results.rooms))
-            if(results.code==200){
-                res.json(results);
+            if (results.code == 200) {
+                res.status(200).send(results.data);
 
             }
             else {
-                throw err;
+                res.status(400).json({message: "Invalid Card"})
             }
         })
     }
-    catch(e){
+    catch (e) {
         console.log(e);
-        res.status(400).json({message:"Failed to get Details"})
+        res.status(400).json({message: "Failed to get Details"})
 
     }
 });
 
-router.post('/addprofilepicture', parser.single('profile-picture'), function (req,res) {
+router.post('/addprofilepicture', parser.single('profile-picture'), function (req, res) {
     var destination = path.join(process.cwd(), "public", "images", req.session.username + ".jpg");
     fs.createReadStream(req.file.path).pipe(fs.createWriteStream(destination));
-    fs.unlink(req.file.path, function(err) {
-        if(err) {
+    fs.unlink(req.file.path, function (err) {
+        if (err) {
             res.status("500");
             return res.send("An error occured");
         }
@@ -245,7 +316,37 @@ router.post('/addprofilepicture', parser.single('profile-picture'), function (re
     })
 });
 
+router.post('/editprofileofuser', parser.any(), function (req, res) {
+    try {
+        payload = {
+            username: req.session.username,
+            details: req.body
+        };
 
+        //console.log(useredit);
+        console.log(req.session.username);
+        console.log(req.body.firstname);
+        kafka.make_request('editprofileuser_topic', payload, function (err, results) {
+            console.log(results);
+            let reults1 = results.data;
+
+            // console.log(reults1.res);
+            //console.log(JSON.stringify(results.rooms))
+            if (results.status == 200) {
+                res.json(results);
+
+            }
+            else {
+                res.status(400).end();
+            }
+        })
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({message: "Failed to get Details"})
+
+    }
+});
 
 
 module.exports = router;
