@@ -610,54 +610,52 @@ class CarBooking extends Component {
                     </div>
 
 
-                            <div className="col-md-4">
-                                <div className="list-content clearfix">
-                                    <div className="list-item-entry">
-                                        <div className="hotel-item style-10 bg-white">
-                                            <div className="table-view">
+                    <div className="col-md-4">
+                        <div className="list-content clearfix">
+                            <div className="list-item-entry">
+                                <div className="hotel-item style-10 bg-white">
+                                    <div className="table-view">
 
-                                                <div className="title hotel-middle cell-view">
-                                                    <h4 className="">Summary</h4>
+                                        <div className="title hotel-middle cell-view">
+                                            <h4 className="">Summary</h4>
+                                            <hr/>
+
+                                            <h5><strong className="color-red-3">{this.state.carObject.carMake}
+                                                - {this.state.carObject.carName}</strong>
+                                                : {this.state.carObject.carType}
+                                                - {this.state.carObject.carModel}
+                                            </h5>
+
+                                            <h5>
+                                                <small>From :</small>
+                                                {this.state.fromDate}
+                                                <br/>
+                                                <small>To :</small>
+                                                {this.state.toDate}
+                                            </h5>
+
+                                            <br/><br/>
+                                            <h4>Costing</h4>
+                                            <hr/>
+                                            <div className="col-md-12">
+                                                <div className="col-md-6">
+                                                    <h6>{this.state.noofdays} Day/s</h6>
+                                                    <h6>Taxes and Fees</h6>
                                                     <hr/>
-
-                                                    <h5><strong className="color-red-3">{this.state.carObject.carMake}
-                                                        - {this.state.carObject.carName}</strong>
-                                                        : {this.state.carObject.carType}
-                                                        - {this.state.carObject.carModel}
-                                                    </h5>
-
-                                                    <h5>
-                                                        <small>From :</small>
-                                                        {this.state.fromDate}
-                                                        <br/>
-                                                        <small>To :</small>
-                                                        {this.state.toDate}
-                                                    </h5>
-
-                                                    <br/><br/>
-                                                    <h4>Costing</h4>
-                                                    <hr/>
-                                                    <div className="col-md-12">
-                                                        <div className="col-md-6">
-                                                            <h6>{this.state.noofdays} Day/s</h6>
-                                                            <h6>Taxes and Fees</h6>
-                                                            <hr/>
-                                                            <h5><strong>TOTAL</strong></h5>
-                                                        </div>
-
-                                                        <div className="col-md-6">
-                                                            <h6>{(this.state.carObject.price * this.state.noofdays).toFixed(2)}</h6>
-                                                            <h6>{(this.state.carObject.price * this.state.noofdays * 0.09).toFixed(2)}</h6>
-                                                            <hr/>
-                                                            <h2>
-                                                                <strong>{(this.state.carObject.price * this.state.noofdays * 1.09).toFixed(2)}</strong>
-                                                            </h2>
-                                                        </div>
-                                                    </div>
+                                                    <h5><strong>TOTAL</strong></h5>
                                                 </div>
 
+                                                <div className="col-md-6">
+                                                    <h6>{(this.state.carObject.price * this.state.noofdays).toFixed(2)}</h6>
+                                                    <h6>{(this.state.carObject.price * this.state.noofdays * 0.09).toFixed(2)}</h6>
+                                                    <hr/>
+                                                    <h2>
+                                                        <strong>{(this.state.carObject.price * this.state.noofdays * 1.09).toFixed(2)}</strong>
+                                                    </h2>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -665,27 +663,28 @@ class CarBooking extends Component {
                     </div>
                 </div>
             </div>
-    );
+            < /div>
+        );
     }
-    }
+}
 
-    //if you need anything from state to use here
-    function mapStateToProps(state) {
+//if you need anything from state to use here
+function mapStateToProps(state) {
 
-        return {
+    return {
         carId: state.carId,
         carFromDate: state.carFromDate,
         carToDate: state.carToDate
     };
-    }
+}
 
-    //if you need to push something to state, use action -> reducer
-    function mapDispatchToProps(dispatch) {
+//if you need to push something to state, use action -> reducer
+function mapDispatchToProps(dispatch) {
     return {
         bookingSuccess: (state) => {
             dispatch(booking_success(state))
         }
     };
-    }
+}
 
-    export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarBooking));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarBooking));
