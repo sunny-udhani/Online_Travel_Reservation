@@ -13,14 +13,14 @@ import * as API from "../../api/admin/API";
 class AdminHome extends Component {
 
     componentWillMount() {
-        API.validateAdminSession().then((response) => {
-                if (response.status === 200) {
-
-                }else{
-                    this.props.handlePageChange("/u");
-                }
-            }
-        )
+        // API.validateAdminSession().then((response) => {
+        //         if (response.status === 200) {
+        //
+        //         }else{
+        //             this.props.handlePageChange("/u");
+        //         }
+        //     }
+        // )
     }
 
     render() {
