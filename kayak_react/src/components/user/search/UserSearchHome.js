@@ -1,24 +1,22 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux"
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
-import HotelSearch from "./HotelSearch";
-import CarSearch from "./CarSearch";
-import FlightSearch from "./FlightSearch";
-import UserProfile from "./UserProfile";
-import {hotelList_Success} from "../../actions";
+import HotelSearch from "./hotel/HotelSearch";
+import CarSearch from "./car/CarSearch";
+import FlightSearch from "./flight/FlightSearch";
+import UserProfile from "../UserProfile";
+import {hotelList_Success} from "../../../actions/index";
 
-import Background from "../../img/main_slide_1.jpg";
-import *  as HotelListingAPI from "../../api/user/API_GetHotels";
+import Background from "../../../img/main_slide_1.jpg";
+import *  as HotelListingAPI from "../../../api/user/API_GetHotels";
 
-import "../../css/bootstrap.min.css";
-import "../../css/font-awesome.min.css";
-import "../../css/style.css";
-import "../../css/jquery-ui.min.css";
-import "../../css/jquery-ui.structure.min.css";
-
+import "../../../css/bootstrap.min.css";
+import "../../../css/font-awesome.min.css";
+import "../../../css/style.css";
+import "../../../css/jquery-ui.min.css";
+import "../../../css/jquery-ui.structure.min.css";
 
 class UserSearchHome extends Component {
-
 
     searchHotel = (searchCriteria) => {
        this.props.searchHotel(searchCriteria);

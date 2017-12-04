@@ -19,7 +19,7 @@ import "../css/font-awesome.min.css"
 import "../css/style.css"
 import "../css/jquery-ui.min.css"
 import "../css/jquery-ui.structure.min.css"
-import Listing from "./user/Listing";
+import Listing from "./user/listing/Listing";
 import Payment from './user/HotelList/Preferences/Payment';
 import Preferences from "./user/HotelList/Preferences/Preferences";
 import TripHistory from "./user/HotelList/Preferences/TripHistory";
@@ -240,6 +240,24 @@ class Kayak extends Component {
     });
 
 
+    showProfileIcon = (() => {
+        // alert(this.props.className);
+        if (this.props.isLoggedIn) {
+            return (
+                <ProfileIconEditor height="50" width="50"/>
+
+            )
+        }
+        else {
+            return (
+                <div>
+                </div>
+            )
+        }
+
+    });
+
+
     render() {
         let dashboard = '';
         // let profilepicture='';
@@ -304,7 +322,11 @@ class Kayak extends Component {
                                                     {dashboard}
 
                                                 </li>
-                                                <li><ProfileIconEditor height="50" width="50"/></li>
+                                                <li>
+                                                    {
+                                                        this.showProfileIcon()
+                                                    }
+                                                </li>
                                             </ul>
 
                                         </nav>

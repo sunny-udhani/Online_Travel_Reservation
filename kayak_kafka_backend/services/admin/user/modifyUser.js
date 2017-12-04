@@ -17,9 +17,9 @@ handle_request = ((data, callback) => {
             "state = '"+ data.state +"', " +
             "zipCode = '"+ data.zipCode +"', " +
             "phoneNumber = '"+ data.phoneNumber +"', " +
-            ((data.dateofbirth===null || data.dateofbirth===undefined) ? ""
-                    :
-                "dateofbirth = '"+ data.dateofbirth.substring(0, data.dateofbirth.indexOf('T')+"', ")) +
+            ((data.dateofbirth===null || data.dateofbirth===undefined || data.dateofbirth==="") ? ""
+                :
+                "dateofbirth = '"+ data.dateofbirth.substr(0, data.dateofbirth.indexOf("T")) +"', ") +
             "gender = '"+ data.gender +"' " +
             "where username = '"+ data.username +"';";
 
@@ -54,8 +54,6 @@ handle_request = ((data, callback) => {
                     callback(null, response);
                 }
             }
-
-
         }, fetchQuery);
     }
     catch (e) {

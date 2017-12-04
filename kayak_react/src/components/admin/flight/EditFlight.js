@@ -50,7 +50,7 @@ class EditFlight extends Component {
     }
 
     fetchHotelToModify = ((flightId)=>{
-        let flight = {"flightId" : flightId};
+        let flight = {"_id" : flightId};
         API.fetchFlights(flight).then((response)=>{
             console.log(response.status);
             if(response.status===200) {

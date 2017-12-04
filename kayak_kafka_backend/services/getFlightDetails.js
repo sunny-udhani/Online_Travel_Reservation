@@ -23,7 +23,7 @@ function getDetails(msg, callback) {
             else {
                 console.log("in error");
                 res.code = 401;
-                res.value = "Failed Login";
+                res.value = "Failed to fetch";
             }
             db.close();
             callback(null, res);

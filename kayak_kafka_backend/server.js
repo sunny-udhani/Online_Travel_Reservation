@@ -26,8 +26,19 @@ let fetchHosts = require('./services/admin/fetchHosts');
 let modifyHost = require('./services/admin/modifyHost');
 let fetchUsers = require('./services/admin/user/fetchUsers');
 let modifyUser = require('./services/admin/user/modifyUser');
+let fetchHotelBookings = require('./services/admin/bookings/fetchHotelBookings');
+let fetchCarBookings = require('./services/admin/bookings/fetchCarBookings');
+let fetchFlightBookings = require('./services/admin/bookings/fetchFlightBookings');
+
+//Rutvik's services
 let getFlightDetails = require('./services/getFlightDetails');
+let getHotelDetails = require('./services/getHotelDetails');
+let getCarDetails = require('./services/getCarDetails');
 let getUserDetails = require('./services/getUserDetails');
+let bookFlight = require('./services/bookFlight');
+let bookHotel = require('./services/bookHotel');
+let bookCar = require('./services/bookCar');
+let insertTravelers = require('./services/insertTravelers');
 
 //Pritam's services
 let getUserBooking_Hotels = require('./services/getUserBooking_Hotels');
@@ -42,9 +53,16 @@ let getCreditCardDetails=require('./services/getCreditCardDetails');
 
 
 
+let logAnalytics = require('./services/admin/logAnalytics');
+let top10Properties = require('./services/admin/top10Properties');
+let top10Hosts = require('./services/admin/top10Hosts');
+let cityWiseRevenue = require('./services/admin/cityWiseRevenue');
+let reviewsOnProperties = require('./services/admin/reviewsOnProperties');
+
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
 let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
+<<<<<<< HEAD
 
 
  let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
@@ -64,9 +82,39 @@ let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
  let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
  let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
  let fetchUserProfileConsumer = connection.getConsumerObj(req_topics.FETCH_USERPROFILE);
+=======
+let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
+let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
+let modifyRoomsConsumer = connection.getConsumerObj(req_topics.CHANGE_ROOMS);
+let fetchflightsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTS);
+let modifyHotelConsumer = connection.getConsumerObj(req_topics.MODIFY_HOTEL);
+let hotelListing_Consumer = connection.getConsumerObj(req_topics.HOTEL_LISTING);
+let modifyFlightConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHT);
+let modifyFlightClassConsumer = connection.getConsumerObj(req_topics.MODIFY_FLIGHTCLASS);
+let addCarConsumer = connection.getConsumerObj(req_topics.ADD_CAR);
+let addHostConsumer = connection.getConsumerObj(req_topics.ADD_HOST);
+let fetchHostConsumer = connection.getConsumerObj(req_topics.FETCH_HOSTS);
+let modifyHostConsumer = connection.getConsumerObj(req_topics.MODIFY_HOST);
+let fetchUsersConsumer = connection.getConsumerObj(req_topics.FETCH_USERS);
+let modifyUsersConsumer = connection.getConsumerObj(req_topics.MODIFY_USERS);
+let fetchCarsConsumer = connection.getConsumerObj(req_topics.FETCH_CARS);
+let modifyCarConsumer = connection.getConsumerObj(req_topics.MODIFY_CAR);
+let fetchUserProfileConsumer = connection.getConsumerObj(req_topics.FETCH_USERPROFILE);
+let fetchHotelBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELBOOKINGS);
+let fetchCarBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_CARBOOKINGS);
+let fetchFlightBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTBOOKINGS);
+// let fetchUserBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_USERBOOKINGS);
+>>>>>>> 1b762c4be0cd0fdbc36946c53b004181cf81b6a8
 
+//Rutvik's consumers
 let getFlightDetails_Consumer = connection.getConsumerObj(req_topics.FLIGHT_DETAILS);
+let getHotelDetails_Consumer = connection.getConsumerObj(req_topics.HOTEL_DETAILS);
+let getCarDetails_Consumer = connection.getConsumerObj(req_topics.CAR_DETAILS);
 let getUserDetails_Consumer = connection.getConsumerObj(req_topics.USER_DETAILS);
+let bookFlight_Consumer = connection.getConsumerObj(req_topics.BOOK_FLIGHT);
+let bookHotel_Consumer = connection.getConsumerObj(req_topics.BOOK_HOTEL);
+let bookCar_Consumer = connection.getConsumerObj(req_topics.BOOK_CAR);
+let insertTravelers_Consumer = connection.getConsumerObj(req_topics.INSERT_TRAVELERS);
 
 let flightListing_Consumer = connection.getConsumerObj(req_topics.FLIGHT_LISTING);
  let carListing_Consumer = connection.getConsumerObj(req_topics.CAR_LISTING);
@@ -79,8 +127,149 @@ let editUserProfileConsumer = connection.getConsumerObj("editprofileuser_topic")
 let getUserProfileConsumer = connection.getConsumerObj("getuserprofileinfo_topic");
 let getCreditCardDetailsConsumer=connection.getConsumerObj("getcreditcarddetails_topic");
 
+let logAnalyticsConsumer = connection.getConsumerObj(req_topics.LOG_ANALYTICS_DATA);
+let top10PropertiesConsumer = connection.getConsumerObj(req_topics.TOP_10_PROPERTIES);
+let top10HostsConsumer = connection.getConsumerObj(req_topics.TOP_10_HOSTS);
+let cityWiseRevenueConsumer = connection.getConsumerObj(req_topics.CITY_WISE_REVENUE);
+let reviewsOnPropertiesConsumer = connection.getConsumerObj(req_topics.REVIEWS_ON_PROPERTIES);
 
 try {
+
+    logAnalyticsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        logAnalytics.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    top10PropertiesConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        top10Properties.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    top10HostsConsumer.on('message', function (message) {
+        console.log('message received for top10Hosts');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        top10Hosts.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    cityWiseRevenueConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        cityWiseRevenue.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    reviewsOnPropertiesConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        reviewsOnProperties.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
     loginConsumer.on('message', function (message) {
         console.log('message received');
         console.log(JSON.stringify(message.value));
@@ -288,6 +477,9 @@ try {
                 response_message.err = null;
                 response_message.data = res
             }
+
+            console.log('after handle :');
+            console.log(response_message);
 
             var payloads = [
                 {
@@ -531,6 +723,34 @@ try {
         });
     });
 
+    getUserDetails_Consumer.on('message', function (message) {
+        console.log("14");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getUserDetails.getDetails(data.data, function (err, res) {
+            console.log('after handle' + res);
+            console.log(res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("16");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
     getFlightDetails_Consumer.on('message', function (message) {
         console.log("4");
         console.log(JSON.stringify(message.value));
@@ -559,14 +779,15 @@ try {
         });
     });
 
-    getUserDetails_Consumer.on('message', function (message) {
-        console.log("14");
+    getHotelDetails_Consumer.on('message', function (message) {
+        console.log("4");
         console.log(JSON.stringify(message.value));
         let data = JSON.parse(message.value);
 
         console.log(data.replyTo);
 
-        getUserDetails.getDetails(data.data, function (err, res) {
+        getHotelDetails.getDetails(data.data, function (err, res) {
+
             console.log('after handle' + res);
             let payloads = [
                 {
@@ -579,12 +800,157 @@ try {
                 }
             ];
             producer.send(payloads, function (err, data) {
-                console.log("16");
+                console.log("6");
                 console.log(payloads);
             });
             // return;
         });
     });
+
+    getCarDetails_Consumer.on('message', function (message) {
+        console.log("4");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getCarDetails.getDetails(data.data, function (err, res) {
+
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("6");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    bookFlight_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        bookFlight.doFlightBooking(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    bookHotel_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        bookHotel.doHotelBooking(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    bookCar_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        bookCar.doCarBooking(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+    insertTravelers_Consumer.on('message', function(message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        insertTravelers.insertAllTravelers(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
 
     flightListing_Consumer.on('message', function (message) {
         console.log('message received');
@@ -1074,6 +1440,133 @@ try {
     });
 
 
+    fetchHotelBookingsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchHotelBookings.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    fetchCarBookingsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchCarBookings.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    fetchFlightBookingsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchFlightBookings.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });
+
+    /*fetchUserBookingsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        fetchUserBookings.handle_request(data.data, function (err, res) {
+            if (err) {
+                res.error = err;
+            }
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log("Payload : ");
+                console.log(payloads);
+            });
+        });
+    });*/
 }
 catch (e) {
     console.log(e)

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Slider from 'rc-slider';
 import {connect} from "react-redux"
-import {hotelList_Success, hotelListingView} from "../../actions";
+import {hotelList_Success, hotelListingView} from "../../../../actions/index";
 import 'rc-slider/assets/index.css';
-import {filter_change} from "../../actions/index";
+import {filter_change} from "../../../../actions/index";
+import * as LogAPI from "../../../../api/user/API_Logging";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -19,7 +20,7 @@ function importAll(r) {
     return images;
 }
 
-const images = importAll(require.context('../../img', false, /\.(png|jpe?g|svg)$/));
+const images = importAll(require.context('../../../../img', false, /\.(png|jpe?g|svg)$/));
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -44,7 +45,24 @@ class HotelListing extends Component {
     }
 
     componentWillMount() {
-        this.props.searchHotel({criteria: this.props.match.params.criteria})
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserHome",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
+
+        this.props.searchHotel({criteria: this.props.match.params.criteria});
     }
 
     handleListingView(id, roomType) {

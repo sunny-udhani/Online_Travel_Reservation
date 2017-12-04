@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
 import {connect} from "react-redux";
-import {toggleBookingType} from "../../actions/index";
+import {toggleBookingType} from "../../../../actions/index";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"

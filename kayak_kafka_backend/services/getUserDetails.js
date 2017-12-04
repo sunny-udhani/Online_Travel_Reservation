@@ -37,31 +37,36 @@ getDetails = ((data, callback) => {
                 console.log("3: " + result[0].lastName);
 
                 if (result.length === 1) {
-
+                    console.log("No. 1");
                     response.status = 200;
 
                     response.message = "User exist";
                     response.userDetails = result;
 
                     mysql.fetchData(function (err, paymentDetails) {
+                        console.log("No. 2");
 
                         if(err) {
                             console.log(err);
                         }
                         else {
-                            if (paymentDetails.length === 1) {
+                            console.log("No. 3");
+
+                            if (paymentDetails.length >= 0) {
                                 console.log("In paymentDetails");
 
                                 response.message = "Payment details exist";
                                 response.paymentDetails = paymentDetails;
 
                                 mysql.fetchData(function (err, billingAddress) {
+                                    console.log("No. 4");
 
                                     if(err) {
                                         console.log(err);
                                     }
                                     else {
-                                        if(billingAddress.length === 1) {
+
+                                        if(billingAddress.length >= 0) {
                                             console.log("In billing address");
 
                                             response.message = "Billing address exist";

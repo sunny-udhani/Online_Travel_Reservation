@@ -9,6 +9,7 @@
     "prop-types": "^15.5.10",
     "rc-slider": "^8.4.0",
     "react": "^15.6.1",
+    "react-alert": "^2.4.0",
     "react-chartjs-2": "^2.6.4",
     "react-dom": "^15.6.1",
     "react-moment": "^0.6.8",

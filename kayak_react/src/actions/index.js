@@ -152,21 +152,21 @@ export function hotelEssentialsAdd(fromDate, toDate, noOfPeople) {
 
 export function hotelListingView(id, roomType) {
     return {
-        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        type: actionTypes.HOTEL_LISTING_VIEW,
         id, roomType
     }
 }
 
 export function flightListingView(id) {
     return {
-        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        type: actionTypes.FLIGHT_LISTING_VIEW,
         id
     }
 }
 
 export function carListingView(id) {
     return {
-        type: actionTypes.HOTEL_ESSENTIALS_ADD,
+        type: actionTypes.CAR_LISTING_VIEW,
         id
     }
 }
@@ -175,5 +175,29 @@ export function toggleLoginModal(togglInd) {
     return {
         type: actionTypes.TOGGLE_LOGIN_MODAL,
         togglInd
+    }
+}
+
+export function setHotelBookingsData_Success(hotelBookingData){
+    console.log(hotelBookingData);
+    return {
+        type: actionTypes.ADMIN_HOTELBOOKING_LISTING_SUCCESS,
+        hotelBookingData
+    }
+}
+
+export function setCarBookingData_Success(carBookingData){
+    console.log(carBookingData);
+    return {
+        type: actionTypes.ADMIN_CARBOOKING_LISTING_SUCCESS,
+        carBookingData
+    }
+}
+
+export function addFlightBookingData_Success(flightBookingData){
+    console.log(flightBookingData);
+    return {
+        type: actionTypes.ADMIN_FLIGHTBOOKING_LISTING_SUCCESS,
+        flightBookingData
     }
 }

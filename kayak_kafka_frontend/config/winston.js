@@ -14,13 +14,6 @@ const logger = winston.createLogger({
     transports: [
         new winston.transports.Console({
             timestamp: tsFormat,
-            level: 'debug',
-            handleExceptions: true,
-            json: false,
-            colorize: true
-        }),
-        new winston.transports.Console({
-            timestamp: tsFormat,
             level: 'info',
             handleExceptions: true,
             json: false,
@@ -30,17 +23,11 @@ const logger = winston.createLogger({
             filename: `${logDir}/analytics.log`,
             timestamp: tsFormat,
             level: 'info'
-        }),
-        new winston.transports.File({
-            filename: `${logDir}/errors.log`,
-            timestamp: tsFormat,
-            level: 'error'
         })
-
     ],
     exceptionHandlers: [
         new winston.transports.File({
-            filename: `${logDir}/exceptions.log`,
+            filename: `${logDir}/errors.log`,
         })
     ]
 });

@@ -16,6 +16,8 @@ exports.req_topic_names = {
     ADD_CAR: 'addcar_topic',
     MODIFY_CAR : 'modifycar_topic',
     FLIGHT_DETAILS: 'getFlightDetails_topic',
+    HOTEL_DETAILS: 'getHotelDetails_topic',
+    CAR_DETAILS: 'getCarDetails_topic',
     USER_DETAILS: 'getUserDetails_topic',
     FETCH_HOSTS: 'fetchhosts_topic',
     ADD_HOST: 'addhost_topic',
@@ -24,6 +26,19 @@ exports.req_topic_names = {
     MODIFY_USERS: 'modifyusers_topic',
     CAR_LISTING: 'car_listing_topic',
     FETCH_USERPROFILE : 'fetchuserprofile_topic',
+    BOOK_FLIGHT: 'bookFlight_topic',
+    BOOK_HOTEL: 'bookHotel_topic',
+    BOOK_CAR: 'bookCar_topic',
+    INSERT_TRAVELERS: 'insertTravelers_topic',
+    // GET_CHART_DATA : 'getchartdata_topic',
+    LOG_ANALYTICS_DATA: 'logAnalyticsData_topic',
+    TOP_10_PROPERTIES: 'top10Properties_topic',
+    CITY_WISE_REVENUE:'cityWiseRevenue_topic',
+    TOP_10_HOSTS: 'top10Hosts_topic',
+    REVIEWS_ON_PROPERTIES: 'reviewsOnProperties_topic',
+    FETCH_HOTELBOOKINGS : 'fetchhotelbookings_topic',
+    FETCH_CARBOOKINGS : 'fetchcarbookings_topic',
+    FETCH_FLIGHTBOOKINGS : 'fetchflightbookings_topic',
 };
 //
 // exports.res_topic_names = {

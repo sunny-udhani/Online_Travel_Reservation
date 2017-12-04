@@ -12,7 +12,8 @@
     "kafka-node": "^2.2.3",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.4",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "elasticsearch": "^14.0.0"
   },
   "repository": {
     "type": "git",

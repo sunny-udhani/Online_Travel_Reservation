@@ -66,7 +66,7 @@ exports.listFlights = ((message, callback) => {
                         FlightListDirect = directFlightList;
                         console.log("completed direct");
                         //list
-                        console.log(FlightListDirect);
+                        console.log(directFlightList);
 
                         listIndirectFlights(function (err, indirectFlightList) {
 
@@ -323,8 +323,10 @@ function listIndirectFlights(callback) {
                         }
                     })
             } else {
-                callback()
+                callback(null, indirectFlights)
             }
+        }else{
+callback(null, indirectFlights)
         }
     })
 
