@@ -348,14 +348,4 @@ fetchCityByFlights  = ((callback)=>{
     }
 });
 
-//TODO : For Vishwesh to complete
-filterDataByCity = ((jsonObj, callback) => {
-    let result = {
-        city : "",
-        car : 0,
-        hotel : 0,
-        flight : 0
-    }
-});
-
 exports.handle_request = handle_request;
