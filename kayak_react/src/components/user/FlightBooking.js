@@ -59,28 +59,28 @@ class FlightBooking extends Component {
     traveler_details = [];
 
     billing_address = {
-        username : '',
-        street1 : '',
-        street2 : '',
-        postalcode : '',
-        city : '',
-        state : '',
-        country : ''
+        username: '',
+        street1: '',
+        street2: '',
+        postalcode: '',
+        city: '',
+        state: '',
+        country: ''
     };
 
     payment_details = {
-        username : '',
-        nameoncard : '',
-        creditCardnumber : '',
-        validThrough : '',
-        cvv : ''
+        username: '',
+        nameoncard: '',
+        creditCardnumber: '',
+        validThrough: '',
+        cvv: ''
     };
 
     add_travelers = (() => {
-        for (let i = 0 ; i < this.state.noofpassengers ; i++) {
+        for (let i = 0; i < this.state.noofpassengers; i++) {
             console.log("I --- " + i);
 
-            if(this.visit_flag === true) {
+            if (this.visit_flag === true) {
 
                 this.traveler_details.push({
                     first_name: '',
@@ -104,11 +104,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].first_name = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].first_name = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                             <div className="col-sm-6">
@@ -116,11 +116,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].last_name = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].last_name = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                         </div>
@@ -131,11 +131,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].email = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].email = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                             <div className="col-sm-6">
@@ -143,11 +143,11 @@ class FlightBooking extends Component {
                                 <input type="text"
                                        className="form-control input-sm"
                                        id=""
-                                     onChange={
-                                         (event) => {
-                                             this.traveler_details[i].phonenumber = event.target.value
-                                         }
-                                     }
+                                       onChange={
+                                           (event) => {
+                                               this.traveler_details[i].phonenumber = event.target.value
+                                           }
+                                       }
                                 />
                             </div>
                         </div>
@@ -166,10 +166,9 @@ class FlightBooking extends Component {
     componentWillMount() {
 
         let flightId = {
-            id: this.props.flightId
+            id: this.state.flightId
         };
 
-        console.log(this.props.state);
         console.log(flightId);
         console.log(this.state.flightId);
         console.log(this.props.flightId);
@@ -182,13 +181,16 @@ class FlightBooking extends Component {
                             console.log("Length : " + data.classes.length);
                             console.log("Sample : " + data.classes[0].classType);
 
-                            for(let j = 0; j < data.classes.length; j++) {
-                                if(this.props.flight_class === data.classes[j].classType) {
-                                    this.base_price = data.class[j].price;
+                            for (let j = 0; j < data.classes.length; j++) {
+                                if (this.state.flight_class === data.classes[j].classType) {
+                                    this.setState({
+                                        ...this.state,
+                                        baseprice: data.classes[j].price
+                                    });
                                 }
                             }
 
-                            console.log("Base price : " + this.base_price);
+                            console.log("Base price : " + this.state.baseprice);
 
                             this.visit_flag = true;
                             console.log(this.visit_flag);
@@ -199,13 +201,25 @@ class FlightBooking extends Component {
                                         res.json()
                                             .then(userdata => {
 
+                                                console.log(userdata);
+                                                console.log(userdata.paymentDetails);
+
                                                 this.setState({
                                                     ...this.state,
                                                     flightObject: data,
                                                     userDetails: userdata.userDetails[0],
-                                                    paymentDetails: userdata.paymentDetails[0],
-                                                    billingAddress: userdata.billingAddress[0]
+                                                    paymentDetails: ( userdata.paymentDetails === undefined || userdata.paymentDetails.length === 0) ? null : userdata.paymentDetails[0],
+                                                    billingAddress: (userdata.billingAddress === undefined || userdata.billingAddress.length === 0) ? null : userdata.billingAddress[0]
                                                 });
+
+
+                                                if (userdata.paymentDetails !== undefined) {
+                                                    this.payment_details.nameoncard = userdata.paymentDetails.nameoncard;
+                                                    this.payment_details.username = userdata.paymentDetails.username;
+                                                    this.payment_details.creditCardnumber = userdata.paymentDetails.creditCardNumber;
+                                                    this.payment_details.validThrough = userdata.paymentDetails.validThrough;
+                                                    this.payment_details.cvv = userdata.paymentDetails.cvv;
+                                                }
 
                                                 console.log(this.state);
 
@@ -251,11 +265,11 @@ class FlightBooking extends Component {
                     console.log("success");
 
                     let payload = {
-                        bookingType : "flight",
-                        userdata : userdata,
-                        traveler_details : this.traveler_details,
-                        billing_address : this.billing_address,
-                        payment_details : this.payment_details
+                        bookingType: "flight",
+                        userdata: userdata,
+                        traveler_details: this.traveler_details,
+                        billing_address: this.billing_address,
+                        payment_details: this.payment_details
                     };
 
                     //independent API to insert traveler details, billing address, and payment details
@@ -453,31 +467,31 @@ class FlightBooking extends Component {
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{this.props.flightNoofPassengers}</span>
+                                                                className="color-red-3">{this.state.noofpassengers}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{(this.base_price).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.state.baseprice).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{(this.base_price * 0.09).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.state.baseprice * 0.09).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-4">
                                                             <h6><span
-                                                                className="color-red-3">{(this.base_price * 1.09).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.state.baseprice * 1.09).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
 
                                                         <div className="col-sm-2">
                                                             <h6><span
-                                                                className="color-red-3">{(this.base_price * this.props.flightNoofPassengers * 1.09).toFixed(2)}</span>
+                                                                className="color-red-3">{(this.state.baseprice * this.state.noofpassengers * 1.09).toFixed(2)}</span>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -871,8 +885,7 @@ function mapStateToProps(state) {
         flightTripType: state.flightTripType,
         flightNoofPassengers: state.flightNoofPassengers,
         flightFromDate: state.flightFromDate,
-        flightToDate: state.flightToDate,
-        state: state
+        flightToDate: state.flightToDate
     };
 }
 
