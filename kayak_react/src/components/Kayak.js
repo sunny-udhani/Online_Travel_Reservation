@@ -23,8 +23,8 @@ import Listing from "./user/Listing";
 import Payment from './user/HotelList/Preferences/Payment';
 import Preferences from "./user/HotelList/Preferences/Preferences";
 import TripHistory from "./user/HotelList/Preferences/TripHistory";
-import Display from './user/HotelList/components/Display.js';
 import ProfileIconEditor from './user/HotelList/Preferences/ProfileIconEditor.js';
+import EditUserInfo from './user/HotelList/Preferences/EditUserInfo';
 
 
 import {
@@ -370,18 +370,20 @@ class Kayak extends Component {
                             />
                         )}/>
 
-                        <Route path="/hotelroom" render={() => (
-                            <Display/>
-                        )}/>
+
                         <Route path="/pref" render={() => (
-                            <Preferences/>
+                            <Preferences handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/payinfo" render={() => (
-                            <Payment/>
+                            <Payment handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/triphistory" render={() => (
                             <TripHistory/>
                         )}/>
+                        <Route path="/editdetails" render={() => (
+                            <EditUserInfo handlePageChange={this.handlePageChange} />
+                        )}/>
+
 
                     </Switch>
                 </div>
