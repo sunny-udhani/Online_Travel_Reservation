@@ -200,8 +200,8 @@ class AdminDashboard extends Component {
                 },
             ],
             cityWiseRevenue:{
-                    labels: [],
-                    data: []
+                labels: [],
+                data: []
             },
             top10Hosts:{
                 labels: [],
@@ -310,17 +310,17 @@ class AdminDashboard extends Component {
         console.log(_city+" - in loadCityRevenue");
         this.state.citiesRevenue.forEach((city)=>{
             console.log("city - "+city.city+" - _city - "+_city);
-             if(city.city === _city){
-                 console.log("Found match ..... loading revenue to chart's data - "+city.revenue);
-                 this.setState({
-                     ...this.state,
-                     cityWiseRevenue: {
-                         labels: ['Hotel','Flight','Car'],
-                         data: city.revenue
-                     }
-                 });
-                 console.log("after state change - "+this.state.cityWiseRevenue.labels+" - "+this.state.cityWiseRevenue.data);
-             }
+            if(city.city === _city){
+                console.log("Found match ..... loading revenue to chart's data - "+city.revenue);
+                this.setState({
+                    ...this.state,
+                    cityWiseRevenue: {
+                        labels: ['Hotel','Flight','Car'],
+                        data: city.revenue
+                    }
+                });
+                console.log("after state change - "+this.state.cityWiseRevenue.labels+" - "+this.state.cityWiseRevenue.data);
+            }
         });
 
     };
@@ -518,81 +518,84 @@ class AdminDashboard extends Component {
 
         return (
             // style={{position: "relative",height:"500px", width:"1000px"}}
-        <div className="animated fadeIn">
-
-            <CardColumns className="cols-2">
-
+            <div className="container-fluid">
                 <Card>
                     <CardHeader>
-                        Clicks Per Page
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
+                        <label className="h4">Dashboard</label>
                     </CardHeader>
-                    <br/>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Bar data={clicksPerPage}
-                                 options={{
-                                     maintainAspectRatio: true
-                                 }}
-                            />
-                        </div>
-                    </CardBody>
-                </Card>
+                    <CardColumns className="cols-2">
 
-                <Card>
-                    <CardHeader>
-                        Clicks Per Property
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Doughnut data={clicksPerProperty}/>
-                        </div>
-                    </CardBody>
-                </Card>
+                        <Card>
+                            <CardHeader>
+                                Clicks Per Page
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <br/>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Bar data={clicksPerPage}
+                                         options={{
+                                             maintainAspectRatio: true
+                                         }}
+                                    />
+                                </div>
+                            </CardBody>
+                        </Card>
 
-                <Card>
-                    <CardHeader>
-                        City Wise Revenue
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <br/>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            {/*<div style={{textAlign:"center"}} >*/}
-                                {/*Choose City :*/}
-                                <select style={{textAlign:"center"}} onChange={(event)=> this.loadCityRevenue(event)} >
-                                    <option style={{textAlign:"center"}} value="Select">Select</option>
-                                    {
-                                    this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(
-                                        <option style={{textAlign:"center"}} value={city.city}>{city.city}</option>
-                                    )))
-                                    }
-                                </select>
-                            {/*</div>*/}
-                            {/*<Dropdown style={{textAlign:"center"}} isOpen={this.state.dropdownOpen} size="sm" toggle={this.toggle}>*/}
-                                {/*<DropdownToggle caret >*/}
+                        <Card>
+                            <CardHeader>
+                                Clicks Per Property
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Doughnut data={clicksPerProperty}/>
+                                </div>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                City Wise Revenue
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <br/>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    {/*<div style={{textAlign:"center"}} >*/}
+                                    {/*Choose City :*/}
+                                    <select style={{textAlign:"center"}} onChange={(event)=> this.loadCityRevenue(event)} >
+                                        <option style={{textAlign:"center"}} value="Select">Select</option>
+                                        {
+                                            this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(
+                                                <option style={{textAlign:"center"}} value={city.city}>{city.city}</option>
+                                            )))
+                                        }
+                                    </select>
+                                    {/*</div>*/}
+                                    {/*<Dropdown style={{textAlign:"center"}} isOpen={this.state.dropdownOpen} size="sm" toggle={this.toggle}>*/}
+                                    {/*<DropdownToggle caret >*/}
                                     {/*Choose city*/}
-                                {/*</DropdownToggle>*/}
-                                {/*<DropdownMenu>*/}
+                                    {/*</DropdownToggle>*/}
+                                    {/*<DropdownMenu>*/}
                                     {/*/!*<DropdownItem header>Header</DropdownItem>*!/*/}
                                     {/*/!*<DropdownItem disabled>Action</DropdownItem>*!/*/}
                                     {/*{*/}
-                                        {/*this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(*/}
-                                            {/*<DropdownItem onClick={(event)=> this.loadCityRevenue(event)} value={city.city}>{city.city}</DropdownItem>*/}
-                                        {/*)))*/}
+                                    {/*this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(*/}
+                                    {/*<DropdownItem onClick={(event)=> this.loadCityRevenue(event)} value={city.city}>{city.city}</DropdownItem>*/}
+                                    {/*)))*/}
                                     {/*}*/}
                                     {/*/!*<DropdownItem value="San Jose">San Jose</DropdownItem>*!/*/}
                                     {/*/!*<DropdownItem value="San Fransisco">San Fransisco</DropdownItem>*!/*/}
@@ -602,134 +605,134 @@ class AdminDashboard extends Component {
                                     {/*/!*<DropdownItem value="Seattle">Seattle</DropdownItem>*!/*/}
                                     {/*/!*<DropdownItem divider />*!/*/}
                                     {/*/!*<DropdownItem>Another Action</DropdownItem>*!/*/}
-                                {/*</DropdownMenu>*/}
-                            {/*</Dropdown>*/}
-                            <HorizontalBar data={cityWiseRevenue}
-                                 options={{
-                                     maintainAspectRatio: true
-                                 }}
-                            />
-                        </div>
-                    </CardBody>
+                                    {/*</DropdownMenu>*/}
+                                    {/*</Dropdown>*/}
+                                    <HorizontalBar data={cityWiseRevenue}
+                                                   options={{
+                                                       maintainAspectRatio: true
+                                                   }}
+                                    />
+                                </div>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                Top 10 Hotels
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <br/>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Bar data={top10Hotel}
+                                         options={{
+                                             maintainAspectRatio: true
+                                         }}
+                                    />
+                                </div>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                Top 10 Flights
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <br/>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Bar data={top10Flight}
+                                         options={{
+                                             maintainAspectRatio: true
+                                         }}
+                                    />
+                                </div>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                Top 10 Cars
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <br/>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Bar data={top10Car}
+                                         options={{
+                                             maintainAspectRatio: true
+                                         }}
+                                    />
+                                </div>
+                            </CardBody>
+                        </Card>
+
+
+                        <Card  style={{position: "relative",height:"295px"}}>
+                            <CardHeader>
+                                Less seen area of Website
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Pie data={areaExplored}/>
+                                </div>
+                            </CardBody>
+                        </Card>
+
+                        <Card  style={{position: "relative",height:"295px"}}>
+                            <CardHeader>
+                                Property Reviews
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Pie data={reviewsOnProperties}/>
+                                </div>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                Top 10 Hosts
+                                <div className="card-actions">
+                                    <a href="#">
+                                        <small className="text-muted">Enlarge</small>
+                                    </a>
+                                </div>
+                            </CardHeader>
+                            <CardBody>
+                                <div className="chart-wrapper">
+                                    <Doughnut data={top10Hosts}/>
+                                </div>
+                            </CardBody>
+                        </Card>
+
+                        {/*style={{position: "relative",height:"600px", width:"800px"}}*/}
+
+                    </CardColumns>
                 </Card>
-
-                <Card>
-                    <CardHeader>
-                        Top 10 Hotels
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <br/>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Bar data={top10Hotel}
-                                 options={{
-                                     maintainAspectRatio: true
-                                 }}
-                            />
-                        </div>
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        Top 10 Flights
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <br/>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Bar data={top10Flight}
-                                 options={{
-                                     maintainAspectRatio: true
-                                 }}
-                            />
-                        </div>
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        Top 10 Cars
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <br/>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Bar data={top10Car}
-                                 options={{
-                                     maintainAspectRatio: true
-                                 }}
-                            />
-                        </div>
-                    </CardBody>
-                </Card>
-
-
-                <Card  style={{position: "relative",height:"295px"}}>
-                    <CardHeader>
-                        Less seen area of Website
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Pie data={areaExplored}/>
-                        </div>
-                    </CardBody>
-                </Card>
-
-                <Card  style={{position: "relative",height:"295px"}}>
-                    <CardHeader>
-                        Property Reviews
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Pie data={reviewsOnProperties}/>
-                        </div>
-                    </CardBody>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        Top 10 Hosts
-                        <div className="card-actions">
-                            <a href="#">
-                                <small className="text-muted">Enlarge</small>
-                            </a>
-                        </div>
-                    </CardHeader>
-                    <CardBody>
-                        <div className="chart-wrapper">
-                            <Doughnut data={top10Hosts}/>
-                        </div>
-                    </CardBody>
-                </Card>
-
-                {/*style={{position: "relative",height:"600px", width:"800px"}}*/}
-
-            </CardColumns>
-
-        </div>
+            </div>
 
         )
     }
