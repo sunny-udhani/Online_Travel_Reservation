@@ -4,7 +4,7 @@ import "../styles/profileIconEditor.css";
 import {addprofilepicture} from "../../../../api/user/API_ADDprofilePicture"
 import {Route, withRouter} from 'react-router-dom';
 
- class ProfileIconEditor extends Component {
+class ProfileIconEditor extends Component {
     constructor() {
         super();
     }
@@ -19,6 +19,7 @@ import {Route, withRouter} from 'react-router-dom';
 
 
     render() {
+        console.log(this.props.username);
         let style = {
             height: (this.props.height || 20) + "px",
             width: (this.props.width || 20) + "px"
@@ -26,7 +27,7 @@ import {Route, withRouter} from 'react-router-dom';
         };
         return(
             <div className="profile-icon-editor" style={style}>
-                <img src={"http://localhost:3001/images/Pritam@gmail.com.jpg?_=" + Date.now()} alt={this.props.alt || "No profile picture Available"} />
+                <img src={"http://localhost:3001/images/Pritam@gmail.com.jpg=" + Date.now()} alt={this.props.alt || "No profile picture Available"} />
                 <form>
                     <input className="hidden" type="file" id="profile-icon-editor-input" onChange={this.changeProfilePicture.bind(this)}/>
                     <label htmlFor="profile-icon-editor-input" className="glyphicon glyphicon-pencil"></label>
@@ -43,4 +44,4 @@ function mapStateToProps(state) {
         username: state.username
     }
 }
-export default connect(mapStateToProps)(ProfileIconEditor);
+export default connect(mapStateToProps,null)(ProfileIconEditor);
