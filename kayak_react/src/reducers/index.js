@@ -44,6 +44,15 @@ const signUp = (state, action) => {
     }
 };
 
+const booking_success = (state, action) => {
+    console.log("booking_state is : " )
+    console.log(action.booking_state);
+    return {
+        ...state,
+        booking_state: action.booking_state
+    }
+};
+
 const hotelList_Success = (state, action) => {
     console.log("hotelList");
     return {
@@ -290,6 +299,8 @@ const handleActions = (state = initial_state, action) => {
             return carListingView(state, action);
         case actionTypes.TOGGLE_LOGIN_MODAL:
             return toggleLoginModal(state, action);
+        case actionTypes.BOOKING_SUCCESS:
+            return booking_success(state, action);
         default:
             return state;
     }

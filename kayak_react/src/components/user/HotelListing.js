@@ -50,7 +50,7 @@ class HotelListing extends Component {
     handleListingView(id, roomType) {
 
         this.props.listingView(id, roomType);
-        this.props.handlePageChange("");
+        this.props.handlePageChange("/payment/hotels");
 
     }
 

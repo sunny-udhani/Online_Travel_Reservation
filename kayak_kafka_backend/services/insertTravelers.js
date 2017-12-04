@@ -26,7 +26,7 @@ insertAllTravelers = ((data, callback) => {
             console.log("1");
             let bookingId = "";
             let insertTraveler = [];
-            selectquery = "select bookingId from flightbooking where flightId = '" + data.userdata.flightId + "'";
+            selectquery = "select bookingId from flightbooking where flightId = '" + data.userdata.flightId + "' and noOfPassengers = '" + data.userdata.noOfPassengers + "' and fromDate = '" + data.userdata.fromDate + "' and ticketPrice = " + data.userdata.ticketPrice + " and username = '" + data.userdata.username + "'";
 
             console.log("Select Query is : " + selectquery);
 
@@ -40,7 +40,7 @@ insertAllTravelers = ((data, callback) => {
                         console.log("3: " + result[0].bookingId);
                         bookingId = result[0].bookingId;
 
-                        let insertBillingAddress = "insert into billingaddress (username, street1, street2, postalcode, city, state, country) values ('aaj@aaj.com', '" + data.billing_address.street1 + "', '" + data.billing_address.street2 + "', '" + data.billing_address.postalcode + "', '" + data.billing_address.city + "', '" + data.billing_address.state + "', '" + data.billing_address.country + "')";
+                        let insertBillingAddress = "insert into billingaddress (username, street1, street2, postalcode, city, state, country) values ('" + data.userdata.username + "', '" + data.billing_address.street1 + "', '" + data.billing_address.street2 + "', '" + data.billing_address.postalcode + "', '" + data.billing_address.city + "', '" + data.billing_address.state + "', '" + data.billing_address.country + "')";
 
                         console.log("insertBilling : " + insertBillingAddress);
 
@@ -52,8 +52,7 @@ insertAllTravelers = ((data, callback) => {
                                 console.log(result);
                                 if (result.affectedRows === 1) {
 
-                                    let insertPaymentDetails = "insert into paymentdetails (username, nameoncard, creditCardNumber, validThrough, cvv) values" +
-                                        "('aaj@aaj.com', '" + data.payment_details.nameoncard + "', '" + data.payment_details.creditCardnumber + "', '" + data.payment_details.validThrough + "', '" + data.payment_details.cvv + "')";
+                                    let insertPaymentDetails = "insert into paymentdetails (username, nameoncard, creditCardNumber, validThrough, cvv) values ('" + data.userdata.username + "', '" + data.payment_details.nameoncard + "', '" + data.payment_details.creditCardnumber + "', '" + data.payment_details.validThrough + "', '" + data.payment_details.cvv + "')";
 
                                     console.log("insertPayment : " + insertPaymentDetails);
                                     mysql.insertData(function (err, result) {
@@ -128,7 +127,7 @@ insertAllTravelers = ((data, callback) => {
             console.log("1");
             let bookingId = "";
             // let insertTraveler = [];
-            selectquery = "select bookingId from hotelbooking where hotelId = '" + data.userdata.hotelId + "'";
+            selectquery = "select bookingId from hotelbooking where hotelId = '" + data.userdata.hotelId + "' and noOfPeople = '" + data.userdata.noOfPeople + "' and fromDate = '" + data.userdata.fromDate + "' and toDate = '" + data.userdata.toDate + "' and ticketPrice = " + data.userdata.ticketPrice + " and username = '" + data.userdata.username + "'";
 
             console.log("Select Query is : " + selectquery);
 
@@ -142,7 +141,7 @@ insertAllTravelers = ((data, callback) => {
                         console.log("3: " + result[0].bookingId);
                         bookingId = result[0].bookingId;
 
-                        let insertBillingAddress = "insert into billingaddress (username, street1, street2, postalcode, city, state, country) values ('aaj@aaj.com', '" + data.billing_address.street1 + "', '" + data.billing_address.street2 + "', '" + data.billing_address.postalcode + "', '" + data.billing_address.city + "', '" + data.billing_address.state + "', '" + data.billing_address.country + "')";
+                        let insertBillingAddress = "insert into billingaddress (username, street1, street2, postalcode, city, state, country) values ('" + data.userdata.username + "', '" + data.billing_address.street1 + "', '" + data.billing_address.street2 + "', '" + data.billing_address.postalcode + "', '" + data.billing_address.city + "', '" + data.billing_address.state + "', '" + data.billing_address.country + "')";
 
                         console.log("insertBilling : " + insertBillingAddress);
 
@@ -154,8 +153,7 @@ insertAllTravelers = ((data, callback) => {
                                 console.log(result);
                                 if (result.affectedRows === 1) {
 
-                                    let insertPaymentDetails = "insert into paymentdetails (username, nameoncard, creditCardNumber, validThrough, cvv) values" +
-                                        "('aaj@aaj.com', '" + data.payment_details.nameoncard + "', '" + data.payment_details.creditCardnumber + "', '" + data.payment_details.validThrough + "', '" + data.payment_details.cvv + "')";
+                                    let insertPaymentDetails = "insert into paymentdetails (username, nameoncard, creditCardNumber, validThrough, cvv) values ('" + data.userdata.username + "', '" + data.payment_details.nameoncard + "', '" + data.payment_details.creditCardnumber + "', '" + data.payment_details.validThrough + "', '" + data.payment_details.cvv + "')";
 
                                     console.log("insertPayment : " + insertPaymentDetails);
                                     mysql.insertData(function (err, result) {
@@ -182,7 +180,7 @@ insertAllTravelers = ((data, callback) => {
                                                             console.log("Finally done");
                                                             response.status = 200;
                                                             response.message = "Traveller details added successfully";
-                                                            //callback(null, response);
+                                                            callback(null, response);
                                                         }
                                                         else {
                                                             response.status = 400;
@@ -226,7 +224,7 @@ insertAllTravelers = ((data, callback) => {
             console.log("1");
             let bookingId = "";
             // let insertTraveler = [];
-            selectquery = "select bookingId from carbooking where carId = '" + data.userdata.carId + "'";
+            selectquery = "select bookingId from carbooking where carId = '" + data.userdata.carId + "' and noOfDays = '" + data.userdata.noOfDays + "' and fromDate = '" + data.userdata.fromDate + "' and toDate = '" + data.userdata.toDate + "' and ticketPrice = " + data.userdata.ticketPrice + " and username = '" + data.userdata.username + "'";
 
             console.log("Select Query is : " + selectquery);
 
@@ -240,7 +238,7 @@ insertAllTravelers = ((data, callback) => {
                         console.log("3: " + result[0].bookingId);
                         bookingId = result[0].bookingId;
 
-                        let insertBillingAddress = "insert into billingaddress (username, street1, street2, postalcode, city, state, country) values ('aaj@aaj.com', '" + data.billing_address.street1 + "', '" + data.billing_address.street2 + "', '" + data.billing_address.postalcode + "', '" + data.billing_address.city + "', '" + data.billing_address.state + "', '" + data.billing_address.country + "')";
+                        let insertBillingAddress = "insert into billingaddress (username, street1, street2, postalcode, city, state, country) values ('" + data.userdata.username + "', '" + data.billing_address.street1 + "', '" + data.billing_address.street2 + "', '" + data.billing_address.postalcode + "', '" + data.billing_address.city + "', '" + data.billing_address.state + "', '" + data.billing_address.country + "')";
 
                         console.log("insertBilling : " + insertBillingAddress);
 
@@ -252,8 +250,7 @@ insertAllTravelers = ((data, callback) => {
                                 console.log(result);
                                 if (result.affectedRows === 1) {
 
-                                    let insertPaymentDetails = "insert into paymentdetails (username, nameoncard, creditCardNumber, validThrough, cvv) values" +
-                                        "('aaj@aaj.com', '" + data.payment_details.nameoncard + "', '" + data.payment_details.creditCardnumber + "', '" + data.payment_details.validThrough + "', '" + data.payment_details.cvv + "')";
+                                    let insertPaymentDetails = "insert into paymentdetails (username, nameoncard, creditCardNumber, validThrough, cvv) values ('" + data.userdata.username + "', '" + data.payment_details.nameoncard + "', '" + data.payment_details.creditCardnumber + "', '" + data.payment_details.validThrough + "', '" + data.payment_details.cvv + "')";
 
                                     console.log("insertPayment : " + insertPaymentDetails);
                                     mysql.insertData(function (err, result) {
@@ -279,7 +276,7 @@ insertAllTravelers = ((data, callback) => {
                                                                 console.log("Hurray once again");
                                                                 response.status = 200;
                                                                 response.message = "Traveller details added successfully";
-                                                                //callback(null, response);
+                                                                callback(null, response);
                                                             }
                                                             else {
                                                                 response.status = 400;

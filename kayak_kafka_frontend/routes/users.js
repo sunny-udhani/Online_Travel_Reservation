@@ -357,7 +357,6 @@ router.post('/insertTravelerDetails', function (req, res) {
     }
 });
 
-
 router.post('/addusercard',parser.any(),function(req,res){
     try {
         console.log(req.body);
@@ -424,8 +423,5 @@ router.post('/addprofilepicture', parser.single('profile-picture'), function (re
         res.send("Ohk");
     })
 });
-
-
-
 
 module.exports = router;

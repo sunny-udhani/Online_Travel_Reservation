@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 
+import {booking_success} from "../../actions";
+
 import {doLogout} from "../../api/user/API_HandleLogout";
 import {getHotelDetails} from "../../api/user/API_GetDetailsforPayment";
 import {getUserDetails} from "../../api/user/API_GetUserDetails";
@@ -22,6 +24,7 @@ class HotelBooking extends Component {
     };
 
     state = {
+        operation: 'hotel',
         hotelObject: '',
         userDetails: '',
         paymentDetails: '',
@@ -56,6 +59,7 @@ class HotelBooking extends Component {
             id: this.state.hotelId
         };
 
+        console.log("Number of people : " + this.props.hotelNoOfPeople);
         getHotelDetails(hotelId)
             .then(res => {
                 if (res.status === 200) {
@@ -94,14 +98,19 @@ class HotelBooking extends Component {
 
                                                 this.setState({
                                                     userDetails: userdata.userDetails[0],
-                                                    paymentDetails: userdata.paymentDetails[0],
-                                                    billingAddress: userdata.billingAddress[0]
+                                                    paymentDetails: ( userdata.paymentDetails === undefined || userdata.paymentDetails.length === 0) ? null : userdata.paymentDetails[0],
+                                                    billingAddress: (userdata.billingAddress === undefined || userdata.billingAddress.length === 0) ? null : userdata.billingAddress[0]
                                                 });
 
+                                                if (userdata.paymentDetails !== undefined) {
+                                                    this.payment_details.nameoncard = userdata.paymentDetails.nameoncard;
+                                                    this.payment_details.username = userdata.paymentDetails.username;
+                                                    this.payment_details.creditCardnumber = userdata.paymentDetails.creditCardNumber;
+                                                    this.payment_details.validThrough = userdata.paymentDetails.validThrough;
+                                                    this.payment_details.cvv = userdata.paymentDetails.cvv;
+                                                }
+
                                                 console.log(this.state);
-                                                console.log(this.state.userDetails);
-                                                console.log(this.state.paymentDetails);
-                                                console.log(this.state.billingAddress);
 
                                                 //Setting all values of flight_payment state
                                                 this.hotel_payment.hotelId = this.state.hotelId;
@@ -156,6 +165,7 @@ class HotelBooking extends Component {
     handleHotelBooking(userdata) {
         console.log("In handleFlightBooking");
         console.log(userdata);
+
         bookHotel(userdata)
             .then((res) => {
                 console.log(res.status);
@@ -177,6 +187,10 @@ class HotelBooking extends Component {
 
                             if (res.status === 200) {
                                 console.log("success");
+
+                                this.props.bookingSuccess(this.state, "booking_success");
+                                this.props.history.push("/payment/thankyou");
+
                             }
                             else {
                                 console.log("validation");
@@ -208,54 +222,6 @@ class HotelBooking extends Component {
     render() {
         return (
             <div className="container">
-                <header className="color-1 hovered menu-3">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-3">
-                                <div className="nav">
-                                    <a href="index.html" className="logo">
-                                        <img
-                                            src="https://a1.r9cdn.net/rimg/provider-logos/common/socialmedia/kayak-logo.png?width=440&height=220&crop=false"
-                                            style={{height: "30%", width: "70%"}}/>
-                                    </a>
-
-                                    <div className="nav-menu-icon">
-                                        <a href="#"><i></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-9">
-                                <nav className="menu">
-                                    <ul>
-
-                                        <li className="type-1"><a href="#">Hotels<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">Flights<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">Cars<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">My Account<span
-                                            className="fa fa-angle-down"></span></a>
-                                            <ul className="dropmenu">
-                                                <li><a href="#">Account Preferences {this.props.username} </a></li>
-                                                <li><a href="car_block.html">Trips</a></li>
-                                                <li><a href="car_detail.html">Watchlist</a></li>
-                                                <li><a onClick={this.handleSignOut}>Sign Out</a></li>
-
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <br/>
-
                 <hr/>
 
                 <div>
@@ -268,12 +234,56 @@ class HotelBooking extends Component {
                                             <div className="table-view">
 
                                                 <div className="title hotel-middle cell-view">
-                                                    <h5 className="color-grey-3">You are booking for</h5>
-                                                    <h5><strong
-                                                        className="color-red-3">{this.state.hotelId}</strong>
-                                                    </h5>
+                                                    <h5 className="color-grey-3">You are booking this hotel with <strong
+                                                        className="color-red-3">KAYAK.com</strong></h5>
 
-                                                    <br/><br/>
+
+                                                    <h4><b>{this.state.hotelObject.hotelName}</b></h4>
+                                                    <h6>{this.state.hotelObject.hotelAddress}
+                                                        <br/>
+                                                        <span className="color-red-3"> {this.state.hotelObject.city} - {this.state.hotelObject.state}</span>
+
+                                                        <br/>
+                                                        Adults : <span className="color-red-3">{this.props.hotelNoOfPeople}</span> <small>for room type <span className="color-red-3">{this.state.roomType}</span></small>
+                                                    </h6>
+
+                                                    <div className="fi_block">
+                                                        <div className="flight-icon col-xs-4 col10">
+                                                            <img className="fi_icon"
+                                                                 src="https://cdn.ndtv.com/tech/images/oyorooms_thumb.JPG"
+                                                                 height="40" width="40"
+                                                                 alt=""/>
+                                                            <div className="fi_content">
+
+                                                                <div className="fi_title color-dark-2"><h6>From</h6>
+                                                                </div>
+
+
+                                                                <div className="fi_title color-dark-2">
+                                                                    <h4>{this.state.fromDate}</h4>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flight-icon col-xs-4 col10">
+                                                            <img className="fi_icon"
+                                                                 src="https://cdn.ndtv.com/tech/images/oyorooms_thumb.JPG"
+                                                                 height="40" width="40"
+                                                                 alt=""/>
+                                                            <div className="fi_content">
+
+                                                                <div className="fi_title color-dark-2"><h6>To</h6>
+                                                                </div>
+                                                                <div className="fi_title color-dark-2">
+                                                                    <h4>{this.state.toDate}</h4>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flight-icon col-xs-4 col10">
+                                                            {/*space for image*/}
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -317,33 +327,33 @@ class HotelBooking extends Component {
                                                     <div className="col-sm-12">
 
                                                         <div className="col-sm-2">
-                                                            <h4><span
+                                                            <h5><span
                                                                 className="color-red-3">{this.state.noofpeople}</span>
-                                                            </h4>
+                                                            </h5>
                                                         </div>
 
                                                         <div className="col-sm-2">
-                                                            <h4><span
+                                                            <h5><span
                                                                 className="color-red-3">{(this.state.base_price).toFixed(2)}</span>
-                                                            </h4>
+                                                            </h5>
                                                         </div>
 
                                                         <div className="col-sm-3">
-                                                            <h4><span
+                                                            <h5><span
                                                                 className="color-red-3">{(this.state.base_price * 0.09).toFixed(2)}</span>
-                                                            </h4>
+                                                            </h5>
                                                         </div>
 
                                                         <div className="col-sm-2">
-                                                            <h4><span
+                                                            <h5><span
                                                                 className="color-red-3">{(this.state.base_price * 1.09).toFixed(2)}</span>
-                                                            </h4>
+                                                            </h5>
                                                         </div>
 
                                                         <div className="col-sm-3">
-                                                            <h4><span
+                                                            <h5><span
                                                                 className="color-red-3">{(this.state.base_price * this.state.noofpeople * 1.09).toFixed(2)}</span>
-                                                            </h4>
+                                                            </h5>
                                                         </div>
                                                     </div>
 
@@ -640,22 +650,36 @@ class HotelBooking extends Component {
                                                 <div className="title hotel-middle cell-view">
                                                     <h4 className="">Summary</h4>
                                                     <hr/>
-                                                    <h6><strong className="">Etihad Airways - One Way - Economy - Adults
-                                                        : 3</strong></h6>
-                                                    <h6>Depart Wed 11/22: SFO > LHR 1:35p – 3:55p <br/>Flight 669 Flight
-                                                        7</h6>
-                                                    <h6>Return Thu 11/23: LHR > SFO 10:30p – 12:05p <br/> Flight 8
-                                                        Flight 668</h6>
+                                                    <h5><strong>{this.state.hotelObject.hotelName}</strong>{this.state.roomType}</h5>
 
+                                                    <h6><span className="color-red-3">Adults :  {this.props.hotelNoOfPeople}</span></h6>
+
+                                                    <h6>
+                                                        {this.state.fromDate}
+                                                    </h6>
+                                                    <h6>
+                                                        {this.state.toDate}
+                                                    </h6>
                                                     <br/><br/>
                                                     <h4>Costing</h4>
                                                     <hr/>
-                                                    <h6>1 Adult, Economy</h6>
-                                                    <h6>Taxes, Fees and Surcharges</h6>
+                                                    <div className="col-md-12">
+                                                        <div className="col-md-6">
+                                                            <h6>{this.props.hotelNoOfPeople} Adult/s, {this.state.roomType}</h6>
+                                                            <h6>Taxes and Fees</h6>
+                                                            <hr/>
+                                                            <h5><strong>TOTAL</strong></h5>
+                                                        </div>
 
-                                                    <hr/>
-                                                    <h5><strong>TOTAL</strong></h5>
+                                                        <div className="col-md-6">
+                                                            <h6>{(this.state.base_price * this.props.hotelNoOfPeople).toFixed(2)}</h6>
+                                                            <h6>{(this.state.base_price * this.props.hotelNoOfPeople * 0.09).toFixed(2)}</h6>
+                                                            <hr/>
+                                                            <h2><strong>{(this.state.base_price * this.props.hotelNoOfPeople * 1.09).toFixed(2)}</strong></h2>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -679,14 +703,19 @@ function mapStateToProps(state) {
         hotelRoomType: state.hotelRoomType,
         hotelFromDate: state.hotelFromDate,
         hotelToDate: state.hotelToDate,
-        hotelNoOfPeople: state.hoetlNoOfPeople
+        hotelNoOfPeople: state.hotelNoOfPeople
 
     };
 }
 
 //if you need to push something to state, use action -> reducer
+
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        bookingSuccess: (state) => {
+            dispatch(booking_success(state))
+        }
+    };
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HotelBooking));

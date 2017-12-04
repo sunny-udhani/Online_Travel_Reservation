@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 
+import {booking_success} from "../../actions";
+
 import {doLogout} from "../../api/user/API_HandleLogout";
 import {getCarDetails} from "../../api/user/API_GetDetailsforPayment";
 import {getUserDetails} from "../../api/user/API_GetUserDetails";
 import {bookCar} from "../../api/user/API_BookCar";
 import {insertTravelerDetails} from "../../api/user/API_InsertTravelerDetails";
-
-import Traveler from './Traveler';
 
 import '../../design/css/bootstrap.min.css'
 import '../../design/css/jquery-ui.min.css'
@@ -22,6 +22,7 @@ class CarBooking extends Component {
     };
 
     state = {
+        operation: 'car',
         carObject: '',
         userDetails: '',
         paymentDetails: '',
@@ -126,33 +127,34 @@ class CarBooking extends Component {
     };
 
     traveler_details = {
-        first_name : '',
-        last_name : '',
-        email : '',
+        first_name: '',
+        last_name: '',
+        email: '',
         phonenumber: ''
     };
 
     billing_address = {
-        username : '',
-        street1 : '',
-        street2 : '',
-        postalcode : '',
-        city : '',
-        state : '',
-        country : ''
+        username: '',
+        street1: '',
+        street2: '',
+        postalcode: '',
+        city: '',
+        state: '',
+        country: ''
     };
 
     payment_details = {
-        username : '',
-        nameoncard : '',
-        creditCardnumber : '',
-        validThrough : '',
-        cvv : ''
+        username: '',
+        nameoncard: '',
+        creditCardnumber: '',
+        validThrough: '',
+        cvv: ''
     };
 
     handleCarBooking(userdata) {
         console.log("In handleFlightBooking");
         console.log(userdata);
+
         bookCar(userdata)
             .then((res) => {
                 console.log(res.status);
@@ -161,11 +163,11 @@ class CarBooking extends Component {
                     console.log("success");
 
                     let payload = {
-                        bookingType : "car",
-                        userdata : userdata,
-                        traveler_details : this.traveler_details,
-                        billing_address : this.billing_address,
-                        payment_details : this.payment_details
+                        bookingType: "car",
+                        userdata: userdata,
+                        traveler_details: this.traveler_details,
+                        billing_address: this.billing_address,
+                        payment_details: this.payment_details
                     };
 
                     //independent API to insert traveler details, billing address, and payment details
@@ -174,6 +176,9 @@ class CarBooking extends Component {
 
                             if (res.status === 200) {
                                 console.log("success");
+
+                                this.props.bookingSuccess(this.state, "booking_success");
+                                this.props.history.push("/payment/thankyou");
                             }
                             else {
                                 console.log("validation");
@@ -206,54 +211,6 @@ class CarBooking extends Component {
     render() {
         return (
             <div className="container">
-                <header className="color-1 hovered menu-3">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-3">
-                                <div className="nav">
-                                    <a href="index.html" className="logo">
-                                        <img
-                                            src="https://a1.r9cdn.net/rimg/provider-logos/common/socialmedia/kayak-logo.png?width=440&height=220&crop=false"
-                                            style={{height: "30%", width: "70%"}}/>
-                                    </a>
-
-                                    <div className="nav-menu-icon">
-                                        <a href="#"><i></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-9">
-                                <nav className="menu">
-                                    <ul>
-
-                                        <li className="type-1"><a href="#">Hotels<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">Flights<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">Cars<span
-                                            className="fa fa-angle-down"></span></a>
-                                        </li>
-                                        <li className="type-1"><a href="#">My Account<span
-                                            className="fa fa-angle-down"></span></a>
-                                            <ul className="dropmenu">
-                                                <li><a href="#">Account Preferences {this.props.username} </a></li>
-                                                <li><a href="car_block.html">Trips</a></li>
-                                                <li><a href="car_detail.html">Watchlist</a></li>
-                                                <li><a onClick={this.handleSignOut}>Sign Out</a></li>
-
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <br/>
-
                 <hr/>
 
                 <div>
@@ -266,18 +223,75 @@ class CarBooking extends Component {
                                             <div className="table-view">
 
                                                 <div className="title hotel-middle cell-view">
-                                                    <h5 className="color-grey-3">You are booking car with ID</h5>
-                                                    <h5><strong
-                                                        className="color-red-3">{this.state.carId}</strong>
+                                                    <h4 className="color-grey-3">You will drive <strong
+                                                        className="color-red-3">{this.state.carObject.carMake} {this.state.carObject.carName}</strong>
+                                                    </h4>
+
+                                                    <br/>
+                                                    <h5>
+                                                        <b>{this.state.carObject.carType}</b>{this.state.carObject.carModel}
                                                     </h5>
 
-                                                    <br/><br/>
+                                                    <h6>
+                                                        <br/>
+                                                        <span className="color-red-3"> {this.state.carObject.city}
+                                                            - {this.state.carObject.state}
+                                                            - {this.state.carObject.zipCode}</span>
+
+                                                        <br/>
+                                                        Days : <span
+                                                        className="color-red-3">{this.state.noofdays}</span>
+
+                                                        <br/>
+                                                        <small>capacity <span
+                                                            className="color-red-3">{this.state.carObject.capacity}</span></small>
+                                                    </h6>
+
+                                                    <div className="fi_block">
+                                                        <div className="flight-icon col-xs-4 col10">
+                                                            <img className="fi_icon"
+                                                                 src="https://cdn.ndtv.com/tech/images/oyorooms_thumb.JPG"
+                                                                 height="40" width="40"
+                                                                 alt=""/>
+                                                            <div className="fi_content">
+
+                                                                <div className="fi_title color-dark-2"><h6>From</h6>
+                                                                </div>
+
+
+                                                                <div className="fi_title color-dark-2">
+                                                                    <h4>{this.state.fromDate}</h4>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flight-icon col-xs-4 col10">
+                                                            <img className="fi_icon"
+                                                                 src="https://cdn.ndtv.com/tech/images/oyorooms_thumb.JPG"
+                                                                 height="40" width="40"
+                                                                 alt=""/>
+                                                            <div className="fi_content">
+
+                                                                <div className="fi_title color-dark-2"><h6>To</h6>
+                                                                </div>
+                                                                <div className="fi_title color-dark-2">
+                                                                    <h4>{this.state.toDate}</h4>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flight-icon col-xs-4 col10">
+                                                            {/*space for image*/}
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <div className="list-content clearfix">
                                     <div className="list-item-entry">
@@ -348,7 +362,8 @@ class CarBooking extends Component {
                                                     <div className="col-sm-12">
                                                         <hr/>
 
-                                                        <h5><strong className="color-red-3">Enter Renter Information</strong>
+                                                        <h5><strong className="color-red-3">Enter Renter
+                                                            Information</strong>
                                                         </h5>
                                                         <br/>
 
@@ -571,29 +586,50 @@ class CarBooking extends Component {
                                                             <small>(optional)</small>
                                                         </h5>
                                                         <h6>
-                                                            <small>It Saves You Money! Purchasing collision damage insurance online is almost always cheaper than at the counter.</small>
+                                                            <small>It Saves You Money! Purchasing collision damage
+                                                                insurance
+                                                                online is almost always cheaper than at the counter.
+                                                            </small>
                                                         </h6>
 
                                                         <div className="radio">
                                                             <h6>
-                                                            <label><input type="radio" name="optradio"/>
-                                                                <strong>Yes, </strong>
-                                                                <small>
-                                                                    <br/>1. Covers costs if your rental car is stolen or is damaged in an accident or while left unattended
-                                                                    <br/>2. Provided as primary coverage – no deductible
-                                                                    <br/>3. Toll-free, 24-hour emergency hotline help included
-                                                                </small>
-                                                            </label>
+                                                                <label><input type="radio" name="optradio"/>
+                                                                    <strong>Yes, </strong>
+                                                                    <small>
+                                                                        <br/>1. Covers costs if your rental car is
+                                                                        stolen or
+                                                                        is damaged in an accident or while left
+                                                                        unattended
+                                                                        <br/>2. Provided as primary coverage – no
+                                                                        deductible
+                                                                        <br/>3. Toll-free, 24-hour emergency hotline
+                                                                        help
+                                                                        included
+                                                                    </small>
+                                                                </label>
                                                             </h6>
                                                         </div>
                                                         <div className="radio">
                                                             <h6>
-                                                            <label><input type="radio" name="optradio"/>
-                                                                <strong>No, </strong>
-                                                                <small>"Nothing goes wrong when I travel." – Familiar with Murphy's Law? There's a first time for everything.
-                                                                    Recommended by AGA Service Company, the licensed producer and administrator of this plan. Insurance benefits are underwritten by either BCS Insurance Company or Jefferson Insurance Company, depending on insured's state of residence. Terms, conditions and exclusions apply.
-                                                                </small>
-                                                            </label>
+                                                                <label><input type="radio" name="optradio"/>
+                                                                    <strong>No, </strong>
+                                                                    <small>"Nothing goes wrong when I travel." –
+                                                                        Familiar
+                                                                        with Murphy's Law? There's a first time for
+                                                                        everything.
+                                                                        Recommended by AGA Service Company, the licensed
+                                                                        producer and administrator of this plan.
+                                                                        Insurance
+                                                                        benefits are underwritten by either BCS
+                                                                        Insurance
+                                                                        Company or Jefferson Insurance Company,
+                                                                        depending on
+                                                                        insured's state of residence. Terms, conditions
+                                                                        and
+                                                                        exclusions apply.
+                                                                    </small>
+                                                                </label>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -609,7 +645,11 @@ class CarBooking extends Component {
                                                         <h6>Cancellation Policy</h6>
                                                         <h6>
                                                             <small>
-                                                                <br/>1. E-Z Rent-A-Car will charge your credit card the amount shown below at the time of booking. See detailed rental terms for cancellation and change policy information for this rental.
+                                                                <br/>1. E-Z Rent-A-Car will charge your credit card the
+                                                                amount shown below at the time of booking. See detailed
+                                                                rental terms for cancellation and change policy
+                                                                information
+                                                                for this rental.
                                                                 <br/>2. You will need a credit card to pick up this car.
                                                             </small>
                                                         </h6>
@@ -644,6 +684,7 @@ class CarBooking extends Component {
                                 </div>
                             </div>
 
+
                             <div className="col-md-4">
                                 <div className="list-content clearfix">
                                     <div className="list-item-entry">
@@ -653,22 +694,43 @@ class CarBooking extends Component {
                                                 <div className="title hotel-middle cell-view">
                                                     <h4 className="">Summary</h4>
                                                     <hr/>
-                                                    <h6><strong className="">Etihad Airways - One Way - Economy - Adults
-                                                        : 3</strong></h6>
-                                                    <h6>Depart Wed 11/22: SFO > LHR 1:35p – 3:55p <br/>Flight 669 Flight
-                                                        7</h6>
-                                                    <h6>Return Thu 11/23: LHR > SFO 10:30p – 12:05p <br/> Flight 8
-                                                        Flight 668</h6>
+
+                                                    <h5><strong className="color-red-3">{this.state.carObject.carMake}
+                                                        - {this.state.carObject.carName}</strong>
+                                                        : {this.state.carObject.carType}
+                                                        - {this.state.carObject.carModel}
+                                                    </h5>
+
+                                                    <h5>
+                                                        <small>From :</small>
+                                                        {this.state.fromDate}
+                                                        <br/>
+                                                        <small>To :</small>
+                                                        {this.state.toDate}
+                                                    </h5>
 
                                                     <br/><br/>
                                                     <h4>Costing</h4>
                                                     <hr/>
-                                                    <h6>1 Adult, Economy</h6>
-                                                    <h6>Taxes, Fees and Surcharges</h6>
+                                                    <div className="col-md-12">
+                                                        <div className="col-md-6">
+                                                            <h6>{this.state.noofdays} Day/s</h6>
+                                                            <h6>Taxes and Fees</h6>
+                                                            <hr/>
+                                                            <h5><strong>TOTAL</strong></h5>
+                                                        </div>
 
-                                                    <hr/>
-                                                    <h5><strong>TOTAL</strong></h5>
+                                                        <div className="col-md-6">
+                                                            <h6>{(this.state.carObject.price * this.state.noofdays).toFixed(2)}</h6>
+                                                            <h6>{(this.state.carObject.price * this.state.noofdays * 0.09).toFixed(2)}</h6>
+                                                            <hr/>
+                                                            <h2>
+                                                                <strong>{(this.state.carObject.price * this.state.noofdays * 1.09).toFixed(2)}</strong>
+                                                            </h2>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -677,9 +739,7 @@ class CarBooking extends Component {
                         </div>
                     </div>
                 </div>
-
             </div>
-
         );
     }
 }
@@ -696,7 +756,11 @@ function mapStateToProps(state) {
 
 //if you need to push something to state, use action -> reducer
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        bookingSuccess: (state) => {
+            dispatch(booking_success(state))
+        }
+    };
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarBooking));
