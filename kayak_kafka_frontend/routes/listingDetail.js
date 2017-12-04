@@ -15,7 +15,7 @@ router.post('/getHotelRoom',function(req,res){
 
             }
             else {
-                throw err;
+                res.status(404).json({message:"Not found"})
             }
         })
     }
