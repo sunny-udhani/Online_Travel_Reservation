@@ -1,14 +1,21 @@
 let mysql = require('../mysql/mysql');
-var mongo =require('../mongo/mongo.js');
+var mongo = require('../mongo/mongo.js');
 var mongoURL = "mongodb://kayak:kayak@cluster0-shard-00-00-j61pv.mongodb.net:27017,cluster0-shard-00-01-j61pv.mongodb.net:27017,cluster0-shard-00-02-j61pv.mongodb.net:27017/kayak?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";
+let async = require("async");
+let ObjectID = require("mongodb").ObjectID;
+let db = null;
+mongo.connect(mongoURL, function (db_actual) {
+    db = db_actual;
+})
 
 
 handle_request = ((data, callback) => {
-    console.log("*************************************car");
+    console.log("*************************************Cars");
     let response = {
         status: 400
     };
-    let username=data.username;
+    let username = data.username;
+    let carId = '';
     try {
         let getcarbookingsinfo = "select * from carbooking where carbooking.username = '" + data.username + "' ";
 
@@ -17,32 +24,50 @@ handle_request = ((data, callback) => {
                 console.log(err);
             }
             else {
-                console.log(result.length);
-                if (result.length === 1) {
-                    let mongoquery=result[0].carId;
-                    console.log(mongoquery);
-                    let resultcars=[];
-                    resultcars.push(result);
-                    mongo.connect(mongoURL, function(db){
-                        console.log('Connected to mongo at: ' + mongoURL);
-                        db.collection('cars').findOne({hostId:"12"}, function(err, user){
-                            console.log(user);
-                            if (user) {
-                                resultcars.push(user);
+                if (result.length !== 0) {
+                    let resultcars = [];
+
+                    async.forEachOf(result, function (booking, index, cb) {
+                        console.log(booking);
+                        carId = booking.carId;
+                        db.collection('cars').findOne({_id: new ObjectID(carId)}, function (err, carDetails) {
+                            console.log(carDetails);
+                            console.log(err);
+                            if (carDetails) {
+                                let car_booking = {one: {}, two: {}}
+
+                                car_booking.two = booking;
+                                car_booking.one = carDetails;
+                                resultcars.push(car_booking);
+                                cb();
+                                // console.log("******************in hotel final result");
+                                // console.log(resulthotels)
                             }
-                            else{
+                            else {
+                                cb(err);
                                 console.log("in error");
 
                             }
-                            db.close();
-                            callback(null,resultcars);
                         });
-                    });
 
+
+                    }, function (err) {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            console.log("flights -- ");
+
+                            console.log(resultcars);
+                            callback(null, resultcars);
+                        }
+                    });
                 }
+
+
             }
-        },getcarbookingsinfo);
+        }, getcarbookingsinfo);
     }
+
     catch (e) {
         console.log(e);
         callback(e, null)
