@@ -702,7 +702,7 @@ function mapStateToProps(state) {
         hotelRoomType: state.hotelRoomType,
         hotelFromDate: state.hotelFromDate,
         hotelToDate: state.hotelToDate,
-        hotelNoOfPeople: state.hoetlNoOfPeople
+        hotelNoOfPeople: state.hotelNoOfPeople
 
     };
 }
