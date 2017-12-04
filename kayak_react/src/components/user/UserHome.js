@@ -150,9 +150,9 @@ class UserHome extends Component {
                                                         quis
                                                         leo
                                                         elementum.</p>
-                                                    <a href="#" className="c-button bg-aqua delay-2"><img
-                                                        src="../../img/loc_icon.png"
-                                                        alt=""/><span>view our tours</span></a>
+                                                    <button className="c-button bg-aqua hv-transparent delay-2"><img
+                                                        src="../../img/loc_icon.png" alt=""/><span>view our tours</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
