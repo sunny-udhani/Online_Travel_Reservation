@@ -2,6 +2,7 @@ let crypto = require('crypto');
 let conn = require('./Connection');
 
 let TIMEOUT = 8000; //time to wait for response in ms
+let EXTRATIMEOUT = 25000; //time to wait for dashboard response in ms
 let self;
 
 exports = module.exports = KafkaRPC;
@@ -20,15 +21,31 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
     //generate a unique correlation id for this call
     let correlationId = crypto.randomBytes(16).toString('hex');
 
-    //create a timeout for what should happen if we don't get a response
-    let tId = setTimeout(function (corr_id) {
-        //if this ever gets called we didn't get a response in a
-        //timely fashion
-        console.log('timeout');
-        callback(new Error("timeout " + corr_id));
-        //delete the entry from hash
-        delete self.requests[corr_id];
-    }, TIMEOUT, correlationId);
+    console.log("IN kafka rpc ------------------------- "+topic_name);
+
+    let tId = null;
+
+    if(topic_name === 'logAnalyticsData_topic'){
+        tId = setTimeout(function (corr_id) {
+            //if this ever gets called we didn't get a response in a
+            //timely fashion
+            console.log('timeout');
+            callback(new Error("timeout " + corr_id));
+            //delete the entry from hash
+            delete self.requests[corr_id];
+        }, EXTRATIMEOUT, correlationId);
+    }
+    else{
+        //create a timeout for what should happen if we don't get a response
+        tId = setTimeout(function (corr_id) {
+            //if this ever gets called we didn't get a response in a
+            //timely fashion
+            console.log('timeout');
+            callback(new Error("timeout " + corr_id));
+            //delete the entry from hash
+            delete self.requests[corr_id];
+        }, TIMEOUT, correlationId);
+    }
 
     //create a request entry to store in a hash
     let entry = {
