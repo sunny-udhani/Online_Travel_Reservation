@@ -11,13 +11,12 @@ export const getbookinginfo_user = (payload) =>
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials: 'include'
+
     }).then(res => {
-        alert("succes fetch")
         return res.json();
-        console.log(res )
     }).catch(error => {
-        alert("err")
         console.log("This is error");
         return error;
     });
