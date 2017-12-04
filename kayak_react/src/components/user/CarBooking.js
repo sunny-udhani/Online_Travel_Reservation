@@ -663,7 +663,7 @@ class CarBooking extends Component {
                     </div>
                 </div>
             </div>
-            < /div>
+
         );
     }
 }
