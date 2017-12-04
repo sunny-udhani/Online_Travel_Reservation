@@ -7,8 +7,6 @@ handle_request = ((data, callback) => {
     try {
         console.log("data");
         console.log(data);
-
-
     }
     catch (e) {
         console.log(e);
