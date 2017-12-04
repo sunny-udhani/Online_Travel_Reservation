@@ -20,6 +20,6 @@ export var showAlert = (msg, type, self) => {
         time: 2000,
         type: type,
         icon: (type === "alert") ? <img style={{height: "32px", width: "32px"}} src={alert_icon}/> :
-            <img src={info_icon}/>
+            <img style={{height: "32px", width: "32px"}} src={info_icon}/>
     })
 };

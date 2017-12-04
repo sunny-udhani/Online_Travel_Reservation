@@ -19,7 +19,7 @@ import "../css/font-awesome.min.css"
 import "../css/style.css"
 import "../css/jquery-ui.min.css"
 import "../css/jquery-ui.structure.min.css"
-import Listing from "./user/Listing";
+import Listing from "./user/listing/Listing";
 import Payment from './user/HotelList/Preferences/Payment';
 import Preferences from "./user/HotelList/Preferences/Preferences";
 import TripHistory from "./user/HotelList/Preferences/TripHistory";
