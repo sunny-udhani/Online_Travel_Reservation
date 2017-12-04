@@ -33,7 +33,16 @@ handle_request = ((data, callback) => {
                 "hb.bill_year, hb.username, t.firstname, t.lastname, t.email, t.phonenumber, t.travelerId "+
                 "from host as h, hotelbooking as hb , "+
                 "travelerdetails as t where hb.hostId = h.hostId and hb.bookingId=t.bookingId and  t.bookingtype='hotel' " +
-                "and hb.bookingId = '"+ data.bookingId +"';";
+                "and hb.bookingId = "+ data.bookingId +";";
+        }
+        else if(data.hasOwnProperty("searchbyusername")){
+            console.log(data.searchbyusername);
+            fetchQuery = "select hb.hostId, h.hostName, hb.bookingId, hb.hotelId, hb.noOfPeople, hb.roomType, " +
+                "hb.fromDate, hb.toDate, hb.ticketPrice, hb.totalAmount, hb.bill_day, hb.bill_month, "+
+                "hb.bill_year, hb.username, t.firstname, t.lastname, t.email, t.phonenumber, t.travelerId "+
+                "from host as h, hotelbooking as hb , "+
+                "travelerdetails as t where hb.hostId = h.hostId and hb.bookingId=t.bookingId and  t.bookingtype='hotel' " +
+                "and hb.username = '"+ data.searchbyusername +"';";
         }
 
         console.log(fetchQuery);

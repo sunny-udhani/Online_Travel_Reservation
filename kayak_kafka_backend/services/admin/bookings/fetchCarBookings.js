@@ -31,7 +31,16 @@ handle_request = ((data, callback) => {
                 "cb.fromDate, cb.toDate, cb.ticketPrice, cb.totalAmount, cb.bill_day, cb.bill_month, cb.bill_year, "+
                 "cb.username, t.firstname, t.lastname, t.email, t.phonenumber, t.travelerId "+
                 "from host as h, carbooking as cb , travelerdetails as t "+
-                "where cb.hostId = h.hostId and cb.bookingId=t.bookingId and t.bookingtype='car' and cb.bookingId = '"+ data.bookingId +"';";
+                "where cb.hostId = h.hostId and cb.bookingId=t.bookingId and t.bookingtype='car' and " +
+                "cb.bookingId = "+ data.bookingId +";";
+        }
+        if(data.hasOwnProperty("searchbyusername")){
+            fetchQuery = "select cb.hostId, h.hostName, cb.bookingId, cb.carId, cb.noOfDays, " +
+                "cb.fromDate, cb.toDate, cb.ticketPrice, cb.totalAmount, cb.bill_day, cb.bill_month, cb.bill_year, "+
+                "cb.username, t.firstname, t.lastname, t.email, t.phonenumber, t.travelerId "+
+                "from host as h, carbooking as cb , travelerdetails as t "+
+                "where cb.hostId = h.hostId and cb.bookingId=t.bookingId and t.bookingtype='car' and " +
+                "cb.username = '"+ data.searchbyusername +"';";
         }
         /*console.log(data.hasOwnProperty("hostName"));
         console.log(data.hasOwnProperty("serviceType"));
