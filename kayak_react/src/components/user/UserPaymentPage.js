@@ -5,6 +5,7 @@ import { Route, withRouter, Switch, Link, Redirect } from 'react-router-dom';
 import FlightBooking from "./FlightBooking";
 import HotelBooking from "./HotelBooking";
 import CarBooking from "./CarBooking";
+import Thankyou from "./Thankyou";
 import {doLogout} from "../../api/user/API_HandleLogout";
 
 import '../../design/css/bootstrap.min.css'
@@ -72,6 +73,12 @@ class UserPaymentPage extends Component {
                     <Route path="/payment/cars" render={(match) =>{
                         return(
                             <CarBooking />
+                        )
+                    }}/>
+
+                    <Route path="/payment/thankyou" render={(match) =>{
+                        return(
+                            <Thankyou />
                         )
                     }}/>
 

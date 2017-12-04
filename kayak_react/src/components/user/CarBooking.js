@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 
+import {booking_success} from "../../actions";
+
 import {doLogout} from "../../api/user/API_HandleLogout";
 import {getCarDetails} from "../../api/user/API_GetDetailsforPayment";
 import {getUserDetails} from "../../api/user/API_GetUserDetails";
 import {bookCar} from "../../api/user/API_BookCar";
 import {insertTravelerDetails} from "../../api/user/API_InsertTravelerDetails";
-
-import Traveler from './Traveler';
 
 import '../../design/css/bootstrap.min.css'
 import '../../design/css/jquery-ui.min.css'
@@ -22,6 +22,7 @@ class CarBooking extends Component {
     };
 
     state = {
+        operation: 'car',
         carObject: '',
         userDetails: '',
         paymentDetails: '',
@@ -174,6 +175,9 @@ class CarBooking extends Component {
 
                             if (res.status === 200) {
                                 console.log("success");
+
+                                this.props.bookingSuccess(this.state, "booking_success");
+                                this.props.history.push("/payment/thankyou");
                             }
                             else {
                                 console.log("validation");
@@ -605,6 +609,7 @@ class CarBooking extends Component {
                         </div>
                     </div>
 
+
                     <div className="col-md-4">
                         <div className="list-content clearfix">
                             <div className="list-item-entry">
@@ -614,22 +619,43 @@ class CarBooking extends Component {
                                         <div className="title hotel-middle cell-view">
                                             <h4 className="">Summary</h4>
                                             <hr/>
-                                            <h6><strong className="">Etihad Airways - One Way - Economy - Adults
-                                                : 3</strong></h6>
-                                            <h6>Depart Wed 11/22: SFO > LHR 1:35p – 3:55p <br/>Flight 669 Flight
-                                                7</h6>
-                                            <h6>Return Thu 11/23: LHR > SFO 10:30p – 12:05p <br/> Flight 8
-                                                Flight 668</h6>
+
+                                            <h5><strong className="color-red-3">{this.state.carObject.carMake}
+                                                - {this.state.carObject.carName}</strong>
+                                                : {this.state.carObject.carType}
+                                                - {this.state.carObject.carModel}
+                                            </h5>
+
+                                            <h5>
+                                                <small>From :</small>
+                                                {this.state.fromDate}
+                                                <br/>
+                                                <small>To :</small>
+                                                {this.state.toDate}
+                                            </h5>
 
                                             <br/><br/>
                                             <h4>Costing</h4>
                                             <hr/>
-                                            <h6>1 Adult, Economy</h6>
-                                            <h6>Taxes, Fees and Surcharges</h6>
+                                            <div className="col-md-12">
+                                                <div className="col-md-6">
+                                                    <h6>{this.state.noofdays} Day/s</h6>
+                                                    <h6>Taxes and Fees</h6>
+                                                    <hr/>
+                                                    <h5><strong>TOTAL</strong></h5>
+                                                </div>
 
-                                            <hr/>
-                                            <h5><strong>TOTAL</strong></h5>
+                                                <div className="col-md-6">
+                                                    <h6>{(this.state.carObject.price * this.state.noofdays).toFixed(2)}</h6>
+                                                    <h6>{(this.state.carObject.price * this.state.noofdays * 0.09).toFixed(2)}</h6>
+                                                    <hr/>
+                                                    <h2>
+                                                        <strong>{(this.state.carObject.price * this.state.noofdays * 1.09).toFixed(2)}</strong>
+                                                    </h2>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -654,7 +680,11 @@ function mapStateToProps(state) {
 
 //if you need to push something to state, use action -> reducer
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        bookingSuccess: (state) => {
+            dispatch(booking_success(state))
+        }
+    };
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarBooking));

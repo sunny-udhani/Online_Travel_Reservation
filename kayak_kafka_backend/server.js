@@ -41,12 +41,17 @@ let bookCar = require('./services/bookCar');
 let insertTravelers = require('./services/insertTravelers');
 
 //Pritam's services
-let getUserBooking_Info=require('./services/getUserBooking_Info');
 let addUserCard=require('./services/addUserCard');
+let getUserBooking_Hotels=require('./services/getUserBooking_Hotels');
 let getUserBooking_Flights=require('./services/getUserBooking_Flights');
 let getUserBooking_Cars=require('./services/getUserBooking_Cars');
 let getHotelRooms=require('./services/getHotelRooms.js');
 let fetchUserProfile = require('./services/fetchUserProfile');
+let editUserProfile = require('./services/editUserProfile');
+let getUserProfile = require('./services/getUserProfile');
+let getCreditCardDetails=require('./services/getCreditCardDetails');
+
+
 
 let logAnalytics = require('./services/admin/logAnalytics');
 let top10Properties = require('./services/admin/top10Properties');
@@ -57,6 +62,8 @@ let reviewsOnProperties = require('./services/admin/reviewsOnProperties');
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
 let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
+
+
 let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
 let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
 let modifyRoomsConsumer = connection.getConsumerObj(req_topics.CHANGE_ROOMS);
@@ -90,12 +97,15 @@ let bookCar_Consumer = connection.getConsumerObj(req_topics.BOOK_CAR);
 let insertTravelers_Consumer = connection.getConsumerObj(req_topics.INSERT_TRAVELERS);
 
 let flightListing_Consumer = connection.getConsumerObj(req_topics.FLIGHT_LISTING);
-let carListing_Consumer = connection.getConsumerObj(req_topics.CAR_LISTING);
+ let carListing_Consumer = connection.getConsumerObj(req_topics.CAR_LISTING);
 
 //pritam's consumers
-let getHotelRoomsConsumer=connection.getConsumerObj("fetchhotels_topic");
-let addUserCardConsumer=connection.getConsumerObj("addusercard_topic");
-let getUserBooking_InfoConsumer=connection.getConsumerObj("getbookinguser_topic");
+let getHotelRoomsConsumer = connection.getConsumerObj("fetchhotels_topic");
+let addUserCardConsumer = connection.getConsumerObj("addusercard_topic");
+let getUserBooking_InfoConsumer = connection.getConsumerObj("getbookinguser_topic");
+let editUserProfileConsumer = connection.getConsumerObj("editprofileuser_topic");
+let getUserProfileConsumer = connection.getConsumerObj("getuserprofileinfo_topic");
+let getCreditCardDetailsConsumer=connection.getConsumerObj("getcreditcarddetails_topic");
 
 let logAnalyticsConsumer = connection.getConsumerObj(req_topics.LOG_ANALYTICS_DATA);
 let top10PropertiesConsumer = connection.getConsumerObj(req_topics.TOP_10_PROPERTIES);
@@ -332,11 +342,11 @@ try {
     });
 
     addHotelConsumer.on('message', function (message) {
-        console.log('message received');
-        console.log(message);
-        console.log(message.value);
-        console.log(JSON.stringify(message.value));
-        let data = JSON.parse(message.value);
+         console.log('message received');
+         console.log(message);
+         console.log(message.value);
+         console.log(JSON.stringify(message.value));
+         let data = JSON.parse(message.value);
 
         console.log(data.replyTo);
 
@@ -920,7 +930,7 @@ try {
             // return;
         });
     });
-
+    
 
     flightListing_Consumer.on('message', function (message) {
         console.log('message received');
@@ -1149,6 +1159,38 @@ try {
         });
     });
 
+
+    getUserProfileConsumer.on('message', function (message) {
+        console.log("17");
+        console.log(JSON.stringify(message.value));
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        getUserProfile.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log("18");
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
+
+
+
+
     addUserCardConsumer.on('message', function (message) {
         console.log('message received');
         console.log(message);
@@ -1158,6 +1200,7 @@ try {
         var data = JSON.parse(message.value);
 
         console.log(data.replyTo);
+        console.log(data.data);
 
         addUserCard.handle_request(data.data, function (err, res) {
             console.log('after handle' + res);
@@ -1179,6 +1222,7 @@ try {
         });
     });
 
+
     getUserBooking_InfoConsumer.on('message', function (message) {
         console.log('message received');
         console.log(message);
@@ -1188,34 +1232,39 @@ try {
         var data = JSON.parse(message.value);
 
         console.log(data.replyTo);
+        let resusertrip = {};
 
-        getUserBooking_Info.handle_request(data.data, function (err, res) {
-            let resusertrip={};
-            let result =[];
-            //  console.log('after handle' + res);
-            if(err){
-                console.log("no entries");
+        let carResult = [];
+        let hotelResult = [];
+        let flightResult = [];
+
+        getUserBooking_Hotels.handle_request(data.data, function (err, res1) {
+
+            if (err) {
+                console.log(err);
             }
             else {
-                result.push(res);
-                getUserBooking_Flights.handle_request(data.data, function (err, resu) {
-                    if(err){
+                hotelResult = res1;
+
+                getUserBooking_Flights.handle_request(data.data, function (err, res2) {
+                    if (err) {
                         console.log(err);
                     }
-                    else{
-                        result.push(resu);
-                        getUserBooking_Cars.handle_request(data.data, function (err, resul) {
-                            if(err){
+                    else {
+                        flightResult =res2;
+
+                        getUserBooking_Cars.handle_request(data.data, function (err, res3) {
+                            if (err) {
                                 console.log(err);
                             }
 
-                            result.push(resul);
-                            resusertrip.code=200;
-                            resusertrip.value="Successful booking history ";
-                            resusertrip.data=JSON.parse(result);
+                            carResult = res3;
 
-                            console.log("here is the final data ");
-                            console.log(result);
+                            resusertrip.code = 200;
+                            resusertrip.value = "Successful booking history ";
+                            let resultJSON = {hotel : hotelResult, flight: flightResult, car: carResult};
+
+                            resusertrip.data = resultJSON
 
                             var payloads = [
                                 {
@@ -1229,10 +1278,7 @@ try {
                             ];
                             producer.send(payloads, function (err, data) {
                                 console.log(data);
-                                console.log(payloads);
                             });
-
-
 
 
                         });
@@ -1309,6 +1355,71 @@ try {
             });
         });
     });
+
+    getCreditCardDetailsConsumer.on('message', function (message) {
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+
+        var data = JSON.parse(message.value);
+        console.log(data.data.details);
+        console.log(data.replyTo);
+
+        getCreditCardDetails.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+
+    });
+
+
+
+    editUserProfileConsumer.on('message', function (message) {
+        console.log("******************************");
+        console.log('message received');
+        console.log(message);
+        console.log(message.value);
+        console.log(JSON.stringify(message.value));
+
+        var data = JSON.parse(message.value);
+        console.log(data.data.details);
+        console.log(data.replyTo);
+
+        editUserProfile.handle_request(data.data, function (err, res) {
+            console.log('after handle' + res);
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
+
 
     fetchHotelBookingsConsumer.on('message', function (message) {
         console.log('message received');
@@ -1438,7 +1549,7 @@ try {
         });
     });*/
 }
-catch (e){
+catch (e) {
     console.log(e)
 }
 

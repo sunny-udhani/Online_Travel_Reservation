@@ -21,6 +21,12 @@ export function logout_success() {
     }
 }
 
+export function booking_success(booking_state) {
+    return {
+        type: actionTypes.BOOKING_SUCCESS,
+        booking_state
+    }
+}
 
 export function filter_change(filterInd) {
     return {

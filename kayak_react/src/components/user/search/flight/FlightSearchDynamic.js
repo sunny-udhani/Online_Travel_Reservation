@@ -125,7 +125,7 @@ class FlightSearchDynamic extends Component {
                     <div className="form-group col-md-2">
                         <label className="table-label">No. of Persons</label>
                         <input type="number" className="form-control" required="required" id="noofpersons"
-                               placeholder="2"
+                               placeholder="no of persons"
                                onChange={
                                    (event) => {
                                        this.props.criteria.no_of_people = event.target.value

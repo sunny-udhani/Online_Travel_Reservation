@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 
+import {booking_success} from "../../actions";
+
 import {doLogout} from "../../api/user/API_HandleLogout";
 import {getFlightDetails} from "../../api/user/API_GetDetailsforPayment";
 import {getUserDetails} from "../../api/user/API_GetUserDetails";
@@ -9,6 +11,7 @@ import {bookFlight} from "../../api/user/API_BookFlight";
 import {insertTravelerDetails} from "../../api/user/API_InsertTravelerDetails";
 
 import Traveler from './Traveler';
+import Thankyou from './Thankyou';
 
 import '../../design/css/bootstrap.min.css'
 import '../../design/css/jquery-ui.min.css'
@@ -22,6 +25,7 @@ class FlightBooking extends Component {
     };
 
     state = {
+        operation: 'flight',
         flightObject: '',
         userDetails: '',
         paymentDetails: '',
@@ -225,13 +229,13 @@ class FlightBooking extends Component {
 
                                                 //Setting all values of flight_payment state
                                                 this.flight_payment.flightId = this.state.flightId;
-                                                this.flight_payment.noOfPassengers = this.state.noofpassengers;
+                                                this.flight_payment.noOfPassengers = this.props.flightNoofPassengers;
                                                 this.flight_payment.flightClass = this.state.flight_class;
                                                 this.flight_payment.tripType = this.state.trip_type;
                                                 this.flight_payment.fromDate = this.state.fromDate;
                                                 this.flight_payment.toDate = this.state.toDate;
                                                 this.flight_payment.ticketPrice = this.state.baseprice;
-                                                this.flight_payment.totalAmount = this.base_price * this.state.noofpassengers * 1.09;
+                                                this.flight_payment.totalAmount = this.state.baseprice * this.props.flightNoofPassengers * 1.09;
                                                 this.flight_payment.username = this.state.userDetails.username;
 
                                                 console.log("Host ID : " + this.state.flightObject.hostId);
@@ -256,6 +260,11 @@ class FlightBooking extends Component {
 
         console.log(userdata);
 
+        console.log("State");
+        console.log(this.state);
+
+        this.props.bookingSuccess(this.state, "booking_success");
+
         bookFlight(userdata)
             .then((res) => {
                 console.log(res.status);
@@ -277,6 +286,7 @@ class FlightBooking extends Component {
 
                             if (res.status === 200) {
                                 console.log("success");
+                                this.props.history.push("/payment/thankyou");
                             }
                             else {
                                 console.log("validation");
@@ -295,19 +305,12 @@ class FlightBooking extends Component {
             });
     };
 
-    handleSignOut = () => {
-        doLogout()
-            .then((status) => {
-                if (status === 200) {
-                    console.log("Logout Successful");
-                    this.props.history.push("/");
-                }
-            });
-    };
-
     render() {
         return (
             <div className="container">
+                <hr/>
+
+                <div>
 
                     <div className="container">
                         <div className="row list-wrapper  bg-grey-2">
@@ -325,7 +328,7 @@ class FlightBooking extends Component {
                                                     <h4><b>{this.state.flightObject.origin}&nbsp;
                                                         to&nbsp;{this.state.flightObject.destination}</b></h4>
                                                     <h5>{this.state.flightObject.flightOperator} - <span
-                                                        className="color-red-3"> {this.props.flightTripType} - {this.props.flightClass} -  Adults : {this.props.flightNoofPassengers}</span>
+                                                        className="color-red-3"> {this.props.flightTripType} - {this.props.flightClass} - Adults : {this.props.flightNoofPassengers}</span>
                                                     </h5>
 
                                                     <div className="fi_block">
@@ -574,7 +577,6 @@ class FlightBooking extends Component {
                                                             <small>Billing Address</small>
                                                         </h6>
                                                         <br/>
-
                                                         <div className="col-sm-6">
                                                             <h6>Street
                                                                 <small>Line 1</small>
@@ -590,7 +592,6 @@ class FlightBooking extends Component {
                                                                    }
                                                             />
                                                         </div>
-
                                                         <div className="col-sm-6">
                                                             <h6>Street
                                                                 <small>Line 2</small>
@@ -607,8 +608,6 @@ class FlightBooking extends Component {
                                                             />
                                                         </div>
                                                     </div>
-
-
                                                     <div className="col-sm-12">
                                                         <div className="col-sm-6">
                                                             <h6>Postal Code</h6>
@@ -635,7 +634,6 @@ class FlightBooking extends Component {
                                                             />
                                                         </div>
                                                     </div>
-
                                                     <div className="col-sm-12">
                                                         <div className="col-sm-6">
                                                             <h6>State/Region</h6>
@@ -667,7 +665,6 @@ class FlightBooking extends Component {
                                                         <hr/>
                                                         <h5><strong className="color-red-3">Card Details</strong></h5>
                                                         <br/>
-
                                                         <div className="col-sm-6">
                                                             <h6>Name on Card</h6>
                                                             <input type="text" name=""
@@ -675,16 +672,13 @@ class FlightBooking extends Component {
                                                                    id=""
                                                                 // placeholder={this.state.paymentDetails.nameoncard}
                                                                    placeholder={this.payment_details.nameoncard}
-
                                                                    onChange={
                                                                        (event) => {
                                                                            this.payment_details.nameoncard = event.target.value
                                                                        }
                                                                    }
-
                                                             />
                                                         </div>
-
                                                         <div className="col-sm-6">
                                                             <h6>Card Number</h6>
                                                             <input type="text" name=""
@@ -692,7 +686,6 @@ class FlightBooking extends Component {
                                                                    id=""
                                                                 // placeholder={this.state.paymentDetails.creditCardNumber}
                                                                    placeholder={this.payment_details.creditCardnumber}
-
                                                                    onChange={
                                                                        (event) => {
                                                                            this.payment_details.creditCardnumber = event.target.value
@@ -701,8 +694,6 @@ class FlightBooking extends Component {
                                                             />
                                                         </div>
                                                     </div>
-
-
                                                     <div className="col-sm-8">
                                                         <div className="col-sm-6">
                                                             <h6>Valid Through</h6>
@@ -710,14 +701,12 @@ class FlightBooking extends Component {
                                                                    id="validThrough"
                                                                 // placeholder={this.state.paymentDetails.validThrough}
                                                                    placeholder={this.payment_details.validThrough}
-
                                                                    onChange={
                                                                        (event) => {
                                                                            this.payment_details.validThrough = event.target.value
                                                                        }
                                                                    }
                                                             />
-
                                                         </div>
                                                         <div className="col-sm-2">
                                                             <h6>CVV</h6>
@@ -732,8 +721,6 @@ class FlightBooking extends Component {
                                                             />
                                                         </div>
                                                     </div>
-
-
                                                     <div className="col-sm-12">
                                                         <hr/>
                                                         <h5><strong className="color-red-3">Review Policies and Terms &
@@ -741,25 +728,20 @@ class FlightBooking extends Component {
                                                             <small>(optional)</small>
                                                         </h5>
                                                         <br/>
-
                                                         <h6>Cancellation and Change Policy Information</h6>
                                                         <h6>
                                                             <small>
                                                                 Policy Information goes here
                                                             </small>
                                                         </h6>
-
                                                         <br/>
-
                                                         <h6>Additional Terms & Conditions</h6>
                                                         <h6>
                                                             <small>
                                                                 Terms and Conditions goes here
                                                             </small>
                                                         </h6>
-
                                                         <br/>
-
                                                         <h5>By clicking <strong>"Book"</strong> you agree to the
                                                             airline's fare rules and KAYAK's Terms and Conditions and
                                                             Privacy Policy. JustFly's Terms of Use and Privacy Policy
@@ -800,21 +782,37 @@ class FlightBooking extends Component {
                                                 <div className="title hotel-middle cell-view">
                                                     <h4 className="">Summary</h4>
                                                     <hr/>
-                                                    <h6><strong className="">Etihad Airways - One Way - Economy - Adults
-                                                        : 3</strong></h6>
-                                                    <h6>Depart Wed 11/22: SFO > LHR 1:35p – 3:55p <br/>Flight 669 Flight
-                                                        7</h6>
-                                                    <h6>Return Thu 11/23: LHR > SFO 10:30p – 12:05p <br/> Flight 8
-                                                        Flight 668</h6>
-
+                                                    <h6><strong className="">{this.state.flightObject.flightOperator} -{this.props.flightTripType} - {this.props.flightClass} - Adults
+                                                        : {this.props.flightNoofPassengers}</strong></h6>
+                                                    <h6>
+                                                        {this.state.flightObject.departureTime}
+                                                        <br/>
+                                                        {this.state.flightObject.departureDate}
+                                                    </h6>
+                                                    <h6>
+                                                        {this.state.flightObject.arrivalTime}
+                                                        <br/>
+                                                        {this.state.flightObject.arrivalDate}
+                                                    </h6>
                                                     <br/><br/>
                                                     <h4>Costing</h4>
                                                     <hr/>
-                                                    <h6>1 Adult, Economy</h6>
-                                                    <h6>Taxes, Fees and Surcharges</h6>
+                                                    <div className="col-md-12">
+                                                        <div className="col-md-6">
+                                                        <h6>{this.props.flightNoofPassengers}
+                                                            Adult/s, {this.props.flightClass}</h6>
+                                                        <h6>Taxes and Fees</h6>
+                                                        <hr/>
+                                                        <h5><strong>TOTAL</strong></h5>
+                                                        </div>
 
-                                                    <hr/>
-                                                    <h5><strong>TOTAL</strong></h5>
+                                                        <div className="col-md-6">
+                                                            <h6>{(this.state.baseprice * this.state.noofpassengers).toFixed(2)}</h6>
+                                                            <h6>{(this.state.baseprice * this.state.noofpassengers * 0.09).toFixed(2)}</h6>
+                                                            <hr/>
+                                                            <h2><strong>{(this.state.baseprice * this.state.noofpassengers * 1.09).toFixed(2)}</strong></h2>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -823,7 +821,9 @@ class FlightBooking extends Component {
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
+
 
         );
     }
@@ -842,9 +842,12 @@ function mapStateToProps(state) {
     };
 }
 
-//if you need to push something to state, use action -> reducer
-// function mapDispatchToProps(dispatch) {
-//     return {};
-// }
+function mapDispatchToProps(dispatch) {
+    return {
+        bookingSuccess: (state) => {
+            dispatch(booking_success(state))
+        }
+    };
+}
 
-export default withRouter(connect(mapStateToProps, null)(FlightBooking));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FlightBooking));

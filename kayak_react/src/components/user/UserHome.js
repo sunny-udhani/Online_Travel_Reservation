@@ -10,6 +10,7 @@ import SwipeImageBackground from "./swipeImageBackground";
 import Background from "../../img/main_slide_1.jpg";
 import *  as HotelListingAPI from "../../api/user/API_GetHotels";
 import *  as FlightListingAPI from "../../api/user/API_GetFlights";
+import Payment from './HotelList/Preferences/Payment';
 
 import * as LogAPI from "../../api/user/API_Logging";
 
@@ -149,9 +150,9 @@ class UserHome extends Component {
                                                         quis
                                                         leo
                                                         elementum.</p>
-                                                    <a href="#" className="c-button bg-aqua delay-2"><img
-                                                        src="../../img/loc_icon.png"
-                                                        alt=""/><span>view our tours</span></a>
+                                                    <button className="c-button bg-aqua hv-transparent delay-2"><img
+                                                        src="../../img/loc_icon.png" alt=""/><span>view our tours</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,6 +210,7 @@ class UserHome extends Component {
                                             // username={this.state.username}
                                         />
                                     )}/>
+
 
                                     <Route path="/u/cars" render={() => (
                                         <CarSearch

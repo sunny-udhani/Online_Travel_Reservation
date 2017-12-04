@@ -15,13 +15,14 @@ getDetails = ((data, callback) => {
 
     try {
         console.log("In getUserDetails");
+        console.log("USERNAME IS : " + data.username);
 
         //replace aaj@aaj.com with " + data.username + "
-        let getUser = "select * from userprofile where username = 'aaj@aaj.com'";
+        let getUser = "select * from userprofile where username = '" + data.username + "'";
 
-        let getCardDetails = "select * from paymentdetails where username = 'aaj@aaj.com'";
+        let getCardDetails = "select * from paymentdetails where username = '" + data.username + "'";
 
-        let getBillingAddress = "select * from billingaddress where username = 'aaj@aaj.com'";
+        let getBillingAddress = "select * from billingaddress where username = '" + data.username + "'";
 
         mysql.fetchData(function (err, result) {
             console.log("15");
