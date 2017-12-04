@@ -1,49 +1,52 @@
 import React, {Component} from 'react';
+import * as API from "../../../../api/admin/API";
 import {Link} from 'react-router-dom';
 
 
-class ShowUsers extends Component {
+class ShowBookings extends Component {
+
+    constructor(){
+        super();
+        this.state = {
+            modal : false
+        }
+    }
 
     render() {
-        const {user} = this.props;
-        console.log(user);
+
+        const {car} = this.props;
+        console.log(car);
         return (
             <tbody>
             <tr>
                 <td>
-                    {user.username}
+                    {car.bookingId}
                 </td>
                 <td>
-                    {user.firstname}
+                    {car.hostName}
                 </td>
                 <td>
-                    {user.lastname}
-                </td>
-                <td>
-                    {(user.dateofbirth === null || user.dateofbirth === undefined ? ""
-                        :
-                        user.dateofbirth.substr(0, user.dateofbirth.indexOf("T")))}
+                    {car.username}
                 </td>
                 <td>
                     <span>
                        <Link
-                           to={`/admin/user/${user.username}`}
+                           to={`/admin/carbooking/${car.bookingId}`}
                            className="btn btn-link"
-                           key={user.username}
+                           key={car.bookingId}
                        >
                         Edit
                         </Link>
                     </span>
                     <span>
                         <Link
-                            to={`/admin/user/${user.username}`}
+                            to={`/admin/carbooking/${car.bookingId}`}
                             className="btn btn-link"
-                            key={user.username}
+                            key={car.bookingId}
                         >
                         View
                         </Link>
                     </span>
-
                 </td>
             </tr>
             </tbody>
@@ -51,4 +54,4 @@ class ShowUsers extends Component {
     }
 }
 
-export default ShowUsers;
+export default ShowBookings;

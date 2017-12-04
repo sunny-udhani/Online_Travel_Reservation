@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link, Redirect} from 'react-router-dom';
-import HotelSearch from "./HotelSearch";
-import CarSearch from "./CarSearch";
-import FlightSearch from "./FlightSearch";
-import UserProfile from "./UserProfile";
-import HotelListing from "./HotelListing";
-import {hotelList_Success, flightList_Success} from "../../actions/index";
+import HotelSearch from "../search/hotel/HotelSearch";
+import CarSearch from "../search/car/CarSearch";
+import FlightSearch from "../search/flight/FlightSearch";
+import UserProfile from "../UserProfile";
+import HotelListing from "./hotel/HotelListing";
+import {hotelList_Success, flightList_Success} from "../../../actions/index";
 import {connect} from "react-redux";
-import * as HotelListingAPI from "../../api/user/API_GetHotels";
-import * as FlightListingAPI from "../../api/user/API_GetFlights";
-import * as CarListingAPI from "../../api/user/API_GetCars";
-import FlightListing from "./FlightListing";
-import CarListing from "./CarListing";
-import {carList_Success} from "../../actions";
+import * as HotelListingAPI from "../../../api/user/API_GetHotels";
+import * as FlightListingAPI from "../../../api/user/API_GetFlights";
+import * as CarListingAPI from "../../../api/user/API_GetCars";
+import FlightListing from "./flight/FlightListing";
+import CarListing from "./car/CarListing";
+import {carList_Success} from "../../../actions/index";
 
 class Listing extends Component {
 

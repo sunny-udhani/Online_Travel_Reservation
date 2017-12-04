@@ -108,7 +108,7 @@ class EditCar extends Component {
 
 
     fetchCarToModify = ((carId)=>{
-        let car = {"carId" : carId};
+        let car = {"_id" : carId};
         API.fetchCars(car).then((response)=>{
             console.log(response.status);
             if(response.status===200) {

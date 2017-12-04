@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
-import {carEssentialsAdd, flightEssentialsAdd, toggleBookingType} from "../../actions";
+import {carEssentialsAdd, flightEssentialsAdd, toggleBookingType} from "../../../../actions/index";
 import {connect} from "react-redux";
 
 // import "../../css/bootstrap.min.css"

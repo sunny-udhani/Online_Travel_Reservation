@@ -11,6 +11,9 @@ const initial_state = {
     carData: [],
     hostData: [],
     userData: [],
+    hotelBookingData: [],
+    carBookingData : [],
+    flightBookingData : [],
     loginModaltoggleInd: false,
 };
 
@@ -239,8 +242,28 @@ const toggleLoginModal = (state, action) => {
     }
 };
 
-const handleActions = (state = initial_state, action) => {
+const setHotelBookingData = (state, action) => {
+    return {
+        ...state,
+        hotelBookingData: action.hotelBookingData
+    }
+};
 
+const setCarBookingData = (state, action) => {
+    return {
+        ...state,
+        carBookingData: action.carBookingData
+    }
+};
+
+const setFlightBookingData = (state, action) => {
+    return {
+        ...state,
+        flightBookingData: action.flightBookingData
+    }
+};
+
+const handleActions = (state = initial_state, action) => {
     switch (action.type) {
         case actionTypes.LOGIN_SUCCESS :
             return signIn(state, action);
@@ -290,6 +313,12 @@ const handleActions = (state = initial_state, action) => {
             return carListingView(state, action);
         case actionTypes.TOGGLE_LOGIN_MODAL:
             return toggleLoginModal(state, action);
+        case actionTypes.ADMIN_HOTELBOOKING_LISTING_SUCCESS:
+            return setHotelBookingData(state, action);
+        case actionTypes.ADMIN_CARBOOKING_LISTING_SUCCESS:
+            return setCarBookingData(state, action);
+        case actionTypes.ADMIN_FLIGHTBOOKING_LISTING_SUCCESS:
+            return setFlightBookingData(state, action);
         default:
             return state;
     }

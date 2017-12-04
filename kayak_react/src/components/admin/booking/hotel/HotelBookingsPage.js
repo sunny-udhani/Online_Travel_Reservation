@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import * as API from "../../../api/admin/API";
-import ShowUsers from "./ShowUsers";
-import {Switch, Route, withRouter} from 'react-router-dom';
+import * as API from "../../../../api/admin/API";
+import ShowBookings from "./ShowBookings";
+import {Switch, Route} from 'react-router-dom';
 import {connect} from "react-redux"
-import EditUser from "./EditUser";
-import {setUserData_Success} from "../../../actions";
 import {
     Row,
     Col,
@@ -29,14 +27,17 @@ import {
     InputGroupButton,
     Dropdown
 } from 'reactstrap';
+import {setHotelBookingsData_Success} from "../../../../actions";
+import EditHotelBooking from "./EditHotelBooking";
+import withRouter from "react-router-dom/es/withRouter";
 
-
-class UserPage extends Component {
+class HotelBookingsPage extends Component {
 
     constructor(){
         super();
         this.state = {
             modal : false,
+            hotelBookings : [],
             searchModal : false
         };
     }
@@ -59,22 +60,24 @@ class UserPage extends Component {
         })
     });
 
-    searchUserData = {};
+    searchHotelBookingData = {};
 
-    searchUser = ((data)=>{
+    searchHotelBooking = ((data)=>{
         console.log(data);
-        let searchQuery = {};
-        searchQuery[data.searchBy] = data.searchCriteria;
+        let searchQuery = {
+            query : {}
+        };
+        searchQuery.query[data.searchBy] = data.searchCriteria;
         console.log(searchQuery);
-        this.fetchUsers(searchQuery);
+        this.fetchHotelBookings(searchQuery);
         this.toggleSearch();
     });
 
-    showSearchUser = (()=>{
+    showSearchBooking = (()=>{
         if(this.state.searchModal){
             return(
                 <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
-                    <ModalHeader toggle={this.toggleSearch}>Search User</ModalHeader>
+                    <ModalHeader toggle={this.toggleSearch}>Search Hotel</ModalHeader>
                     <ModalBody>
                         <Row>
                             <Col xs="12">
@@ -85,10 +88,12 @@ class UserPage extends Component {
                                         </td>
                                         <td>
                                             <select className="dropdown" onChange={((event)=>{
-                                                this.searchUserData.searchBy = event.target.value
+                                                this.searchHotelBookingData.searchBy = event.target.value
                                             })}>
-                                                <option value="select">select</option>
+                                                <option value="host" selected="true">select</option>
+                                                <option value="bookingId">Booking Id</option>
                                                 <option value="username">Username</option>
+                                                <option value="city">City</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -99,18 +104,21 @@ class UserPage extends Component {
                                         <td>
                                             <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
                                                    onChange={(event)=>{
-                                                       this.searchUserData.searchCriteria = event.target.value;
+                                                       this.searchHotelBookingData.searchCriteria = event.target.value;
                                                    }}
                                             />
                                         </td>
                                     </tr>
                                 </Table>
+                                <FormGroup>
+
+                                </FormGroup>
                             </Col>
                         </Row>
                     </ModalBody>
                     <ModalFooter>
-                        <input type="button" value="Search User" className="btn btn-primary"
-                               onClick={(()=>{this.searchUser(this.searchUserData)})}
+                        <input type="button" value="Search Hotel" className="btn btn-primary"
+                               onClick={(()=>{this.searchHotelBooking(this.searchHotelBookingData)})}
                         />
                         <input type="button" value="Cancel"
                                className="btn btn-primary"
@@ -125,40 +133,42 @@ class UserPage extends Component {
         }
     });
 
-    fetchUsers = ((data)=> {
+    fetchHotelBookings = ((data)=> {
+        console.log("Wil Mount HotelBookingPage");
         console.log(data);
-        API.fetchUsers(data).then((response) => {
+        API.fetchHotelBookings(data).then((response) => {
             console.log(response.status);
             if(response.status===200){
                 response.json().then((data)=>{
                     console.log(data);
-                    this.props.setUserData_Success(data);
+                    this.props.setHotelBookingsData_Success(data);
                 });
             }
             else if(response.status===204){
-                console.log("Users Not Found");
-                this.props.setUserData_Success([]);
+                console.log("No Booking Found");
+                this.props.setHotelBookingsData_Success([]);
             }
             else {
-                console.log("Error");
+                console.log("Error while fetching data");
             }
         });
     });
 
+
     componentWillMount(){
-        this.fetchUsers();
+        this.fetchHotelBookings();
     }
 
     render() {
         return (
             <div className="container-fluid">
                 <Switch>
-                    <Route exact path="/admin/user" render={(()=>{
+                    <Route exact path="/admin/hotelbooking" render={(()=>{
                         return (
                             <div>
                                 <div>
                                     {
-                                        this.showSearchUser()
+                                        this.showSearchBooking()
                                     }
                                 </div>
                                 {/*<div>*/}
@@ -171,34 +181,31 @@ class UserPage extends Component {
                                                         ...this.state,
                                                         searchModal:true
                                                     })
-                                                })}>Search User</Button>
-                                                <label className="h4"><b>Users</b></label>
+                                                })}>Search Booking</Button>
+                                                <label className="h4"><b>Hotels</b></label>
                                             </CardHeader>
                                             <CardBody>
                                                 <Table>
                                                     <thead>
                                                     <tr>
                                                         <th>
-                                                            <b>Username</b>
+                                                            <b>Booking Id</b>
                                                         </th>
                                                         <th>
-                                                            <b>First Name</b>
+                                                            <b>Hotel/Host Name</b>
                                                         </th>
                                                         <th>
-                                                            <b>Last Name</b>
-                                                        </th>
-                                                        <th>
-                                                            <b>Date of Birth</b>
+                                                            <b>Booked By Username</b>
                                                         </th>
                                                     </tr>
                                                     </thead>
                                                     {
-                                                        this.props.state.userData.map((user, index)=>{
+                                                        this.props.state.hotelBookingData.map((hotel, index)=>{
                                                             return(
-                                                                <ShowUsers
+                                                                <ShowBookings
                                                                     key = {index}
-                                                                    user = {user}
-                                                                    fetchUsers = {this.fetchUsers}
+                                                                    hotel = {hotel}
+                                                                    fetchHotelBookings = {this.fetchHotelBookings}
                                                                     handlePageChange = {this.props.handlePageChange}
                                                                 />
                                                             )
@@ -212,12 +219,12 @@ class UserPage extends Component {
                             </div>
                         )
                     })}/>
-                    <Route path="/admin/user/:username" render={((match)=>{
+                    <Route path="/admin/hotelbooking/:bookingId" render={((match)=>{
                         return(
-                            <EditUser
+                            <EditHotelBooking
                                 {...match}
                                 handlePageChange = {this.props.handlePageChange}
-                                fetchUsers = {this.fetchUsers}
+                                fetchHotelBookings = {this.fetchHotelBookings}
                             />
                         )
                     })}/>
@@ -237,10 +244,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setUserData_Success : (data) => {
-            dispatch(setUserData_Success(data))
+        setHotelBookingsData_Success: (data) => {
+            dispatch(setHotelBookingsData_Success(data))
         }
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HotelBookingsPage));

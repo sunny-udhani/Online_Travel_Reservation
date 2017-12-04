@@ -118,7 +118,7 @@ class EditHotel extends Component {
 
 
     fetchHotelToModify = ((hotelId)=>{
-        let hotel = {"hotelId" : hotelId};
+        let hotel = {"_id" : hotelId};
         API.fetchHotels(hotel).then((response)=>{
             console.log(response.status);
             if(response.status===200) {

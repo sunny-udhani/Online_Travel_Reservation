@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
 import {connect} from "react-redux";
-import {toggleBookingType, flightEssentialsAdd} from "../../actions/index";
+import {toggleBookingType, flightEssentialsAdd} from "../../../../actions/index";
 import FlightSearchDynamic from "./FlightSearchDynamic";
+import AlertContainer from 'react-alert';
+
+import {alertOptions,showAlert} from "../../../../alertConfig";
 
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
@@ -27,7 +30,7 @@ class FlightSearch extends Component {
         console.log(this.searchCriteria);
 
         if (this.searchCriteria.class == -1) {
-            alert("please select a valid flight class ");
+            showAlert("Select appropriate flight class","alert", this);
             return;
         }
 
@@ -95,6 +98,7 @@ class FlightSearch extends Component {
                 <center>
                     <button className="btn btn-warning" onClick={() => this.searchFlights()}>Search</button>
                 </center>
+                <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
             </div>
         );
     }

@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux"
 import {Route, withRouter, Switch, Link} from 'react-router-dom';
-import UserSearchHome from "./UserSearchHome";
+import UserSearchHome from "./search/UserSearchHome";
 import UserProfile from "./UserProfile";
-import HotelListing from "./HotelListing";
+import HotelListing from "./listing/hotel/HotelListing";
 import {hotelList_Success} from "../../actions";
 import SwipeImageBackground from "./swipeImageBackground";
 
 import Background from "../../img/main_slide_1.jpg";
 import *  as HotelListingAPI from "../../api/user/API_GetHotels";
 import *  as FlightListingAPI from "../../api/user/API_GetFlights";
+
 import * as LogAPI from "../../api/user/API_Logging";
+
+
+import * as AlertConfig from "../../alertConfig";
 
 import "../../css/bootstrap.min.css";
 import "../../css/font-awesome.min.css";
@@ -18,9 +22,9 @@ import "../../css/style.css";
 import "../../css/jquery-ui.min.css";
 import "../../css/jquery-ui.structure.min.css";
 
-import HotelSearch from "./HotelSearch";
-import FlightSearch from "./FlightSearch";
-import CarSearch from "./CarSearch";
+import HotelSearch from "./search/hotel/HotelSearch";
+import FlightSearch from "./search/flight/FlightSearch";
+import CarSearch from "./search/car/CarSearch";
 
 class UserHome extends Component {
 
