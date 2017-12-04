@@ -10,7 +10,8 @@ export const addUserCard = (payload) =>
         headers: {
             ...headers,
         },
-        body: payload
+        body: payload,
+        credentials: 'include'
     }).then(res => {
         return res.status;
     }).catch(error => {
