@@ -50,7 +50,7 @@ class CarListing extends Component {
         let click = {
             pageClick:{
                 userId: "anonymous",
-                pageName: "UserHome",
+                pageName: "CarListing",
                 date: new Date().getDate(),
                 month: new Date().getMonth(),
                 year: 1900+new Date().getYear(),
@@ -63,6 +63,7 @@ class CarListing extends Component {
                 console.log(`Logged ${click} status: ${res.status}`);
             })
             .catch(err => console.log(err));
+        this.props.searchCars({criteria: this.props.match.params.criteria});
     }
 
     handleListingView(id) {

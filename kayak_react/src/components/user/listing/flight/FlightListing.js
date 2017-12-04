@@ -55,7 +55,7 @@ class FlightListing extends Component {
         let click = {
             pageClick:{
                 userId: "anonymous",
-                pageName: "UserHome",
+                pageName: "FlightListing",
                 date: new Date().getDate(),
                 month: new Date().getMonth(),
                 year: 1900+new Date().getYear(),
@@ -68,6 +68,7 @@ class FlightListing extends Component {
                 console.log(`Logged ${click} status: ${res.status}`);
             })
             .catch(err => console.log(err));
+        this.props.searchFlights({criteria: this.props.match.params.criteria});
     }
 
     handleListingView(id) {
