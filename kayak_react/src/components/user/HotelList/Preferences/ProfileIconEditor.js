@@ -32,7 +32,7 @@ import {Route, withRouter} from 'react-router-dom';
                 <img src={"http://localhost:3001/images/"+this.props.username+".jpg?_=" + Date.now()} alt={this.props.alt || "No profile picture Available"} />
                 <form>
                     <input className="hidden" type="file" id="profile-icon-editor-input" onChange={this.changeProfilePicture.bind(this)}/>
-                    <label htmlFor="profile-icon-editor-input" className="glyphicon glyphicon-pencil"></label>
+                    <label htmlFor="profile-icon-editor-input" className="glyphicon glyphicon-pen"></label>
                 </form>
             </div>
         );
