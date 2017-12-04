@@ -48,9 +48,9 @@ export default class Display extends Component {
 
         let noOfPeople=6;
         let noOfrooms = (noOfPeople / 2);
-        let noOfrooms_ceil = Math.ceil(noOfrooms);
+        //let noOfrooms_ceil = Math.ceil(noOfrooms);
         let priceback=2;
-        let priceOfRoom = noOfrooms_ceil * priceback;
+        let priceOfRoom = 2* priceback;
         console.log(priceOfRoom);
         let tax = (priceOfRoom) * 0.18;
         console.log(tax);
@@ -63,7 +63,7 @@ export default class Display extends Component {
                     <div className="col-lg-9 ">
                         <Card hotelRoom={this.state.hotelRoom} />
                         <CollapsibleCard hotelRoom={this.state.hotelRoom} className="state hotelResults" />
-                        <Card2 hotelRoom={this.state.hotelRoom} totalpriceOfRoom={totalpriceOfRoom} priceOfRoom={priceOfRoom} tax={tax} noOfrooms_ceil={noOfrooms_ceil}/>
+                        <Card2 hotelRoom={this.state.hotelRoom} totalpriceOfRoom={totalpriceOfRoom} priceOfRoom={priceOfRoom} tax={tax} noOfrooms_ceil={noOfrooms}/>
 
                     </div>
                     <div className="col-lg-3" style={{float: "right"}}>
