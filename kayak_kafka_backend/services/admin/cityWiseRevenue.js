@@ -4,15 +4,13 @@ let Car = require('../../Models/Car');
 let Flight = require('../../Models/Flight');
 let ObjectId = require('mongodb').ObjectID;
 
+let jsonObj = [];
+
 handle_request = ((data, callback) => {
     let response = {
         status: 400
     };
-    let jsonObj = {
-        hotel:[],
-        car:[],
-        flight:[]
-    };
+
     try {
         console.log("City Wise Revenue");
         console.log(data);
@@ -25,8 +23,8 @@ handle_request = ((data, callback) => {
             else {
                 console.log("hotelObj");
                 console.log(hotelObj);
-                jsonObj.hotel = hotelObj.data;
-                fetchCityByCars(function (err, carObj) {
+                jsonObj = hotelObj.data;
+                fetchCityByCars(jsonObj, function (err, carObj) {
                     if(err){
                         console.log(err);
                         callback(err, response);
@@ -34,31 +32,21 @@ handle_request = ((data, callback) => {
                     else {
                         console.log("carObj");
                         console.log(carObj);
-                        jsonObj.car = carObj.data;
+                        // jsonObj.push(carObj.data);
                         console.log(jsonObj);
-                        fetchCityByFlights(function (err, flightObj) {
+                        fetchCityByFlights(jsonObj, function (err, flightObj) {
                             if(err) {
                                 console.log(err);
                                 callback(err, response);
                             }
                             else {
-                                console.log("carObj");
                                 console.log(flightObj);
-                                jsonObj.flight = flightObj.data;
-                                console.log("jsonObj : ");
+                                // jsonObj.push(flightObj.data);
+                                console.log("final jsonObj : ");
                                 console.log(jsonObj);
-                                filterDataByCity(jsonObj, function (err, result) {
-                                    if(err){
-                                        console.log(err);
-                                        callback(err, response);
-                                    }
-                                    else {
-                                        response.status=200;
-                                        response.data = jsonObj;
-                                        callback(null, response)
-                                    }
-                                });
-
+                                response.status=200;
+                                response.data=jsonObj;
+                                callback(null, response);
                             }
                         });
                     }
@@ -94,10 +82,6 @@ fetchCityByHotels = ((callback)=>{
             }
             else {
                 let jsonObj = [];
-                let temp = {
-                    city:"",
-                    totalRevenue:0
-                };
                 console.log(results);
                 if(results.length>0){
                     let mysqlCount=0;
@@ -167,7 +151,7 @@ fetchCityByHotels = ((callback)=>{
     }
 });
 
-fetchCityByCars  = ((callback)=>{
+fetchCityByCars  = ((jsonObj, callback)=>{
     let response = {
         status : 400
     };
@@ -187,7 +171,8 @@ fetchCityByCars  = ((callback)=>{
                 callback(null, results);
             }
             else {
-                let jsonObj = [];
+                // let jsonObj = [];
+
                 console.log(results);
                 if(results.length>0){
                     let mysqlCount=0;
@@ -195,7 +180,7 @@ fetchCityByCars  = ((callback)=>{
                         Car.find({_id : ObjectId(mysqlresult.carId)},{city:1}, function (err, results1) {
                             console.log(results1);
                             let cityExists = false;
-                            let jsoncount = 0;
+                            let jsoncount = jsonObj.length;
                             if(jsonObj.length>0){
                                 jsonObj.map((obj)=>{
                                     console.log(obj);
@@ -224,7 +209,7 @@ fetchCityByCars  = ((callback)=>{
                                         console.log(jsonObj);
                                         response.status=200;
                                         response.data = jsonObj;
-                                        callback(null, response);
+                                        callback(null, jsonObj);
                                     }
                                 });
                             }
@@ -236,14 +221,14 @@ fetchCityByCars  = ((callback)=>{
                                     });
                                 mysqlCount++;
                                 console.log(jsonObj);
+                                if(mysqlCount===results.length){
+                                    console.log("Final2");
+                                    console.log(jsonObj);
+                                    response.status=200;
+                                    callback(null, jsonObj);
+                                }
                             }
-                            /*if(mysqlCount===results.length){
-                                console.log("Final2");
-                                console.log(jsonObj);
-                                /!*response.status=200;
-                                response.data = jsonObj;
-                                callback(null, response);*!/
-                            }*/
+
                             console.log("mysqlCount : "+mysqlCount);
                         });
                     });
@@ -257,7 +242,7 @@ fetchCityByCars  = ((callback)=>{
     }
 });
 
-fetchCityByFlights  = ((callback)=>{
+fetchCityByFlights  = ((jsonObj, callback)=>{
     let response = {
         status : 400
     };
@@ -277,7 +262,7 @@ fetchCityByFlights  = ((callback)=>{
                 callback(null, results);
             }
             else {
-                let jsonObj = [];
+                // let jsonObj = [];
                 console.log(results);
                 if(results.length>0){
                     let mysqlCount=0;
@@ -286,7 +271,7 @@ fetchCityByFlights  = ((callback)=>{
                             console.log("results1");
                             console.log(results1);
                             let cityExists = false;
-                            let jsoncount = 0;
+                            let jsoncount = jsonObj.length;
                             if(jsonObj.length>0){
                                 jsonObj.map((obj)=>{
                                     console.log(obj);
@@ -315,7 +300,7 @@ fetchCityByFlights  = ((callback)=>{
                                         console.log(jsonObj);
                                         response.status=200;
                                         response.data = jsonObj;
-                                        callback(null, response);
+                                        callback(null, jsonObj);
                                     }
                                 });
                             }
@@ -332,7 +317,7 @@ fetchCityByFlights  = ((callback)=>{
                                     console.log(jsonObj);
                                     response.status = 200;
                                     response.data = jsonObj;
-                                    callback(null, response);
+                                    callback(null, jsonObj);
                                 }
                             }
                             console.log("mysqlCount : "+mysqlCount);
@@ -347,5 +332,6 @@ fetchCityByFlights  = ((callback)=>{
         callback(e, response);
     }
 });
+
 
 exports.handle_request = handle_request;
