@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "admintest" : "mocha",
     "start": "node ./bin/www"
   },
   "dependencies": {
