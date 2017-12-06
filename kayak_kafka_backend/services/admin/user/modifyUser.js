@@ -8,7 +8,7 @@ handle_request = ((data, callback) => {
     try {
         console.log("Modify User");
         console.log(data);
-        let fetchQuery = "select * from user where username = '"+data.username+"' and accessInd = '"+data.accessInd+"';";
+        let fetchQuery = "select * from user where username = '"+data.username+"';";
         let updateQuery = "update userprofile set " +
             "firstName = '"+ data.firstName +"', " +
             "lastName = '"+ data.lastName +"', " +
