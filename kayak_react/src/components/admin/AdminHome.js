@@ -16,14 +16,18 @@ import FlightBookingsPage from '../admin/booking/flight/FlightBookingsPage';
 
 class AdminHome extends Component {
 
-    componentWillMount() {
+    validateSession(){
         API.validateAdminSession().then((response) => {
             if (response.status === 200) {
                 console.log("Admin Logged Successfully");
-            }else{
+            }else {
                 this.props.handlePageChange("/u");
             }
         })
+    }
+
+    componentWillMount() {
+       this.validateSession();
     }
 
     render() {
