@@ -26,6 +26,7 @@ doHotelBooking = ((data, callback) => {
         mysql.insertData(function (err, result) {
             if (err) {
                 console.log(err);
+                callback(err, null);
             }
             else {
                 console.log(result);

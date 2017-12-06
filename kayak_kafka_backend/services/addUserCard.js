@@ -17,6 +17,7 @@ handle_request = ((data, callback) => {
             console.log("***********************Query 1")
             if (err) {
                 console.log(err);
+                callback(err, null);
             }
             else {
                 // console.log(result);
@@ -25,6 +26,7 @@ handle_request = ((data, callback) => {
                         console.log("***********************Query 2")
                         if (err) {
                             console.log(err);
+                            callback(err, null);
                         }
                         else {
                             // console.log(result);

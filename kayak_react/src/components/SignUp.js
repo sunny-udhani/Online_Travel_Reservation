@@ -89,6 +89,7 @@ class SignUp extends Component {
 
     handleSubmitClick() {
         let userdata = new FormData();
+        let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         userdata = this.state;
 
         console.log("Formdata : " + userdata);
@@ -137,6 +138,12 @@ class SignUp extends Component {
             return;
         }
 
+        if ((emailPattern.exec(this.state.username)) === null) {
+            console.log(this);
+
+            showAlert("Not a email address", "error", this);
+            return;
+        }
 
         doSignUp(userdata)
             .then((res) => {
@@ -181,7 +188,7 @@ class SignUp extends Component {
                     <Row>
                         <Col xs="12">
                             <FormGroup>
-                                <input type="text" name="username" className="form-input" placeholder="Username"
+                                <input type="email" name="username" className="form-input" placeholder="Username"
                                        onChange={(event) => {
                                            this.handleChange(event);
                                        }}

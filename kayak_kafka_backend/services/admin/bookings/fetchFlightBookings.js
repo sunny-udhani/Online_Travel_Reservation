@@ -97,6 +97,7 @@ handle_request = ((data, callback) => {
                                             mysql.fetchData(function (err, results2) {
                                                 if (err) {
                                                     console.log(err);
+                                                    callback(err, null);
                                                 }
                                                 else {
                                                     console.log(results2);

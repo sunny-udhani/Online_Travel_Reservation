@@ -10,6 +10,9 @@ import {getUserDetails} from "../../api/user/API_GetUserDetails";
 import {bookCar} from "../../api/user/API_BookCar";
 import {insertTravelerDetails} from "../../api/user/API_InsertTravelerDetails";
 
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../alertConfig";
+
 import '../../design/css/bootstrap.min.css'
 import '../../design/css/jquery-ui.min.css'
 import '../../design/css/jquery-ui.structure.min.css'
@@ -151,50 +154,117 @@ class CarBooking extends Component {
         cvv: ''
     };
 
+    validate_creditcardnumber(inputNum) {
+        var digit, digits, flag, sum, _i, _len;
+        flag = true;
+        sum = 0;
+        digits = (inputNum + '').split('').reverse();
+        for (_i = 0, _len = digits.length; _i < _len; _i++) {
+            digit = digits[_i];
+            digit = parseInt(digit, 10);
+            if ((flag = !flag)) {
+                digit *= 2;
+            }
+            if (digit > 9) {
+                digit -= 9;
+            }
+            sum += digit;
+        }
+        return sum % 10 === 0;
+    };
+
     handleCarBooking(userdata) {
         console.log("In handleFlightBooking");
         console.log(userdata);
-        bookCar(userdata)
-            .then((res) => {
-                console.log(res.status);
-                console.log(userdata.username);
-                if (res.status === 200) {
-                    console.log("success");
 
-                    let payload = {
-                        bookingType: "car",
-                        userdata: userdata,
-                        traveler_details: this.traveler_details,
-                        billing_address: this.billing_address,
-                        payment_details: this.payment_details
-                    };
+        let ccPattern = /^(?=.{16}$)(?=.*[0-9])/;
+        let ccEntry = parseInt(this.payment_details.creditCardnumber);
 
-                    //independent API to insert traveler details, billing address, and payment details
-                    insertTravelerDetails(payload)
-                        .then((res) => {
 
-                            if (res.status === 200) {
-                                console.log("success");
+        let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let emailEntry = this.traveler_details.email;
 
-                                this.props.bookingSuccess(this.state, "booking_success");
-                                this.props.history.push("/payment/thankyou");
+        let mobilePattern = /^[1-9]\d{9}$/;
+        let mobileEntry = parseInt(this.traveler_details.phonenumber);
+
+        let postalPattern = /^[1-9]\d{4}$/;
+        let postalEntry = parseInt(this.billing_address.postalcode);
+
+        let statePattern = /^(AL|Alabama|alabama|AK|Alaska|alaska|AZ|Arizona|arizona|AR|Arkansas|arkansas|CA|California|california|CO|Colorado|colorado|CT|Connecticut|connecticut|DE|Delaware|delaware|FL|Florida|florida|GA|Georgia|georgia|HI|Hawaii|hawaii|ID|Idaho|idaho|IL|Illinois|illinois|IN|Indiana|indiana|IA|Iowa|iowa|KS|Kansas|kansas|KY|Kentucky|kentucky|LA|Louisiana|louisiana|ME|Maine|maine|MD|Maryland|maryland|MA|Massachusetts|massachusetts|MI|Michigan|michigan|MN|Minnesota|minnesota|MS|Mississippi|mississippi|MO|Missouri|missouri|MT|Montana|montana|NE|Nebraska|nebraska|NV|Nevada|nevada|NH|New Hampshire|new hampshire|NJ|New Jersey|new jersey|NM|New Mexico|new mexico|NY|New York|new york|NC|North Carolina|new carolina|ND|North Dakota|north dakota|OH|Ohio|ohio|OK|Oklahoma|oklahoma|OR|Oregon|oregon|PA|Pennsylvania|pennsylvania|RI|Rhode Island|rhode island|SC|South Carolina|south carolina|SD|South Dakota|south dakota|TN|Tennessee|tennessee|TX|Texas|texas|UT|Utah|utah|VT|Vermont|vermont|VA|Virginia|virginia|WA|Washington|washington|WV|West Virginia|west virginia|WI|Wisconsin|wisconsin|WY|Wyoming|wyoming)$/;
+        let stateEntry = this.billing_address.state;
+
+        if (statePattern.test(stateEntry)) {
+            if (postalPattern.test(postalEntry)) {
+                if (mobilePattern.test(mobileEntry)) {
+                    if (emailPattern.test(emailEntry)) {
+                        if (ccPattern.test(ccEntry)) {
+                            if (this.validate_creditcardnumber(ccEntry)) {
+
+                                bookCar(userdata)
+                                    .then((res) => {
+                                        console.log(res.status);
+                                        console.log(userdata.username);
+                                        if (res.status === 200) {
+                                            console.log("success");
+
+                                            let payload = {
+                                                bookingType: "car",
+                                                userdata: userdata,
+                                                traveler_details: this.traveler_details,
+                                                billing_address: this.billing_address,
+                                                payment_details: this.payment_details
+                                            };
+
+                                            //independent API to insert traveler details, billing address, and payment details
+                                            insertTravelerDetails(payload)
+                                                .then((res) => {
+
+                                                    if (res.status === 200) {
+                                                        console.log("success");
+
+                                                        this.props.bookingSuccess(this.state, "booking_success");
+                                                        this.props.history.push("/payment/thankyou");
+                                                    }
+                                                    else {
+                                                        console.log("validation");
+                                                    }
+                                                })
+                                                .catch((err) => {
+                                                    console.log(err);
+                                                });
+
+                                        }
+                                        else {
+                                            console.log("validation");
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                    })
                             }
                             else {
-                                console.log("validation");
+                                showAlert("Enter a valid CC number", "error", this);
                             }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-
+                        }
+                        else {
+                            showAlert("Verify the length of the CC number", "error", this);
+                        }
+                    }
+                    else {
+                        showAlert("Enter a valid email address", "error", this);
+                    }
                 }
                 else {
-                    console.log("validation");
+                    showAlert("Enter a valid phonenumber", "error", this);
                 }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+            }
+            else {
+                showAlert("Enter a valid postal code", "error", this);
+            }
+        }
+        else {
+            showAlert("Enter a valid state/region", "error", this);
+        }
     };
 
     handleSignOut = () => {
@@ -222,7 +292,9 @@ class CarBooking extends Component {
                                         <div className="title hotel-middle cell-view">
                                             <h5 className="color-grey-3">You will drive
                                                 <br/>
-                                                <h4><strong className="color-red-3">{this.state.carObject.carMake} {this.state.carObject.carName}</strong></h4>
+                                                <h4><strong
+                                                    className="color-red-3">{this.state.carObject.carMake} {this.state.carObject.carName}</strong>
+                                                </h4>
                                             </h5>
 
                                             <br/>
@@ -671,6 +743,7 @@ class CarBooking extends Component {
                                                             onClick={() => this.handleCarBooking(this.car_payment)}>
                                                             BOOK
                                                         </button>
+                                                        <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                                     </div>
 
                                                 </div>

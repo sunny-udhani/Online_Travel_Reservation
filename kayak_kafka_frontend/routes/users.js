@@ -547,7 +547,7 @@ router.post('/getuserprofile_user', function (req, res) {
         payload = {
             username: req.session.username
         }
-        // console.log(req.body);
+        console.log(payload);
 
 
 
@@ -569,8 +569,6 @@ router.post('/getuserprofile_user', function (req, res) {
     }
 
 });
-
-
 
 
 router.post('/getcreditcarddetails', function (req, res) {

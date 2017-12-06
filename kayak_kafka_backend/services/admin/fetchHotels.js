@@ -31,6 +31,7 @@ handle_request = ((data, callback) => {
         Hotel.find(query, function (err, results) {
             if(err){
                 console.log(err);
+                callback(err, null);
             }
             else {
                 /*console.log("results : ");

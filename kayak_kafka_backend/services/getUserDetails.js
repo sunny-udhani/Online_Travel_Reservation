@@ -29,13 +29,12 @@ getDetails = ((data, callback) => {
 
             if (err) {
                 console.log(err);
+                callback(err, null);
             }
             else {
                 console.log(result);
                 console.log("0: " + result);
                 console.log("1: " + result.length);
-                console.log("2: " + result[0].firstName);
-                console.log("3: " + result[0].lastName);
 
                 if (result.length === 1) {
                     console.log("No. 1");
@@ -49,6 +48,7 @@ getDetails = ((data, callback) => {
 
                         if(err) {
                             console.log(err);
+                            callback(err, null);
                         }
                         else {
                             console.log("No. 3");
@@ -64,6 +64,7 @@ getDetails = ((data, callback) => {
 
                                     if(err) {
                                         console.log(err);
+                                        callback(err, null);
                                     }
                                     else {
 

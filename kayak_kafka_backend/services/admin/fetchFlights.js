@@ -25,6 +25,7 @@ handle_request = ((data, callback) => {
         Flight.find(query, function (err, results) {
             if(err){
                 console.log(err);
+                callback(err, null);
             }
             else {
                 console.log("results : ");

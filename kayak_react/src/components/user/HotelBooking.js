@@ -10,6 +10,9 @@ import {getUserDetails} from "../../api/user/API_GetUserDetails";
 import {bookHotel} from "../../api/user/API_BookHotel";
 import {insertTravelerDetails} from "../../api/user/API_InsertTravelerDetails";
 
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../alertConfig";
+
 import Traveler from './Traveler';
 
 import '../../design/css/bootstrap.min.css'
@@ -138,74 +141,146 @@ class HotelBooking extends Component {
     };
 
     traveler_details = {
-        first_name : '',
-        last_name : '',
-        email : '',
+        first_name: '',
+        last_name: '',
+        email: '',
         phonenumber: ''
     };
 
     billing_address = {
-        username : '',
-        street1 : '',
-        street2 : '',
-        postalcode : '',
-        city : '',
-        state : '',
-        country : ''
+        username: '',
+        street1: '',
+        street2: '',
+        postalcode: '',
+        city: '',
+        state: '',
+        country: ''
     };
 
     payment_details = {
-        username : '',
-        nameoncard : '',
-        creditCardnumber : '',
-        validThrough : '',
-        cvv : ''
+        username: '',
+        nameoncard: '',
+        creditCardnumber: '',
+        validThrough: '',
+        cvv: ''
     };
+
+    validate_creditcardnumber(inputNum) {
+        var digit, digits, flag, sum, _i, _len;
+        flag = true;
+        sum = 0;
+        digits = (inputNum + '').split('').reverse();
+        for (_i = 0, _len = digits.length; _i < _len; _i++) {
+            digit = digits[_i];
+            digit = parseInt(digit, 10);
+            if ((flag = !flag)) {
+                digit *= 2;
+            }
+            if (digit > 9) {
+                digit -= 9;
+            }
+            sum += digit;
+        }
+        return sum % 10 === 0;
+    };
+
 
     handleHotelBooking(userdata) {
         console.log("In handleFlightBooking");
         console.log(userdata);
-        bookHotel(userdata)
-            .then((res) => {
-                console.log(res.status);
-                console.log(userdata.username);
-                if (res.status === 200) {
-                    console.log("success");
 
-                    let payload = {
-                        bookingType : "hotel",
-                        userdata : userdata,
-                        traveler_details : this.traveler_details,
-                        billing_address : this.billing_address,
-                        payment_details : this.payment_details
-                    };
+        //let ccpattern = /^4\d{12}$|^4\d{15}$|^5[1-5]\d{14}$/;
 
-                    //independent API to insert traveler details, billing address, and payment details
-                    insertTravelerDetails(payload)
-                        .then((res) => {
+        let ccPattern = /^(?=.{16}$)(?=.*[0-9])/;
+        let ccEntry = parseInt(this.payment_details.creditCardnumber);
 
-                            if (res.status === 200) {
-                                console.log("success");
 
-                                this.props.bookingSuccess(this.state, "booking_success");
-                                this.props.history.push("/payment/thankyou");
+        let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let emailEntry = this.traveler_details.email;
+
+        let mobilePattern = /^[1-9]\d{9}$/;
+        let mobileEntry = parseInt(this.traveler_details.phonenumber);
+
+        let postalPattern = /^[1-9]\d{4}$/;
+        let postalEntry = parseInt(this.billing_address.postalcode);
+
+        let statePattern = /^(AL|Alabama|alabama|AK|Alaska|alaska|AZ|Arizona|arizona|AR|Arkansas|arkansas|CA|California|california|CO|Colorado|colorado|CT|Connecticut|connecticut|DE|Delaware|delaware|FL|Florida|florida|GA|Georgia|georgia|HI|Hawaii|hawaii|ID|Idaho|idaho|IL|Illinois|illinois|IN|Indiana|indiana|IA|Iowa|iowa|KS|Kansas|kansas|KY|Kentucky|kentucky|LA|Louisiana|louisiana|ME|Maine|maine|MD|Maryland|maryland|MA|Massachusetts|massachusetts|MI|Michigan|michigan|MN|Minnesota|minnesota|MS|Mississippi|mississippi|MO|Missouri|missouri|MT|Montana|montana|NE|Nebraska|nebraska|NV|Nevada|nevada|NH|New Hampshire|new hampshire|NJ|New Jersey|new jersey|NM|New Mexico|new mexico|NY|New York|new york|NC|North Carolina|new carolina|ND|North Dakota|north dakota|OH|Ohio|ohio|OK|Oklahoma|oklahoma|OR|Oregon|oregon|PA|Pennsylvania|pennsylvania|RI|Rhode Island|rhode island|SC|South Carolina|south carolina|SD|South Dakota|south dakota|TN|Tennessee|tennessee|TX|Texas|texas|UT|Utah|utah|VT|Vermont|vermont|VA|Virginia|virginia|WA|Washington|washington|WV|West Virginia|west virginia|WI|Wisconsin|wisconsin|WY|Wyoming|wyoming)$/;
+        let stateEntry = this.billing_address.state;
+
+        if (statePattern.test(stateEntry)) {
+            if (postalPattern.test(postalEntry)) {
+                if (mobilePattern.test(mobileEntry)) {
+                    if (emailPattern.test(emailEntry)) {
+                        if (ccPattern.test(ccEntry)) {
+                            if (this.validate_creditcardnumber(ccEntry)) {
+                                //console.log("Validating cc details 2 :" + this.validate_creditcardnumber(ccEntry));
+
+                                bookHotel(userdata)
+                                    .then((res) => {
+                                        console.log(res.status);
+                                        console.log(userdata.username);
+                                        if (res.status === 200) {
+                                            console.log("success");
+
+                                            let payload = {
+                                                bookingType: "hotel",
+                                                userdata: userdata,
+                                                traveler_details: this.traveler_details,
+                                                billing_address: this.billing_address,
+                                                payment_details: this.payment_details
+                                            };
+
+                                            //independent API to insert traveler details, billing address, and payment details
+                                            insertTravelerDetails(payload)
+                                                .then((res) => {
+
+                                                    if (res.status === 200) {
+                                                        console.log("success");
+
+                                                        this.props.bookingSuccess(this.state, "booking_success");
+                                                        this.props.history.push("/payment/thankyou");
+
+                                                    }
+                                                    else {
+                                                        console.log("validation");
+                                                    }
+                                                })
+                                                .catch((err) => {
+                                                    console.log(err);
+                                                });
+                                        }
+                                        else {
+                                            console.log("validation");
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                    })
 
                             }
                             else {
-                                console.log("validation");
+                                showAlert("Enter a valid CC number", "error", this);
                             }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
+                        }
+                        else {
+                            showAlert("Verify the length of the CC number", "error", this);
+                        }
+                    }
+                    else {
+                        showAlert("Enter a valid email address", "error", this);
+                    }
                 }
                 else {
-                    console.log("validation");
+                    showAlert("Enter a valid phonenumber", "error", this);
                 }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+            }
+            else {
+                showAlert("Enter a valid postal code", "error", this);
+            }
+        }
+        else {
+            showAlert("Enter a valid state/region", "error", this);
+        }
     };
 
     handleSignOut = () => {
@@ -240,10 +315,14 @@ class HotelBooking extends Component {
                                                     <h4><b>{this.state.hotelObject.hotelName}</b></h4>
                                                     <h6>{this.state.hotelObject.hotelAddress}
                                                         <br/>
-                                                        <span className="color-red-3"> {this.state.hotelObject.city} - {this.state.hotelObject.state}</span>
+                                                        <span className="color-red-3"> {this.state.hotelObject.city}
+                                                            - {this.state.hotelObject.state}</span>
 
                                                         <br/>
-                                                        Adults : <span className="color-red-3">{this.props.hotelNoOfPeople}</span> <small>for room type <span className="color-red-3">{this.state.roomType}</span></small>
+                                                        Adults : <span
+                                                            className="color-red-3">{this.props.hotelNoOfPeople}</span>
+                                                        <small>for room type <span
+                                                            className="color-red-3">{this.state.roomType}</span></small>
                                                     </h6>
 
                                                     <div className="fi_block">
@@ -359,7 +438,8 @@ class HotelBooking extends Component {
                                                     <div className="col-sm-12">
                                                         <hr/>
 
-                                                        <h5><strong className="color-red-3">Enter Guests Information</strong>
+                                                        <h5><strong className="color-red-3">Enter Guests
+                                                            Information</strong>
                                                         </h5>
                                                         <br/>
 
@@ -543,7 +623,9 @@ class HotelBooking extends Component {
                                                                        (event) => {
                                                                            this.payment_details.creditCardnumber = event.target.value
                                                                        }
+
                                                                    }
+                                                                   required
                                                             />
                                                         </div>
                                                     </div>
@@ -588,7 +670,10 @@ class HotelBooking extends Component {
                                                         <h6>Free cancellation until tomorrow</h6>
                                                         <h6>
                                                             <small>
-                                                                If cancelled or modified up to 3 days before date of arrival, no fee will be charged. If cancelled or modified later or in case of no-show, 100 percent of the first night will be charged.
+                                                                If cancelled or modified up to 3 days before date of
+                                                                arrival, no fee will be charged. If cancelled or
+                                                                modified later or in case of no-show, 100 percent of the
+                                                                first night will be charged.
                                                             </small>
                                                         </h6>
 
@@ -597,24 +682,60 @@ class HotelBooking extends Component {
                                                         <h6>Additional Terms</h6>
                                                         <h6>
                                                             <small>
-                                                                <br/>1. 100 percent of the first night may be charged anytime after booking.
-                                                                <br/>2. The property reserves the right to pre-authorise credit cards prior to arrival.
-                                                                <br/>3. Bed types, smoking preference, and in-room amenities are subject to hotel availability. Any incidental charges will be assessed to you by the hotel upon check-out, including parking fees, phone calls and room service.
-                                                                <br/>4. Government photo ID required. Age restrictions may apply (check age restrictions with the hotel) unless accompanied by parent or guardian.
-                                                                <br/>5. For any bookings made by persons below the age of 21, the hotel check in is not allowed and no booking refunds will be made. Please note that all guests must present valid IDs upon check-in. Government-issued photo identification and a credit card or cash deposit are required at check-in for incidental charges. Please note that the dress code for guests at check in is smart casual. Please contact the hotel for more information. Please note that a valid credit card is required to guarantee the reservation which will be pre-authorised at the time of booking. There will be a mandatory New Year's Eve Gala Dinner on 31 December 2017 at a charge of AED 2750 per person. For children between the age of 6 and 12 years the Gala Dinner charge would be AED 1375. Please note that only the suites can accommodate extra beds. This is available for an extra fee.
-                                                                <br/>6. 10 % service charge is excluded. 6 % Tourism fee is excluded. AED 15 Destination fee per night is excluded. 4 % Municipality fee is excluded.
+                                                                <br/>1. 100 percent of the first night may be charged
+                                                                anytime after booking.
+                                                                <br/>2. The property reserves the right to pre-authorise
+                                                                credit cards prior to arrival.
+                                                                <br/>3. Bed types, smoking preference, and in-room
+                                                                amenities are subject to hotel availability. Any
+                                                                incidental charges will be assessed to you by the hotel
+                                                                upon check-out, including parking fees, phone calls and
+                                                                room service.
+                                                                <br/>4. Government photo ID required. Age restrictions
+                                                                may apply (check age restrictions with the hotel) unless
+                                                                accompanied by parent or guardian.
+                                                                <br/>5. For any bookings made by persons below the age
+                                                                of 21, the hotel check in is not allowed and no booking
+                                                                refunds will be made. Please note that all guests must
+                                                                present valid IDs upon check-in. Government-issued photo
+                                                                identification and a credit card or cash deposit are
+                                                                required at check-in for incidental charges. Please note
+                                                                that the dress code for guests at check in is smart
+                                                                casual. Please contact the hotel for more information.
+                                                                Please note that a valid credit card is required to
+                                                                guarantee the reservation which will be pre-authorised
+                                                                at the time of booking. There will be a mandatory New
+                                                                Year's Eve Gala Dinner on 31 December 2017 at a charge
+                                                                of AED 2750 per person. For children between the age of
+                                                                6 and 12 years the Gala Dinner charge would be AED 1375.
+                                                                Please note that only the suites can accommodate extra
+                                                                beds. This is available for an extra fee.
+                                                                <br/>6. 10 % service charge is excluded. 6 % Tourism fee
+                                                                is excluded. AED 15 Destination fee per night is
+                                                                excluded. 4 % Municipality fee is excluded.
                                                                 <br/>7. Breakfast costs AED 224 per person per night.
-                                                                <br/>8. Free private parking is possible on site (reservation is not needed).
-                                                                <br/>9. WiFi is available in all areas and is free of charge.
-                                                                <br/>10. All children are welcome. One child under 6 years stays free of charge when using existing beds. All children under 2 years stay free of charge for children's cots/cribs. All children under 6 years stay free of charge for extra beds. All further older children or adults are charged AED 650 per night for extra beds. The maximum number of extra beds in a room is 1.
+                                                                <br/>8. Free private parking is possible on site
+                                                                (reservation is not needed).
+                                                                <br/>9. WiFi is available in all areas and is free of
+                                                                charge.
+                                                                <br/>10. All children are welcome. One child under 6
+                                                                years stays free of charge when using existing beds. All
+                                                                children under 2 years stay free of charge for
+                                                                children's cots/cribs. All children under 6 years stay
+                                                                free of charge for extra beds. All further older
+                                                                children or adults are charged AED 650 per night for
+                                                                extra beds. The maximum number of extra beds in a room
+                                                                is 1.
                                                                 <br/>11. Pets are not allowed.
-                                                                <br/>12. When booking more than 10 rooms, different policies and additional supplements may apply.
+                                                                <br/>12. When booking more than 10 rooms, different
+                                                                policies and additional supplements may apply.
                                                             </small>
                                                         </h6>
 
                                                         <br/>
 
-                                                        <h5>By clicking <strong>"Book"</strong> you agree to KAYAK's policies</h5>
+                                                        <h5>By clicking <strong>"Book"</strong> you agree to KAYAK's
+                                                            policies</h5>
 
                                                         <div className="checkbox">
                                                             <h6>
@@ -628,9 +749,11 @@ class HotelBooking extends Component {
                                                     <div className="col-sm-12">
                                                         <button
                                                             className="btn-block btn-success btn-group-sm"
-                                                            type="button" onClick={() => this.handleHotelBooking(this.hotel_payment)}>
+                                                            type="button"
+                                                            onClick={() => this.handleHotelBooking(this.hotel_payment)}>
                                                             BOOK
                                                         </button>
+                                                        <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                                     </div>
 
                                                 </div>
@@ -649,9 +772,13 @@ class HotelBooking extends Component {
                                                 <div className="title hotel-middle cell-view">
                                                     <h4 className="">Summary</h4>
                                                     <hr/>
-                                                    <h5><strong>{this.state.hotelObject.hotelName}</strong>{this.state.roomType}</h5>
+                                                    <h5>
+                                                        <strong>{this.state.hotelObject.hotelName}</strong>{this.state.roomType}
+                                                    </h5>
 
-                                                    <h6><span className="color-red-3">Adults :  {this.props.hotelNoOfPeople}</span></h6>
+                                                    <h6><span
+                                                        className="color-red-3">Adults : {this.props.hotelNoOfPeople}</span>
+                                                    </h6>
 
                                                     <h6>
                                                         {this.state.fromDate}
@@ -664,7 +791,8 @@ class HotelBooking extends Component {
                                                     <hr/>
                                                     <div className="col-md-12">
                                                         <div className="col-md-6">
-                                                            <h6>{this.props.hotelNoOfPeople} Adult/s, {this.state.roomType}</h6>
+                                                            <h6>{this.props.hotelNoOfPeople}
+                                                                Adult/s, {this.state.roomType}</h6>
                                                             <h6>Taxes and Fees</h6>
                                                             <hr/>
                                                             <h5><strong>TOTAL</strong></h5>
@@ -674,7 +802,9 @@ class HotelBooking extends Component {
                                                             <h6>{(this.state.base_price * this.props.hotelNoOfPeople).toFixed(2)}</h6>
                                                             <h6>{(this.state.base_price * this.props.hotelNoOfPeople * 0.09).toFixed(2)}</h6>
                                                             <hr/>
-                                                            <h2><strong>{(this.state.base_price * this.props.hotelNoOfPeople * 1.09).toFixed(2)}</strong></h2>
+                                                            <h2>
+                                                                <strong>{(this.state.base_price * this.props.hotelNoOfPeople * 1.09).toFixed(2)}</strong>
+                                                            </h2>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -687,6 +817,7 @@ class HotelBooking extends Component {
                         </div>
                     </div>
                 </div>
+
 
             </div>
 

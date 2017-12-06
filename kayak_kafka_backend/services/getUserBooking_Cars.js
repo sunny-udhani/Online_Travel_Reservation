@@ -22,6 +22,7 @@ handle_request = ((data, callback) => {
         mysql.fetchData(function (err, result) {
             if (err) {
                 console.log(err);
+                callback(err, null);
             }
             else {
                 if (result.length !== 0) {
@@ -61,7 +62,8 @@ handle_request = ((data, callback) => {
                             callback(null, resultcars);
                         }
                     });
-                }else{
+                }
+                else{
                     callback(null, result);
                 }
 

@@ -10,6 +10,9 @@ import {getUserDetails} from "../../api/user/API_GetUserDetails";
 import {bookFlight} from "../../api/user/API_BookFlight";
 import {insertTravelerDetails} from "../../api/user/API_InsertTravelerDetails";
 
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../alertConfig";
+
 import Traveler from './Traveler';
 import Thankyou from './Thankyou';
 
@@ -78,6 +81,25 @@ class FlightBooking extends Component {
         creditCardnumber: '',
         validThrough: '',
         cvv: ''
+    };
+
+    validate_creditcardnumber(inputNum) {
+        var digit, digits, flag, sum, _i, _len;
+        flag = true;
+        sum = 0;
+        digits = (inputNum + '').split('').reverse();
+        for (_i = 0, _len = digits.length; _i < _len; _i++) {
+            digit = digits[_i];
+            digit = parseInt(digit, 10);
+            if ((flag = !flag)) {
+                digit *= 2;
+            }
+            if (digit > 9) {
+                digit -= 9;
+            }
+            sum += digit;
+        }
+        return sum % 10 === 0;
     };
 
     add_travelers = (() => {
@@ -263,46 +285,115 @@ class FlightBooking extends Component {
         console.log("State");
         console.log(this.state);
 
-        this.props.bookingSuccess(this.state, "booking_success");
+        //let ccpattern = /^4\d{12}$|^4\d{15}$|^5[1-5]\d{14}$/;
 
-        bookFlight(userdata)
-            .then((res) => {
-                console.log(res.status);
-                console.log(userdata.username);
-                if (res.status === 200) {
-                    console.log("success");
+        let ccPattern = /^(?=.{16}$)(?=.*[0-9])/;
+        let ccEntry = parseInt(this.payment_details.creditCardnumber);
 
-                    let payload = {
-                        bookingType: "flight",
-                        userdata: userdata,
-                        traveler_details: this.traveler_details,
-                        billing_address: this.billing_address,
-                        payment_details: this.payment_details
-                    };
+        let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let mobilePattern = /^[1-9]\d{9}$/;
 
-                    //independent API to insert traveler details, billing address, and payment details
-                    insertTravelerDetails(payload)
-                        .then((res) => {
+        let emailFlag = false;
+        let mobileFlag = false;
 
-                            if (res.status === 200) {
-                                console.log("success");
-                                this.props.history.push("/payment/thankyou");
+        for(let i = 0 ; i < this.state.noofpassengers ; i++) {
+            if(emailPattern.test(this.traveler_details[i].email)) {
+                emailFlag = true;
+            }
+            else {
+                emailFlag = false;
+                break;
+            }
+        }
+
+        for(let i = 0 ; i < this.state.noofpassengers ; i++) {
+            if(mobilePattern.test(this.traveler_details[i].phonenumber)) {
+                mobileFlag = true;
+            }
+            else {
+                mobileFlag = false;
+                break;
+            }
+        }
+
+        console.log("Email Flag : " + emailFlag);
+        console.log("Mobile Flag : " + mobileFlag);
+
+        let postalPattern = /^[1-9]\d{4}$/;
+        let postalEntry = parseInt(this.billing_address.postalcode);
+
+        let statePattern = /^(AL|Alabama|alabama|AK|Alaska|alaska|AZ|Arizona|arizona|AR|Arkansas|arkansas|CA|California|california|CO|Colorado|colorado|CT|Connecticut|connecticut|DE|Delaware|delaware|FL|Florida|florida|GA|Georgia|georgia|HI|Hawaii|hawaii|ID|Idaho|idaho|IL|Illinois|illinois|IN|Indiana|indiana|IA|Iowa|iowa|KS|Kansas|kansas|KY|Kentucky|kentucky|LA|Louisiana|louisiana|ME|Maine|maine|MD|Maryland|maryland|MA|Massachusetts|massachusetts|MI|Michigan|michigan|MN|Minnesota|minnesota|MS|Mississippi|mississippi|MO|Missouri|missouri|MT|Montana|montana|NE|Nebraska|nebraska|NV|Nevada|nevada|NH|New Hampshire|new hampshire|NJ|New Jersey|new jersey|NM|New Mexico|new mexico|NY|New York|new york|NC|North Carolina|new carolina|ND|North Dakota|north dakota|OH|Ohio|ohio|OK|Oklahoma|oklahoma|OR|Oregon|oregon|PA|Pennsylvania|pennsylvania|RI|Rhode Island|rhode island|SC|South Carolina|south carolina|SD|South Dakota|south dakota|TN|Tennessee|tennessee|TX|Texas|texas|UT|Utah|utah|VT|Vermont|vermont|VA|Virginia|virginia|WA|Washington|washington|WV|West Virginia|west virginia|WI|Wisconsin|wisconsin|WY|Wyoming|wyoming)$/;
+        let stateEntry = this.billing_address.state;
+
+        if (statePattern.test(stateEntry)) {
+            if (postalPattern.test(postalEntry)) {
+                if (mobileFlag) {
+                    if (emailFlag) {
+                        if (ccPattern.test(ccEntry)) {
+                            if (this.validate_creditcardnumber(ccEntry)) {
+
+                                bookFlight(userdata)
+                                    .then((res) => {
+                                        console.log(res.status);
+                                        console.log(userdata.username);
+                                        if (res.status === 200) {
+                                            console.log("success");
+
+                                            let payload = {
+                                                bookingType: "flight",
+                                                userdata: userdata,
+                                                traveler_details: this.traveler_details,
+                                                billing_address: this.billing_address,
+                                                payment_details: this.payment_details
+                                            };
+
+                                            //independent API to insert traveler details, billing address, and payment details
+                                            insertTravelerDetails(payload)
+                                                .then((res) => {
+
+                                                    if (res.status === 200) {
+                                                        console.log("success");
+                                                        this.props.bookingSuccess(this.state, "booking_success");
+                                                        this.props.history.push("/payment/thankyou");
+                                                    }
+                                                    else {
+                                                        console.log("validation");
+                                                    }
+                                                })
+                                                .catch((err) => {
+                                                    console.log(err);
+                                                });
+                                        }
+                                        else {
+                                            console.log("validation");
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                    });
+                            } else {
+                                showAlert("Enter a valid CC number", "error", this);
                             }
-                            else {
-                                console.log("validation");
-                            }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
+                        }
+                        else {
+                            showAlert("Verify the length of the CC number", "error", this);
+                        }
+                    }
+                    else {
+                        showAlert("Enter a valid email address", "error", this);
+                    }
                 }
                 else {
-                    console.log("validation");
+                    showAlert("Enter a valid phonenumber", "error", this);
                 }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            }
+            else {
+                showAlert("Enter a valid postal code", "error", this);
+            }
+        }
+        else {
+            showAlert("Enter a valid state/region", "error", this);
+        }
     };
 
     render() {
@@ -328,7 +419,9 @@ class FlightBooking extends Component {
                                                     <h4><b>{this.state.flightObject.origin}&nbsp;
                                                         to&nbsp;{this.state.flightObject.destination}</b></h4>
                                                     <h5>{this.state.flightObject.flightOperator} - <span
-                                                        className="color-red-3"> {this.props.flightTripType} - {this.props.flightClass} - Adults : {this.props.flightNoofPassengers}</span>
+                                                        className="color-red-3"> {this.props.flightTripType}
+                                                        - {this.props.flightClass}
+                                                        - Adults : {this.props.flightNoofPassengers}</span>
                                                     </h5>
 
                                                     <div className="fi_block">
@@ -764,6 +857,7 @@ class FlightBooking extends Component {
                                                             onClick={() => this.handleFlightBooking(this.flight_payment)}>
                                                             BOOK
                                                         </button>
+                                                        <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                                     </div>
 
                                                 </div>
@@ -782,7 +876,8 @@ class FlightBooking extends Component {
                                                 <div className="title hotel-middle cell-view">
                                                     <h4 className="">Summary</h4>
                                                     <hr/>
-                                                    <h6><strong className="">{this.state.flightObject.flightOperator} -{this.props.flightTripType} - {this.props.flightClass} - Adults
+                                                    <h6><strong className="">{this.state.flightObject.flightOperator}
+                                                        -{this.props.flightTripType} - {this.props.flightClass} - Adults
                                                         : {this.props.flightNoofPassengers}</strong></h6>
                                                     <h6>
                                                         {this.state.flightObject.departureTime}
@@ -799,18 +894,20 @@ class FlightBooking extends Component {
                                                     <hr/>
                                                     <div className="col-md-12">
                                                         <div className="col-md-6">
-                                                        <h6>{this.props.flightNoofPassengers}
-                                                            Adult/s, {this.props.flightClass}</h6>
-                                                        <h6>Taxes and Fees</h6>
-                                                        <hr/>
-                                                        <h5><strong>TOTAL</strong></h5>
+                                                            <h6>{this.props.flightNoofPassengers}
+                                                                Adult/s, {this.props.flightClass}</h6>
+                                                            <h6>Taxes and Fees</h6>
+                                                            <hr/>
+                                                            <h5><strong>TOTAL</strong></h5>
                                                         </div>
 
                                                         <div className="col-md-6">
                                                             <h6>{(this.state.baseprice * this.state.noofpassengers).toFixed(2)}</h6>
                                                             <h6>{(this.state.baseprice * this.state.noofpassengers * 0.09).toFixed(2)}</h6>
                                                             <hr/>
-                                                            <h2><strong>{(this.state.baseprice * this.state.noofpassengers * 1.09).toFixed(2)}</strong></h2>
+                                                            <h2>
+                                                                <strong>{(this.state.baseprice * this.state.noofpassengers * 1.09).toFixed(2)}</strong>
+                                                            </h2>
                                                         </div>
                                                     </div>
                                                 </div>

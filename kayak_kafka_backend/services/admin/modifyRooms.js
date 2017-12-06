@@ -21,6 +21,7 @@ handle_request = ((data, callback) => {
             function (err, result) {
                 if(err){
                     console.log(err);
+                    callback(err, null);
                 }
                 else {
                     if(result.nModified===1){
