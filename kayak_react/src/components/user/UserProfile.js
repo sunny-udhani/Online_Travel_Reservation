@@ -10,7 +10,7 @@ class UserProfile extends Component {
         let click = {
             pageClick:{
                 userId: "anonymous",
-                pageName: "UserHome",
+                pageName: "UserProfile",
                 date: new Date().getDate(),
                 month: new Date().getMonth(),
                 year: 1900+new Date().getYear(),

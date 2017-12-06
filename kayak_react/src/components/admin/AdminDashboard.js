@@ -653,29 +653,6 @@ class AdminDashboard extends Component {
                                             )))
                                         }
                                     </select>
-                                    {/*</div>*/}
-                                    {/*<Dropdown style={{textAlign:"center"}} isOpen={this.state.dropdownOpen} size="sm" toggle={this.toggle}>*/}
-                                    {/*<DropdownToggle caret >*/}
-                                    {/*Choose city*/}
-                                    {/*</DropdownToggle>*/}
-                                    {/*<DropdownMenu>*/}
-                                    {/*/!*<DropdownItem header>Header</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem disabled>Action</DropdownItem>*!/*/}
-                                    {/*{*/}
-                                    {/*this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(*/}
-                                    {/*<DropdownItem onClick={(event)=> this.loadCityRevenue(event)} value={city.city}>{city.city}</DropdownItem>*/}
-                                    {/*)))*/}
-                                    {/*}*/}
-                                    {/*/!*<DropdownItem value="San Jose">San Jose</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="San Fransisco">San Fransisco</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="Santa Cruz">Santa Cruz</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="New York">New York</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="Los Angeles">Los Angeles</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="Seattle">Seattle</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem divider />*!/*/}
-                                    {/*/!*<DropdownItem>Another Action</DropdownItem>*!/*/}
-                                    {/*</DropdownMenu>*/}
-                                    {/*</Dropdown>*/}
                                     {console.log(cityWiseRevenue)}
                                     <HorizontalBar data={cityWiseRevenue}
                                                    options={{
@@ -814,6 +791,14 @@ class AdminDashboard extends Component {
                         </CardHeader>
                         <CardBody>
                             <div id="treeWrapper">
+                                <select style={{textAlign:"center"}} onChange={(event)=> this.loadCityRevenue(event)} >
+                                    <option style={{textAlign:"center"}} value="Select">Select</option>
+                                    {
+                                        this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(
+                                            <option style={{textAlign:"center"}} value={city.city}>{city.city}</option>
+                                        )))
+                                    }
+                                </select>
                                 <Tree data={clickStreamTree} />
                             </div>
                         </CardBody>
