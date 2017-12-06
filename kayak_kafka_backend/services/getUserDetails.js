@@ -34,8 +34,6 @@ getDetails = ((data, callback) => {
                 console.log(result);
                 console.log("0: " + result);
                 console.log("1: " + result.length);
-                console.log("2: " + result[0].firstName);
-                console.log("3: " + result[0].lastName);
 
                 if (result.length === 1) {
                     console.log("No. 1");

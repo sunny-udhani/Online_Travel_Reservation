@@ -263,7 +263,7 @@ class FlightBooking extends Component {
         console.log("State");
         console.log(this.state);
 
-        this.props.bookingSuccess(this.state, "booking_success");
+
 
         bookFlight(userdata)
             .then((res) => {
@@ -286,6 +286,8 @@ class FlightBooking extends Component {
 
                             if (res.status === 200) {
                                 console.log("success");
+
+                                this.props.bookingSuccess(this.state, "booking_success");
                                 this.props.history.push("/payment/thankyou");
                             }
                             else {

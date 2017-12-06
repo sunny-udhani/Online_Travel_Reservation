@@ -41,7 +41,7 @@ exports.listFlights = ((message, callback) => {
                         console.log(roundFlightList);
                         console.log("round trip flights");
 
-                        callback(null,RoundFlightList)
+                        callback(null, RoundFlightList)
                     }
                 })
 
@@ -128,19 +128,28 @@ function listDirectFlights(callback) {
                             else {
 
                                 if (result1 !== null) {
+                                    let flag = false;
 
                                     for (let i = 0; i < flight.classes.length; i++) {
 
                                         console.log(flight.classes[i].classType.toString());
 
-                                        if (flight.classes[i].classType.toString().toLowerCase() === searchCriteria.class && result1[0].total < flight.classes[i].noOfSeats) {
+                                        if (flight.classes[i].classType.toString().toLowerCase() === searchCriteria.class && result1[0].total < flight.classes[i].noOfSeats && (result1[0].total + parseInt(searchCriteria.no_of_people)) < flight.classes[i].noOfSeats ) {
 
                                             // direct flights
-                                            cb();
+                                            flag = true;
                                             FligthList.push(flight);
+                                            cb();
                                         }
                                         else {
+                                            continue;
                                         }
+
+                                    }
+                                    console.log(flag);
+
+                                    if (!flag) {
+                                        cb();
                                     }
                                 }
                                 else {
@@ -148,7 +157,7 @@ function listDirectFlights(callback) {
                                 }
                             }
 
-                        }, "select count(noOfPassengers) as total from flightbooking where flightbooking.flightId = '" + flight._id + "' and flightbooking.flightClass = '" + searchCriteria.class + "' ")
+                        }, "select sum(noOfPassengers) as total from flightbooking where flightbooking.flightId = '" + flight._id + "' and flightbooking.flightClass = '" + searchCriteria.class + "' ")
                     }
                 }, function (err) {
                     if (err) {
@@ -217,6 +226,7 @@ function listIndirectFlights(callback) {
 
                                         console.log(flight.classes);
                                         console.log("1");
+                                        let flag = false;
 
                                         for (let i = 0; i < flight.classes.length; i++) {
                                             console.log("2");
@@ -229,7 +239,7 @@ function listIndirectFlights(callback) {
 
                                                 tempFlightRecords.one = flight;
                                                 totalPrice = flight.classes[i].price;
-
+                                                flag = true;
                                                 console.log("3");
                                                 console.log("search nxt flight with following restrictions");
                                                 // indirect flights
@@ -264,6 +274,7 @@ function listIndirectFlights(callback) {
                                                                         // indirect flights
                                                                         console.log("56")
                                                                         console.log(oneHopLastResult.classes);
+                                                                        let flagind = false;
                                                                         for (let i = 0; i < oneHopLastResult.classes.length; i++) {
 
                                                                             console.log(oneHopLastResult.classes[i].classType.toString());
@@ -283,6 +294,9 @@ function listIndirectFlights(callback) {
                                                                                 // cb1();
 
                                                                             }
+                                                                        }
+                                                                        if (!flagind) {
+                                                                            cb1();
                                                                         }
                                                                     }
                                                                     else {
@@ -306,6 +320,9 @@ function listIndirectFlights(callback) {
                                                 // cb1();
                                             }
                                         }
+                                        if (!flag) {
+                                            cb1();
+                                        }
                                     }
                                     else {
                                         cb1();
@@ -326,8 +343,8 @@ function listIndirectFlights(callback) {
             } else {
                 callback(null, indirectFlights)
             }
-        }else{
-callback(null, indirectFlights)
+        } else {
+            callback(null, indirectFlights)
         }
     })
 
@@ -386,6 +403,7 @@ function listRoundFlights(callback) {
 
                                         console.log(flight.classes);
                                         console.log("1");
+                                        let flag = false;
 
                                         for (let i = 0; i < flight.classes.length; i++) {
                                             console.log("2");
