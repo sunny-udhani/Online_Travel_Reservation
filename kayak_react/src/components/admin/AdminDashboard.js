@@ -211,7 +211,32 @@ class AdminDashboard extends Component {
             reviewsOnProperties:{
                 labels: ['Hotel','Flight','Car'],
                 data: [0,0,0]
-            }
+            },
+            traceTrees: {
+                // {
+                //     userId: '',
+                //     treeData:{
+                //         pages: [],
+                //         pageTime: []
+                //      }
+                // },
+                // {
+                //     userId: '',
+                //     treeData:{
+                //         pages: [],
+                //         pageTime: []
+                //     }
+                // }
+            },
+            userTraceTree:[
+                {
+                    name: '',
+                    attributes: {
+                        Time: '',
+                    },
+                    children: []
+                }
+            ]
         }
     }
 
@@ -313,7 +338,22 @@ class AdminDashboard extends Component {
                 });
             })
             .catch(err => console.log(err));
+
+        AdminAPI.userTraceTree()
+            .then( res => {
+                // console.log("Received response - "+res.status);
+                // console.log("Received response UserTrees - "+res.userTrees.data);
+                this.setState({
+                    ...this.state,
+                    traceTrees: res
+                });
+            })
+            .catch(err => console.log(err));
     }
+
+    loadUserTraceTree = () => {
+
+    };
 
     loadCityRevenue = (event) => {
         let _city = event.target.value;
