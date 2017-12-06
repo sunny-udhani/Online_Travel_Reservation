@@ -25,7 +25,7 @@ router.post('/logClicksPerPage', function(req, res, next) {
     winston.info(log);
 
     try{
-        if(req.session.username!==null && req.session.username!==undefined){
+        if(req.session.username!==null && req.session.username!==undefined && req.session.username !== 'admin'){
             let nwTime = new Date().getTime();
             if(req.session.flag){
                 req.session.flag = false;
