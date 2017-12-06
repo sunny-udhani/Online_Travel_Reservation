@@ -20,8 +20,8 @@ const logger = winston.createLogger({
             colorize: true,
         }),
         new winston.transports.File({
-            filename: `${logDir}/userTraceTree.log`,
             timestamp: tsFormat,
+            filename: `${logDir}/userTraceTree.log`,
             level: 'info'
         })
     ],
