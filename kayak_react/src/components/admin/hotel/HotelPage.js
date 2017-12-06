@@ -81,10 +81,8 @@ class HotelPage extends Component {
 
     searchHotel = ((data)=>{
         console.log(data);
-        let searchQuery = {
-            query : {}
-        };
-        searchQuery.query[data.searchBy] = data.searchCriteria;
+        let searchQuery = {};
+        searchQuery[data.searchBy] = data.searchCriteria;
         console.log(searchQuery);
         this.fetchHotels(searchQuery);
         this.toggleSearch();
@@ -254,8 +252,7 @@ class HotelPage extends Component {
                                             <select className="dropdown" onChange={((event)=>{
                                                 this.searchHotelData.searchBy = event.target.value
                                             })}>
-                                                <option value="host" selected="true">select</option>
-                                                <option value="host">Host</option>
+                                                <option value="select " selected="true">select</option>
                                                 <option value="hotelName">Hotel Name</option>
                                                 <option value="city">City</option>
                                             </select>
@@ -308,6 +305,13 @@ class HotelPage extends Component {
                     this.props.setHotelData_Success(data);
                 });
             }
+            else if(response.status===204){
+                this.props.setHotelData_Success([]);
+                showAlert("No Record found","info",this);
+            }
+            else {
+                showAlert("Error while fetching Hotel data","error",this);
+            }
         });
     });
 
@@ -322,6 +326,7 @@ class HotelPage extends Component {
                 });
             }
             else if(response.status===204){
+                showAlert("No Host found","info",this);
                 console.log("Hosts Not Found");
             }
             else {

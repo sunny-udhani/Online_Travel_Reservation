@@ -46,7 +46,7 @@ export const cityWiseRevenue = (payload) =>
         body: JSON.stringify(payload),
         credentials:"include"
     }).then(res => {
-        return res.json();
+        return res;
     }).catch(error => {
         console.log("This is error");
         return error;

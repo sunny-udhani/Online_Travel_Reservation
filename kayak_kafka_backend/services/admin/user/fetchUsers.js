@@ -9,7 +9,7 @@ handle_request = ((data, callback) => {
         console.log("Users Fetch");
         console.log(data);
         console.log(data.hasOwnProperty("username"));
-        let fetchQuery = "select u.username, firstname, lastname, dateofbirth from user as u " +
+        let fetchQuery = "select u.username, firstName, lastName, dateofbirth from user as u " +
             "join userprofile as up " +
             "on u.username=up.username " +
             "where u.accessInd != 'admin';";

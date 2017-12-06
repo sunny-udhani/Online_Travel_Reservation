@@ -77,7 +77,8 @@ create_Index = ((data,callback)=>{
                                 CarListing: 10,
                                 FlightListing: 10,
                                 UserProfile: 10,
-                                UserPaymentPage: 10
+                                UserPaymentPage: 10,
+                                SuccesfulPayment: 10
                             },
                             propertyClicks:{
                                 Hotel: 10,
@@ -159,7 +160,8 @@ create_Index = ((data,callback)=>{
                             CarListing: 10,
                             FlightListing: 10,
                             UserProfile: 10,
-                            UserPaymentPage: 10
+                            UserPaymentPage: 10,
+                            SuccesfulPayment: 10
                         },
                         propertyClicks:{
                             Hotel: 10,
@@ -205,7 +207,8 @@ perform_analytics = ((callback) => {
                 CarListing: 10,
                 FlightListing: 10,
                 UserProfile: 10,
-                UserPaymentPage: 10
+                UserPaymentPage: 10,
+                SuccesfulPayment: 10
             },
             propertyClicks: {
                 Hotel: 10,
@@ -215,11 +218,11 @@ perform_analytics = ((callback) => {
 
         };
 
-        let pages = ['UserHome', 'SignIn', 'SignUp', 'HotelListing', 'CarListing', 'FlightListing', 'UserProfile', 'UserPaymentPage'];
+        let pages = ['UserHome', 'SignIn', 'SignUp', 'HotelListing', 'CarListing', 'FlightListing', 'UserProfile', 'UserPaymentPage','SuccesfulPayment'];
 
         let properties = ['Hotel', 'Flight', 'Car'];
 
-        let countPages = 8;
+        let countPages = 9;
 
         let countProperties = 3;
 
@@ -264,6 +267,9 @@ perform_analytics = ((callback) => {
                             break;
                         case 'UserPaymentPage':
                             results.pageClicks.UserPaymentPage = result.hits.total;
+                            break;
+                        case 'SuccesfulPayment':
+                            results.pageClicks.SuccesfulPayment = result.hits.total;
                             break;
                         default:
                     }

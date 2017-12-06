@@ -191,14 +191,14 @@ class AdminDashboard extends Component {
                 }
             },
             citiesRevenue:[
-                {
-                    city: 'San Jose',
-                    revenue: [10,20,30]
-                },
-                {
-                    city: 'San Fransisco',
-                    revenue: [10,60,70]
-                },
+                // {
+                //     city: 'San Jose',
+                //     revenue: [10,20,30]
+                // },
+                // {
+                //     city: 'San Fransisco',
+                //     revenue: [10,60,70]
+                // },
             ],
             cityWiseRevenue:{
                 labels: [],
@@ -266,16 +266,25 @@ class AdminDashboard extends Component {
             })
             .catch(err => console.log(err));
 
-        // AdminAPI.cityWiseRevenue()
-        //     .then(res => {
-        //          // console.log("Received response - "+res.status);
-        //          console.log("Received response cityWiseRevenue - "+res.cityWiseRevenue.labels);
-        //          this.setState({
-        //          ...this.setState,
-        //              cityWiseRevenue: res.cityWiseRevenue
-        //          });
-        //      })
-        //     .catch(err => console.log(err));
+        AdminAPI.cityWiseRevenue()
+            .then(res => {
+                console.log(res.status);
+                if(res.status===200){
+                    res.json().then((result)=>{
+                        console.log(result);
+                        this.setState({
+                            ...this.setState,
+                            citiesRevenue : result,
+                            // cityWiseRevenue: result
+                        });
+                    })
+
+                }
+                else {
+                    console.log("error while fetching city wise revenue");
+                }
+            })
+            .catch(err => console.log(err));
 
         AdminAPI.top10Hosts()
             .then(res => {
@@ -310,14 +319,20 @@ class AdminDashboard extends Component {
         let _city = event.target.value;
         console.log(_city+" - in loadCityRevenue");
         this.state.citiesRevenue.forEach((city)=>{
+
             console.log("city - "+city.city+" - _city - "+_city);
             if(city.city === _city){
+                console.log(city.totalRevenue);
                 console.log("Found match ..... loading revenue to chart's data - "+city.revenue);
                 this.setState({
                     ...this.state,
                     cityWiseRevenue: {
                         labels: ['Hotel','Flight','Car'],
-                        data: city.revenue
+                        data: [
+                            city.totalRevenue.hotel,
+                            city.totalRevenue.flight,
+                            city.totalRevenue.car,
+                        ]
                     }
                 });
                 console.log("after state change - "+this.state.cityWiseRevenue.labels+" - "+this.state.cityWiseRevenue.data);
@@ -638,29 +653,7 @@ class AdminDashboard extends Component {
                                             )))
                                         }
                                     </select>
-                                    {/*</div>*/}
-                                    {/*<Dropdown style={{textAlign:"center"}} isOpen={this.state.dropdownOpen} size="sm" toggle={this.toggle}>*/}
-                                    {/*<DropdownToggle caret >*/}
-                                    {/*Choose city*/}
-                                    {/*</DropdownToggle>*/}
-                                    {/*<DropdownMenu>*/}
-                                    {/*/!*<DropdownItem header>Header</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem disabled>Action</DropdownItem>*!/*/}
-                                    {/*{*/}
-                                    {/*this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(*/}
-                                    {/*<DropdownItem onClick={(event)=> this.loadCityRevenue(event)} value={city.city}>{city.city}</DropdownItem>*/}
-                                    {/*)))*/}
-                                    {/*}*/}
-                                    {/*/!*<DropdownItem value="San Jose">San Jose</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="San Fransisco">San Fransisco</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="Santa Cruz">Santa Cruz</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="New York">New York</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="Los Angeles">Los Angeles</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem value="Seattle">Seattle</DropdownItem>*!/*/}
-                                    {/*/!*<DropdownItem divider />*!/*/}
-                                    {/*/!*<DropdownItem>Another Action</DropdownItem>*!/*/}
-                                    {/*</DropdownMenu>*/}
-                                    {/*</Dropdown>*/}
+                                    {console.log(cityWiseRevenue)}
                                     <HorizontalBar data={cityWiseRevenue}
                                                    options={{
                                                        maintainAspectRatio: true
@@ -798,6 +791,14 @@ class AdminDashboard extends Component {
                         </CardHeader>
                         <CardBody>
                             <div id="treeWrapper">
+                                <select style={{textAlign:"center"}} onChange={(event)=> this.loadCityRevenue(event)} >
+                                    <option style={{textAlign:"center"}} value="Select">Select</option>
+                                    {
+                                        this.state.citiesRevenue && (this.state.citiesRevenue.map((city)=>(
+                                            <option style={{textAlign:"center"}} value={city.city}>{city.city}</option>
+                                        )))
+                                    }
+                                </select>
                                 <Tree data={clickStreamTree} />
                             </div>
                         </CardBody>

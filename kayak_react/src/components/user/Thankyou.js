@@ -7,6 +7,7 @@ import '../../design/css/jquery-ui.min.css'
 import '../../design/css/jquery-ui.structure.min.css'
 import '../../design/css/style.css'
 import {logOnDivHover} from "../../api/user/API_Logging";
+import * as LogAPI from "../../api/user/API_Logging";
 
 class Thankyou extends Component {
 
@@ -383,6 +384,22 @@ class Thankyou extends Component {
     });
 
     componentWillMount() {
+        let click = {
+            pageClick: {
+                userId: "anonymous",
+                pageName: "SuccesfulPayment",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900 + new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
         console.log("In Thankyou component will mount");
     };
 

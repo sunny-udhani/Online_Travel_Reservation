@@ -119,8 +119,12 @@ class FlightPage extends Component {
                     this.props.setFlightData_Success(data);
                 });
             }
+            else if(response.status===204){
+                this.props.setFlightData_Success([]);
+                showAlert("No Record found","info",this);
+            }
             else {
-                console.log("Error while fetching flight data");
+                showAlert("Error while fetching Hotel data","error",this);
             }
         })
     });
@@ -130,9 +134,8 @@ class FlightPage extends Component {
     searchFlight = ((data)=>{
         console.log(data);
         let searchQuery = {
-            query : {}
         };
-        searchQuery.query[data.searchBy] = data.searchCriteria;
+        searchQuery[data.searchBy] = data.searchCriteria;
         console.log(searchQuery);
         this.fetchFlights(searchQuery);
         this.toggleSearch();
@@ -148,10 +151,10 @@ class FlightPage extends Component {
                 });
             }
             else if(response.status===204){
-                console.log("Hosts Not Found");
+                showAlert("No Host found","info",this);
             }
             else {
-                console.log("Error");
+                showAlert("Error while fetching Host data","error",this);
             }
         });
         this.fetchFlights();
@@ -457,7 +460,7 @@ class FlightPage extends Component {
                                                     <Table responsive>
                                                         <thead>
                                                         <tr>
-                                                            <th><b>Host</b></th>
+                                                            <th><b>Flight Operator</b></th>
                                                             <th><b>Flight Number</b></th>
                                                             <th><b>Flight Origin</b></th>
                                                             <th><b>Flight Destination</b></th>

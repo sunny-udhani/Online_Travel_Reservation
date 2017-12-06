@@ -2,6 +2,7 @@ let express = require('express');
 const passport = require("passport");
 let router = express.Router();
 require('./passport')(passport);
+const winston = require('../config/userTraceLog');
 var kafka = require('./kafka/client');
 var parser = require('multer')({dest: 'uploads/'});
 var fs = require('fs');
@@ -35,6 +36,11 @@ router.post('/login', function (req, res) {
             res.status(400).send();
         }
         if (response.status === 200) {
+            req.session.previousTime = new Date().getTime();
+            req.session.pageTime = [];
+            req.session.pages = [];
+            req.session.lastPage = "UserHome";
+            req.session.flag = true;
             req.session.username = response.username;
             console.log("session initialized. :" + req.session.username);
             res.status(response.status).send(req.session.username);
@@ -57,8 +63,32 @@ router.post('/login', function (req, res) {
 router.post('/logout', function (req, res) {
 
     console.log(req.session.username);
+
     console.log(req.session);
+
     if (req.session.username !== null && req.session.username !== undefined) {
+
+        let nwTime = new Date().getTime();
+        let prvTime = req.session.previousTime;
+        let timeSpentOnPage = nwTime - prvTime;
+        // req.session.previousTime = nwTime; // user goes anonymous
+        req.session.pages.push(req.session.lastPage);
+        req.session.pageTime.push(timeSpentOnPage);
+
+        let tree = {
+            tree:{
+                userId: req.session.username,
+                pages:req.session.pages,
+                pageTime:req.session.pageTime
+            }
+        };
+
+        winston.info(tree);
+
+        console.log("Page array - "+req.session.pages);
+
+        console.log("Time per page array - "+req.session.pageTime);
+
         req.session.destroy();
         console.log('Session Destroyed');
         res.status(200).send();
@@ -412,7 +442,7 @@ router.post('/getuserprofile_user', function (req, res) {
         payload = {
             username: req.session.username
         }
-        // console.log(req.body);
+        console.log(payload);
 
 
 
@@ -434,8 +464,6 @@ router.post('/getuserprofile_user', function (req, res) {
     }
 
 });
-
-
 
 
 router.post('/getcreditcarddetails', function (req, res) {

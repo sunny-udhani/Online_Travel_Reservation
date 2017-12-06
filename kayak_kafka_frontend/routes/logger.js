@@ -12,7 +12,9 @@ router.post('/logClicksPerPage', function(req, res, next) {
     // if(req.session.username!==null && req.session.username!==undefined){
     console.log(req.body);
 
-    req.body.pageClick.userId = username ;
+    if(req.session.username){
+        req.body.pageClick.userId = username ;
+    }
 
     console.log("UserId "+req.body.pageClick.userId);
 
@@ -21,6 +23,34 @@ router.post('/logClicksPerPage', function(req, res, next) {
     console.log("Log added - ");
 
     winston.info(log);
+
+    try{
+        if(req.session.username!==null && req.session.username!==undefined){
+            let nwTime = new Date().getTime();
+            if(req.session.flag){
+                req.session.flag = false;
+            }
+            else{
+                let prvTime = req.session.previousTime;
+                let timeSpentOnPage = nwTime - prvTime;
+                req.session.previousTime = nwTime;
+                req.session.pages.push(req.session.lastPage);
+                req.session.pageTime.push(timeSpentOnPage);
+                req.session.lastPage = req.body.pageClick.pageName;
+            }
+        }
+        else{
+            // if(req.session.anonymous!==null && req.session.anonymous!==undefined){
+            //
+            // }
+            // else{
+            //
+            // }
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
 
     // write code for updating index as new entry is logged
 

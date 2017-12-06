@@ -297,45 +297,45 @@ class FlightBooking extends Component {
 
             if (this.validate_creditcardnumber(ccEntry)) {
 
-                bookFlight(userdata)
-                    .then((res) => {
-                        console.log(res.status);
-                        console.log(userdata.username);
-                        if (res.status === 200) {
-                            console.log("success");
+        bookFlight(userdata)
+            .then((res) => {
+                console.log(res.status);
+                console.log(userdata.username);
+                if (res.status === 200) {
+                    console.log("success");
 
-                            let payload = {
-                                bookingType: "flight",
-                                userdata: userdata,
-                                traveler_details: this.traveler_details,
-                                billing_address: this.billing_address,
-                                payment_details: this.payment_details
-                            };
+                    let payload = {
+                        bookingType: "flight",
+                        userdata: userdata,
+                        traveler_details: this.traveler_details,
+                        billing_address: this.billing_address,
+                        payment_details: this.payment_details
+                    };
 
-                            //independent API to insert traveler details, billing address, and payment details
-                            insertTravelerDetails(payload)
-                                .then((res) => {
+                    //independent API to insert traveler details, billing address, and payment details
+                    insertTravelerDetails(payload)
+                        .then((res) => {
 
-                                    if (res.status === 200) {
-                                        console.log("success");
-                                        this.props.bookingSuccess(this.state, "booking_success");
-                                        this.props.history.push("/payment/thankyou");
-                                    }
-                                    else {
-                                        console.log("validation");
-                                    }
-                                })
-                                .catch((err) => {
-                                    console.log(err);
-                                });
-                        }
-                        else {
-                            console.log("validation");
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                            if (res.status === 200) {
+                                console.log("success");
+                                this.props.bookingSuccess(this.state, "booking_success");
+                                this.props.history.push("/payment/thankyou");
+                            }
+                            else {
+                                console.log("validation");
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                }
+                else {
+                    console.log("validation");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
             }else {
                 showAlert("The CC details doesn't match the standards", "error", this);
             }
@@ -804,7 +804,6 @@ class FlightBooking extends Component {
                                                             onClick={() => this.handleFlightBooking(this.flight_payment)}>
                                                             BOOK
                                                         </button>
-                                                        <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                                     </div>
 
                                                 </div>

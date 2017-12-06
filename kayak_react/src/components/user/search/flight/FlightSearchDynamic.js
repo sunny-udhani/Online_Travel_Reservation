@@ -146,7 +146,7 @@ class FlightSearchDynamic extends Component {
                             <option value="business">
                                 Business
                             </option>
-                            <option value="first-class">
+                            <option value="firstclass">
                                 First-class
                             </option>
                         </select>
