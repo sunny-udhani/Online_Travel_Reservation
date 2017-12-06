@@ -124,8 +124,12 @@ class CarPage extends Component {
                     this.props.setCarData_Success(data);
                 });
             }
+            else if(response.status===204){
+                this.props.setCarData_Success([]);
+                showAlert("No Record found","info",this);
+            }
             else {
-                console.log("Error");
+                showAlert("Error while fetching Hotel data","error",this);
             }
         });
     });
@@ -135,9 +139,8 @@ class CarPage extends Component {
     searchCar = ((data)=>{
         console.log(data);
         let searchQuery = {
-            query : {}
         };
-        searchQuery.query[data.searchBy] = data.searchCriteria;
+        searchQuery[data.searchBy] = data.searchCriteria;
         console.log(searchQuery);
         this.fetchCars(searchQuery);
         this.toggleSearch();
@@ -153,7 +156,7 @@ class CarPage extends Component {
                 });
             }
             else if(response.status===204){
-                console.log("Hosts Not Found");
+                showAlert("No Host found","info",this);
             }
             else {
                 console.log("Error");
@@ -328,10 +331,10 @@ class CarPage extends Component {
                                         <select className="dropdown" onChange={((event)=>{
                                             this.searchCarData.searchBy = event.target.value
                                         })}>
-                                            <option value="host" selected="true">select</option>
-                                            <option value="host">Host</option>
+                                            <option value="select " selected="true">select</option>
                                             <option value="carType">Car Type</option>
                                             <option value="carMake">Car Make</option>
+                                            <option value="carName">Car Name</option>
                                             <option value="city">City</option>
                                             <option value="capacity">Capacity</option>
                                         </select>
