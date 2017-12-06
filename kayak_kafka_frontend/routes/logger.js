@@ -12,9 +12,7 @@ router.post('/logClicksPerPage', function(req, res, next) {
     // if(req.session.username!==null && req.session.username!==undefined){
     console.log(req.body);
 
-    if(req.body.pageClick.userId === "anonymous"){
-        username = req.body.pageClick.userId ;
-    }
+    req.body.pageClick.userId = username ;
 
     console.log("UserId "+req.body.pageClick.userId);
 
