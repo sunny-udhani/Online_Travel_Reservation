@@ -51,18 +51,16 @@ let editUserProfile = require('./services/editUserProfile');
 let getUserProfile = require('./services/getUserProfile');
 let getCreditCardDetails=require('./services/getCreditCardDetails');
 
-
-
 let logAnalytics = require('./services/admin/logAnalytics');
 let top10Properties = require('./services/admin/top10Properties');
 let top10Hosts = require('./services/admin/top10Hosts');
 let cityWiseRevenue = require('./services/admin/cityWiseRevenue');
 let reviewsOnProperties = require('./services/admin/reviewsOnProperties');
+let logUserTracingTree = require('./services/admin/logUserTracingTree');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
 let addFlightConsumer = connection.getConsumerObj(req_topics.ADD_FLIGHT);
-
 
 let addHotelConsumer = connection.getConsumerObj(req_topics.ADD_HOTEL);
 let fetchHotelsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELS);
@@ -112,8 +110,39 @@ let top10PropertiesConsumer = connection.getConsumerObj(req_topics.TOP_10_PROPER
 let top10HostsConsumer = connection.getConsumerObj(req_topics.TOP_10_HOSTS);
 let cityWiseRevenueConsumer = connection.getConsumerObj(req_topics.CITY_WISE_REVENUE);
 let reviewsOnPropertiesConsumer = connection.getConsumerObj(req_topics.REVIEWS_ON_PROPERTIES);
+let logUserTracingTreeConsumer = connection.getConsumerObj(req_topics.LOG_USER_TRACING_TREE);
 
 try {
+
+    logUserTracingTreeConsumer.on('message', function (message) {
+
+        console.log('message received');
+
+        console.log(JSON.stringify(message.value));
+
+        let data = JSON.parse(message.value);
+
+        console.log(data.replyTo);
+
+        logUserTracingTree.handle_request(data.data, function (err, res) {
+            console.log('In after handle of logUserTracingTree' + res);
+            let payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                // console.log(data);
+                console.log(payloads);
+            });
+            // return;
+        });
+    });
 
     logAnalyticsConsumer.on('message', function (message) {
         console.log('message received');
