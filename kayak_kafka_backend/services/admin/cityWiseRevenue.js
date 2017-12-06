@@ -14,44 +14,46 @@ handle_request = ((data, callback) => {
     try {
         console.log("City Wise Revenue");
         console.log(data);
-
-        fetchCityByHotels(function (err, hotelObj) {
+        jsonObj = [];
+        fetchCityByHotels(function (err, response) {
             if(err){
                 console.log(err);
                 callback(err, response);
             }
             else {
-                console.log("hotelObj");
-                console.log(hotelObj);
-                jsonObj = hotelObj.data;
-                fetchCityByCars(jsonObj, function (err, carObj) {
-                    if(err){
-                        console.log(err);
-                        callback(err, response);
-                    }
-                    else {
-                        console.log("carObj");
-                        console.log(carObj);
-                        // jsonObj.push(carObj.data);
-                        console.log(jsonObj);
-                        fetchCityByFlights(jsonObj, function (err, flightObj) {
-                            if(err) {
-                                console.log(err);
-                                callback(err, response);
+                console.log(jsonObj);
+                if(response.status===200) {
+                    fetchCityByCars(jsonObj, function (err, response) {
+                        if (err) {
+                            console.log(err);
+                            callback(err, response);
+                        }
+                        else {
+                            if(response.status===200){
+
+                                console.log(jsonObj);
+                                fetchCityByFlights(jsonObj, function (err, response) {
+                                    if (err) {
+                                        console.log(err);
+                                        callback(err, response);
+                                    }
+                                    else {
+                                        console.log("final jsonObj : ");
+                                        console.log(jsonObj);
+                                        response.data = jsonObj;
+                                        callback(null, response);
+                                    }
+                                });
                             }
                             else {
-                                console.log(flightObj);
-                                // jsonObj.push(flightObj.data);
-                                console.log("final jsonObj : ");
-                                console.log(jsonObj);
-                                response.status=200;
-                                response.data=jsonObj;
                                 callback(null, response);
                             }
-                        });
-                    }
-
-                });
+                        }
+                    });
+                }
+                else {
+                    callback(null, response);
+                }
             }
         });
     }
@@ -81,43 +83,44 @@ fetchCityByHotels = ((callback)=>{
                 callback(null, results);
             }
             else {
-                let jsonObj = [];
-                console.log(results);
+                // let jsonObj = [];
+                // console.log(results);
                 if(results.length>0){
                     let mysqlCount=0;
                     results.map((mysqlresult)=>{
                         Hotel.find({_id : ObjectId(mysqlresult.hotelId)},{city:1}, function (err, results1) {
-                            console.log(results1);
+                            // console.log(results1);
                             let cityExists = false;
                             let jsoncount = 0;
                             if(jsonObj.length>0){
                                 jsonObj.map((obj)=>{
                                     console.log(obj);
                                     if(obj.city===results1[0].city){
-                                        obj.totalRevenue = obj.totalRevenue + mysqlresult.totalRevenue;
-                                        console.log(obj);
+                                        obj.totalRevenue.hotel = obj.totalRevenue.hotel + mysqlresult.totalRevenue;
+                                        // console.log(obj);
                                         cityExists = true;
                                     }
                                     jsoncount ++;
                                     if(jsoncount===jsonObj.length){
-                                        console.log("JSON COunt : " + jsoncount);
+                                        // console.log("JSON COunt : " + jsoncount);
                                         mysqlCount++;
                                         if(!cityExists){
                                             console.log("City does not exist" + cityExists);
                                             jsonObj.push(
                                                 {
                                                     city:results1[0].city,
-                                                    totalRevenue:mysqlresult.totalRevenue
+                                                    totalRevenue:{
+                                                        hotel : mysqlresult.totalRevenue,
+                                                        flight : 0,
+                                                        car : 0
+                                                    }
                                                 })
                                         }
                                     }
-                                    console.log("JSON Count : " + jsoncount);
-                                    console.log(jsonObj);
                                     if(mysqlCount===results.length){
-                                        console.log("Final1");
+                                        console.log("Before CB in Hotel");
                                         console.log(jsonObj);
                                         response.status=200;
-                                        response.data = jsonObj;
                                         callback(null, response);
                                     }
                                 });
@@ -126,19 +129,24 @@ fetchCityByHotels = ((callback)=>{
                                 jsonObj.push(
                                     {
                                         city:results1[0].city,
-                                        totalRevenue:mysqlresult.totalRevenue
+                                        totalRevenue:{
+                                            hotel : mysqlresult.totalRevenue,
+                                            flight : 0,
+                                            car : 0
+                                        }
                                     });
                                 mysqlCount++;
-                                console.log(jsonObj);
+
+                                // console.log(jsonObj);
+                                if(mysqlCount===results.length) {
+                                    console.log("Before CB in Hotel");
+                                    response.status=200;
+                                    callback(null, response);
+                                }
+
                             }
-                            /*if(mysqlCount===results.length){
-                                console.log("Final2");
-                                console.log(jsonObj);
-                                /!*response.status=200;
-                                response.data = jsonObj;
-                                callback(null, response);*!/
-                            }*/
-                            console.log("mysqlCount : "+mysqlCount);
+
+                            // console.log("mysqlCount : "+mysqlCount);
                         });
                     });
                 }
@@ -172,44 +180,46 @@ fetchCityByCars  = ((jsonObj, callback)=>{
             }
             else {
                 // let jsonObj = [];
-
-                console.log(results);
+                // console.log(results);
                 if(results.length>0){
                     let mysqlCount=0;
                     results.map((mysqlresult)=>{
                         Car.find({_id : ObjectId(mysqlresult.carId)},{city:1}, function (err, results1) {
-                            console.log(results1);
+                            // console.log(results1);
                             let cityExists = false;
-                            let jsoncount = jsonObj.length;
+                            let jsoncount = 0;
                             if(jsonObj.length>0){
                                 jsonObj.map((obj)=>{
-                                    console.log(obj);
+                                    // console.log(obj);
                                     if(obj.city===results1[0].city){
-                                        obj.totalRevenue = obj.totalRevenue + mysqlresult.totalRevenue;
+                                        obj.totalRevenue.car = obj.totalRevenue.car + mysqlresult.totalRevenue;
                                         console.log(obj);
                                         cityExists = true;
                                     }
                                     jsoncount ++;
                                     if(jsoncount===jsonObj.length){
-                                        console.log("JSON COunt : " + jsoncount);
+                                        // console.log("JSON COunt : " + jsoncount);
                                         mysqlCount++;
                                         if(!cityExists){
                                             console.log("City does not exist" + cityExists);
                                             jsonObj.push(
                                                 {
                                                     city:results1[0].city,
-                                                    totalRevenue:mysqlresult.totalRevenue
+                                                    totalRevenue:{
+                                                        hotel : 0,
+                                                        flight : 0,
+                                                        car : mysqlresult.totalRevenue
+                                                    }
                                                 })
                                         }
                                     }
-                                    console.log("JSON Count : " + jsoncount);
-                                    console.log(jsonObj);
+                                    // console.log("JSON Count : " + jsoncount);
+                                    // console.log(jsonObj);
                                     if(mysqlCount===results.length){
-                                        console.log("Car Final1");
+                                        console.log("Before CB in Car");
                                         console.log(jsonObj);
                                         response.status=200;
-                                        response.data = jsonObj;
-                                        callback(null, jsonObj);
+                                        callback(null, response);
                                     }
                                 });
                             }
@@ -217,19 +227,23 @@ fetchCityByCars  = ((jsonObj, callback)=>{
                                 jsonObj.push(
                                     {
                                         city:results1[0].city,
-                                        totalRevenue:mysqlresult.totalRevenue
+                                        totalRevenue:{
+                                            hotel : 0,
+                                            flight : 0,
+                                            car : mysqlresult.totalRevenue
+                                        }
                                     });
                                 mysqlCount++;
-                                console.log(jsonObj);
+                                // console.log(jsonObj);
                                 if(mysqlCount===results.length){
-                                    console.log("Final2");
+                                    console.log("Before CB in Car");
                                     console.log(jsonObj);
                                     response.status=200;
-                                    callback(null, jsonObj);
+                                    callback(null, response);
                                 }
                             }
 
-                            console.log("mysqlCount : "+mysqlCount);
+                            // console.log("mysqlCount : "+mysqlCount);
                         });
                     });
                 }
@@ -263,44 +277,48 @@ fetchCityByFlights  = ((jsonObj, callback)=>{
             }
             else {
                 // let jsonObj = [];
-                console.log(results);
+                // console.log(results);
                 if(results.length>0){
                     let mysqlCount=0;
                     results.map((mysqlresult)=>{
                         Flight.find({_id : ObjectId(mysqlresult.flightId)},{origin:1}, function (err, results1) {
-                            console.log("results1");
-                            console.log(results1);
+                            // console.log("results1");
+                            // console.log(results1);
                             let cityExists = false;
-                            let jsoncount = jsonObj.length;
+                            let jsoncount = 0;
                             if(jsonObj.length>0){
                                 jsonObj.map((obj)=>{
-                                    console.log(obj);
+                                    // console.log(obj);
                                     if(obj.city===results1[0].origin){
-                                        obj.totalRevenue = obj.totalRevenue + mysqlresult.totalRevenue;
+                                        console.log(typeof (obj.totalRevenue.flight));
+                                        obj.totalRevenue.flight = obj.totalRevenue.flight + mysqlresult.totalRevenue;
                                         console.log(obj);
                                         cityExists = true;
                                     }
                                     jsoncount ++;
                                     if(jsoncount===jsonObj.length){
-                                        console.log("JSON COunt : " + jsoncount);
+                                        // console.log("JSON COunt : " + jsoncount);
                                         mysqlCount++;
                                         if(!cityExists){
                                             console.log("City does not exist" + cityExists);
                                             jsonObj.push(
                                                 {
                                                     city:results1[0].origin,
-                                                    totalRevenue:mysqlresult.totalRevenue
+                                                    totalRevenue:{
+                                                        hotel : 0,
+                                                        car : 0,
+                                                        flight : mysqlresult.totalRevenue
+                                                    }
                                                 })
                                         }
                                     }
-                                    console.log("JSON Count : " + jsoncount);
-                                    console.log(jsonObj);
+                                    // console.log("JSON Count : " + jsoncount);
+                                    // console.log(jsonObj);
                                     if(mysqlCount===results.length){
-                                        console.log("Car Final1");
+                                        console.log("Before CB in Flight");
                                         console.log(jsonObj);
                                         response.status=200;
-                                        response.data = jsonObj;
-                                        callback(null, jsonObj);
+                                        callback(null, response);
                                     }
                                 });
                             }
@@ -308,19 +326,22 @@ fetchCityByFlights  = ((jsonObj, callback)=>{
                                 jsonObj.push(
                                     {
                                         city:results1[0].origin,
-                                        totalRevenue:mysqlresult.totalRevenue
+                                        totalRevenue:{
+                                            hotel : 0,
+                                            car : 0,
+                                            flight : mysqlresult.totalRevenue
+                                        }
                                     });
                                 mysqlCount++;
-                                console.log(jsonObj);
+                                // console.log(jsonObj);
                                 if(mysqlCount===results.length){
-                                    console.log("Final2");
+                                    console.log("Before CB in Flight");
                                     console.log(jsonObj);
-                                    response.status = 200;
-                                    response.data = jsonObj;
-                                    callback(null, jsonObj);
+                                    response.status=200;
+                                    callback(null, response);
                                 }
                             }
-                            console.log("mysqlCount : "+mysqlCount);
+                            // console.log("mysqlCount : "+mysqlCount);
                         });
                     });
                 }
