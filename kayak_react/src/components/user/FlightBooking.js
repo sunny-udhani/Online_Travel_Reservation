@@ -10,6 +10,9 @@ import {getUserDetails} from "../../api/user/API_GetUserDetails";
 import {bookFlight} from "../../api/user/API_BookFlight";
 import {insertTravelerDetails} from "../../api/user/API_InsertTravelerDetails";
 
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../alertConfig";
+
 import Traveler from './Traveler';
 import Thankyou from './Thankyou';
 
@@ -78,6 +81,25 @@ class FlightBooking extends Component {
         creditCardnumber: '',
         validThrough: '',
         cvv: ''
+    };
+
+    validate_creditcardnumber(inputNum) {
+        var digit, digits, flag, sum, _i, _len;
+        flag = true;
+        sum = 0;
+        digits = (inputNum + '').split('').reverse();
+        for (_i = 0, _len = digits.length; _i < _len; _i++) {
+            digit = digits[_i];
+            digit = parseInt(digit, 10);
+            if ((flag = !flag)) {
+                digit *= 2;
+            }
+            if (digit > 9) {
+                digit -= 9;
+            }
+            sum += digit;
+        }
+        return sum % 10 === 0;
     };
 
     add_travelers = (() => {
@@ -263,46 +285,64 @@ class FlightBooking extends Component {
         console.log("State");
         console.log(this.state);
 
-        this.props.bookingSuccess(this.state, "booking_success");
+        //let ccpattern = /^4\d{12}$|^4\d{15}$|^5[1-5]\d{14}$/;
 
-        bookFlight(userdata)
-            .then((res) => {
-                console.log(res.status);
-                console.log(userdata.username);
-                if (res.status === 200) {
-                    console.log("success");
+        let ccPattern = /^(?=.{16}$)(?=.*[0-9])/;
 
-                    let payload = {
-                        bookingType: "flight",
-                        userdata: userdata,
-                        traveler_details: this.traveler_details,
-                        billing_address: this.billing_address,
-                        payment_details: this.payment_details
-                    };
+        let ccEntry = parseInt(this.payment_details.creditCardnumber);
 
-                    //independent API to insert traveler details, billing address, and payment details
-                    insertTravelerDetails(payload)
-                        .then((res) => {
+        console.log("Validating cc details 1 :" + ccPattern.test(ccEntry));
 
-                            if (res.status === 200) {
-                                console.log("success");
-                                this.props.history.push("/payment/thankyou");
-                            }
-                            else {
-                                console.log("validation");
-                            }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
-                else {
-                    console.log("validation");
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        if(ccPattern.test(ccEntry)) {
+
+            if (this.validate_creditcardnumber(ccEntry)) {
+
+                bookFlight(userdata)
+                    .then((res) => {
+                        console.log(res.status);
+                        console.log(userdata.username);
+                        if (res.status === 200) {
+                            console.log("success");
+
+                            let payload = {
+                                bookingType: "flight",
+                                userdata: userdata,
+                                traveler_details: this.traveler_details,
+                                billing_address: this.billing_address,
+                                payment_details: this.payment_details
+                            };
+
+                            //independent API to insert traveler details, billing address, and payment details
+                            insertTravelerDetails(payload)
+                                .then((res) => {
+
+                                    if (res.status === 200) {
+                                        console.log("success");
+                                        this.props.bookingSuccess(this.state, "booking_success");
+                                        this.props.history.push("/payment/thankyou");
+                                    }
+                                    else {
+                                        console.log("validation");
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                });
+                        }
+                        else {
+                            console.log("validation");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }else {
+                showAlert("The CC details doesn't match the standards", "error", this);
+            }
+        }
+        else {
+            showAlert("Verify the length of the CC number", "error", this);
+        }
     };
 
     render() {
@@ -764,6 +804,7 @@ class FlightBooking extends Component {
                                                             onClick={() => this.handleFlightBooking(this.flight_payment)}>
                                                             BOOK
                                                         </button>
+                                                        <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                                     </div>
 
                                                 </div>
