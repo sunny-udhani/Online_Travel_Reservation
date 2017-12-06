@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {getcreditcarddetails} from "../../../../api/user/API_GetCreditCardDetails";
+import {connect} from "react-redux";
 
-export default class PaymentMethods extends Component {
+ class PaymentMethods extends Component {
     constructor() {
         super();
     }
@@ -11,18 +12,23 @@ export default class PaymentMethods extends Component {
     }
 
     componentWillMount() {
-        getcreditcarddetails().then(function(res) {
-            // console.log(res)
-            this.setState({
-                paymentMethods: res
-            });
-        }.bind(this)).catch((err) => {
+        if (this.props.isLoggedIn) {
 
-            // console.log(err);
-        })
+            getcreditcarddetails().then(function (res) {
+                // console.log(res)
+                this.setState({
+                    paymentMethods: res
+                });
+            }.bind(this)).catch((err) => {
+
+                // console.log(err);
+            })
+        } else {
+            this.props.handlePageChange("/u")
+        }
     }
 
-    handleAddPaymentMethod () {
+    handleAddPaymentMethod() {
         // debugger;
         this.props.handleAddPaymentMethod("payment-form");
     }
@@ -32,12 +38,14 @@ export default class PaymentMethods extends Component {
         return (
             <div className="payment-methods-container">
                 <div className="row">
-                    <div className="col-md-12">
-                        <button onClick={this.handleAddPaymentMethod.bind(this)} className="btn btn-primary">Add a payment method</button>
+                    <div className="col-md-12" style={{marginTop:"10%"}}>>
+                        <button onClick={this.handleAddPaymentMethod.bind(this)} className="btn btn-primary">Add a
+                            payment method
+                        </button>
                     </div>
                 </div>
                 {this.state.paymentMethods.map((method) =>
-                (<div className="row">
+                    (<div className="row">
                         <div className="col-md-12">
                             <label>Name:</label>
                             <span>{method.nameoncard}</span>
@@ -61,3 +69,13 @@ export default class PaymentMethods extends Component {
         )
     }
 }
+
+
+function mapStateToProps(state) {
+    return {
+        username: state.username,
+        isLoggedIn: state.isLoggedIn,
+    }
+}
+
+export default connect(mapStateToProps, null)(PaymentMethods);

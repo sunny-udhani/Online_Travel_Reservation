@@ -32,8 +32,6 @@ import {
 } from 'reactstrap';
 
 
-
-
 class EditUserInfo extends Component {
 
     static propTypes = {
@@ -48,6 +46,11 @@ class EditUserInfo extends Component {
         this.handleSubmitClick = this.handleSubmitClick.bind(this);
     }
 
+    componentWillMount() {
+        if (!this.props.isLoggedIn) {
+            this.props.handlePageChange("/u");
+        }
+    }
 
     handleChange(event) {
         this.setState({
@@ -74,7 +77,7 @@ class EditUserInfo extends Component {
             .then((res) => {
                 if (res.status === 200) {
 
-                   // console.log(this.props);
+                    // console.log(this.props);
                     this.props.handlePageChange("/pref");
                 }
 
@@ -102,7 +105,8 @@ class EditUserInfo extends Component {
 
                         <Col xs="12">
                             <FormGroup>
-                                <input type="text" name="firstname" className="form-input" placeholder="FirstName" required = {true}
+                                <input type="text" name="firstname" className="form-input" placeholder="FirstName"
+                                       required={true}
                                        onChange={(event) => {
                                            this.handleChange(event);
                                        }}
@@ -111,7 +115,8 @@ class EditUserInfo extends Component {
                         </Col>
                         <Col xs="12">
                             <FormGroup>
-                                <input type="text" name="lastname" className="form-input" placeholder="LastName" required
+                                <input type="text" name="lastname" className="form-input" placeholder="LastName"
+                                       required
                                        onChange={(event) => {
                                            this.handleChange(event);
                                        }}
@@ -181,7 +186,8 @@ class EditUserInfo extends Component {
                         </Col>
                         <Col xs="12">
                             <FormGroup>
-                                <input type="text" name="phonenumber" minlength="10" maxlength="10" className="form-input"  placeholder="Phn No" required
+                                <input type="text" name="phonenumber" minlength="10" maxlength="10"
+                                       className="form-input" placeholder="Phn No" required
                                        onChange={(event) => {
                                            this.handleChange(event);
                                        }}
@@ -195,8 +201,7 @@ class EditUserInfo extends Component {
                     <input type="button" value="Edit" className="btn btn-primary"
                            onClick={() => this.handleSubmitClick()}
                     />
-                    <Link className="btn btn-danger"id="cancelcard" to = "/pref">Cancel</Link>
-
+                    <Link className="btn btn-danger" id="cancelcard" to="/pref">Cancel</Link>
 
 
                 </ModalFooter>
@@ -207,7 +212,8 @@ class EditUserInfo extends Component {
 
 function mapStateToProps(state) {
     return {
-        username: state.username
+        username: state.username,
+        isLoggedIn: state.isLoggedIn,
     }
 }
 

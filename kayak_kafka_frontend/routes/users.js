@@ -6,7 +6,18 @@ var kafka = require('./kafka/client');
 var parser = require('multer')({dest: 'uploads/'});
 var fs = require('fs');
 var path = require('path');
-
+let MongoClient = require('mongodb').MongoClient;
+// let newDate = require('mongodb').MongoClient;
+var mongoURL = "mongodb://kayak:kayak@cluster0-shard-00-00-j61pv.mongodb.net:27017,cluster0-shard-00-01-j61pv.mongodb.net:27017,cluster0-shard-00-02-j61pv.mongodb.net:27017/kayak?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";
+let db = null;
+MongoClient.connect(mongoURL, function (err, _db) {
+    if (err) {
+        throw new Error('Could not connect: ' + err);
+    }
+    db = _db;
+    connected = true;
+    console.log(connected + " is connected?");
+});
 // console.log("*******************************************", process.cwd());
 
 /* GET users listing. */
@@ -532,6 +543,61 @@ router.post('/editprofileofuser', parser.any(), function (req, res) {
 
     }
 });
+
+
+router.post('/adddata', parser.any(), function (req, res) {
+        try {
+            payload = {
+                username: req.session.username,
+                details: req.body
+            };
+
+            for (let i = 0; i < 100; i++) {
+
+                let data = {
+                    flightNo: "12" + i%10,
+                    hostId: 4,
+                    flightOperator: "british airways",
+                    departureDate: "2017-12-" + i % 10,
+                    arrivalDate: "2017-12-" + i % 10,
+                    departureTime: "14:20",
+                    arrivalTime: "15:20",
+                    duration: 1,
+                    origin: "sjc",
+                    destination: "sfo",
+                    classes: [{
+                        classType: "economy",
+                        price: 100,
+                        noOfSeats: 100,
+                    }, {
+                        classType: "business",
+                        price: 500,
+                        noOfSeats: 100,
+                    }, {
+                        classType: "first-class",
+                        price: 700,
+                        noOfSeats: 100,
+                    }
+                    ]
+                }
+
+                db.collection('flights').insertOne(data, function (err, res) {
+                    console.log(err)
+                    console.log(res)
+
+                })
+            }
+
+        }
+
+        catch (e) {
+            console.log(e);
+            res.status(400).json({message: "Failed to get Details"})
+
+        }
+    }
+)
+;
 
 
 module.exports = router;

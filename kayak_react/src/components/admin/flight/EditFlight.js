@@ -29,39 +29,39 @@ import {
 
 class EditFlight extends Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
-            edit : {},
-            classes : [],
-            flight : {},
-            modal : false,
-            flightId : ""
+            edit: {},
+            classes: [],
+            flight: {},
+            modal: false,
+            flightId: ""
         };
     }
 
-    componentWillMount(){
+    componentWillMount() {
         let flightId = this.props.match.params.flightId;
         this.setState({
             ...this.state,
-            flightId : this.props.match.params.flightId
+            flightId: this.props.match.params.flightId
         });
         this.fetchHotelToModify(flightId);
     }
 
-    fetchHotelToModify = ((flightId)=>{
-        let flight = {"_id" : flightId};
-        API.fetchFlights(flight).then((response)=>{
+    fetchHotelToModify = ((flightId) => {
+        let flight = {"_id": flightId};
+        API.fetchFlights(flight).then((response) => {
             console.log(response.status);
-            if(response.status===200) {
-                response.json().then((data)=>{
+            if (response.status === 200) {
+                response.json().then((data) => {
                     console.log(data);
                     console.log(data[0]);
                     this.editFlightData = data[0];
                     this.setState(({
                         // ...this.state,
-                        edit : data[0],
-                        classes : data[0].classes
+                        edit: data[0],
+                        classes: data[0].classes
                     }));
                     console.log(data[0].classes);
                     console.log(this.editFlightData);
@@ -74,17 +74,17 @@ class EditFlight extends Component {
         });
     });
 
-    toggle = (()=>{
+    toggle = (() => {
         this.setState({
             ...this.state,
-            modal : !this.state.modal
+            modal: !this.state.modal
         })
     });
 
     // editFlightClassData = {};
 
     // changeShowModifyClassStatus = ((show, flightId, classType, noOfSeats, price)=>{
-    changeShowModifyClassStatus = ((show, flightClass)=>{
+    changeShowModifyClassStatus = ((show, flightClass) => {
         // this.roomdata.roomType = room.roomType;
         // this.roomdata.roomId = room.roomid;
         // if(show){
@@ -98,7 +98,7 @@ class EditFlight extends Component {
         this.setState({
             // ...this.state,
             ...this.state,
-            flightClass : this.editFlightClassData,
+            flightClass: this.editFlightClassData,
             // changeRoom : true
         });
         // }
@@ -113,26 +113,38 @@ class EditFlight extends Component {
 
     });
 
-    editFlight = ((data)=>{
-        console.log(data);
-        /*if(this.editFlightClassData!==undefined){
-            data.flightClass = this.editFlightClassData;
-        }*/
-        API.modifyFlightData(data).then((response) => {
-            console.log(response.status);
-            if(response.status===200){
-                // this.props.fetchFlights({flightId:data._id});
-                this.props.fetchFlights({"_id":data._id});
-                this.props.handlePageChange("/admin/flight");
-            }
-            else if(response.status===300)
-            {
-                console.log("Nothing to Change");
-            }
-            else {
-                console.log("Error");
-            }
-        });
+    editFlight = ((data) => {
+
+        let zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+
+        let zipCode = parseInt(data.zipCode);
+
+        console.log(" Validating zip code ..... " + zipCodePattern.test(zipCode));
+
+        if (zipCodePattern.test(zipCode)) {
+            console.log("Successful - entry");
+            API.modifyFlightData(data).then((response) => {
+                console.log(response.status);
+                if (response.status === 200) {
+                    // this.props.fetchFlights({flightId:data._id});
+                    this.props.fetchFlights({"_id": data._id});
+                    this.props.handlePageChange("/admin/flight");
+                }
+                else if (response.status === 300) {
+                    console.log("Nothing to Change");
+                }
+                else {
+                    console.log("Error");
+
+                }
+            });
+
+        }
+        else {
+            this.validate.errors = "zipCode,";
+            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - " + this.validate.errors + " ***** </p>"
+        }
+        // });
     });
 
     editFlightData = {};
@@ -143,29 +155,29 @@ class EditFlight extends Component {
         let data = flightData;
         data.flightId = this.state.flightId;
         console.log(data);
-        API.modifyFlightClassData(data).then((response)=>{
+        API.modifyFlightClassData(data).then((response) => {
             console.log(response.status);
-            if(response.status===200){
+            if (response.status === 200) {
                 this.props.fetchFlights();
             }
-            else if(response.status===300){
+            else if (response.status === 300) {
                 console.log("Nothing to Change");
             }
-            else if(response.status===400){
+            else if (response.status === 400) {
                 console.log("Error");
             }
             this.setState({
                 ...this.state,
-                modal : false
+                modal: false
             })
         });
         this.toggle();
     });
 
-    showModifyFlightClass = (()=>{
+    showModifyFlightClass = (() => {
         console.log(this.state.modal);
-        if(this.state.modal){
-            return(
+        if (this.state.modal) {
+            return (
                 <Modal isOpen={this.state.modal} toggle={this.modal} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Add Hotel</ModalHeader>
                     <ModalBody>
@@ -188,7 +200,7 @@ class EditFlight extends Component {
                                 <FormGroup>
                                     Price:
                                     <input type="number" placeholder="Price" value={this.editFlightClassData.price}
-                                           onChange={(event)=>{
+                                           onChange={(event) => {
                                                this.setState({
                                                    ...this.state,
                                                    // price : event.target.value
@@ -201,8 +213,9 @@ class EditFlight extends Component {
                             <Col xs="12">
                                 <FormGroup>
                                     Number of Seats:
-                                    <input type="number" placeholder="Number of Seats" value={this.editFlightClassData.noOfSeats}
-                                           onChange={(event)=>{
+                                    <input type="number" placeholder="Number of Seats"
+                                           value={this.editFlightClassData.noOfSeats}
+                                           onChange={(event) => {
                                                this.setState({
                                                    ...this.state
                                                });
@@ -216,14 +229,16 @@ class EditFlight extends Component {
                     <ModalFooter>
                         <input type="button" value="Save" className="btn btn-primary"
                             // onClick={(()=>{this.editFlightClass(this.flightClass, this.props.match.params.flightId)})}
-                               onClick={(()=>{this.editFlightClass(this.editFlightClassData, this.props.match.params.flightId)})}
+                               onClick={(() => {
+                                   this.editFlightClass(this.editFlightClassData, this.props.match.params.flightId)
+                               })}
                         />
                         <input type="button" value="Cancel"
                                className="btn btn-primary"
-                               onClick={(()=>{
+                               onClick={(() => {
                                    this.setState({
                                        ...this.state,
-                                       modal : false
+                                       modal: false
                                    });
                                    this.fetchHotelToModify(this.state.flightId);
                                })}
@@ -253,8 +268,9 @@ class EditFlight extends Component {
                                                 <label className="h4">Host:</label>
                                             </th>
                                             <td>
-                                                <input type="text" className="form-control form-input1" value={this.state.edit.hostId}
-                                                       onChange={((event)=>{
+                                                <input type="text" className="form-control form-input1"
+                                                       value={this.state.edit.hostId}
+                                                       onChange={((event) => {
                                                            this.setState({
                                                                ...this.state
                                                            });
@@ -268,8 +284,9 @@ class EditFlight extends Component {
                                                 <label className="h4">Flight Operator:</label>
                                             </th>
                                             <td>
-                                                <input type="text" className="form-control form-input1" value={this.state.edit.flightOperator}
-                                                       onChange={((event)=>{
+                                                <input type="text" className="form-control form-input1"
+                                                       value={this.state.edit.flightOperator}
+                                                       onChange={((event) => {
                                                            this.setState({
                                                                ...this.state
                                                            });
@@ -283,8 +300,9 @@ class EditFlight extends Component {
                                                 <label className="h4">Flight Number:</label>
                                             </th>
                                             <td>
-                                                <input type="text" className="form-control form-input1" value={this.state.edit.flightNo}
-                                                       onChange={((event)=>{
+                                                <input type="text" className="form-control form-input1"
+                                                       value={this.state.edit.flightNo}
+                                                       onChange={((event) => {
                                                            this.setState({
                                                                ...this.state
                                                            });
@@ -299,8 +317,8 @@ class EditFlight extends Component {
                                             </th>
                                             <td>
                                                 <input type="date" className="form-control form-input1"
-                                                       value={this.state.edit.departureDate===undefined ? "" : this.state.edit.departureDate.substring(0,this.state.edit.departureDate.indexOf("T"))}
-                                                       onChange={((event)=>{
+                                                       value={this.state.edit.departureDate === undefined ? "" : this.state.edit.departureDate.substring(0, this.state.edit.departureDate.indexOf("T"))}
+                                                       onChange={((event) => {
                                                            this.setState({
                                                                ...this.state
                                                                // departureDate : event.target.value
@@ -317,9 +335,10 @@ class EditFlight extends Component {
                                             <td>
                                                 <input type="time" className="form-control form-input1"
                                                        value={this.state.edit.departureTime}
-                                                       onChange={((event)=>{
+                                                       onChange={((event) => {
                                                            this.setState({
-                                                               ...this.state                                                           });
+                                                               ...this.state
+                                                           });
                                                            this.editFlightData.departureTime = event.target.value;
                                                        })}
                                                 />
@@ -331,10 +350,11 @@ class EditFlight extends Component {
                                             </th>
                                             <td>
                                                 <input type="date" className="form-control form-input1"
-                                                       value={this.state.edit.arrivalDate===undefined ? "" : this.state.edit.arrivalDate.substring(0,this.state.edit.arrivalDate.indexOf("T"))}
-                                                       onChange={((event)=>{
+                                                       value={this.state.edit.arrivalDate === undefined ? "" : this.state.edit.arrivalDate.substring(0, this.state.edit.arrivalDate.indexOf("T"))}
+                                                       onChange={((event) => {
                                                            this.setState({
-                                                               ...this.state                                                           });
+                                                               ...this.state
+                                                           });
                                                            this.editFlightData.arrivalDate = event.target.value;
                                                        })}
                                                 />
@@ -347,9 +367,10 @@ class EditFlight extends Component {
                                             <td>
                                                 <input type="time" className="form-control form-input1"
                                                        value={this.state.edit.arrivalTime}
-                                                       onChange={((event)=>{
+                                                       onChange={((event) => {
                                                            this.setState({
-                                                               ...this.state                                                           });
+                                                               ...this.state
+                                                           });
                                                            this.editFlightData.arrivalTime = event.target.value;
                                                        })}
                                                 />
@@ -360,10 +381,12 @@ class EditFlight extends Component {
                                                 <label className="h4">Duration:</label>
                                             </th>
                                             <td>
-                                                <input type="text" className="form-control form-input1" value={this.state.edit.duration}
-                                                       onChange={((event)=>{
+                                                <input type="text" className="form-control form-input1"
+                                                       value={this.state.edit.duration}
+                                                       onChange={((event) => {
                                                            this.setState({
-                                                               ...this.state                                                           });
+                                                               ...this.state
+                                                           });
                                                            this.editFlightData.duration = event.target.value;
                                                        })}
                                                 />
@@ -374,10 +397,12 @@ class EditFlight extends Component {
                                                 <label className="h4">Origin:</label>
                                             </th>
                                             <td>
-                                                <input type="text" className="form-control form-input1" value={this.state.edit.origin}
-                                                       onChange={((event)=>{
+                                                <input type="text" className="form-control form-input1"
+                                                       value={this.state.edit.origin}
+                                                       onChange={((event) => {
                                                            this.setState({
-                                                               ...this.state                                                           });
+                                                               ...this.state
+                                                           });
                                                            this.editFlightData.origin = event.target.value;
                                                        })}
                                                 />
@@ -388,10 +413,12 @@ class EditFlight extends Component {
                                                 <label className="h4">Destination:</label>
                                             </th>
                                             <td>
-                                                <input type="text" className="form-control form-input1" value={this.state.edit.destination}
-                                                       onChange={((event)=>{
+                                                <input type="text" className="form-control form-input1"
+                                                       value={this.state.edit.destination}
+                                                       onChange={((event) => {
                                                            this.setState({
-                                                               ...this.state                                                           });
+                                                               ...this.state
+                                                           });
                                                            this.editFlightData.destination = event.target.value;
                                                        })}
                                                 />
@@ -404,12 +431,12 @@ class EditFlight extends Component {
                                             <td>
                                                 <Table>
                                                     {
-                                                        this.state.classes.map((item, index)=> {
+                                                        this.state.classes.map((item, index) => {
                                                             return (
                                                                 <ShowFlightClass
                                                                     key={index}
                                                                     item={item}
-                                                                    changeShowModifyClassStatus = {this.changeShowModifyClassStatus}
+                                                                    changeShowModifyClassStatus={this.changeShowModifyClassStatus}
                                                                 />
                                                             )
                                                         })
@@ -422,10 +449,14 @@ class EditFlight extends Component {
                                 </div>
                             </CardBody>
                             <CardFooter className="text-center">
-                                <Button type="button" className="btn-primary" value="Save" onClick={(()=>{this.editFlight(this.editFlightData)})}>Save</Button>
+                                <Button type="button" className="btn-primary" value="Save" onClick={(() => {
+                                    this.editFlight(this.editFlightData)
+                                })}>Save</Button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button type="button" className="btn-primary"
-                                        onClick={(()=>{this.props.handlePageChange("/admin/flight")})}
+                                        onClick={(() => {
+                                            this.props.handlePageChange("/admin/flight")
+                                        })}
                                 >Back</Button>
                             </CardFooter>
                         </Card>

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import * as API from "../../../api/admin/API";
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import {
     Badge,
     Row,
@@ -61,27 +63,31 @@ class EditUser extends Component {
                 if(response.status===200){
                     this.props.fetchUsers({username:data.username});
                     this.props.handlePageChange("/admin/user");
+                    showAlert("User Details Edited successfully", "info", this);
                 }
                 else if(response.status===300)
                 {
+                    showAlert("Failed to edit user details", "error", this);
                     console.log("Nothing to Change");
                 }
                 else if(response.status===204)
                 {
+                    showAlert("Failed to edit user details", "error", this);
                     console.log("Record Exist with edited pair already in database");
                 }
                 else if(response.status===400)
                 {
+                    showAlert("Failed to edit user details", "error", this);
                     console.log("Error while updating data");
                 }
                 else {
+                    showAlert("Failed to edit user details", "error", this);
                     console.log("Error");
                 }
             });
         }
         else {
-            this.validate.errors = "zipCode,";
-            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+            showAlert("Invalid Zipcode.", "error", this);
         }
     });
 
@@ -102,6 +108,7 @@ class EditUser extends Component {
                 });
             }
             else {
+                showAlert("Failed to fetch user details", "error", this);
                 console.log("Error While fetching data");
             }
         });
@@ -122,6 +129,7 @@ class EditUser extends Component {
                 <Row>
                     <Col xs="12" lg="12">
                         <Card>
+                            <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                             <CardHeader>
                                 User
                             </CardHeader>

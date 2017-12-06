@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import * as API from "../../../api/admin/API";
 import ShowFlights from "./ShowFlights";
 import {Switch, Route, withRouter} from 'react-router-dom';
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import admincss from './admin.css'
 import {
     Badge,
@@ -89,6 +91,7 @@ class FlightPage extends Component {
         API.addflightData(flightdata).then((response)=>{
             console.log(response.status);
             if(response.status===200){
+                showAlert("Flight Added Successfully", "error", this);
                 response.json().then((data)=>{
                     console.log(data);
                     // this.setState((state)=>{
@@ -99,6 +102,7 @@ class FlightPage extends Component {
                 this.toggle();
             }
             else {
+                showAlert("Error while adding Flight Data", "error", this);
                 console.log("Error while adding flight data");
             }
         });
@@ -478,6 +482,7 @@ class FlightPage extends Component {
                                         </Col>
                                     </Row>
                                 </div>
+                                <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                             </div>
                         )
                     })}/>

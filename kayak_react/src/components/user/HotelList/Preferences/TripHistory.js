@@ -23,24 +23,30 @@ class TripHistory extends Component {
             // username:this.props.username
             username: this.props.username
         };
-        getbookinginfo_user(userdet)
-            .then((res) => {
-                console.log(res);
-                console.log(this.state);
+        if (this.props.isLoggedIn) {
 
-                this.setState({
-                    ...this.state,
-                    hotel: res.hotel,
-                    flight: res.flight,
-                    car: res.car
 
-                });
-                console.log(this.state);
+            getbookinginfo_user(userdet)
+                .then((res) => {
+                    console.log(res);
+                    console.log(this.state);
 
-            }).catch((err) => {
+                    this.setState({
+                        ...this.state,
+                        hotel: res.hotel,
+                        flight: res.flight,
+                        car: res.car
 
-            console.log(err);
-        })
+                    });
+                    console.log(this.state);
+
+                }).catch((err) => {
+
+                console.log(err);
+            })
+        } else {
+            this.props.handlePageChange("/u")
+        }
     }
 
 
@@ -133,8 +139,10 @@ class TripHistory extends Component {
                                             <div className="hotelbookingdata">
                                                 <h5 className="hotelbookingid">{hotels}{hotelDetails.two.bookingId}</h5>
                                                 <h5 className="hotelbookingid">{hotelDetails.one.hotelName} </h5>
-                                                <h5 className="hotelbookingid"><Moment  format="YYYY/MM/DD">{hotelDetails.two.fromDate}</Moment></h5>
-                                                <h5 className="hotelbookingid"><Moment  format="YYYY/MM/DD">{hotelDetails.two.toDate}</Moment></h5>
+                                                <h5 className="hotelbookingid"><Moment
+                                                    format="YYYY/MM/DD">{hotelDetails.two.fromDate}</Moment></h5>
+                                                <h5 className="hotelbookingid"><Moment
+                                                    format="YYYY/MM/DD">{hotelDetails.two.toDate}</Moment></h5>
                                                 <h5 className="hotelbookingid">{hotelDetails.two.noOfPeople}</h5>
                                                 <h5 className="hotelbookingid">{hotelDetails.two.roomType}</h5>
                                                 <h5 className="hotelbookingid">$ {hotelDetails.two.ticketPrice}</h5>
@@ -219,8 +227,10 @@ class TripHistory extends Component {
                                                 <h5 className="hotelbookingid">{cardetails.one.carType} </h5>
                                                 <h5 className="hotelbookingid">{cardetails.one.carMake} - {cardetails.one.carModel}</h5>
                                                 <h5 className="hotelbookingid">{cardetails.one.city}</h5>
-                                                <h5 className="hotelbookingid"><Moment  format="YYYY/MM/DD">{cardetails.two.fromDate}</Moment></h5>
-                                                <h5 className="hotelbookingid"><Moment  format="YYYY/MM/DD">{cardetails.two.toDate}</Moment></h5>
+                                                <h5 className="hotelbookingid"><Moment
+                                                    format="YYYY/MM/DD">{cardetails.two.fromDate}</Moment></h5>
+                                                <h5 className="hotelbookingid"><Moment
+                                                    format="YYYY/MM/DD">{cardetails.two.toDate}</Moment></h5>
                                                 <h5 className="hotelbookingid">$ {cardetails.two.ticketPrice}</h5>
                                             </div>
                                         )
@@ -238,7 +248,8 @@ class TripHistory extends Component {
 
 function mapStateToProps(state) {
     return {
-        username: state.username
+        username: state.username,
+        isLoggedIn: state.isLoggedIn,
     }
 }
 

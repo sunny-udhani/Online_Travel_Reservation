@@ -333,6 +333,7 @@ class HotelListing extends Component {
                                         function matchStar(star) {
                                             return star === hotel.stars.toString();
                                         }
+                                        console.log(images);
 
                                         let image_index = index % 10;
                                         let img_src = "../../img/hotel_list_" + (image_index + 1) + ".jpg";

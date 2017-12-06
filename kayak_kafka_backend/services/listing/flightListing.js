@@ -103,6 +103,7 @@ function listDirectFlights(callback) {
         // direct flights
 
         console.log(err);
+        console.log(results);
 
         if (err) {
             callback(err);

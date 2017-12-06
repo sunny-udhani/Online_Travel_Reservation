@@ -62,6 +62,8 @@ handle_request = ((data, callback) => {
                             callback(null, resultflights);
                         }
                     });
+                }else{
+                    callback(null, result);
                 }
 
 

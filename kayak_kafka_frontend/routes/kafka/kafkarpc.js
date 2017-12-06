@@ -1,7 +1,7 @@
 let crypto = require('crypto');
 let conn = require('./Connection');
 
-let TIMEOUT = 8000; //time to wait for response in ms
+let TIMEOUT = 30000; //time to wait for response in ms
 let EXTRATIMEOUT = 25000; //time to wait for dashboard response in ms
 let self;
 

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import * as API from '../../../api/admin/API';
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {
@@ -89,15 +91,15 @@ class AdminProfile extends Component {
                 console.log(response.status);
                 if(response.status===200){
                     this.fetchProfile();
+                    showAlert("Admin details Edited Successfully", "info", this);
                 }
                 else {
-                    console.log("error");
+                    showAlert("Admin details modification Unsuccessfully", "error", this);
                 }
             });
         }
         else {
-            this.validate.errors = "zipCode,";
-            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+            showAlert("Zipcode invalid. Please enter zipcode in valid format ", "error", this);
         }
 
     });
@@ -116,6 +118,7 @@ class AdminProfile extends Component {
 
                             <CardBody>
                                 <div align="center">
+                                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                     <Table>
                                         <tr>
                                             <th>
@@ -160,7 +163,7 @@ class AdminProfile extends Component {
                                                 <label className="h4">Date Of Birth:</label>
                                             </th>
                                             <td>
-                                                <input type="date" className="form-control form-input1"
+                                                <input type="text" className="form-control form-input1"
                                                        value={(this.state.admin.dateofbirth === undefined
                                                        ||  this.state.admin.dateofbirth === null)
                                                            ?

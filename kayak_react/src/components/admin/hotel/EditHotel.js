@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import * as API from "../../../api/admin/API";
 import ShowRooms from "./ShowRooms";
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import {
     Badge,
     Row,
@@ -108,8 +110,9 @@ class EditHotel extends Component {
             });
         }
         else {
-            this.validate.errors = "zipCode,";
-            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+            showAlert("Zipcode invalid", "error", this);
+            // this.validate.errors = "zipCode,";
+            // document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
         }
 
     });
@@ -371,6 +374,7 @@ class EditHotel extends Component {
                                             </td>
                                         </tr>
                                     </Table>
+                                    <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                     {this.showAddRoom()}
                                 </div>
                                     <div id="errors">

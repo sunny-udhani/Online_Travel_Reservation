@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {alertOptions, showAlert} from "../../../../alertConfig";
 import AlertContainer from 'react-alert';
 
-
+import "../../../kayak.css"
 // import "../../css/bootstrap.min.css"
 // import "../../css/font-awesome.min.css"
 // import "../../css/style.css"
@@ -53,11 +53,13 @@ class CarSearch extends Component {
     };
 
     render() {
+        let arrowinside=<svg class=""  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor"><path d="M31.88 12.32l-1.43 1.4L39.56 23H20v2h19.56l-9.11 9.27 1.43 1.41L43.35 24 31.88 12.32M11 23h6v2h-6zM5 23h3v2H5z"></path></svg>
+
         return (
             <div className="text-center">
                 <div className="form-row" style={{marginLeft: "20%"}}>
                     <div className="form-group col-md-3">
-                        <label className="form-label">City</label>
+                        <label className="form-label"id="givecolor">City</label>
                         <input type="text" required="required" className="form-control" id="city" placeholder="city"
                                onChange={
                                    (event) => {
@@ -66,7 +68,7 @@ class CarSearch extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-3">
-                        <label className="form-label">From Date</label>
+                        <label className="form-label"id="givecolor">From Date</label>
                         <input type="date" className="form-control" required="required" id="checkindate"
                                placeholder="mm/dd/yyyy"
                                onChange={
@@ -76,7 +78,7 @@ class CarSearch extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-3">
-                        <label className="form-label">To Date</label>
+                        <label className="form-label"id="givecolor">To Date</label>
                         <input type="date" className="form-control" required="required" id="checkoutdate"
                                placeholder="mm/dd/yyyy"
                                onChange={
@@ -87,7 +89,7 @@ class CarSearch extends Component {
                     </div>
                 </div>
                 <center>
-                    <button className="btn btn-warning" onClick={() => this.searchCars()}>Search</button>
+                    <button className="buttonsbox"onClick={() => this.searchCars()} >{arrowinside}</button>
                     <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                 </center>
             </div>

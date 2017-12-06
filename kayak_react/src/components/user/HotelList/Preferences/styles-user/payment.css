@@ -5,11 +5,15 @@
     text-align: left;
 
 }
+
+    
 .col-md-8-paymentnavbar{
     width: 800px;
     height: 592px;
     margin-left: 5%;
+    margin-top: 11%;
 }
+
 .header0-preferences{
     float:left;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

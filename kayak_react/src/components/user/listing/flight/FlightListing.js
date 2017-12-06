@@ -121,6 +121,16 @@ class FlightListing extends Component {
         console.log(flights);
         console.log("before it all starts");
 
+        function importAll(r) {
+            let images = {};
+            r.keys().map((item, index) => {
+                images[item.replace('./', '')] = r(item);
+            });
+            return images;
+        }
+
+        const images = importAll(require.context('../../../../img', false, /\.(png|jpe?g|svg)$/));
+
         return (
             <div className="list-wrapper bg-grey-2">
                 <div className="container">
@@ -406,7 +416,7 @@ class FlightListing extends Component {
                                             }
 
                                             let image_index = index % 10;
-                                            let img_src = "../../img/flight_list_" + flight.flightOperator + (image_index + 1) + ".jpg";
+                                            let img_src = "flight_list_" + (image_index + 1) + ".jpg";
                                             let flightPrice = flight.classes[0].price;
 
                                             for (let i = 0; i < flight.classes.length; i++) {
@@ -447,7 +457,7 @@ class FlightListing extends Component {
                                                         <div className="hotel-item style-10 bg-white">
                                                             <div className="table-view">
                                                                 <div className="radius-top cell-view">
-                                                                    <img src="img/tour_list/flight_grid_1.jpg" alt=""/>
+                                                                    <img src={images[img_src]} alt=""/>
                                                                 </div>
                                                                 <div className="title hotel-middle cell-view">
                                                                     <h5>from <strong

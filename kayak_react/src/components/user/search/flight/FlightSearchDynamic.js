@@ -18,7 +18,7 @@ class FlightSearchDynamic extends Component {
             return (
                 <div>
                     <div className="form-group col-md-2">
-                        <label className="form-label">From</label>
+                        <label className="form-label"id="givecolor">From</label>
                         <input type="text" required="required" className="form-control" id="from"
                                placeholder="from: new york"
                                onChange={
@@ -28,7 +28,7 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="form-label">To</label>
+                        <label className="form-label"id="givecolor">To</label>
                         <input type="text" required="required" className="form-control" id="to"
                                placeholder="to: san francisco"
                                onChange={
@@ -38,7 +38,7 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="form-label">Dept Date</label>
+                        <label className="form-label"id="givecolor">Dept Date</label>
                         <input type="date" className="form-control" required="required" id="deptDate"
                                placeholder="mm/dd/yyyy"
                                onChange={
@@ -48,7 +48,7 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="form-label">Return Date</label>
+                        <label className="form-label"id="givecolor">Return Date</label>
                         <input type="date" className="form-control" required="required" id="checkoutdate"
                                placeholder="mm/dd/yyyy"
                                onChange={
@@ -58,7 +58,7 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="table-label">No. of Persons</label>
+                        <label className="table-label"id="givecolor">No. of Persons</label>
                         <input type="number" className="form-control" required="required" id="noofpersons"
                                placeholder="2"
                                onChange={
@@ -68,8 +68,8 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="table-label">Select Class</label>
-                        <select onChange={(event) => {
+                        <label className="table-label"id="givecolor">Select Class</label>
+                        <select  style={{backgroundColor: "#ffffff"}} onChange={(event) => {
                             console.log(this);
                             this.props.criteria.class = event.target.value
                         }}>
@@ -92,7 +92,7 @@ class FlightSearchDynamic extends Component {
         } else {
             return (
                 <div className="center-block">
-                    <div className="form-group col-md-2">
+                    <div className="form-group col-md-2"id="givecolor">
                         <label className="form-label">From</label>
                         <input type="text" required="required" className="form-control" id="from"
                                placeholder="from: new york"
@@ -103,7 +103,7 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="form-label">To</label>
+                        <label className="form-label"id="givecolor">To</label>
                         <input type="text" required="required" className="form-control" id="to"
                                placeholder="to: san francisco"
                                onChange={
@@ -113,7 +113,7 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="form-label">Dept Date</label>
+                        <label className="form-label"id="givecolor">Dept Date</label>
                         <input type="date" className="form-control" required="required" id="checkindate"
                                placeholder="mm/dd/yyyy"
                                onChange={
@@ -123,7 +123,7 @@ class FlightSearchDynamic extends Component {
                                }/>
                     </div>
                     <div className="form-group col-md-2">
-                        <label className="table-label">No. of Persons</label>
+                        <label className="table-label"id="givecolor">No. of Persons</label>
                         <input type="number" className="form-control" required="required" id="noofpersons"
                                placeholder="no of persons"
                                onChange={
@@ -132,9 +132,9 @@ class FlightSearchDynamic extends Component {
                                    }
                                }/>
                     </div>
-                    <div className="form-group col-md-2">
-                        <label className="table-label"> Select Class</label>
-                        <select onChange={(event) => {
+                    <div className="form-group col-md-2" >
+                        <label className="table-label"id="givecolor"> Select Class</label>
+                        <select style={{backgroundColor: "#ffffff"}} onChange={(event) => {
                             this.props.criteria.class = event.target.value
                         }}>
                             <option value="-1">

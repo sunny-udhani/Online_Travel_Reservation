@@ -6,6 +6,8 @@ const esClient = new elasticsearch.Client({
 
 create_Index = ((data,callback)=>{
 
+    try{
+
     let bulkBody = [];
 
     // let index = "useranalytics"+Math.random();
@@ -181,146 +183,154 @@ create_Index = ((data,callback)=>{
         }
 
     });
+    }
+    catch (e){
+        console.log(e);
+    }
 
 });
 
 perform_analytics = ((callback) => {
 
-    let index = "useranalytics";
+    try {
+        let index = "useranalytics";
 
-    let results = {
+        let results = {
 
-        pageClicks:{
-            UserHome: 10,
-            SignIn: 10,
-            SignUp: 10,
-            HotelListing: 10,
-            CarListing: 10,
-            FlightListing: 10,
-            UserProfile: 10,
-            UserPaymentPage: 10
-        },
-        propertyClicks:{
-            Hotel: 10,
-            Flight: 10,
-            Car: 10
-        }
-
-    };
-
-    let pages = ['UserHome','SignIn','SignUp','HotelListing','CarListing','FlightListing','UserProfile','UserPaymentPage'];
-
-    let properties = ['Hotel','Flight','Car'];
-
-    let countPages = 8;
-
-    let countProperties = 3;
-
-    pages.forEach( page =>{
-
-        let body = {
-            from: 0,
-            query: {
-                match: {
-                    pageName: {
-                        query: page
-                    }
-                }
+            pageClicks: {
+                UserHome: 10,
+                SignIn: 10,
+                SignUp: 10,
+                HotelListing: 10,
+                CarListing: 10,
+                FlightListing: 10,
+                UserProfile: 10,
+                UserPaymentPage: 10
+            },
+            propertyClicks: {
+                Hotel: 10,
+                Flight: 10,
+                Car: 10
             }
+
         };
 
-        esClient.search({index: index, body: body})
-            .then(result => {
-                console.log(`For ${page} - found ${result.hits.total} counts in ${result.took}ms`);
+        let pages = ['UserHome', 'SignIn', 'SignUp', 'HotelListing', 'CarListing', 'FlightListing', 'UserProfile', 'UserPaymentPage'];
 
-                switch(page){
-                    case 'UserHome':
-                        results.pageClicks.UserHome = result.hits.total;
-                        break;
-                    case 'SignIn':
-                        results.pageClicks.SignIn = result.hits.total;
-                        break;
-                    case 'SignUp':
-                        results.pageClicks.SignUp = result.hits.total;
-                        break;
-                    case 'HotelListing':
-                        results.pageClicks.HotelListing = result.hits.total;
-                        break;
-                    case 'CarListing':
-                        results.pageClicks.CarListing = result.hits.total;
-                        break;
-                    case 'FlightListing':
-                        results.pageClicks.FlightListing = result.hits.total;
-                        break;
-                    case 'UserProfile':
-                        results.pageClicks.UserProfile = result.hits.total;
-                        break;
-                    case 'UserPaymentPage':
-                        results.pageClicks.UserPaymentPage = result.hits.total;
-                        break;
-                    default:
+        let properties = ['Hotel', 'Flight', 'Car'];
+
+        let countPages = 8;
+
+        let countProperties = 3;
+
+        pages.forEach(page => {
+
+            let body = {
+                from: 0,
+                query: {
+                    match: {
+                        pageName: {
+                            query: page
+                        }
+                    }
                 }
+            };
 
-                countPages--;
+            esClient.search({index: index, body: body})
+                .then(result => {
+                    console.log(`For ${page} - found ${result.hits.total} counts in ${result.took}ms`);
 
-                if(countPages === 0){
+                    switch (page) {
+                        case 'UserHome':
+                            results.pageClicks.UserHome = result.hits.total;
+                            break;
+                        case 'SignIn':
+                            results.pageClicks.SignIn = result.hits.total;
+                            break;
+                        case 'SignUp':
+                            results.pageClicks.SignUp = result.hits.total;
+                            break;
+                        case 'HotelListing':
+                            results.pageClicks.HotelListing = result.hits.total;
+                            break;
+                        case 'CarListing':
+                            results.pageClicks.CarListing = result.hits.total;
+                            break;
+                        case 'FlightListing':
+                            results.pageClicks.FlightListing = result.hits.total;
+                            break;
+                        case 'UserProfile':
+                            results.pageClicks.UserProfile = result.hits.total;
+                            break;
+                        case 'UserPaymentPage':
+                            results.pageClicks.UserPaymentPage = result.hits.total;
+                            break;
+                        default:
+                    }
 
-                    properties.forEach( property => {
+                    countPages--;
 
-                        let body = {
-                            from: 0,
-                            query: {
-                                match: {
-                                    propertyName: {
-                                        query: property
+                    if (countPages === 0) {
+
+                        properties.forEach(property => {
+
+                            let body = {
+                                from: 0,
+                                query: {
+                                    match: {
+                                        propertyName: {
+                                            query: property
+                                        }
                                     }
                                 }
-                            }
-                        };
+                            };
 
-                        esClient.search({index: index, body: body})
-                            .then(result => {
-                                console.log(`For ${property} - found ${result.hits.total} counts in ${result.took}ms`);
+                            esClient.search({index: index, body: body})
+                                .then(result => {
+                                    console.log(`For ${property} - found ${result.hits.total} counts in ${result.took}ms`);
 
-                                switch (property) {
-                                    case 'Hotel':
-                                        results.propertyClicks.Hotel = result.hits.total;
-                                        break;
-                                    case 'Flight':
-                                        results.propertyClicks.Flight = result.hits.total;
-                                        break;
-                                    case 'Car':
-                                        results.propertyClicks.Car = result.hits.total;
-                                        break;
-                                    default:
-                                }
+                                    switch (property) {
+                                        case 'Hotel':
+                                            results.propertyClicks.Hotel = result.hits.total;
+                                            break;
+                                        case 'Flight':
+                                            results.propertyClicks.Flight = result.hits.total;
+                                            break;
+                                        case 'Car':
+                                            results.propertyClicks.Car = result.hits.total;
+                                            break;
+                                        default:
+                                    }
 
-                                countProperties--;
+                                    countProperties--;
 
-                                if (countProperties === 0) {
-                                    console.log("Returning results UserHome - "+results.pageClicks.UserHome+" UserProfile - "+results.pageClicks.UserProfile);
-                                    callback(results);
-                                }
-                            });
-                    });
-                }
+                                    if (countProperties === 0) {
+                                        console.log("Returning results UserHome - " + results.pageClicks.UserHome + " UserProfile - " + results.pageClicks.UserProfile);
+                                        callback(results);
+                                    }
+                                });
+                        });
+                    }
 
 
-                // if (results.hits.total > 0) console.log(`returned article titles:`);
-                // results.hits.hits.forEach((hit, index) => console.log(`\t${body.from + ++index} - ${hit._source.pageName} (score: ${hit._score})`));
+                    // if (results.hits.total > 0) console.log(`returned article titles:`);
+                    // results.hits.hits.forEach((hit, index) => console.log(`\t${body.from + ++index} - ${hit._source.pageName} (score: ${hit._score})`));
 
-            })
-            .catch(err => console.error(`Error connecting to the es client: ${err}`));
+                })
+                .catch(err => console.error(`Error connecting to the es client: ${err}`));
 
-    });
-
+        });
+    }
+    catch (e){
+        console.log(e);
+    }
 });
 
 handle_request = ((data, callback) => {
-
+try {
     // console.log(data[0].click);
 
-    let response = {status:400,analytics:{}};
+    let response = {status: 400, analytics: {}};
 
     create_Index(data,
         function (results) {
@@ -372,6 +382,10 @@ handle_request = ((data, callback) => {
     //             callback(e, response);
     //         }
     // });
+    }
+    catch (e){
+        console.log(e);
+    }
 });
 
 exports.handle_request = handle_request;

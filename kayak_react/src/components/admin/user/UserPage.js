@@ -5,6 +5,8 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 import EditUser from "./EditUser";
 import {setUserData_Success} from "../../../actions";
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import {
     Row,
     Col,
@@ -134,9 +136,10 @@ class UserPage extends Component {
                     console.log(data);
                     this.props.setUserData_Success(data);
                 });
+                showAlert("Users Fetched Successfully", "info", this);
             }
             else if(response.status===204){
-                console.log("Users Not Found");
+                showAlert("Users Not Found", "error", this);
                 this.props.setUserData_Success([]);
             }
             else {
@@ -156,6 +159,7 @@ class UserPage extends Component {
                     <Route exact path="/admin/user" render={(()=>{
                         return (
                             <div>
+                                <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                 <div>
                                     {
                                         this.showSearchUser()

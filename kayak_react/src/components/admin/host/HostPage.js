@@ -5,6 +5,8 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
 import EditHost from "./EditHost";
 import {setHostData_Success, addHostData_Success} from "../../../actions";
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import {
     Row,
     Col,
@@ -40,7 +42,6 @@ class HostPage extends Component {
             searchModal : false
         };
     }
-
 
     handleSubmit = () => {
     };
@@ -84,16 +85,20 @@ class HostPage extends Component {
                     response.json().then((data)=>{
                         console.log(data);
                         // this.fetchHotels();
+                        showAlert("Host Added Successfully", "info", this);
                         this.props.addHostData_Success(data[0]);
                     });
                 }
                 else if(response.status===201){
+                    showAlert("Failed to add new Host", "error", this);
                     console.log("Data inserted successfully. But failed to fetch added data. Refresh")
                 }
                 else if(response.status===300){
+                    showAlert("Failed to add new Host", "error", this);
                     console.log("Host already exist");
                 }
                 else {
+                    showAlert("Failed to add new Host", "error", this);
                     console.log("Error while adding hotel");
                 }
                 this.toggle();
@@ -271,6 +276,7 @@ class HostPage extends Component {
                     <Route exact path="/admin/host" render={(()=>{
                         return (
                             <div>
+                                <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                 <div>
                                     {
                                         this.showAddHost()

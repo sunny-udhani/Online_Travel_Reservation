@@ -12,7 +12,7 @@ import {alertOptions, showAlert} from "../../../../alertConfig";
 // import "../../css/style.css"
 // import "../../css/jquery-ui.min.css"
 // import "../../css/jquery-ui.structure.min.css"
-
+import "../../../kayak.css"
 class FlightSearch extends Component {
 
     searchCriteria = {
@@ -89,6 +89,7 @@ class FlightSearch extends Component {
 
 
     render() {
+        let arrowinside=<svg class=""  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor"><path d="M31.88 12.32l-1.43 1.4L39.56 23H20v2h19.56l-9.11 9.27 1.43 1.41L43.35 24 31.88 12.32M11 23h6v2h-6zM5 23h3v2H5z"></path></svg>
 
         return (
             <div>
@@ -114,7 +115,7 @@ class FlightSearch extends Component {
                     <FlightSearchDynamic criteria={this.searchCriteria}/>
                 </div>
                 <center>
-                    <button className="btn btn-warning" onClick={() => this.searchFlights()}>Search</button>
+                    <button className="buttonsbox" onClick={() => this.searchFlights()}>{arrowinside}</button>
                 </center>
                 <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
             </div>

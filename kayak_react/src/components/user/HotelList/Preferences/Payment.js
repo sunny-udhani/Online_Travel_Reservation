@@ -6,62 +6,63 @@ import Navbar from './Navbar';
 import {connect} from "react-redux"
 import {addUserCard} from "../../../../api/user/API_AddUserCard"
 import PaymentMethods from "./PaymentMethods.js";
+import {Link} from 'react-router-dom';
 
 export default class Payment extends Component {
 
-    state={
+    state = {
 
-        nameoncard:'',
-        cardnumber:'',
-        monthexpiry:'',
-        yearexpiry:'',
-        streetone:'',
-        streettwo:'',
-        city:'',
-        stateuser:'',
-        postcode:'',
-        country:'',
-        cvv:'',
-        isAdded:false,
+        nameoncard: '',
+        cardnumber: '',
+        monthexpiry: '',
+        yearexpiry: '',
+        streetone: '',
+        streettwo: '',
+        city: '',
+        stateuser: '',
+        postcode: '',
+        country: '',
+        cvv: '',
+        isAdded: false,
         currentFragment: "payment-methods"
     };
 
-    handleCancel(){
+    handleCancel() {
         this.setState({
             currentFragment: "payment-methods"
         });
     }
 
-    handleAddPaymentMethod (fragment) {
+    handleAddPaymentMethod(fragment) {
         this.setState({
             currentFragment: fragment
         });
     }
 
-    handleSubmitCard(e){
+    handleSubmitCard(e) {
         e.preventDefault();
 
         console.log(this.state.nameoncard);
 
-        var formdata=new FormData();
-        formdata.append("nameoncard",this.state.nameoncard);
-        formdata.append("cardnumber",this.state.cardnumber);
-        formdata.append("monthexpiry",this.state.monthexpiry);
-        formdata.append("yearexpiry",this.state.yearexpiry);
-        formdata.append("streetone",this.state.streetone);
-        formdata.append("streettwo",this.state.streettwo);
-        formdata.append("city",this.state.city);
-        formdata.append("stateuser",this.state.stateuser);
-        formdata.append("postcode",this.state.postcode);
-        formdata.append("country",this.state.country);
-        formdata.append("cvv",this.state.cvv);
+        var formdata = new FormData();
+        formdata.append("nameoncard", this.state.nameoncard);
+        formdata.append("cardnumber", this.state.cardnumber);
+        formdata.append("monthexpiry", this.state.monthexpiry);
+        formdata.append("yearexpiry", this.state.yearexpiry);
+        formdata.append("streetone", this.state.streetone);
+        formdata.append("streettwo", this.state.streettwo);
+        formdata.append("city", this.state.city);
+        formdata.append("stateuser", this.state.stateuser);
+        formdata.append("postcode", this.state.postcode);
+        formdata.append("country", this.state.country);
+        formdata.append("cvv", this.state.cvv);
         console.log(formdata);
-          addUserCard(formdata)
-               .then((res) => {
-                   this.setState({
-                       currentFragment: "payment-methods"
-                   });
-                   // this.props.handlePageChange("/payinfo")
+        addUserCard(formdata)
+            .then((res) => {
+                this.setState({
+                    currentFragment: "payment-methods"
+                });
+                // this.props.handlePageChange("/payinfo")
 
             }).catch((err) => {
 
@@ -69,71 +70,77 @@ export default class Payment extends Component {
         })
 
 
-
-
     }
-    handleName(event){
+
+    handleName(event) {
         this.setState({
             nameoncard: event.currentTarget.value
         })
-   }
+    }
 
-    handleCardNumber(event){
+    handleCardNumber(event) {
         this.setState({
-            cardnumber:event.currentTarget.value
-        })
-    }
-    handleMonth(event){
-        this.setState({
-            monthexpiry:event.currentTarget.value
-        })
-    }
-    handleYear(event){
-        this.setState({
-           yearexpiry :event.currentTarget.value
+            cardnumber: event.currentTarget.value
         })
     }
 
-    handleStreetOne(event){
+    handleMonth(event) {
         this.setState({
-            streetone :event.currentTarget.value
-        })
-    }
-    handleStreetTwo(event){
-        this.setState({
-            streettwo :event.currentTarget.value
-        })
-    }
-    handleCity(event){
-        this.setState({
-            city :event.currentTarget.value
-        })
-    }
-    handleState(event){
-        this.setState({
-            stateuser :event.currentTarget.value
-        })
-    }
-    handlePostcode(event){
-        this.setState({
-            postcode :event.currentTarget.value
-        })
-    }
-    handleCountry(event){
-        this.setState({
-            country :event.currentTarget.value
+            monthexpiry: event.currentTarget.value
         })
     }
 
-    handleCvvNumber(event){
+    handleYear(event) {
         this.setState({
-            cvv :event.currentTarget.value
+            yearexpiry: event.currentTarget.value
+        })
+    }
+
+    handleStreetOne(event) {
+        this.setState({
+            streetone: event.currentTarget.value
+        })
+    }
+
+    handleStreetTwo(event) {
+        this.setState({
+            streettwo: event.currentTarget.value
+        })
+    }
+
+    handleCity(event) {
+        this.setState({
+            city: event.currentTarget.value
+        })
+    }
+
+    handleState(event) {
+        this.setState({
+            stateuser: event.currentTarget.value
+        })
+    }
+
+    handlePostcode(event) {
+        this.setState({
+            postcode: event.currentTarget.value
+        })
+    }
+
+    handleCountry(event) {
+        this.setState({
+            country: event.currentTarget.value
+        })
+    }
+
+    handleCvvNumber(event) {
+        this.setState({
+            cvv: event.currentTarget.value
         })
     }
 
 
     render() {
-        switch(this.state.currentFragment) {
+        switch (this.state.currentFragment) {
             case "payment-form":
                 return (<div className="container-fluid">
                     <div className="row" style={{marginTop: "9%", backgroundColor: "#ffffff"}}>
@@ -152,19 +159,23 @@ export default class Payment extends Component {
                                 <h5 className="header2-preferences">Billing Information</h5>
                             </div>
 
-                            <form className="payment-details" method="POST" onSubmit={this.handleSubmitCard.bind(this)} >
+                            <form className="payment-details" method="POST" onSubmit={this.handleSubmitCard.bind(this)}>
                                 <div className="informationofcard">
                                     <div className="form-group10 pull-left">
                                         <input id="textinput" name="nameoncard" placeholder="Name on Card"
-                                               className="form-control" required="" type="text" onChange={this.handleName.bind(this)}/>
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleName.bind(this)}/>
                                     </div>
                                     <div className="form-group10">
-                                        <input id="textinput" name="cardnumber" minLength="16" maxLength="16" placeholder="Credit Card Number"
-                                               className="form-control" required="" type="text" onChange={this.handleCardNumber.bind(this)}   />
+                                        <input id="textinput" name="cardnumber" minLength="16" maxLength="16"
+                                               placeholder="Credit Card Number"
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleCardNumber.bind(this)}/>
                                     </div>
                                     <div className="form-grouppp">
                                         <input id="textinput" name="cvv" minLength="3" maxLength="3" placeholder="CVV"
-                                               className="form-control" required="" type="text" onChange={this.handleCvvNumber.bind(this)}   />
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleCvvNumber.bind(this)}/>
                                     </div>
                                 </div>
                                 <div className="month-picker">
@@ -210,31 +221,37 @@ export default class Payment extends Component {
                                 <div className="informationofcard">
                                     <div className="form-group10 pull-left">
                                         <input id="textinput" name="streetone" placeholder="Street (line1)"
-                                               className="form-control" required="" type="text" onChange={this.handleStreetOne.bind(this)}/>
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleStreetOne.bind(this)}/>
                                     </div>
                                     <div className="form-group10">
                                         <input id="textinput" name="streettwo" placeholder="Street (line2)"
-                                               className="form-control" required="" type="text" onChange={this.handleStreetTwo.bind(this)}/>
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleStreetTwo.bind(this)}/>
                                     </div>
                                 </div>
                                 <div className="informationofcard">
                                     <div className="form-group10 pull-left">
                                         <input id="textinput" name="city" placeholder="City"
-                                               className="form-control" required="" type="text" onChange={this.handleCity.bind(this)}/>
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleCity.bind(this)}/>
                                     </div>
                                     <div className="form-group-state">
                                         <input id="textinput" name="stateinfo" placeholder="State"
-                                               className="form-control" required="" type="text" onChange={this.handleState.bind(this)}/>
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleState.bind(this)}/>
                                     </div>
                                     <div className="form-group-state">
                                         <input id="textinput" name="zipcode" placeholder="Postal Code"
-                                               className="form-control" required="" type="text" onChange={this.handlePostcode.bind(this)}/>
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handlePostcode.bind(this)}/>
                                     </div>
                                 </div>
                                 <div className="informationofcard">
                                     <div className="form-group pull-left">
                                         <input id="textinput" name="country" placeholder="Country"
-                                               className="form-control" required="" type="text" onChange={this.handleCountry.bind(this)}/>
+                                               className="form-control" required="" type="text"
+                                               onChange={this.handleCountry.bind(this)}/>
                                     </div>
                                 </div>
 
@@ -244,23 +261,23 @@ export default class Payment extends Component {
 
                                     </div>
                                     <div className="form-group-cancel">
-                                        <a href="/payinfo" id="cancelcard" className="btn btn-danger">Cancel</a>
+                                        <Link to="/pref" id="cancelcard" className="btn btn-danger">Cancel</Link>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div> );
+                </div>);
                 break;
             case "payment-methods":
                 return (
                     <div className="container-fluid">
-                        <div className="row" style={{marginTop : "9%", backgroundColor: "#ffffff"}}>
+                        <div className="row" style={{marginTop: "9%", backgroundColor: "#ffffff"}}>
                             <div className="col-md-3-paymentnavbar">
                                 <Navbar/>
                             </div>
                             <div className="com-md-8">
-                                <PaymentMethods  handleAddPaymentMethod={this.handleAddPaymentMethod.bind(this)}/>
+                                <PaymentMethods handlePageChange={this.props.handlePageChange} handleAddPaymentMethod={this.handleAddPaymentMethod.bind(this)}/>
                             </div>
                         </div>
                     </div>

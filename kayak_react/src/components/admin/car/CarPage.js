@@ -4,6 +4,8 @@ import ShowCars from "./ShowCars";
 import EditCar from "./EditCar";
 import {Switch, Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux"
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import {
     Row,
     Col,
@@ -95,15 +97,16 @@ class CarPage extends Component {
                         });
                         this.props.addCarData_Success(data);
                     });
+                    showAlert("Car added successfully", "info", this);
                 }
                 else {
+                    showAlert("Error while adding Car", "error", this);
                     console.log("Error while adding Car");
                 }
             });
         }
         else {
-            this.validate.errors = "zipCode,";
-            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+            showAlert("Invalid Zipcode", "error", this);
         }
     });
 
@@ -177,16 +180,16 @@ class CarPage extends Component {
                                         this.addCarData.hostId = event.target.value;
                                     })}>
                                         <option>Select Host</option>
-                                    {
-                                        this.props.state.hostData.map((host)=>{
-                                            console.log(host);
-                                            if(host.serviceType==="car"){
-                                                return(
-                                                    <option value={host.hostId}>{host.hostName}</option>
-                                                )
-                                            }
-                                        })
-                                    }
+                                        {
+                                            this.props.state.hostData.map((host)=>{
+                                                console.log(host);
+                                                if(host.serviceType==="car"){
+                                                    return(
+                                                        <option value={host.hostId}>{host.hostName}</option>
+                                                    )
+                                                }
+                                            })
+                                        }
                                     </select>
                                     {/*<input type="text" className="form-input" placeholder="Host Id"
                                            onChange={(event)=>{
@@ -310,60 +313,60 @@ class CarPage extends Component {
     });
 
     showSearchCar = (()=>{
-       return(
-           <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
-               <ModalHeader toggle={this.toggleSearch}>Search Car</ModalHeader>
-               <ModalBody>
-                   <Row>
-                       <Col xs="12">
-                           <Table border="0" className="table-responsive">
-                               <tr>
-                                   <td>
-                                       <label>Search By:</label>
-                                   </td>
-                                   <td>
-                                       <select className="dropdown" onChange={((event)=>{
-                                           this.searchCarData.searchBy = event.target.value
-                                       })}>
-                                           <option value="host" selected="true">select</option>
-                                           <option value="host">Host</option>
-                                           <option value="carType">Car Type</option>
-                                           <option value="carMake">Car Make</option>
-                                           <option value="city">City</option>
-                                           <option value="capacity">Capacity</option>
-                                       </select>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td>
-                                       <label>Search Criteria:</label>
-                                   </td>
-                                   <td>
-                                       <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
-                                              onChange={(event)=>{
-                                                  this.searchCarData.searchCriteria = event.target.value;
-                                              }}
-                                       />
-                                   </td>
-                               </tr>
-                           </Table>
-                           <FormGroup>
+        return(
+            <Modal isOpen={this.state.searchModal} toggle={this.modal} className={this.props.className}>
+                <ModalHeader toggle={this.toggleSearch}>Search Car</ModalHeader>
+                <ModalBody>
+                    <Row>
+                        <Col xs="12">
+                            <Table border="0" className="table-responsive">
+                                <tr>
+                                    <td>
+                                        <label>Search By:</label>
+                                    </td>
+                                    <td>
+                                        <select className="dropdown" onChange={((event)=>{
+                                            this.searchCarData.searchBy = event.target.value
+                                        })}>
+                                            <option value="host" selected="true">select</option>
+                                            <option value="host">Host</option>
+                                            <option value="carType">Car Type</option>
+                                            <option value="carMake">Car Make</option>
+                                            <option value="city">City</option>
+                                            <option value="capacity">Capacity</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Search Criteria:</label>
+                                    </td>
+                                    <td>
+                                        <Input type="text" className="form-control form-input1" placeholder="Search Criteria"
+                                               onChange={(event)=>{
+                                                   this.searchCarData.searchCriteria = event.target.value;
+                                               }}
+                                        />
+                                    </td>
+                                </tr>
+                            </Table>
+                            <FormGroup>
 
-                           </FormGroup>
-                       </Col>
-                   </Row>
-               </ModalBody>
-               <ModalFooter>
-                   <input type="button" value="Search" className="btn btn-primary"
-                          onClick={(()=>{this.searchCar(this.searchCarData)})}
-                   />
-                   <input type="button" value="Cancel"
-                          className="btn btn-primary"
-                          onClick={(()=>{this.toggleSearch()})}
-                   />
-               </ModalFooter>
-           </Modal>
-       )
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                </ModalBody>
+                <ModalFooter>
+                    <input type="button" value="Search" className="btn btn-primary"
+                           onClick={(()=>{this.searchCar(this.searchCarData)})}
+                    />
+                    <input type="button" value="Cancel"
+                           className="btn btn-primary"
+                           onClick={(()=>{this.toggleSearch()})}
+                    />
+                </ModalFooter>
+            </Modal>
+        )
     });
 
     render() {
@@ -442,6 +445,7 @@ class CarPage extends Component {
                                                     }
                                                 </Table>
                                             </CardBody>
+                                            <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                         </Card>
                                     </Col>
                                 </Row>

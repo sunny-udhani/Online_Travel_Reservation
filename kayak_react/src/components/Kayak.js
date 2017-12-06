@@ -14,7 +14,7 @@ import {doLogout} from "../api/user/API_HandleLogout";
 
 import UserHome from "./user/UserHome";
 
-
+import './kayak.css'
 import "../css/bootstrap.min.css"
 import "../css/font-awesome.min.css"
 import "../css/style.css"
@@ -67,7 +67,7 @@ class Kayak extends Component {
         super();
         this.state = {
             signupForm: <SignUp/>,
-            signinForm: <Login/>,
+            signinForm: "",
             showSignupForm: false,
             showSigninForm: false
         };
@@ -277,6 +277,9 @@ class Kayak extends Component {
 
 
     render() {
+
+
+
         let dashboard = '';
         // let profilepicture='';
 
@@ -285,7 +288,7 @@ class Kayak extends Component {
 
             dashboard =
                 <ul className="dropmenu">
-                    <li><a href="/signup" onClick={this.renderSignupForm.bind(this)}>Sign Up</a></li>
+                    <li><a href="/signup"  onClick={this.renderSignupForm.bind(this)}>Sign Up</a></li>
                     <li><a href="/login" onClick={this.renderSigninForm.bind(this)}>Sign In</a></li>
                 </ul>
 
@@ -305,58 +308,54 @@ class Kayak extends Component {
         return (
             <div>
                 <div className="container">
-                    <header className="color-1 hovered menu-3">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="nav">
-                                        <nav className="menu">
-                                            <ul>
-                                                <li className="type-1 active">
-                                                    <Link to="/u/hotel">home<span
-                                                        className="fa fa-angle-down"></span></Link>
+                    <header className="color-1 hovered menu-3"id="pritya">
+                        <div className="nav">
+                            <nav className="navbar">
+                                <img src="/img/kayaklogo.PNG" id="prityaimage"/>
 
-                                                </li>
-                                                <li className="type-1"><Link to="/u/hotel">Hotels
-                                                    <span
-                                                        className="fa fa-angle-down"></span></Link>
+                                <ul>
+                                    <li className="type-1 active">
+                                        <Link to="/u/hotel" id="colouredtabs">home<span
+                                            className="fa fa-angle-down"></span></Link>
 
-                                                </li>
-                                                <li className="type-1"><Link to="/u/flight">Flights
-                                                    <span
-                                                        className="fa fa-angle-down"></span></Link>
+                                    </li>
+                                    <li className="type-1"><Link to="/u/hotel"id="colouredtabs" >Hotels
+                                        <span
+                                            className="fa fa-angle-down"></span></Link>
 
-                                                </li>
-                                                <li className="type-1"><Link to="/u/cars">Cars
-                                                    <span
-                                                        className="fa fa-angle-down"></span></Link>
+                                    </li>
+                                    <li className="type-1"><Link to="/u/flight"id="colouredtabs" >Flights
+                                        <span
+                                            className="fa fa-angle-down"></span></Link>
 
-                                                </li>
+                                    </li>
+                                    <li className="type-1"><Link to="/u/cars"id="colouredtabs">Cars
+                                        <span
+                                            className="fa fa-angle-down"></span></Link>
 
-                                                {/*Added myAccount Tab*/}
-                                                <li className="type-1"><a href="#">My Account<span
-                                                    className="fa fa-angle-down"></span></a>
+                                    </li>
 
-                                                    {dashboard}
+                                    {/*Added myAccount Tab*/}
+                                    <li className="type-1"><a href="#"id="colouredtabs">My Account<span
+                                        className="fa fa-angle-down"></span></a>
 
-                                                </li>
-                                                <li>
-                                                    {
-                                                        this.showProfileIcon()
-                                                    }
-                                                </li>
-                                            </ul>
+                                        {dashboard}
 
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
+                                    </li>
+                                    <li>
+                                        {
+                                            this.showProfileIcon()
+                                        }
+                                    </li>
+                                </ul>
+
+
+                            </nav>
                         </div>
                     </header>
                 </div>
-
                 <div className="myacc-dropdown">
-                    {this.state.showSigninForm ? this.state.signinForm : ''}
+                    {/*{this.state.showSigninForm ? this.state.signinForm : ''}*/}
                     {this.state.showSignupForm ? this.state.signupForm : ''}
                 </div>
 
@@ -420,7 +419,7 @@ class Kayak extends Component {
                             <Payment handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/triphistory" render={() => (
-                            <TripHistory/>
+                            <TripHistory handlePageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/editdetails" render={() => (
                             <EditUserInfo handlePageChange={this.handlePageChange} />

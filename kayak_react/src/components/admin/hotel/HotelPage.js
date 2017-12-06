@@ -3,6 +3,8 @@ import * as API from "../../../api/admin/API";
 import ShowHotels from "./ShowHotels";
 import {Switch, Route} from 'react-router-dom';
 import {connect} from "react-redux"
+import AlertContainer from 'react-alert';
+import {alertOptions, showAlert} from "../../../alertConfig";
 import {
     Row,
     Col,
@@ -105,6 +107,7 @@ class HotelPage extends Component {
             API.addHotel(hotelData).then((response)=>{
                 console.log(response.status);
                 if(response.status===200){
+                    showAlert("Hotel Added Successfully", "info", this);
                     response.json().then((data)=>{
                         console.log(data);
                         this.setState({
@@ -116,13 +119,13 @@ class HotelPage extends Component {
                     });
                 }
                 else {
+                    showAlert("Error while adding Hotels", "error", this);
                     console.log("Error while adding hotel");
                 }
             });
         }
         else {
-            this.validate.errors = "zipCode,";
-            document.getElementById("errors").innerHTML = "<p style=\"color:#FF0000\"> ***** Wrong input - "+this.validate.errors+" ***** </p>"
+            showAlert("Invalid Zipcode.", "error", this);
         }
     });
 
@@ -335,6 +338,7 @@ class HotelPage extends Component {
                     <Route exact path="/admin/hotel" render={(()=>{
                         return (
                             <div>
+                                <AlertContainer ref={a => this.msg = a} {...alertOptions}/>
                                 <div>
                                     {
                                         this.showAddHotel()

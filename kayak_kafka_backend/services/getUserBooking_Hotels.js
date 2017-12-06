@@ -62,6 +62,8 @@ handle_request = ((data, callback) => {
                             callback(null, resulthotels);
                         }
                     });
+                }else{
+                    callback(null, result);
                 }
 
 

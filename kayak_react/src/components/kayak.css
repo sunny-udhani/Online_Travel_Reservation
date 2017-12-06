@@ -1,0 +1,54 @@
+.color-1 hovered menu-3-pritam{
+    background: black;
+    height:15%;
+}
+#pritya{
+    background: black;
+    height: 10%;
+}
+
+#pritya-tabicon{
+
+    color:white;
+}
+
+#prityaimage{
+    float:left;
+    padding-left: 20px;
+    width:25%;
+    padding-top: 0px;
+    padding-right:30px;
+}
+#colouredtabs{
+    color:white;
+}
+.search100{
+    margin-left: 21%;
+    margin-bottom: 60%;
+    font-family: "HelveticaNeue-Bold",Helvetica,Arial,sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+    color:white;
+}
+.baner-tabs{
+    margin-bottom: 45%;
+}
+
+
+.tpl-tabs-cont{
+    background-color: #e4e5ea;
+    border-radius: 0px;
+}
+.buttonsbox{
+
+
+    width: 7%;
+    height:70px;
+    background: #ff690f;
+}
+.abcd{
+    color:white;
+}
+#givecolor{
+    color:white;
+}

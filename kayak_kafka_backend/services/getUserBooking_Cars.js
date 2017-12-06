@@ -61,6 +61,8 @@ handle_request = ((data, callback) => {
                             callback(null, resultcars);
                         }
                     });
+                }else{
+                    callback(null, result);
                 }
 
 

@@ -48,12 +48,12 @@ class CarListing extends Component {
 
     componentWillMount() {
         let click = {
-            pageClick:{
+            pageClick: {
                 userId: "anonymous",
                 pageName: "CarListing",
                 date: new Date().getDate(),
                 month: new Date().getMonth(),
-                year: 1900+new Date().getYear(),
+                year: 1900 + new Date().getYear(),
                 timeStamp: new Date().toLocaleTimeString()
             }
         };
@@ -116,116 +116,6 @@ class CarListing extends Component {
                                         </div>
                                         <input type="text" className="amount-start" readOnly="true" value="$0"/>
                                         <input type="text" className="amount-end" readOnly value="$1500"/>
-                                    </div>
-                                </div>
-                                <div className="sidebar-block">
-                                    <h4 className="sidebar-title color-dark-2">star rating</h4>
-                                    <div className="sidebar-rating">
-                                        <div className="input-entry color-1">
-                                            <input className="checkbox-form" id="star-5" type="checkbox" name="checkbox"
-                                                   value="5" onChange={(event) => {
-                                                var index = this.filterCriteria.star.indexOf(event.target.value);
-
-                                                if (index > -1) {
-                                                    this.filterCriteria.star.splice(index, 1);
-                                                } else {
-                                                    this.filterCriteria.star.push(event.target.value);
-                                                }
-                                                this.handleFilterChange();
-                                            }}/>
-                                            <label className="clearfix" htmlFor="star-5">
-                                                <span className="sp-check"><i className="fa fa-check"></i></span>
-                                                <span className="rate">
-                                                    <span className="fa fa-star color-yellow"></span>
-                                                    <span className="fa fa-star color-yellow"></span>
-                                                    <span className="fa fa-star color-yellow"></span>
-                                                    <span className="fa fa-star color-yellow"></span>
-                                                    <span className="fa fa-star color-yellow"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <div className="input-entry color-1">
-                                            <input className="checkbox-form" id="star-4" type="checkbox" name="checkbox"
-                                                   value="4" onChange={(event) => {
-                                                var index = this.filterCriteria.star.indexOf(event.target.value);
-
-                                                if (index > -1) {
-                                                    this.filterCriteria.star.splice(index, 1);
-                                                } else {
-                                                    this.filterCriteria.star.push(event.target.value);
-                                                }
-                                                this.handleFilterChange();
-                                            }}/>
-                                            <label className="clearfix" htmlFor="star-4">
-                                                <span className="sp-check"><i className="fa fa-check"></i></span>
-                                                <span className="rate">
-                                                        <span className="fa fa-star color-yellow"></span>
-                                                        <span className="fa fa-star color-yellow"></span>
-                                                        <span className="fa fa-star color-yellow"></span>
-                                                        <span className="fa fa-star color-yellow"></span>
-                                                    </span>
-                                            </label>
-                                        </div>
-                                        <div className="input-entry color-1">
-                                            <input className="checkbox-form" id="star-3" type="checkbox" name="checkbox"
-                                                   value="3" onChange={(event) => {
-                                                var index = this.filterCriteria.star.indexOf(event.target.value);
-
-                                                if (index > -1) {
-                                                    this.filterCriteria.star.splice(index, 1);
-                                                } else {
-                                                    this.filterCriteria.star.push(event.target.value);
-                                                }
-                                                this.handleFilterChange();
-                                            }}/>
-                                            <label className="clearfix" htmlFor="star-3">
-                                                <span className="sp-check"><i className="fa fa-check"></i></span>
-                                                <span className="rate">
-<span className="fa fa-star color-yellow"></span>
-<span className="fa fa-star color-yellow"></span>
-<span className="fa fa-star color-yellow"></span>
-</span>
-                                            </label>
-                                        </div>
-                                        <div className="input-entry color-1">
-                                            <input className="checkbox-form" id="star-2" type="checkbox" name="checkbox"
-                                                   value="2" onChange={(event) => {
-                                                var index = this.filterCriteria.star.indexOf(event.target.value);
-
-                                                if (index > -1) {
-                                                    this.filterCriteria.star.splice(index, 1);
-                                                } else {
-                                                    this.filterCriteria.star.push(event.target.value);
-                                                }
-                                                this.handleFilterChange();
-                                            }}/>
-                                            <label className="clearfix" htmlFor="star-2">
-                                                <span className="sp-check"><i className="fa fa-check"></i></span>
-                                                <span className="rate">
-<span className="fa fa-star color-yellow"></span>
-<span className="fa fa-star color-yellow"></span>
-</span>
-                                            </label>
-                                        </div>
-                                        <div className="input-entry color-1">
-                                            <input className="checkbox-form" id="star-1" type="checkbox" name="checkbox"
-                                                   value="1" onChange={(event) => {
-                                                var index = this.filterCriteria.star.indexOf(event.target.value);
-
-                                                if (index > -1) {
-                                                    this.filterCriteria.star.splice(index, 1);
-                                                } else {
-                                                    this.filterCriteria.star.push(event.target.value);
-                                                }
-                                                this.handleFilterChange();
-                                            }}/>
-                                            <label className="clearfix" htmlFor="star-1">
-                                                <span className="sp-check"><i className="fa fa-check"></i></span>
-                                                <span className="rate">
-<span className="fa fa-star color-yellow"></span>
-</span>
-                                            </label>
-                                        </div>
                                     </div>
                                 </div>
                                 <div className="sidebar-block">
@@ -353,8 +243,8 @@ class CarListing extends Component {
                                             return type.toLowerCase() === car.carType.toString().toLowerCase();
                                         }
 
-                                        let image_index = index % 10;
-                                        let img_src = "../../img/car_list_" + (image_index + 1) + ".jpg";
+                                        let image_index = index % 2;
+                                        let img_src = "car_list_" + (car.carType.toString().toLowerCase()) + "_" + (image_index + 1) + ".jpg";
                                         // console.log(hotel.rooms[0].roomPrice);
                                         // console.log(this.filterCriteria.priceEnd);
                                         // console.log(this.filterCriteria.priceStart);
@@ -375,7 +265,7 @@ class CarListing extends Component {
                                                         <div className="table-view">
                                                             <div
                                                                 className="radius-top cell-view">
-                                                                <img src={img_src}
+                                                                <img src={images[img_src]}
                                                                      alt=""/>
                                                             </div>
                                                             <div
@@ -422,7 +312,8 @@ class CarListing extends Component {
                                                                 <button
                                                                     className="c-button b-40 bg-blue hv-blue-o grid-hidden"
                                                                     onClick={() => this.handleListingView(car._id)}
-                                                                > Book Now</button>
+                                                                > Book Now
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
