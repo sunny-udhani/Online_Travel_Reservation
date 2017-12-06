@@ -103,6 +103,7 @@ class Kayak extends Component {
     }
 
     handleSignOut = () => {
+        console.log("Logout called");
         doLogout()
             .then((status) => {
                 if (status === 200) {
@@ -315,7 +316,7 @@ class Kayak extends Component {
             dashboard =
                 <ul className="dropmenu">
                     <li><Link to="/pref">Account Preferences {this.props.username} </Link></li>
-                    <li className="type-1"><a href="" onClick={this.handleSignOut}>Sign Out</a></li>
+                    <li className="type-1"><a href="/u" onClick={(()=>{this.handleSignOut()})}>Sign Out</a></li>
                 </ul>
             /*profilepicture=
                 <li><ProfileIconEditor height="50" width="50"/></li>*/
