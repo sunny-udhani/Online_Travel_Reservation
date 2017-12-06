@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {getuserprofile_user} from '../../../../api/user/API_GetUserProfile';
 import Moment from "react-moment"
 import {Link} from 'react-router-dom';
+import * as LogAPI from "../../../../api/user/API_Logging";
 
 // import ProfileIconEditor from './ProfileIconEditor';
 
@@ -21,7 +22,22 @@ class Preferences extends Component {
     }
 
     componentWillMount() {
-
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "UserProfile",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
         if (this.props.isLoggedIn) {
 
             getuserprofile_user().then((res) => {
