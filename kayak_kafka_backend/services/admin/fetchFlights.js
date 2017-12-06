@@ -9,13 +9,17 @@ handle_request = ((data, callback) => {
     try {
         console.log("Flights Fetch");
         let query={};
-        if(data!=={}){
-            if(data._id!== undefined && data._id!== null){
-                query = {_id : ObjectId(data._id)}
-            }
-            else {
-                query = data.query;
-            }
+        if(data.hasOwnProperty("_id")){
+            query = {'_id' : ObjectId(data._id) }
+        }
+        else if(data.hasOwnProperty("flightNo")){
+            query = {'flightNo':data.flightNo}
+        }
+        else if(data.hasOwnProperty("flightOperator")){
+            query = {'flightOperator':data.flightOperator}
+        }
+        else if(data.hasOwnProperty("origin")){
+            query = {'origin':data.origin}
         }
         console.log(query);
         Flight.find(query, function (err, results) {
@@ -26,9 +30,16 @@ handle_request = ((data, callback) => {
                 console.log("results : ");
                 console.log(results);
                 if(results) {
-                    response.status = 200;
-                    response.data = results;
-                    callback(null, response);
+                    if(results.length>0){
+                        response.status = 200;
+                        response.data = results;
+                        callback(null, response);
+                    }
+                    else {
+                        response.status = 204;
+                        response.data = results;
+                        callback(null, response);
+                    }
                 }
                 else{
                     response.status = 404;
