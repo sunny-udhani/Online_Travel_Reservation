@@ -59,6 +59,7 @@ import {
 
 import {doSignIn} from "../api/user/API_SignIn";
 import {carListingView, filter_change, login_success, logout_success, toggleLoginModal} from "../actions";
+import * as LogAPI from "../api/user/API_Logging";
 
 
 class Kayak extends Component {
@@ -171,6 +172,23 @@ class Kayak extends Component {
             showAlert("Enter password used for sign up", "error", this);
             return;
         }
+
+        let click = {
+            pageClick:{
+                userId: "anonymous",
+                pageName: "SignIn",
+                date: new Date().getDate(),
+                month: new Date().getMonth(),
+                year: 1900+new Date().getYear(),
+                timeStamp: new Date().toLocaleTimeString()
+            }
+        };
+        console.log(click);
+        LogAPI.logClicksPerPage(click)
+            .then(res => {
+                console.log(`Logged ${click} status: ${res.status}`);
+            })
+            .catch(err => console.log(err));
 
         doSignIn(loginData)
             .then((res) => {
