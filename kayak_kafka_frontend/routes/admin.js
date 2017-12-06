@@ -379,6 +379,8 @@ router.post('/top10Hosts', function(req, res, next) {
 });
 
 router.post('/cityWiseRevenue', function(req, res, next) {
+    try{
+
     // console.log(req.session.username);
     let username = req.session.username;
     //Uncomment when Session issue is resolved
@@ -392,9 +394,10 @@ router.post('/cityWiseRevenue', function(req, res, next) {
             else
             {
                 // let clk = {UserProfile: results.pageClicks.UserProfile};
-                console.log(results.analytics.pageClicks.UserProfile);
+                // console.log(results.analytics.pageClicks.UserProfile);
+                console.log(results);
                 if(results.status === 200){
-                    res.status(results.status).send(results.analytics);
+                    res.status(results.status).send(results.data);
                 }
                 else if(results.status === 400){
                     console.log("Local username: "+ username);
@@ -406,6 +409,10 @@ router.post('/cityWiseRevenue', function(req, res, next) {
     else {
         console.log("Session does not exist");
         res.status(401).end();
+    }
+    }
+    catch (e){
+        console.log(e);
     }
 });
 
