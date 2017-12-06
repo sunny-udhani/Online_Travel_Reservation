@@ -75,23 +75,128 @@ router.post('/logout', function (req, res) {
         req.session.pages.push(req.session.lastPage);
         req.session.pageTime.push(timeSpentOnPage);
 
+            let UserHome = 0;
+            let SignIn = 0;
+            let SignUp = 0;
+            let HotelListing = 0;
+            let CarListing = 0;
+            let FlightListing = 0;
+            let UserProfile = 0;
+            let UserPaymentPage = 0;
+            let SuccesfulPayment = 0;
+
+            let i =0;
+        req.session.pages.forEach((page)=>{
+            switch(page){
+                case "UserHome":
+                    UserHome += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "SignIn":
+                    SignIn += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "SignUp":
+                    SignUp += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "HotelListing":
+                    HotelListing += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "CarListing":
+                    CarListing += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "FlightListing":
+                    FlightListing += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "UserProfile":
+                    UserProfile += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "UserPaymentPage":
+                    UserPaymentPage += req.session.pageTime[i];
+                    i++;
+                    break;
+                case "SuccesfulPayment":
+                    SuccesfulPayment += req.session.pageTime[i];
+                    i++;
+                    break;
+                default:
+            }
+        });
+
         let tree = {
             tree:{
                 userId: req.session.username,
                 pages:req.session.pages,
                 pageTime:req.session.pageTime
+            },
+        };
+
+        let payload = {
+            tree:{
+                userId: req.session.username,
+                pages:req.session.pages,
+                pageTime:req.session.pageTime
+            },
+            timePerPage:{
+                userId: req.session.username,
+                UserHome: UserHome,
+                SignIn: SignIn,
+                SignUp: SignUp,
+                HotelListing: HotelListing,
+                CarListing: CarListing,
+                FlightListing: FlightListing,
+                UserProfile: UserProfile,
+                UserPaymentPage: UserPaymentPage,
+                SuccesfulPayment: SuccesfulPayment
             }
         };
 
+        console.log(" -- Tree -- "+payload.tree);
+
+        console.log(" -- Time Per Page -- "+payload.timePerPage);
+
         winston.info(tree);
 
-        console.log("Page array - "+req.session.pages);
+        try{
 
-        console.log("Time per page array - "+req.session.pageTime);
+            kafka.make_request('logUserTracingTree_topic', payload, function (err, results) {
+                console.log('in result');
+                console.log(results);
 
-        req.session.destroy();
-        console.log('Session Destroyed');
-        res.status(200).send();
+                if (err) {
+                    console.log(err);
+                    throw err;
+                }
+                else {
+                    if (results.status === 200) {
+
+                        console.log("Added Page array to mongoDB- "+results.data.pages);
+
+                        console.log("Added Time per page array to mongoDB- "+results.data.pageTime);
+
+                        req.session.destroy();
+
+                        console.log('Session Destroyed');
+
+                        res.status(200).send();
+                        // res.status(results.status).send(results);
+                    }
+                    else if (results.status === 400) {
+                        // res.status(results.status).send({"message": "Fetch unsuccessful"});
+                    }
+                }
+            });
+
+        }
+        catch(err){
+            console.log();
+        }
+
     }
     else {
         console.log('Session does not exist');
