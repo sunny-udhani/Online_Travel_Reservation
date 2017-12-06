@@ -105,7 +105,7 @@ handle_request = ((data, callback) => {
             if(err){
 
                 console.log(`Database query Error - ${err}`);
-
+                callback(err, null);
             }
 
             else{
@@ -136,7 +136,7 @@ handle_request = ((data, callback) => {
                         if (err) {
 
                             console.log(`Database query Error - ${err}`);
-
+                            callback(err, null);
                         }
                         else {
                             if (results) {
@@ -163,7 +163,7 @@ handle_request = ((data, callback) => {
                                     if (err) {
 
                                         console.log(`Database query Error - ${err}`);
-
+                                        callback(err, null);
                                     }
                                     else {
 

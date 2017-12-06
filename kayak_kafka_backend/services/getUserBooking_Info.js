@@ -15,6 +15,7 @@ handle_request = ((data, callback) => {
         mysql.fetchData(function (err, result) {
                 if (err) {
                     console.log(err);
+                    callback(err, null);
                 }
                 else {
                     console.log(result.length);

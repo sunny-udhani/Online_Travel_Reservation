@@ -61,6 +61,7 @@ handle_request = ((data, callback) => {
                             Hotel.find({_id:results[0].hotelId}, function (err, results1) {
                                 if(err){
                                     console.log(err);
+                                    callback(err, null);
                                 }
                                 else {
                                     console.log(results1);

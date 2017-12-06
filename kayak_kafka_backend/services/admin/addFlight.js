@@ -24,6 +24,7 @@ handle_request = ((data, callback) => {
         flight.save(function (err, results) {
             if(err){
                 console.log(err);
+                callback(err, null);
             }
             else {
                 console.log("results : ");

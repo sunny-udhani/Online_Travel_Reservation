@@ -72,6 +72,7 @@ handle_request = ((data, callback) => {
                             Car.find({"_id":ObjectId(results[0].carId)}, function (err, results1) {
                                 if(err){
                                     console.log(err);
+                                    callback(err, null);
                                 }
                                 else {
                                     console.log(results1);
@@ -93,6 +94,7 @@ handle_request = ((data, callback) => {
                                     }
                                     else {
                                         console.log("Empty");
+                                        callback(null, response);
                                     }
                                 }
                             })

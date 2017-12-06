@@ -33,6 +33,7 @@ insertAllTravelers = ((data, callback) => {
             mysql.fetchData(function (err, result) {
                 if (err) {
                     console.log(err);
+                    callback(err, null);
                 }
                 else {
                     if (result.length >= 1) {
@@ -47,6 +48,7 @@ insertAllTravelers = ((data, callback) => {
                         mysql.insertData(function (err, result) {
                             if (err) {
                                 console.log(err);
+                                callback(err, null);
                             }
                             else {
                                 console.log(result);
@@ -58,6 +60,7 @@ insertAllTravelers = ((data, callback) => {
                                     mysql.insertData(function (err, result) {
                                         if (err) {
                                             console.log(err);
+                                            callback(err, null);
                                         }
                                         else {
                                             console.log(result);
@@ -76,6 +79,7 @@ insertAllTravelers = ((data, callback) => {
                                                     mysql.insertData(function (err, result) {
                                                         if (err) {
                                                             console.log(err);
+                                                            callback(err, null);
                                                         }
                                                         else {
                                                             console.log(result);
@@ -134,6 +138,7 @@ insertAllTravelers = ((data, callback) => {
             mysql.fetchData(function (err, result) {
                 if (err) {
                     console.log(err);
+                    callback(err, null);
                 }
                 else {
                     if (result.length >= 1) {
@@ -148,6 +153,7 @@ insertAllTravelers = ((data, callback) => {
                         mysql.insertData(function (err, result) {
                             if (err) {
                                 console.log(err);
+                                callback(err, null);
                             }
                             else {
                                 console.log(result);
@@ -159,6 +165,7 @@ insertAllTravelers = ((data, callback) => {
                                     mysql.insertData(function (err, result) {
                                         if (err) {
                                             console.log(err);
+                                            callback(err, null);
                                         }
                                         else {
                                             console.log(result);
@@ -173,6 +180,7 @@ insertAllTravelers = ((data, callback) => {
                                                 mysql.insertData(function (err, result) {
                                                     if (err) {
                                                         console.log(err);
+                                                        callback(err, null);
                                                     }
                                                     else {
                                                         console.log(result);
@@ -231,6 +239,7 @@ insertAllTravelers = ((data, callback) => {
             mysql.fetchData(function (err, result) {
                 if (err) {
                     console.log(err);
+                    callback(err, null);
                 }
                 else {
                     if (result.length >= 1) {
@@ -245,6 +254,7 @@ insertAllTravelers = ((data, callback) => {
                         mysql.insertData(function (err, result) {
                             if (err) {
                                 console.log(err);
+                                callback(err, null);
                             }
                             else {
                                 console.log(result);
@@ -256,6 +266,7 @@ insertAllTravelers = ((data, callback) => {
                                     mysql.insertData(function (err, result) {
                                         if (err) {
                                             console.log(err);
+                                            callback(err, null);
                                         }
                                         else {
                                             console.log(result);
@@ -269,6 +280,7 @@ insertAllTravelers = ((data, callback) => {
                                                     mysql.insertData(function (err, result) {
                                                         if (err) {
                                                             console.log(err);
+                                                            callback(err, null);
                                                         }
                                                         else {
                                                             console.log(result);
