@@ -7,6 +7,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "body-parser": "~1.18.2",
     "connect-mongo": "^1.3.2",
     "cookie-parser": "~1.4.3",
@@ -26,6 +27,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "redis": "^2.8.0",
+    "request": "^2.83.0",
     "serve-favicon": "~2.4.5",
     "winston": "^3.0.0-rc1"
   }
