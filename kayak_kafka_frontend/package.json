@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "admintest": "mocha",
-    "start": "node ./bin/www"
+    "test" : "mocha",
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "assert": "^1.4.1",
