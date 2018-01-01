@@ -18,11 +18,11 @@ class AdminHome extends Component {
 
     validateSession(){
         API.validateAdminSession().then((response) => {
-            if (response.status === 200) {
+            /*if (response.status === 200) {
                 console.log("Admin Logged Successfully");
             }else {
                 this.props.handlePageChange("/u");
-            }
+            }*/
         })
     }
 
@@ -134,9 +134,7 @@ class AdminHome extends Component {
 
                                 <Route path="/admin/profile" render={() =>
                                     <AdminProfile
-                                        // validateUserSession={this.validateUserSession}
-                                        // handleLogout={this.handleLogout}
-                                        // username={this.state.username}
+                                        handlePageChange={this.props.handlePageChange}
                                     />
                                 }/>
 
