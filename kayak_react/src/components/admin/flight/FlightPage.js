@@ -91,7 +91,7 @@ class FlightPage extends Component {
         API.addflightData(flightdata).then((response)=>{
             console.log(response.status);
             if(response.status===200){
-                showAlert("Flight Added Successfully", "error", this);
+                showAlert("Flight Added Successfully", "info", this);
                 response.json().then((data)=>{
                     console.log(data);
                     // this.setState((state)=>{
