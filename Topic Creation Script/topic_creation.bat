@@ -107,4 +107,7 @@ bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-f
 
 bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic getuserprofileinfo_topic
 
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic fetchusertimeperpage_topic
+
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic logUserTracingTree_topic
 
