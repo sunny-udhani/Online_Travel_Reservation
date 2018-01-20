@@ -23,13 +23,74 @@ Tables with critical data and information that needs transaction support in mysq
 
 > We used database pl stored procedure for our booking and payment functionality so that we can provide transaction support and if anything goes wrong in between then we can roll back to a point where the database is in a consistent state.
 
+
+
+## Screenshots
+
+##### Login/Signup
+
+![](readme-src/signup.png)
+
+##### Home - Hotels
+
+![](readme-src/home1.png)
+
+##### Home - Flights
+
+![](readme-src/home2.png)
+
+##### Home - Cars
+
+![](readme-src/home3.png)
+
+##### Hotel Listing
+
+![](readme-src/hotel.png)
+
+##### Car Listing
+
+![](readme-src/car.png)
+
+##### Flight Listing
+
+![](readme-src/flight.png)
+
+##### Booking page
+
+![](readme-src/booking.png)
+
+##### User Home
+
+![](readme-src/userhome.png)
+
+##### Analytics
+
+![](readme-src/analytics.jpg)
+
+##### Admin Flight - Add/Edit/Search
+
+![](readme-src/adminflight.png)
+
+##### Admin Hotel - Add/Edit/Search
+
+![](readme-src/adminhotel.png)
+
+##### Admin Car - Add/Edit/Search
+
+![](readme-src/admincar.png)
+
+
 ### Performance comparison
+
+
+![](readme-src/20171206054407.jpg)
+
 
 > This Performance comparison graph for four criterias 
 > 1. Without kafka, connection pooling or redis
-> 2. ‎with kafka but no connection pooling and redis.
-> 3. ‎with kafka and connection pooling but no redis.
-> 4. ‎With kafka, connection pooling and redis.
+> 2. With kafka but no connection pooling and redis.
+> 3. With kafka and connection pooling but no redis.
+> 4. With kafka, connection pooling and redis.
  
 > We believe that this graph is a very realistic representation of how the application would perform when deployed on a Enterprise level because as explained earlier we deployed our db on cloud , so this graph also includes the network latency.
 
