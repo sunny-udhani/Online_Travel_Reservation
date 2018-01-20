@@ -15,6 +15,11 @@
 
 ## System Design
 
+### Technology stack
+
+![](readme-src/kayak.png)
+
+
 ### Database
 > Tables with large amount of data and which doesn't need transaction support in mongodb, flight car hotel
 Tables with critical data and information that needs transaction support in mysql, like booking details, payment details and user info
