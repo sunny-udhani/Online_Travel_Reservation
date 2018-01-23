@@ -61,6 +61,10 @@
 		<td>Mocha, Postman</td>
 	</tr>
 	<tr>
+		<td>Performance Testing</td>
+		<td>JMeter</td>
+	</tr>
+	<tr>
 		<td>Database</td>
 		<td>MySQL (Google Cloud Platform), MongoDB (Mongo Atlas on AWS)</td>
 	</tr>
