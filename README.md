@@ -19,6 +19,62 @@
 
 ![](readme-src/kayak.png)
 
+<br/>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>Front-End</td>
+		<td>React, Redux, React Router, Bootstrap, HTML5, CSS3, Javascript ( ES6 )</td>
+	</tr>
+	<tr>
+		<td>Analytics Graphs</td>
+		<td>D3.js</td>
+	</tr>
+	<tr>
+		<td>Message-oriented middleware</td>
+		<td>Apache Kafka</td>
+	</tr>
+	<tr>
+		<td>Authentication Middleware</td>
+		<td>Passport.js</td>
+	</tr>
+	<tr>
+		<td>Back-End</td>
+		<td>Express, Node.js</td>
+	</tr>
+	<tr>
+		<td>In-Memory Caching / Datastore</td>
+		<td>Redis</td>
+	</tr>
+	<tr>
+		<td>Search and Analytics Engine</td>
+		<td>Elasticsearch</td>
+	</tr>
+	<tr>
+		<td>API Testing</td>
+		<td>Mocha, Postman</td>
+	</tr>
+	<tr>
+		<td>Performance Testing</td>
+		<td>JMeter</td>
+	</tr>
+	<tr>
+		<td>Database</td>
+		<td>MySQL (Google Cloud Platform), MongoDB (Mongo Atlas on AWS)</td>
+	</tr>
+    <tr>
+		<td>Deployment</td>
+		<td>Google Compute Engine</td>
+	</tr>
+</tbody>
+</table>
+<br/>
 
 ### Database
 > Tables with large amount of data and which doesn't need transaction support in mongodb, flight car hotel
