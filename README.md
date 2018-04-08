@@ -17,7 +17,7 @@
 
 ### Technology stack
 
-![](readme-src/kayak.png)
+![](readme-src/2.png)
 
 <br/>
 <table>
@@ -59,6 +59,10 @@
 	<tr>
 		<td>API Testing</td>
 		<td>Mocha, Postman</td>
+	</tr>
+	<tr>
+		<td>Performance Testing</td>
+		<td>JMeter</td>
 	</tr>
 	<tr>
 		<td>Database</td>
