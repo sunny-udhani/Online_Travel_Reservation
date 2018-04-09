@@ -17,7 +17,7 @@
 
 ### Technology stack
 
-![](readme-src/kayak.png)
+![](readme-src/2.png)
 
 <br/>
 <table>
