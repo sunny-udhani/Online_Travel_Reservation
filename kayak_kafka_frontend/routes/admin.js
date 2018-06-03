@@ -1020,6 +1020,45 @@ try{
         }
     });
 
+    router.post('/fetchUserTimePerPage', function(req, res, next) {
+        console.log("Session");
+        console.log(req.session.username);
+        try{
+            if(req.session.username!==null && req.session.username!==undefined){
+                console.log(req.body);
+                kafka.make_request(req_topic_enums.FETCH_USERTIMEPERPAGE, req.body, function(err,results){
+                    if(err){
+                        console.log(err);
+                    }
+                    else
+                    {
+                        console.log(results);
+                        if(results.status === 200){
+                            res.status(results.status).send(results.data);
+                        }
+                        else if(results.status === 400){
+                            res.status(results.status).send(results.data);
+                        }
+                        else if(results.status === 204){
+                            res.status(results.status).send(results.data);
+                        }
+                        else {
+                            console.log(results);
+                            res.status(results.status).end();
+                        }
+                    }
+                });
+            }
+            else {
+                console.log("Session does not exist");
+                res.status(401).end();
+            }
+        }
+        catch (e){
+            console.log(e);
+        }
+    });
+
 }
 catch (e){
     console.log(e);

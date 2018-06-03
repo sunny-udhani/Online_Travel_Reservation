@@ -57,6 +57,7 @@ let top10Hosts = require('./services/admin/top10Hosts');
 let cityWiseRevenue = require('./services/admin/cityWiseRevenue');
 let reviewsOnProperties = require('./services/admin/reviewsOnProperties');
 let logUserTracingTree = require('./services/admin/logUserTracingTree');
+let usertimeperpages = require('./services/admin/usertimeperpages');
 
 let loginConsumer = connection.getConsumerObj("login_topic");
 let signupConsumer = connection.getConsumerObj("signup_topic");
@@ -82,6 +83,7 @@ let fetchUserProfileConsumer = connection.getConsumerObj(req_topics.FETCH_USERPR
 let fetchHotelBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_HOTELBOOKINGS);
 let fetchCarBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_CARBOOKINGS);
 let fetchFlightBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_FLIGHTBOOKINGS);
+let userTimePerPagesConsumer = connection.getConsumerObj(req_topics.FETCH_USERTIMEPERPAGE);
 // let fetchUserBookingsConsumer = connection.getConsumerObj(req_topics.FETCH_USERBOOKINGS);
 
 //Rutvik's consumers
@@ -1546,7 +1548,7 @@ try {
         });
     });
 
-    /*fetchUserBookingsConsumer.on('message', function (message) {
+    userTimePerPagesConsumer.on('message', function (message) {
         console.log('message received');
         console.log(message);
         console.log(message.value);
@@ -1555,7 +1557,7 @@ try {
 
         console.log(data.replyTo);
 
-        fetchUserBookings.handle_request(data.data, function (err, res) {
+        usertimeperpages.handle_request(data.data, function (err, res) {
             if (err) {
                 res.error = err;
             }
@@ -1576,7 +1578,7 @@ try {
                 console.log(payloads);
             });
         });
-    });*/
+    });
 }
 catch (e) {
     console.log(e)

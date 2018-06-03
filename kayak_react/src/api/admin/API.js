@@ -52,6 +52,22 @@ export const cityWiseRevenue = (payload) =>
         return error;
     });
 
+export const fetchUserTimePerPage = (payload) =>
+    fetch(`${api}/admin/fetchUserTimePerPage`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials:"include"
+    }).then(res => {
+        return res;
+    }).catch(error => {
+        console.log("This is error");
+        return error;
+    });
+
 export const top10Hosts = (payload) =>
     fetch(`${api}/admin/top10Hosts`, {
         method: 'POST',

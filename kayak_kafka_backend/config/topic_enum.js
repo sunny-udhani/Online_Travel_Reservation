@@ -39,7 +39,8 @@ exports.req_topic_names = {
     FETCH_HOTELBOOKINGS : 'fetchhotelbookings_topic',
     FETCH_CARBOOKINGS : 'fetchcarbookings_topic',
     FETCH_FLIGHTBOOKINGS : 'fetchflightbookings_topic',
-    LOG_USER_TRACING_TREE : 'logUserTracingTree_topic'
+    LOG_USER_TRACING_TREE : 'logUserTracingTree_topic',
+    FETCH_USERTIMEPERPAGE : 'fetchusertimeperpage_topic'
 };
 //
 // exports.res_topic_names = {
